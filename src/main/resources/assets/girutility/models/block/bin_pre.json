@@ -1,5 +1,5 @@
 {
-	"parent": "cfm:block/bin",
+	"parent": "girutility:block/bin",
 	"textures": {
 		"1": "blocks/concrete_white",
 		"2": "blocks/concrete_silver"

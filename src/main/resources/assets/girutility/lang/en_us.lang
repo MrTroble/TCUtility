@@ -1,0 +1,8 @@
+#Creative Tab
+itemGroup.GIRUtility=GIR Utility
+
+#Items
+item.itemplatform.name=Platform Item
+
+#Blocks
+tile.trafficcone.name=Traffic Cone
