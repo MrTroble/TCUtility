@@ -20,6 +20,12 @@ public class GIRModels {
 		registerModel(Item.getItemFromBlock(GIRBlocks.CRATE_DARK_OAK));
 		registerModel(Item.getItemFromBlock(GIRBlocks.BIN));
 		registerModel(Item.getItemFromBlock(GIRBlocks.WOODEN_WINDOW));
+		registerModel(Item.getItemFromBlock(GIRBlocks.TRAPDOOR_OAK));
+		registerModel(Item.getItemFromBlock(GIRBlocks.TRAPDOOR_SPRUCE));
+		registerModel(Item.getItemFromBlock(GIRBlocks.TRAPDOOR_BIRCH));
+		registerModel(Item.getItemFromBlock(GIRBlocks.TRAPDOOR_JUNGLE));
+		registerModel(Item.getItemFromBlock(GIRBlocks.TRAPDOOR_ACACIA));
+		registerModel(Item.getItemFromBlock(GIRBlocks.TRAPDOOR_DARK_OAK));
 	}
 
 	private static void registerModel(Item item) {

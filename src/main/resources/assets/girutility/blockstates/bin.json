@@ -1,8 +1,5 @@
 {
-"variants": {
-"facing=north": {"model": "girutility:bin_pre", "y": 270},
-"facing=south": { "model": "girutility:bin_pre", "y": 90},
-"facing=east": { "model": "girutility:bin_pre"},
-"facing=west": { "model": "girutility:bin_pre", "y": 180}
-}
+    "variants": {
+        "normal": { "model": "girutility:bin_pre" }
+    }
 }

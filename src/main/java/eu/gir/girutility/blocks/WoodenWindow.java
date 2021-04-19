@@ -54,7 +54,7 @@ public class WoodenWindow extends BlockPane{
 
     protected BlockStateContainer createBlockState()
     {
-        return new BlockStateContainer(this, PANE_NORTH, PANE_EAST, PANE_SOUTH, PANE_WEST, PANE_UP, PANE_DOWN);
+        return new BlockStateContainer(this, NORTH, EAST, WEST, SOUTH, PANE_NORTH, PANE_EAST, PANE_SOUTH, PANE_WEST, PANE_UP, PANE_DOWN);
     }
 
     private boolean attachesToBlock(IBlockAccess world, BlockPos pos)

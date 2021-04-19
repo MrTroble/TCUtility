@@ -8,6 +8,7 @@ import eu.gir.girutility.GirutilityMain;
 import eu.gir.girutility.blocks.Bin;
 import eu.gir.girutility.blocks.Crate;
 import eu.gir.girutility.blocks.TrafficCone;
+import eu.gir.girutility.blocks.TrapDoor;
 import eu.gir.girutility.blocks.WoodenWindow;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
@@ -30,6 +31,12 @@ public class GIRBlocks {
 	public static final Crate CRATE_DARK_OAK = new Crate();
 	public static final Bin BIN = new Bin();
 	public static final WoodenWindow WOODEN_WINDOW = new WoodenWindow();
+	public static final TrapDoor TRAPDOOR_OAK = new TrapDoor();
+	public static final TrapDoor TRAPDOOR_SPRUCE = new TrapDoor();
+	public static final TrapDoor TRAPDOOR_BIRCH = new TrapDoor();
+	public static final TrapDoor TRAPDOOR_JUNGLE = new TrapDoor();
+	public static final TrapDoor TRAPDOOR_ACACIA = new TrapDoor();
+	public static final TrapDoor TRAPDOOR_DARK_OAK = new TrapDoor();
 	
 
 	public static ArrayList<Block> blocksToRegister = new ArrayList<>();
