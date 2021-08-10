@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import eu.gir.girutility.GirutilityMain;
 import eu.gir.girutility.blocks.Bin;
 import eu.gir.girutility.blocks.Crate;
+import eu.gir.girutility.blocks.PlatformEdge;
 import eu.gir.girutility.blocks.TrafficCone;
 import eu.gir.girutility.blocks.TrapDoor;
 import eu.gir.girutility.blocks.WoodenWindow;
@@ -37,6 +38,7 @@ public class GIRBlocks {
 	public static final TrapDoor TRAPDOOR_JUNGLE = new TrapDoor();
 	public static final TrapDoor TRAPDOOR_ACACIA = new TrapDoor();
 	public static final TrapDoor TRAPDOOR_DARK_OAK = new TrapDoor();
+	public static final PlatformEdge PLATFORM_EDGE = new PlatformEdge();
 	
 
 	public static ArrayList<Block> blocksToRegister = new ArrayList<>();
