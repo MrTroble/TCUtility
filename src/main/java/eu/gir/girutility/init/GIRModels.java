@@ -10,7 +10,6 @@ public class GIRModels {
 
 	@SubscribeEvent
 	public static void register(ModelRegistryEvent event) {
-		GIRItems.registeredItems.forEach(GIRModels::registerModel);
 		registerModel(Item.getItemFromBlock(GIRBlocks.TRAFFIC_CONE));
 		registerModel(Item.getItemFromBlock(GIRBlocks.CRATE));
 		registerModel(Item.getItemFromBlock(GIRBlocks.CRATE_SPRUCE));
@@ -26,6 +25,8 @@ public class GIRModels {
 		registerModel(Item.getItemFromBlock(GIRBlocks.TRAPDOOR_JUNGLE));
 		registerModel(Item.getItemFromBlock(GIRBlocks.TRAPDOOR_ACACIA));
 		registerModel(Item.getItemFromBlock(GIRBlocks.TRAPDOOR_DARK_OAK));
+		
+		registerModel(GIRItems.reflectiveChestplate);
 	}
 
 	private static void registerModel(Item item) {

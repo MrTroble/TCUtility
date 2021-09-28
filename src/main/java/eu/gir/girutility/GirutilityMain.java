@@ -1,6 +1,5 @@
 package eu.gir.girutility;
 
-
 import org.apache.logging.log4j.Logger;
 
 import eu.gir.girutility.proxy.CommonProxy;
@@ -12,7 +11,7 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
-@Mod(modid = "girutility", name = "GIR Utility", version = "1.0.0", acceptedMinecraftVersions = "[1.12.2]", modLanguage = "java")
+@Mod(modid = GirutilityMain.MODID, acceptedMinecraftVersions = "[1.12.2]", modLanguage = "java")
 
 public class GirutilityMain {
 
@@ -33,12 +32,12 @@ public class GirutilityMain {
 		LOG = event.getModLog();
 		PROXY.preinit(event);
 	}
-	
+
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
 		PROXY.init(event);
 	}
-	
+
 	@EventHandler
 	public void postinit(FMLPostInitializationEvent event) {
 		PROXY.postinit(event);
