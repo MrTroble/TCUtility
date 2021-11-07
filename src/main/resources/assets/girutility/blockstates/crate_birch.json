@@ -1,0 +1,18 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"model": "girutility:crate",
+		"textures": {
+			"primary": "blocks/log_birch",
+			"secondary": "blocks/planks_birch"
+		}
+	},
+	"variants": {
+		"inventory": {
+			"model": "girutility:crate"
+		},
+		"normal": {
+			"model": "girutility:crate"
+		}
+	}
+}

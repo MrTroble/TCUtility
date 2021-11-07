@@ -1,0 +1,23 @@
+#Creative Tab
+itemGroup.GIRUtility=GIR Utility
+
+#Items
+item.reflective_chestplate.name=Sicherheitsweste
+
+#Blocks
+tile.traffic_cone.name=Verkehrskegel
+tile.crate.name=Eichenholzkiste
+tile.crate_spruce.name=Fichtenholzkiste
+tile.crate_birch.name=Birkenholzkiste
+tile.crate_jungle.name=Dschungelholzkiste
+tile.crate_acacia.name=Akazienholzkiste
+tile.crate_dark_oak.name=Schwarzeichenholzkiste
+tile.bin.name=Abfalleimer
+tile.wooden_window.name=Holzfenster
+tile.trapdoor_oak.name=Eichen Falltür
+tile.trapdoor_spruce.name=Fichten Falltür
+tile.trapdoor_birch.name=Birken Falltür
+tile.trapdoor_jungle.name=Dschungel Falltür
+tile.trapdoor_acacia.name=Akazien Falltür
+tile.trapdoor_dark_oak.name=Schwarzeichen Falltür
+tile.platform_edge.name=Do not use!

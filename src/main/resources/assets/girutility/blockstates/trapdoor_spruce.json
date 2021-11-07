@@ -1,0 +1,21 @@
+{
+    "variants": {
+		"inventory": { "model": "girutility:trapdoor_bottom_spruce" },
+        "facing=north,half=bottom,open=false": { "model": "girutility:trapdoor_bottom_spruce" },
+        "facing=south,half=bottom,open=false": { "model": "girutility:trapdoor_bottom_spruce" },
+        "facing=east,half=bottom,open=false": { "model": "girutility:trapdoor_bottom_spruce" },
+        "facing=west,half=bottom,open=false": { "model": "girutility:trapdoor_bottom_spruce" },
+        "facing=north,half=top,open=false": { "model": "girutility:trapdoor_top_spruce" },
+        "facing=south,half=top,open=false": { "model": "girutility:trapdoor_top_spruce" },
+        "facing=east,half=top,open=false": { "model": "girutility:trapdoor_top_spruce" },
+        "facing=west,half=top,open=false": { "model": "girutility:trapdoor_top_spruce" },
+        "facing=north,half=bottom,open=true": { "model": "girutility:trapdoor_open_spruce" },
+        "facing=south,half=bottom,open=true": { "model": "girutility:trapdoor_open_spruce", "y": 180 },
+        "facing=east,half=bottom,open=true": { "model": "girutility:trapdoor_open_spruce", "y": 90 },
+        "facing=west,half=bottom,open=true": { "model": "girutility:trapdoor_open_spruce", "y": 270 },
+        "facing=north,half=top,open=true": { "model": "girutility:trapdoor_open_spruce" },
+        "facing=south,half=top,open=true": { "model": "girutility:trapdoor_open_spruce", "y": 180 },
+        "facing=east,half=top,open=true": { "model": "girutility:trapdoor_open_spruce", "y": 90 },
+        "facing=west,half=top,open=true": { "model": "girutility:trapdoor_open_spruce", "y": 270 }
+    }
+}

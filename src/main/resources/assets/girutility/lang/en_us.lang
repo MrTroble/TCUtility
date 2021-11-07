@@ -1,0 +1,23 @@
+#Creative Tab
+itemGroup.GIRUtility=GIR Utility
+
+#Items
+item.reflective_chestplate.name=Reflective Chestplate
+
+#Blocks
+tile.traffic_cone.name=Traffic Cone
+tile.crate.name=Oak Crate
+tile.crate_spruce.name=Spruce Crate
+tile.crate_birch.name=Birch Crate
+tile.crate_jungle.name=Jungle Crate
+tile.crate_acacia.name=Acacia Crate
+tile.crate_dark_oak.name=Dark Oak Crate
+tile.bin.name=Bin
+tile.wooden_window.name=Wooden Window
+tile.trapdoor_oak.name=Oak Trapdoor
+tile.trapdoor_spruce.name=Spruce Trapdoor
+tile.trapdoor_birch.name=Birch Trapdoor
+tile.trapdoor_jungle.name=Jungle Trapdoor
+tile.trapdoor_acacia.name=Acacia Trapdoor
+tile.trapdoor_dark_oak.name=Dark Oak Trapdoor
+tile.platform_edge.name=Do not use!
