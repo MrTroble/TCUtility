@@ -1,5 +1,7 @@
 package eu.gir.girutility.init;
 
+import java.util.ArrayList;
+
 import eu.gir.girutility.GirutilityMain;
 import eu.gir.girutility.items.ItemReflectiveArmor;
 import net.minecraft.init.SoundEvents;
@@ -17,8 +19,11 @@ public class GIRItems {
 	public static final ArmorMaterial reflectiveArmorMaterial = EnumHelper.addArmorMaterial("reflective", GirutilityMain.MODID + ":reflective", 1000, new int[] { 1, 1, 1, 1 }, 30, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 0F);
 	public static final ItemReflectiveArmor reflectiveChestplate = new ItemReflectiveArmor(reflectiveArmorMaterial, 1, EntityEquipmentSlot.CHEST);
 
+	public static ArrayList<Item> itemsToRegister = new ArrayList<>();
+
 	public static void init() {
 		setName(reflectiveChestplate, "reflective_chestplate");
+		
 	}
 
 	@SubscribeEvent
@@ -30,5 +35,6 @@ public class GIRItems {
 	public static void setName(Item item, String name) {
 		item.setRegistryName(new ResourceLocation(GirutilityMain.MODID, name));
 		item.setUnlocalizedName(name);
+		itemsToRegister.add(item);
 	}
 }

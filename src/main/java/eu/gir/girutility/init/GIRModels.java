@@ -8,8 +8,22 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class GIRModels {
 
+	//Absoluter chad code der alle deine Probleme löst.
+	//Registriet alle Objekte in Liste blocksToRegister aus GIRBlocks. 
+	//reflectiveChestplate sowie andere GIRItems sind nicht teil der Liste aus GIRBlocks, dementsprechend werden sie seperat durch die Liste itemsToRegister registiert
 	@SubscribeEvent
 	public static void register(ModelRegistryEvent event) {
+		for (int i = 0; i < GIRBlocks.blocksToRegister.size(); i++) {
+			registerModel(Item.getItemFromBlock(GIRBlocks.blocksToRegister.get(i)));
+		}
+		
+		for (int j = 0; j < GIRItems.itemsToRegister.size(); j++) {
+			registerModel(GIRItems.itemsToRegister.get(j));
+		}
+	}
+	
+//beschissener Virgin Code den niemand mag
+/*	public static void register(ModelRegistryEvent event) {
 		registerModel(Item.getItemFromBlock(GIRBlocks.TRAFFIC_CONE));
 		registerModel(Item.getItemFromBlock(GIRBlocks.CRATE));
 		registerModel(Item.getItemFromBlock(GIRBlocks.CRATE_SPRUCE));
@@ -28,7 +42,9 @@ public class GIRModels {
 		
 		registerModel(GIRItems.reflectiveChestplate);
 	}
-
+*/
+	
+	
 	private static void registerModel(Item item) {
 		ModelLoader.setCustomModelResourceLocation(item, 0,
 				new ModelResourceLocation(item.getRegistryName(), "inventory"));
