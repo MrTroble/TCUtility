@@ -1,9 +1,9 @@
 {
     "variants": {
-        "inventory": { "model": "girutility:plaform_edge_1" },
-        "facing=north": { "model": "girutility:plaform_edge_1" },
-        "facing=south": { "model": "girutility:plaform_edge_1", "y": 180 },
-        "facing=east": { "model": "girutility:plaform_edge_1", "y": 90 },
-        "facing=west": { "model": "girutility:plaform_edge_1", "y": 270 }
+        "inventory": { "model": "girutility:platform_edge_1" },
+        "facing=north": { "model": "girutility:platform_edge_1" },
+        "facing=south": { "model": "girutility:platform_edge_1", "y": 180 },
+        "facing=east": { "model": "girutility:platform_edge_1", "y": 90 },
+        "facing=west": { "model": "girutility:platform_edge_1", "y": 270 }
     }
 }
