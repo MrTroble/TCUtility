@@ -1,9 +1,9 @@
 {
 	"credit": "Made with Blockbench by Mc_Jeronimo",
 	"textures": {
-		"0": "girutility:blocks/concrete_orange",
-		"1": "girutility:blocks/concrete_white",
-		"particle": "girutility:blocks/concrete_orange"
+		"0": "blocks/concrete_orange",
+		"1": "blocks/concrete_white",
+		"particle": "blocks/concrete_orange"
 	},
 	"elements": [
 		{
