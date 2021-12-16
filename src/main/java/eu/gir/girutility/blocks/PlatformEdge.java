@@ -8,10 +8,12 @@ import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import scala.reflect.internal.Trees.If;
 
 public class PlatformEdge extends Block {
 	
@@ -24,9 +26,13 @@ public class PlatformEdge extends Block {
 	}
 	
 	@Override
+	public boolean canRenderInLayer(IBlockState state, BlockRenderLayer layer) {
+		return layer.equals(BlockRenderLayer.CUTOUT_MIPPED);
+	}
+	
+	@Override
 	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand) {
-		return getDefaultState().withProperty(FACING, EnumFacing.getDirectionFromEntityLiving(pos, placer));
-		
+		return getDefaultState().withProperty(FACING, placer.getHorizontalFacing());
 	}
 	
 	@Override
