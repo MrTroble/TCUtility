@@ -38,8 +38,31 @@ public class GIRBlocks {
 	public static final TrapDoor TRAPDOOR_JUNGLE = new TrapDoor();
 	public static final TrapDoor TRAPDOOR_ACACIA = new TrapDoor();
 	public static final TrapDoor TRAPDOOR_DARK_OAK = new TrapDoor();
-	public static final PlatformEdge PLATFORM_EDGE = new PlatformEdge();
-	
+	public static final PlatformEdge PLATFORM_EDGE_1_ASPHALT_1 = new PlatformEdge();
+	public static final PlatformEdge PLATFORM_EDGE_1_CONCRETE_1 = new PlatformEdge();
+	public static final PlatformEdge PLATFORM_EDGE_1_STONE_1 = new PlatformEdge();
+	public static final PlatformEdge PLATFORM_EDGE_1_BRICK_1 = new PlatformEdge();
+	public static final PlatformEdge PLATFORM_EDGE_1_ASPHALT_2 = new PlatformEdge();
+	public static final PlatformEdge PLATFORM_EDGE_1_CONCRETE_2 = new PlatformEdge();
+	public static final PlatformEdge PLATFORM_EDGE_1_STONE_2 = new PlatformEdge();
+	public static final PlatformEdge PLATFORM_EDGE_1_BRICK_2 = new PlatformEdge();
+	public static final PlatformEdge PLATFORM_EDGE_1_ASPHALT_3 = new PlatformEdge();
+	public static final PlatformEdge PLATFORM_EDGE_1_CONCRETE_3 = new PlatformEdge();
+	public static final PlatformEdge PLATFORM_EDGE_1_STONE_3 = new PlatformEdge();
+	public static final PlatformEdge PLATFORM_EDGE_1_BRICK_3 = new PlatformEdge();
+	public static final PlatformEdge PLATFORM_EDGE_2_ASPHALT_1 = new PlatformEdge();
+	public static final PlatformEdge PLATFORM_EDGE_2_CONCRETE_1 = new PlatformEdge();
+	public static final PlatformEdge PLATFORM_EDGE_2_STONE_1 = new PlatformEdge();
+	public static final PlatformEdge PLATFORM_EDGE_2_BRICK_1 = new PlatformEdge();
+	public static final PlatformEdge PLATFORM_EDGE_2_ASPHALT_2 = new PlatformEdge();
+	public static final PlatformEdge PLATFORM_EDGE_2_CONCRETE_2 = new PlatformEdge();
+	public static final PlatformEdge PLATFORM_EDGE_2_STONE_2 = new PlatformEdge();
+	public static final PlatformEdge PLATFORM_EDGE_2_BRICK_2 = new PlatformEdge();
+	public static final PlatformEdge PLATFORM_EDGE_2_ASPHALT_3 = new PlatformEdge();
+	public static final PlatformEdge PLATFORM_EDGE_2_CONCRETE_3 = new PlatformEdge();
+	public static final PlatformEdge PLATFORM_EDGE_2_STONE_3 = new PlatformEdge();
+	public static final PlatformEdge PLATFORM_EDGE_2_BRICK_3 = new PlatformEdge();
+
 
 	public static ArrayList<Block> blocksToRegister = new ArrayList<>();
 
