@@ -1,0 +1,51 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "girutility:platform_edge_1",
+    "textures": {
+      "overlay": "girutility:blocks/platform_edge_2",
+      "base": "blocks/concrete_gray"
+    }
+  },
+  "variants": {
+    "inventory": {
+      "model": "girutility:platform_edge_1",
+      "textures": {
+        "overlay": "girutility:blocks/platform_edge_2",
+        "base": "blocks/concrete_gray"
+      },
+      "y": 180
+    },
+    "facing=north": {
+      "model": "girutility:platform_edge_1",
+      "textures": {
+        "overlay": "girutility:blocks/platform_edge_2",
+        "base": "blocks/concrete_gray"
+      },
+      "y": 180
+    },
+    "facing=south": {
+      "model": "girutility:platform_edge_1",
+      "textures": {
+        "overlay": "girutility:blocks/platform_edge_2",
+        "base": "blocks/concrete_gray"
+      }
+    },
+    "facing=east": {
+      "model": "girutility:platform_edge_1",
+      "textures": {
+        "overlay": "girutility:blocks/platform_edge_2",
+        "base": "blocks/concrete_gray"
+      },
+      "y": 270
+    },
+    "facing=west": {
+      "model": "girutility:platform_edge_1",
+      "textures": {
+        "overlay": "girutility:blocks/platform_edge_2",
+        "base": "blocks/concrete_gray"
+      },
+      "y": 90
+    }
+  }
+}
