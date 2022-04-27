@@ -15,48 +15,49 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class PlatformEdge extends Block {
-	
-	public static final PropertyDirection FACING = BlockHorizontal.FACING;
 
-	public PlatformEdge() {
-		super(Material.ROCK);
-		setDefaultState(getDefaultState().withProperty(FACING, EnumFacing.NORTH));
-		setCreativeTab(GIRTabs.tab);
-	}
-	
-	@Override
-	public boolean canRenderInLayer(IBlockState state, BlockRenderLayer layer) {
-		return layer.equals(BlockRenderLayer.CUTOUT_MIPPED);
-	}
-	
-	@Override
-	public boolean isOpaqueCube(IBlockState state) {
-		return false;
-	}
+    public static final PropertyDirection FACING = BlockHorizontal.FACING;
 
-	@Override
-	public boolean isFullCube(IBlockState state) {
-		return false;
-	}
-	
-	@Override
-	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand) {
-		return getDefaultState().withProperty(FACING, placer.getHorizontalFacing());
-	}
-	
-	@Override
-	public int getMetaFromState(IBlockState state) {
-		return state.getValue(FACING).getIndex();
-	}
-	
-	@Override
-	public IBlockState getStateFromMeta(int meta) {
-		return getDefaultState().withProperty(FACING, EnumFacing.getFront(meta));
-	}
-	
-	@Override
-	protected BlockStateContainer createBlockState() {
-		return new BlockStateContainer(this, FACING);
-	}
-	
+    public PlatformEdge() {
+        super(Material.ROCK);
+        setDefaultState(getDefaultState().withProperty(FACING, EnumFacing.NORTH));
+        setCreativeTab(GIRTabs.tab);
+    }
+
+    @Override
+    public boolean canRenderInLayer(IBlockState state, BlockRenderLayer layer) {
+        return layer.equals(BlockRenderLayer.CUTOUT_MIPPED);
+    }
+
+    @Override
+    public boolean isOpaqueCube(IBlockState state) {
+        return false;
+    }
+
+    @Override
+    public boolean isFullCube(IBlockState state) {
+        return false;
+    }
+
+    @Override
+    public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing,
+            float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand) {
+        return getDefaultState().withProperty(FACING, placer.getHorizontalFacing());
+    }
+
+    @Override
+    public int getMetaFromState(IBlockState state) {
+        return state.getValue(FACING).getIndex();
+    }
+
+    @Override
+    public IBlockState getStateFromMeta(int meta) {
+        return getDefaultState().withProperty(FACING, EnumFacing.getFront(meta));
+    }
+
+    @Override
+    protected BlockStateContainer createBlockState() {
+        return new BlockStateContainer(this, FACING);
+    }
+
 }

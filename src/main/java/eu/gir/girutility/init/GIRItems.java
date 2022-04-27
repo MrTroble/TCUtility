@@ -16,25 +16,29 @@ import net.minecraftforge.registries.IForgeRegistry;
 
 public class GIRItems {
 
-	public static final ArmorMaterial reflectiveArmorMaterial = EnumHelper.addArmorMaterial("reflective", GirutilityMain.MODID + ":reflective", 1000, new int[] { 1, 1, 1, 1 }, 30, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 0F);
-	public static final ItemReflectiveArmor reflectiveChestplate = new ItemReflectiveArmor(reflectiveArmorMaterial, 1, EntityEquipmentSlot.CHEST);
+    public static final ArmorMaterial reflectiveArmorMaterial = EnumHelper
+            .addArmorMaterial("reflective", GirutilityMain.MODID + ":reflective", 1000, new int[] {
+                    1, 1, 1, 1
+            }, 30, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 0F);
+    public static final ItemReflectiveArmor reflectiveChestplate = new ItemReflectiveArmor(
+            reflectiveArmorMaterial, 1, EntityEquipmentSlot.CHEST);
 
-	public static ArrayList<Item> itemsToRegister = new ArrayList<>();
+    public static ArrayList<Item> itemsToRegister = new ArrayList<>();
 
-	public static void init() {
-		setName(reflectiveChestplate, "reflective_chestplate");
-		
-	}
+    public static void init() {
+        setName(reflectiveChestplate, "reflective_chestplate");
 
-	@SubscribeEvent
-	public static void registerItem(RegistryEvent.Register<Item> event) {
-		IForgeRegistry<Item> registry = event.getRegistry();
-		registry.register(reflectiveChestplate);
-	}
+    }
 
-	public static void setName(Item item, String name) {
-		item.setRegistryName(new ResourceLocation(GirutilityMain.MODID, name));
-		item.setUnlocalizedName(name);
-		itemsToRegister.add(item);
-	}
+    @SubscribeEvent
+    public static void registerItem(RegistryEvent.Register<Item> event) {
+        IForgeRegistry<Item> registry = event.getRegistry();
+        registry.register(reflectiveChestplate);
+    }
+
+    public static void setName(Item item, String name) {
+        item.setRegistryName(new ResourceLocation(GirutilityMain.MODID, name));
+        item.setUnlocalizedName(name);
+        itemsToRegister.add(item);
+    }
 }
