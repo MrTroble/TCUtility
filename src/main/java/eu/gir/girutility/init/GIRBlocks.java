@@ -1,8 +1,21 @@
 package eu.gir.girutility.init;
 
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.FileSystem;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Optional;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import eu.gir.girutility.GirutilityMain;
 import eu.gir.girutility.blocks.Bin;
@@ -70,8 +83,8 @@ public class GIRBlocks {
     public static final PlatformEdge PLATFORM_EDGE_2_CONCRETE_3 = new PlatformEdge();
     public static final PlatformEdge PLATFORM_EDGE_2_STONE_3 = new PlatformEdge();
     public static final PlatformEdge PLATFORM_EDGE_2_BRICK_3 = new PlatformEdge();
-    public static final BlockSlab SLAB1_HALF = new HalfSlab(Material.ROCK, GIRBlocks.SLAB1_HALF, GIRBlocks.SLAB1_DOUBLE);
-    public static final BlockSlab SLAB1_DOUBLE = new DoubleSlab(Material.ROCK, GIRBlocks.SLAB1_HALF);
+    public static final BlockSlab SLAB1_HALF = new HalfSlab(Material.ROCK);
+    public static final BlockSlab SLAB1_DOUBLE = new DoubleSlab(Material.ROCK);
     public static final Stairs STAIR1 = new Stairs(Blocks.CONCRETE.getDefaultState());
     public static final Wall WALL1 = new Wall(Material.ROCK);
     public static final Door DOOR1 = new Door(Material.WOOD);
@@ -121,5 +134,31 @@ public class GIRBlocks {
         IForgeRegistry<Item> registry = event.getRegistry();
         blocksToRegister.forEach(block -> registry
                 .register(new ItemBlock(block).setRegistryName(block.getRegistryName())));
+    }
+    
+    public static Optional<Path> getRessourceLocation() {
+        final URL url = GIRBlocks.class.getResource("/assets/.mcassetsroot");
+        try {
+            if (url != null) {
+                final URI uri = url.toURI();
+                Path path;
+
+                if ("file".equals(uri.getScheme())) {
+                    path = Paths.get(GIRBlocks.class.getResource("/assets/girutility/xyz").toURI());
+                } else {
+                    if (!"jar".equals(uri.getScheme())) {
+                        return Optional.empty();
+                    }
+
+                    final FileSystem filesystem = FileSystems.newFileSystem(uri,
+                            Collections.emptyMap());
+                    path = filesystem.getPath("/assets/girutility/xyz");
+                    return Optional.of(path);
+                }
+            }
+        } catch (IOException | URISyntaxException e1) {
+            e1.printStackTrace();
+        }
+        return Optional.empty();
     }
 }
