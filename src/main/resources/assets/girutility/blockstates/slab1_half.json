@@ -1,0 +1,7 @@
+{
+    "variants":
+    {
+        "half=bottom,variant=default": { "model": "girutility:slab_bottom" },
+        "half=top,variant=default": { "model": "girutility:slab_top" }
+    }
+}

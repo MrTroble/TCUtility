@@ -1,0 +1,9 @@
+{
+    "parent": "block/upper_slab",
+    "textures":
+    {
+        "bottom": "blocks/concrete_black",
+        "top": "blocks/concrete_black",
+        "side": "blocks/concrete_black"
+    }
+}
