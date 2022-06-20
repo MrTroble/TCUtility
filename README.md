@@ -9,8 +9,8 @@
 ![Discord](https://img.shields.io/discord/690967067855421470?logo=discord&style=for-the-badge)
 ](https://discord.gg/UdxeFgG)
 [
-![Buid](https://img.shields.io/appveyor/build/MrTroble/{modname}/master?logo=appveyor&style=for-the-badge)
-](https://ci.appveyor.com/project/MrTroble/{modname})
+![GitHub Workflow Status (branch)](https://img.shields.io/github/workflow/status/German-Immersive-Railroading-Community/GIRUtility/Java%20CI%20with%20Gradle/master?style=for-the-badge)
+](https://github.com/German-Immersive-Railroading-Community/GIRUtility/actions/workflows/gradle.yml)
 [
 ![Sponsor](https://img.shields.io/github/sponsors/MrTroble?logo=github&style=for-the-badge)
 ](https://github.com/sponsors/MrTroble)
