@@ -19,6 +19,9 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+
 import eu.gir.girutility.GirutilityMain;
 import eu.gir.girutility.blocks.Bin;
 import eu.gir.girutility.blocks.Crate;
@@ -181,9 +184,9 @@ public class GIRBlocks {
                 inputs.forEach(file -> {
                     try {
                         final List<String> text = Files.readAllLines(file);
-                        final String output = toString(text);
+                        final String content = toString(text);
                         final String name = file.getFileName().toString();
-                        files.put(name, output);
+                        files.put(name, content);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -195,5 +198,18 @@ public class GIRBlocks {
             }
         }
         return null;
+    }
+    
+    public static Map<String, JsonObject> getAsJsonObject(final String directory) {
+        final Gson gson = new Gson();
+        final Map<String, String> entrySet = readFiles(directory);
+        final Map<String, JsonObject> content = new HashMap<>();
+        if (entrySet != null) {
+            entrySet.forEach((filename, file) -> {
+                final JsonObject json = gson.fromJson(file, JsonObject.class);
+                content.put(filename, json);
+            });
+        }
+        return content;
     }
 }
