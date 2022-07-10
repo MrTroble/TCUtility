@@ -8,14 +8,16 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.util.stream.Stream;
 
 import eu.gir.girutility.GirutilityMain;
 import eu.gir.girutility.blocks.Bin;
@@ -89,7 +91,6 @@ public class GIRBlocks {
     public static final Wall WALL1 = new Wall(Material.ROCK);
     public static final Door DOOR1 = new Door(Material.WOOD);
 
-
     public static ArrayList<Block> blocksToRegister = new ArrayList<>();
 
     public static void init() {
@@ -135,24 +136,32 @@ public class GIRBlocks {
         blocksToRegister.forEach(block -> registry
                 .register(new ItemBlock(block).setRegistryName(block.getRegistryName())));
     }
-    
-    public static Optional<Path> getRessourceLocation() {
-        final URL url = GIRBlocks.class.getResource("/assets/.mcassetsroot");
+
+    private static String toString(final List<String> text) {
+        final StringBuilder stringbuilder = new StringBuilder();
+        text.forEach(string -> {
+            stringbuilder.append(string);
+            stringbuilder.append("\n");
+        });
+        return stringbuilder.toString();
+    }
+
+    public static Optional<Path> getRessourceLocation(String location) {
+        final URL url = GIRBlocks.class.getResource("/assets/girutility");
         try {
             if (url != null) {
                 final URI uri = url.toURI();
                 Path path;
-
                 if ("file".equals(uri.getScheme())) {
-                    path = Paths.get(GIRBlocks.class.getResource("/assets/girutility/xyz").toURI());
+                    path = Paths.get(GIRBlocks.class.getResource(location).toURI());
+                    return Optional.of(path);
                 } else {
                     if (!"jar".equals(uri.getScheme())) {
                         return Optional.empty();
                     }
-
                     final FileSystem filesystem = FileSystems.newFileSystem(uri,
                             Collections.emptyMap());
-                    path = filesystem.getPath("/assets/girutility/xyz");
+                    path = filesystem.getPath(location);
                     return Optional.of(path);
                 }
             }
@@ -160,5 +169,31 @@ public class GIRBlocks {
             e1.printStackTrace();
         }
         return Optional.empty();
+    }
+
+    public static Map<String, String> readFiles(String location) {
+        final Optional<Path> loc = getRessourceLocation(location);
+        if (loc.isPresent()) {
+            final Path path = loc.get();
+            try {
+                final Stream<Path> inputs = Files.list(path);
+                final Map<String, String> files = new HashMap<>();
+                inputs.forEach(file -> {
+                    try {
+                        final List<String> text = Files.readAllLines(file);
+                        final String output = toString(text);
+                        final String name = file.getFileName().toString();
+                        files.put(name, output);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                });
+                inputs.close();
+                return files;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
     }
 }

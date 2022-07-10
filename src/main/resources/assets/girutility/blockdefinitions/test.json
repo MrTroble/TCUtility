@@ -1,0 +1,29 @@
+{
+    "color_glass": [
+        {
+            "name": "purple_glass",
+            "hardness": 1,
+            "resistance": 2,
+            "material": "GLASS",
+            "resource": "minecraft:glass",
+            "opaque": false
+        }, {
+            "name": "green_glass",
+            "hardness": 1,
+            "resistance": 2,
+            "material": "GLASS",
+            "resource": "minecraft:glass",
+            "opaque": false
+        }
+    ],
+    "test": [
+        {
+            "name": "purple_glass",
+            "hardness": 1,
+            "resistance": 2,
+            "material": "GLASS",
+            "resource": "minecraft:glass",
+            "opaque": false
+        }
+    ]
+}
