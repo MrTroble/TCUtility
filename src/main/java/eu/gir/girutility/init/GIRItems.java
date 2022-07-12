@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import eu.gir.girutility.GirutilityMain;
 import eu.gir.girutility.items.ItemReflectiveArmor;
+import eu.gir.girutility.items.SlabItem;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
@@ -22,11 +23,13 @@ public class GIRItems {
             }, 30, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 0F);
     public static final ItemReflectiveArmor reflectiveChestplate = new ItemReflectiveArmor(
             reflectiveArmorMaterial, 1, EntityEquipmentSlot.CHEST);
+    public static final SlabItem slabItem = new SlabItem(GIRBlocks.SLAB1_HALF, GIRBlocks.SLAB1_HALF, GIRBlocks.SLAB1_DOUBLE);
 
     public static ArrayList<Item> itemsToRegister = new ArrayList<>();
 
     public static void init() {
         setName(reflectiveChestplate, "reflective_chestplate");
+        setName(slabItem, "slab_item");
 
     }
 
@@ -34,6 +37,7 @@ public class GIRItems {
     public static void registerItem(RegistryEvent.Register<Item> event) {
         IForgeRegistry<Item> registry = event.getRegistry();
         registry.register(reflectiveChestplate);
+        registry.register(slabItem);
     }
 
     public static void setName(Item item, String name) {
