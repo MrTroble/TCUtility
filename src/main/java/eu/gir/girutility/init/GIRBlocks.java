@@ -20,8 +20,8 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 
+import eu.gir.girutility.BlockDefinitons;
 import eu.gir.girutility.GirutilityMain;
 import eu.gir.girutility.blocks.Bin;
 import eu.gir.girutility.blocks.Crate;
@@ -134,8 +134,8 @@ public class GIRBlocks {
     @SubscribeEvent
     public static void registerItem(RegistryEvent.Register<Item> event) {
         IForgeRegistry<Item> registry = event.getRegistry();
-        blocksToRegister.forEach(block -> registry
-                .register(new ItemBlock(block).setRegistryName(block.getRegistryName())));
+            blocksToRegister.forEach(block -> registry
+                    .register(new ItemBlock(block).setRegistryName(block.getRegistryName())));
     }
 
     private static String toString(final List<String> text) {
@@ -148,7 +148,7 @@ public class GIRBlocks {
     }
 
     public static Optional<Path> getRessourceLocation(String location) {
-        final URL url = GIRBlocks.class.getResource("/assets/girutility");
+        final URL url = GIRBlocks.class.getResource("/assets/girutility/blockdefinitions");
         try {
             if (url != null) {
                 final URI uri = url.toURI();
@@ -198,16 +198,20 @@ public class GIRBlocks {
         return null;
     }
     
-    public static Map<String, JsonObject> getAsJsonObject(final String directory) {
+    public static Map<String, BlockDefinitons> getfromJson(final String directory) {
         final Gson gson = new Gson();
         final Map<String, String> entrySet = readFiles(directory);
-        final Map<String, JsonObject> content = new HashMap<>();
+        final Map<String, BlockDefinitons> content = new HashMap<>();
         if (entrySet != null) {
             entrySet.forEach((filename, file) -> {
-                final JsonObject json = gson.fromJson(file, JsonObject.class);
+                final BlockDefinitons json = gson.fromJson(file, BlockDefinitons.class);
                 content.put(filename, json);
             });
         }
         return content;
+    }
+    
+    public static void register() {
+        Map<String, BlockDefinitons> definition = getfromJson("/assets/girutility/blockdefinitions");
     }
 }

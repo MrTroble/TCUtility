@@ -1,36 +1,37 @@
 package eu.gir.girutility;
 
-public class JsonImport {
+import java.util.List;
+
+public class BlockProperties extends BlockDefinitons {
     
-    private String name;
     private String resource;
     private float hardness;
     private String material;
     private String soundtype;
     private int opacity;
+    private List<String> state;
     
-    public String name() {
-        return name;
-    }
-    
-    public String resource() {
+    public String getResource() {
         return resource;
     }
     
-    public float hardness() {
+    public float getHardness() {
         return hardness;
     }
     
-    public String material() {
+    public String getMaterial() {
         return material;
     }
     
-    public String soundtype() {
+    public String getSoundType() {
         return soundtype;
     }
     
-    public int opacity() {
+    public int getOpacity() {
         return opacity;
     }
-
+    
+    public List<String> getState() {
+        return state;
+    }
 }

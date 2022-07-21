@@ -1,0 +1,28 @@
+{
+    "purple_glass": {
+        "resource": "minecraft:glass",
+        "hardness": 1,
+        "material": "GLASS",
+        "soundtype": "GLASS",
+        "opacity": 0,
+        "states": [
+            "stair",
+            "slab",
+            "wall",
+            "fence"
+        ]
+    },
+    "green_glass": {
+        "resource": "minecraft:glass",
+        "hardness": 1,
+        "material": "GLASS",
+        "soundtype": "GLASS",
+        "opacity": 0,
+        "states": [
+            "stair",
+            "slab",
+            "wall",
+            "fence"
+        ]
+    }
+}

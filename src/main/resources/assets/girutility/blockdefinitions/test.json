@@ -1,29 +1,39 @@
 {
-    "color_glass": [
-        {
-            "name": "purple_glass",
+    "color_glass": {
+        "purple_glass": {
 			"resource": "minecraft:glass",
             "hardness": 1,
             "material": "GLASS",
 			"soundtype": "GLASS",
-            "opacity": false
-        }, {
-            "name": "green_glass",
+            "opacity": false,
+            "states": [
+                "stair",
+                "slab",
+                "wall",
+                "fence"
+            ]
+        },
+        "green_glass": {
 			"resource": "minecraft:glass",
             "hardness": 1,
             "material": "GLASS",
 			"soundtype": "GLASS",
+            "opacity": false,
+            "states": [
+                "stair",
+                "slab",
+                "wall",
+                "fence"
+            ]
+        }
+    },
+    "test": {
+        "name": {
+			"resource": "resource_location",
+            "hardness": 1,
+            "material": "MATERIAL",
+			"soundtype": "MATERIAL",
             "opacity": false
         }
-    ],
-    "test": [
-        {
-            "name": "purple_glass",
-			"resource": "minecraft:glass",
-            "hardness": 1,
-            "material": "GLASS",
-			"soundtype": "GLASS",
-            "opacity": false
-        }
-    ]
-}
+    }
+} 
