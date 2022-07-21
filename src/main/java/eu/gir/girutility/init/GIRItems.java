@@ -30,7 +30,6 @@ public class GIRItems {
     public static void init() {
         setName(reflectiveChestplate, "reflective_chestplate");
         setName(slabItem, "slab_item");
-
     }
 
     @SubscribeEvent

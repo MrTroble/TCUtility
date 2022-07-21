@@ -2,28 +2,28 @@
     "color_glass": [
         {
             "name": "purple_glass",
+			"resource": "minecraft:glass",
             "hardness": 1,
-            "resistance": 2,
             "material": "GLASS",
-            "resource": "minecraft:glass",
-            "opaque": false
+			"soundtype": "GLASS",
+            "opacity": false
         }, {
             "name": "green_glass",
+			"resource": "minecraft:glass",
             "hardness": 1,
-            "resistance": 2,
             "material": "GLASS",
-            "resource": "minecraft:glass",
-            "opaque": false
+			"soundtype": "GLASS",
+            "opacity": false
         }
     ],
     "test": [
         {
             "name": "purple_glass",
+			"resource": "minecraft:glass",
             "hardness": 1,
-            "resistance": 2,
             "material": "GLASS",
-            "resource": "minecraft:glass",
-            "opaque": false
+			"soundtype": "GLASS",
+            "opacity": false
         }
     ]
 }
