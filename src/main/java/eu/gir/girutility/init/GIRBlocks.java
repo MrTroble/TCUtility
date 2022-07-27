@@ -26,6 +26,7 @@ import eu.gir.girutility.GirutilityMain;
 import eu.gir.girutility.blocks.Bin;
 import eu.gir.girutility.blocks.Crate;
 import eu.gir.girutility.blocks.Door;
+import eu.gir.girutility.blocks.Lantern;
 import eu.gir.girutility.blocks.PlatformEdge;
 import eu.gir.girutility.blocks.SlabBase;
 import eu.gir.girutility.blocks.Stairs;
@@ -91,6 +92,7 @@ public class GIRBlocks {
     public static final Stairs STAIR1 = new Stairs(Blocks.CONCRETE.getDefaultState());
     public static final Wall WALL1 = new Wall(Material.ROCK);
     public static final Door DOOR1 = new Door(Material.WOOD);
+    public static final Lantern LANTERN = new Lantern();
 
     public static ArrayList<Block> blocksToRegister = new ArrayList<>();
 
@@ -198,7 +200,7 @@ public class GIRBlocks {
         return null;
     }
     
-    public static Map<String, BlockDefinitons> getfromJson(final String directory) {
+    public static Map<String, BlockDefinitons> getFromJson(final String directory) {
         final Gson gson = new Gson();
         final Map<String, String> entrySet = readFiles(directory);
         final Map<String, BlockDefinitons> content = new HashMap<>();
@@ -212,6 +214,6 @@ public class GIRBlocks {
     }
     
     public static void register() {
-        Map<String, BlockDefinitons> definition = getfromJson("/assets/girutility/blockdefinitions");
+        Map<String, BlockDefinitons> definition = getFromJson("/assets/girutility/blockdefinitions");
     }
 }
