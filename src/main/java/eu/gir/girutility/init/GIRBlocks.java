@@ -17,18 +17,23 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Map.Entry;
+import java.util.jar.Attributes.Name;
 import java.util.stream.Stream;
+
+import javax.xml.bind.SchemaOutputResolver;
 
 import com.google.gson.Gson;
 
 import eu.gir.girutility.BlockDefinitons;
+import eu.gir.girutility.BlockProperties;
 import eu.gir.girutility.GirutilityMain;
 import eu.gir.girutility.blocks.Bin;
 import eu.gir.girutility.blocks.Crate;
 import eu.gir.girutility.blocks.Door;
+import eu.gir.girutility.blocks.Ladder;
 import eu.gir.girutility.blocks.Lantern;
 import eu.gir.girutility.blocks.PlatformEdge;
-import eu.gir.girutility.blocks.SlabBase;
 import eu.gir.girutility.blocks.Stairs;
 import eu.gir.girutility.blocks.TrafficCone;
 import eu.gir.girutility.blocks.TrapDoor;
@@ -36,8 +41,8 @@ import eu.gir.girutility.blocks.Wall;
 import eu.gir.girutility.blocks.WoodenWindow;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.tileentity.TileEntity;
@@ -87,12 +92,15 @@ public class GIRBlocks {
     public static final PlatformEdge PLATFORM_EDGE_2_CONCRETE_3 = new PlatformEdge();
     public static final PlatformEdge PLATFORM_EDGE_2_STONE_3 = new PlatformEdge();
     public static final PlatformEdge PLATFORM_EDGE_2_BRICK_3 = new PlatformEdge();
-    public static final SlabBase SLAB1_HALF = new SlabBase.HalfSlab(Material.ROCK, GIRBlocks.SLAB1_HALF, GIRBlocks.SLAB1_DOUBLE);
-    public static final SlabBase SLAB1_DOUBLE = new SlabBase.DoubleSlab(Material.ROCK, GIRBlocks.SLAB1_HALF);
-    public static final Stairs STAIR1 = new Stairs(Blocks.CONCRETE.getDefaultState());
-    public static final Wall WALL1 = new Wall(Material.ROCK);
-    public static final Door DOOR1 = new Door(Material.WOOD);
+    //public static final SlabBase SLAB1_HALF = new SlabBase.HalfSlab(Material.ROCK, GIRBlocks.SLAB1_HALF, GIRBlocks.SLAB1_DOUBLE);
+    //public static final SlabBase SLAB1_DOUBLE = new SlabBase.DoubleSlab(Material.ROCK, GIRBlocks.SLAB1_HALF);
+    //public static final Stairs STAIR1 = new Stairs(Blocks.CONCRETE.getDefaultState());
+    //public static final Wall WALL1 = new Wall(Material.ROCK, 1.0f, SoundType.STONE, 0);
+    //public static final Door DOOR1 = new Door(Material.WOOD);
     public static final Lantern LANTERN = new Lantern();
+    public static final Ladder LADDER_IRON = new Ladder(Material.IRON);
+    public static final Ladder LADDER_RUSTY = new Ladder(Material.IRON);
+    public static final Ladder LADDER_ROOF = new Ladder(Material.IRON);
 
     public static ArrayList<Block> blocksToRegister = new ArrayList<>();
 
@@ -150,7 +158,7 @@ public class GIRBlocks {
     }
 
     public static Optional<Path> getRessourceLocation(String location) {
-        final URL url = GIRBlocks.class.getResource("/assets/girutility/blockdefinitions");
+        final URL url = GIRBlocks.class.getResource(location);
         try {
             if (url != null) {
                 final URI uri = url.toURI();
@@ -200,20 +208,26 @@ public class GIRBlocks {
         return null;
     }
     
-    public static Map<String, BlockDefinitons> getFromJson(final String directory) {
+    public static Map<String, BlockProperties> getFromJson(final String directory) {
         final Gson gson = new Gson();
         final Map<String, String> entrySet = readFiles(directory);
-        final Map<String, BlockDefinitons> content = new HashMap<>();
+        final Map<String, BlockProperties> content = new HashMap<>();
         if (entrySet != null) {
             entrySet.forEach((filename, file) -> {
-                final BlockDefinitons json = gson.fromJson(file, BlockDefinitons.class);
+                final BlockProperties json = gson.fromJson(file, BlockProperties.class);
                 content.put(filename, json);
             });
         }
         return content;
     }
     
+    /* - Zusammenführen von Ordner mit Jsons und Auslesen der Infos
+     * - Einmal registrieren für Stair, Slab und Wall (gefiltert auslesen), evtl getrennt registern
+     * - Name auslesen und zum registrieren + Block [Purple_Glas_Stair]
+     * - An BlockCreationInfo Methode die Blockdefinitions übergeben
+     */
     public static void register() {
-        Map<String, BlockDefinitons> definition = getFromJson("/assets/girutility/blockdefinitions");
+        Map<String, BlockProperties> fromJson = getFromJson("/assets/" + GirutilityMain.MODID + "/blockdefinitions");
     }
+    
 }

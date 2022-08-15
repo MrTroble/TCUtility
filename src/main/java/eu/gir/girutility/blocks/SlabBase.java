@@ -2,11 +2,12 @@ package eu.gir.girutility.blocks;
 
 import java.util.Random;
 
+import eu.gir.girutility.BlockDefinitons;
+import eu.gir.girutility.BlockProperties;
 import eu.gir.girutility.init.GIRBlocks;
 import eu.gir.girutility.init.GIRTabs;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSlab;
-import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
@@ -22,9 +23,12 @@ public class SlabBase extends BlockSlab {
     Block half;
     public static final PropertyEnum<Variant> VARIANT = PropertyEnum.<Variant>create("variant", Variant.class);
     
-    public SlabBase(Material material, BlockSlab half) {
-        super (material);
+    public SlabBase(BlockSlab half, BlockCreateInfo blockInfo) {
+        super (blockInfo.material);
         setCreativeTab(GIRTabs.tab);
+        setHardness(blockInfo.hardness);
+        setSoundType(blockInfo.soundtype);
+        setLightOpacity(blockInfo.opacity);
         this.useNeighborBrightness = !this.isDouble();
         IBlockState state = this.blockState.getBaseState().withProperty(VARIANT, Variant.DEFAULT);
         if (!this.isDouble()) state = state.withProperty(HALF, EnumBlockHalf.BOTTOM);
@@ -99,8 +103,8 @@ public class SlabBase extends BlockSlab {
     }
     
     public static class DoubleSlab extends SlabBase {
-        public DoubleSlab(Material material, BlockSlab half) {
-            super(material, half);
+        public DoubleSlab(BlockSlab half, BlockCreateInfo blockInfo) {
+            super(half, blockInfo);
         }
 
         @Override
@@ -130,8 +134,9 @@ public class SlabBase extends BlockSlab {
     }
         
     public static class HalfSlab extends SlabBase {
-        public HalfSlab(Material material, BlockSlab half, BlockSlab doubleSlab) {
-            super(material, half);
+
+        public HalfSlab(BlockSlab half, BlockSlab doubleSlab, BlockCreateInfo blockInfo) {
+            super(half, blockInfo);
             setCreativeTab(GIRTabs.tab);
         }
         
