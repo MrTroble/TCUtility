@@ -3,7 +3,7 @@
 	"textures": {
 		"0": "#base",
 		"1": "#overlay",
-		"4": "blocks/concrete_silver",
+		"4": "#base",
 		"particle": "#base"
 	},
 	"display": {

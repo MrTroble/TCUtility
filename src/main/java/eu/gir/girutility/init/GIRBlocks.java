@@ -23,11 +23,14 @@ import java.util.stream.Stream;
 
 import javax.xml.bind.SchemaOutputResolver;
 
+import org.apache.http.conn.BasicEofSensorWatcher;
+
 import com.google.gson.Gson;
 
 import eu.gir.girutility.BlockDefinitons;
 import eu.gir.girutility.BlockProperties;
 import eu.gir.girutility.GirutilityMain;
+import eu.gir.girutility.blocks.BigDoor;
 import eu.gir.girutility.blocks.Bin;
 import eu.gir.girutility.blocks.Crate;
 import eu.gir.girutility.blocks.Door;
@@ -96,7 +99,9 @@ public class GIRBlocks {
     //public static final SlabBase SLAB1_DOUBLE = new SlabBase.DoubleSlab(Material.ROCK, GIRBlocks.SLAB1_HALF);
     //public static final Stairs STAIR1 = new Stairs(Blocks.CONCRETE.getDefaultState());
     //public static final Wall WALL1 = new Wall(Material.ROCK, 1.0f, SoundType.STONE, 0);
-    //public static final Door DOOR1 = new Door(Material.WOOD);
+    public static final Door DOOR1_BLOCK = new Door(Material.WOOD);
+    //public static final BigDoor BIGDOOR1_BLOCK = new BigDoor(Material.WOOD);
+    public static final Door DOOR_JAIL_BLOCK = new Door(Material.IRON);
     public static final Lantern LANTERN = new Lantern();
     public static final Ladder LADDER_IRON = new Ladder(Material.IRON);
     public static final Ladder LADDER_RUSTY = new Ladder(Material.IRON);

@@ -5,7 +5,7 @@ import java.util.List;
 import eu.gir.girutility.blocks.SlabBase;
 import eu.gir.girutility.blocks.Stairs;
 import eu.gir.girutility.blocks.Wall;
-import eu.gir.girutility.items.SlabItem;
+import eu.gir.girutility.items.ItemSlab;
 
 public class BlockProperties extends BlockDefinitons {
     
@@ -26,7 +26,7 @@ public class BlockProperties extends BlockDefinitons {
                 case "slab":
                     SlabBase slabHalf = new SlabBase.HalfSlab(slabHalf, slabHalf, null);
                     SlabBase slabDouble = new SlabBase.DoubleSlab(slabHalf, null);
-                    SlabItem slabItem = new SlabItem(slabHalf, slabHalf, slabDouble);
+                    ItemSlab slabItem = new ItemSlab(slabHalf, slabHalf, slabDouble);
                 case "wall":
                     Wall wall = new Wall(null);
                 default:
