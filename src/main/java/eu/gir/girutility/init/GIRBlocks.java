@@ -17,17 +17,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Map.Entry;
-import java.util.jar.Attributes.Name;
 import java.util.stream.Stream;
-
-import javax.xml.bind.SchemaOutputResolver;
-
-import org.apache.http.conn.BasicEofSensorWatcher;
 
 import com.google.gson.Gson;
 
-import eu.gir.girutility.BlockDefinitons;
 import eu.gir.girutility.BlockProperties;
 import eu.gir.girutility.GirutilityMain;
 import eu.gir.girutility.blocks.BigDoor;
@@ -37,14 +30,11 @@ import eu.gir.girutility.blocks.Door;
 import eu.gir.girutility.blocks.Ladder;
 import eu.gir.girutility.blocks.Lantern;
 import eu.gir.girutility.blocks.PlatformEdge;
-import eu.gir.girutility.blocks.Stairs;
 import eu.gir.girutility.blocks.TrafficCone;
 import eu.gir.girutility.blocks.TrapDoor;
-import eu.gir.girutility.blocks.Wall;
 import eu.gir.girutility.blocks.WoodenWindow;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
-import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -100,7 +90,7 @@ public class GIRBlocks {
     //public static final Stairs STAIR1 = new Stairs(Blocks.CONCRETE.getDefaultState());
     //public static final Wall WALL1 = new Wall(Material.ROCK, 1.0f, SoundType.STONE, 0);
     public static final Door DOOR1_BLOCK = new Door(Material.WOOD);
-    //public static final BigDoor BIGDOOR1_BLOCK = new BigDoor(Material.WOOD);
+    public static final BigDoor BIGDOOR1_BLOCK = new BigDoor(Material.WOOD);
     public static final Door DOOR_JAIL_BLOCK = new Door(Material.IRON);
     public static final Lantern LANTERN = new Lantern();
     public static final Ladder LADDER_IRON = new Ladder(Material.IRON);

@@ -5,27 +5,38 @@ import java.util.Random;
 import eu.gir.girutility.init.GIRBlocks;
 import eu.gir.girutility.init.GIRItems;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockDoor;
+import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
+import net.minecraft.block.properties.PropertyBool;
+import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.properties.PropertyEnum;
+import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.Rotation;
+import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.IStringSerializable;
+import net.minecraft.util.Mirror;
+import net.minecraft.util.Rotation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class BigDoor extends BlockDoor {
+public class BigDoor extends Block {
     
+    public static final PropertyDirection FACING = BlockHorizontal.FACING;
+    public static final PropertyBool OPEN = PropertyBool.create("open");
+    public static final PropertyEnum<BigDoor.EnumHingePosition> HINGE = PropertyEnum.<BigDoor.EnumHingePosition>create("hinge", BigDoor.EnumHingePosition.class);
+    public static final PropertyBool POWERED = PropertyBool.create("powered");
     public static final PropertyEnum<BigDoor.EnumDoorThird> THIRD = PropertyEnum.<BigDoor.EnumDoorThird>create("third", BigDoor.EnumDoorThird.class);
     protected static final AxisAlignedBB SOUTH_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.5D, 1.0D, 0.1875D);
     protected static final AxisAlignedBB NORTH_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.8125D, 1.5D, 1.0D, 1.0D);
@@ -37,12 +48,20 @@ public class BigDoor extends BlockDoor {
         this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(OPEN, Boolean.valueOf(false)).withProperty(HINGE, BigDoor.EnumHingePosition.LEFT).withProperty(POWERED, Boolean.valueOf(false)).withProperty(THIRD, BigDoor.EnumDoorThird.LOWER));
     }
     
+    private Item getItem() {
+        if (this == GIRBlocks.BIGDOOR1_BLOCK) {
+            return GIRItems.BIGDOOR1;
+        } else {
+            return Items.OAK_DOOR;
+        }
+    }
+    
     @Override
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
         state = state.getActualState(source, pos);
         EnumFacing enumfacing = (EnumFacing)state.getValue(FACING);
         boolean flag = !((Boolean)state.getValue(OPEN)).booleanValue();
-        boolean flag1 = state.getValue(HINGE) == BlockDoor.EnumHingePosition.RIGHT;
+        boolean flag1 = state.getValue(HINGE) == BigDoor.EnumHingePosition.RIGHT;
 
         switch (enumfacing) {
             case EAST:
@@ -55,6 +74,21 @@ public class BigDoor extends BlockDoor {
             case NORTH:
                 return flag ? NORTH_AABB : (flag1 ? WEST_AABB : EAST_AABB);
         }
+    }
+    
+    @Override
+    public boolean isOpaqueCube(IBlockState state) {
+        return false;
+    }
+    
+    @Override
+    public boolean isPassable(IBlockAccess worldIn, BlockPos pos) {
+        return isOpen(combineMetadata(worldIn, pos));
+    }
+    
+    @Override
+    public boolean isFullCube(IBlockState state) {
+        return false;
     }
     
     private int getCloseSound() {
@@ -77,7 +111,6 @@ public class BigDoor extends BlockDoor {
         }
     }
     
-    @Override
     public void toggleDoor(World worldIn, BlockPos pos, boolean open) {
         IBlockState iblockstate = worldIn.getBlockState(pos);
 
@@ -96,7 +129,7 @@ public class BigDoor extends BlockDoor {
     @Override
     public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
         if (state.getValue(THIRD) == BigDoor.EnumDoorThird.UPPER) {
-            BlockPos blockpos = pos.down();
+            BlockPos blockpos = pos.down(2); //pos.down()
             IBlockState iblockstate = worldIn.getBlockState(blockpos);
 
             if (iblockstate.getBlock() != this) {
@@ -123,7 +156,7 @@ public class BigDoor extends BlockDoor {
                 flag1 = true;
             }
 
-            if (!worldIn.getBlockState(pos.down()).isSideSolid(worldIn,  pos.down(), EnumFacing.UP)) {
+            if (!worldIn.getBlockState(pos.down()).isSideSolid(worldIn, pos.down(), EnumFacing.UP)) {
                 worldIn.setBlockToAir(pos);
                 flag1 = true;
 
@@ -164,6 +197,25 @@ public class BigDoor extends BlockDoor {
         }
     }
     
+    public static int combineMetadata(IBlockAccess worldIn, BlockPos pos) {
+        IBlockState iblockstate = worldIn.getBlockState(pos);
+        int i = iblockstate.getBlock().getMetaFromState(iblockstate);
+        boolean flag = isTop(i);
+        IBlockState iblockstate1 = worldIn.getBlockState(pos.down());
+        int j = iblockstate1.getBlock().getMetaFromState(iblockstate1);
+        int k = flag ? j : i;
+        IBlockState iblockstate2 = worldIn.getBlockState(pos.up());
+        int l = iblockstate2.getBlock().getMetaFromState(iblockstate2);
+        int i1 = flag ? i : l;
+        boolean flag1 = (i1 & 1) != 0;
+        boolean flag2 = (i1 & 2) != 0;
+        return removeHalfBit(k) | (flag ? 8 : 0) | (flag1 ? 16 : 0) | (flag2 ? 32 : 0);
+    }
+    
+    public ItemStack getItem(World worldIn, BlockPos pos, IBlockState state) {
+        return new ItemStack(this.getItem());
+    }
+    
     @Override
     public void onBlockHarvested(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player) {
         BigDoor.EnumDoorThird part = state.getValue(THIRD);
@@ -197,10 +249,16 @@ public class BigDoor extends BlockDoor {
         }
     }
     
+    @SideOnly(Side.CLIENT)
+    public BlockRenderLayer getBlockLayer()
+    {
+        return BlockRenderLayer.CUTOUT;
+    }
+    
     @Override
     public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
         if (state.getValue(THIRD) == BigDoor.EnumDoorThird.LOWER) {
-            IBlockState iblockstate = worldIn.getBlockState(pos.up());
+            IBlockState iblockstate = worldIn.getBlockState(pos); //pos.up()
             if (iblockstate.getBlock() == this) {
                 state = state.withProperty(HINGE, iblockstate.getValue(HINGE)).withProperty(POWERED, iblockstate.getValue(POWERED));
             }
@@ -224,13 +282,13 @@ public class BigDoor extends BlockDoor {
     }
     
     @Override
-    public ItemStack getItem(World worldIn, BlockPos pos, IBlockState state) {
-        return new ItemStack(this.getItem());
+    public IBlockState withMirror(IBlockState state, Mirror mirrorIn) {
+        return mirrorIn == Mirror.NONE ? state : state.withRotation(mirrorIn.toRotation((EnumFacing)state.getValue(FACING))).cycleProperty(HINGE);
     }
     
     @Override
     public IBlockState getStateFromMeta(int meta) {
-        return (meta & 8) > 0 ? this.getDefaultState().withProperty(THIRD, BigDoor.EnumDoorThird.UPPER).withProperty(HINGE, (meta & 1) > 0 ? BlockDoor.EnumHingePosition.RIGHT : BlockDoor.EnumHingePosition.LEFT).withProperty(POWERED, Boolean.valueOf((meta & 2) > 0)) : this.getDefaultState().withProperty(HALF, BlockDoor.EnumDoorHalf.LOWER).withProperty(FACING, EnumFacing.getHorizontal(meta & 3).rotateYCCW()).withProperty(OPEN, Boolean.valueOf((meta & 4) > 0));
+        return (meta & 8) > 0 ? this.getDefaultState().withProperty(THIRD, BigDoor.EnumDoorThird.UPPER).withProperty(HINGE, (meta & 1) > 0 ? BigDoor.EnumHingePosition.RIGHT : BigDoor.EnumHingePosition.LEFT).withProperty(POWERED, Boolean.valueOf((meta & 2) > 0)) : this.getDefaultState().withProperty(THIRD, BigDoor.EnumDoorThird.LOWER).withProperty(FACING, EnumFacing.getHorizontal(meta & 3).rotateYCCW()).withProperty(OPEN, Boolean.valueOf((meta & 4) > 0));
     }
     
     @Override
@@ -240,7 +298,7 @@ public class BigDoor extends BlockDoor {
         if (state.getValue(THIRD) == BigDoor.EnumDoorThird.UPPER) {
             i = i | 8;
 
-            if (state.getValue(HINGE) == BlockDoor.EnumHingePosition.RIGHT) {
+            if (state.getValue(HINGE) == BigDoor.EnumHingePosition.RIGHT) {
                 i |= 1;
             }
 
@@ -258,17 +316,43 @@ public class BigDoor extends BlockDoor {
         return i;
     }
     
-    private Item getItem() {
-        if (this == GIRBlocks.BIGDOOR1_BLOCK) {
-            return GIRItems.BIGDOOR1;
-        } else {
-            return Items.OAK_DOOR;
-        }
+    protected static int removeHalfBit(int meta)
+    {
+        return meta & 7;
+    }
+
+    public static boolean isOpen(IBlockAccess worldIn, BlockPos pos)
+    {
+        return isOpen(combineMetadata(worldIn, pos));
+    }
+
+    public static EnumFacing getFacing(IBlockAccess worldIn, BlockPos pos)
+    {
+        return getFacing(combineMetadata(worldIn, pos));
+    }
+
+    public static EnumFacing getFacing(int combinedMeta)
+    {
+        return EnumFacing.getHorizontal(combinedMeta & 3).rotateYCCW();
+    }
+    
+    protected static boolean isOpen(int combinedMeta)
+    {
+        return (combinedMeta & 4) != 0;
+    }
+
+    protected static boolean isTop(int meta)
+    {
+        return (meta & 8) != 0;
     }
     
     @Override
     protected BlockStateContainer createBlockState() {
         return new BlockStateContainer(this, new IProperty[] {THIRD, FACING, OPEN, HINGE, POWERED});
+    }
+    
+    public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face) {
+        return BlockFaceShape.UNDEFINED;
     }
     
     public static enum EnumDoorThird implements IStringSerializable {
@@ -288,6 +372,19 @@ public class BigDoor extends BlockDoor {
             } else {
                 return "lower";
             }
+        }
+    }
+    
+    public static enum EnumHingePosition implements IStringSerializable {
+        LEFT,
+        RIGHT;
+
+        public String toString() {
+            return this.getName();
+        }
+
+        public String getName() {
+            return this == LEFT ? "left" : "right";
         }
     }
 }

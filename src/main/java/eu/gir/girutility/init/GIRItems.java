@@ -5,6 +5,7 @@ import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 
 import eu.gir.girutility.GirutilityMain;
+import eu.gir.girutility.items.ItemBigDoor;
 import eu.gir.girutility.items.ItemDoor;
 import eu.gir.girutility.items.ItemReflectiveArmor;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -21,7 +22,7 @@ public class GIRItems {
     //public static final SlabItem slabItem = new SlabItem(GIRBlocks.SLAB1_HALF, GIRBlocks.SLAB1_HALF,
     //        GIRBlocks.SLAB1_DOUBLE);
     public static final ItemDoor DOOR1 = new ItemDoor(GIRBlocks.DOOR1_BLOCK);
-    //public static final ItemDoor BIGDOOR1 = new ItemDoor(GIRBlocks.BIGDOOR1_BLOCK);
+    public static final ItemBigDoor BIGDOOR1 = new ItemBigDoor(GIRBlocks.BIGDOOR1_BLOCK);
     public static final ItemDoor DOOR_JAIL = new ItemDoor(GIRBlocks.DOOR_JAIL_BLOCK);
     
     public static ArrayList<Item> itemsToRegister = new ArrayList<>();
