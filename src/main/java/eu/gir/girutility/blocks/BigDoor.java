@@ -5,7 +5,9 @@ import java.util.Random;
 import eu.gir.girutility.init.GIRBlocks;
 import eu.gir.girutility.init.GIRItems;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockDoor;
 import net.minecraft.block.BlockHorizontal;
+import net.minecraft.block.material.EnumPushReaction;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
@@ -217,6 +219,11 @@ public class BigDoor extends Block {
     
     @Override
     public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
+        
+    }
+    
+    /*@Override
+    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
         if (state.getValue(THIRD) == BigDoor.EnumDoorThird.UPPER) {
             BlockPos blockpos = pos.down();
             BlockPos blockpos1 = pos.down(2);
@@ -288,43 +295,56 @@ public class BigDoor extends Block {
                 }
             }
         }
-    }
+    }*/
     
     @Override
     public Item getItemDropped(IBlockState state, Random rand, int fortune) {
-        if (state.getValue(THIRD) == BigDoor.EnumDoorThird.UPPER) {
-            return this.getItem();
-        } else if (state.getValue(THIRD) == BigDoor.EnumDoorThird.MIDDLE) {
+        if (state.getValue(THIRD) == BigDoor.EnumDoorThird.LOWER) {
             return this.getItem();
         } else {
-        return Items.AIR;
+            return Items.AIR;
         }
+    }
+    
+    @Override
+    public EnumPushReaction getMobilityFlag(IBlockState state) {
+        return EnumPushReaction.DESTROY;
     }
     
     public static int combineMetadata(IBlockAccess worldIn, BlockPos pos) {
         IBlockState iblockstate = worldIn.getBlockState(pos);
+        IBlockState iblockstate1 = worldIn.getBlockState(pos.down(2));
+        IBlockState iblockstate2 = worldIn.getBlockState(pos.down(1));
         int i = iblockstate.getBlock().getMetaFromState(iblockstate);
-        boolean flag = isTop(i);
-        boolean flag0 = isMiddle(i);
-        
-        IBlockState iblockstate1 = worldIn.getBlockState(pos.down());
         int j = iblockstate1.getBlock().getMetaFromState(iblockstate1);
-        int k = flag ? j : i;
+        int k = iblockstate2.getBlock().getMetaFromState(iblockstate2);
+        boolean flag = isTop(i);
+        boolean flag1 = isMiddle(k);
         
-        IBlockState iblockstate2 = worldIn.getBlockState(pos.up());
-        int l = iblockstate2.getBlock().getMetaFromState(iblockstate2);
-        int i1 = flag ? i : l;
-        boolean flag1 = (i1 & 1) != 0;
-        boolean flag2 = (i1 & 2) != 0;
+        int l = 0;
+        if (flag == true && flag1 == false) {
+            l = j;
+        } else if (flag == false && flag1 == true) {
+            l = k;
+        } else {
+            l = i;
+        }
         
-        return removeHalfBit(k) | (flag ? 8 : 0) | (flag1 ? 16 : 0) | (flag2 ? 32 : 0);
+        IBlockState iblockstate3 = worldIn.getBlockState(pos.up(2));
+        int m = iblockstate3.getBlock().getMetaFromState(iblockstate3);
+        int i1 = flag ? i : m;
+        boolean flag2 = (i1 & 1) != 0;
+        boolean flag3 = (i1 & 2) != 0;
+        
+        
+        return removeHalfBit(l) | (flag ? 8 : 0) | (flag2 ? 16 : 0) | (flag3 ? 32 : 0);
     }
     
     /*public static int combineMetadata(IBlockAccess worldIn, BlockPos pos) {
         IBlockState iblockstate = worldIn.getBlockState(pos);
         int i = iblockstate.getBlock().getMetaFromState(iblockstate);
         boolean flag = isTop(i);
-        
+        boolean flag0 = isMiddle(i);
         
         IBlockState iblockstate1 = worldIn.getBlockState(pos.up());
         int j = iblockstate1.getBlock().getMetaFromState(iblockstate1);

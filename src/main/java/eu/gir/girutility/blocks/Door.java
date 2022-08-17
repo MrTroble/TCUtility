@@ -1,5 +1,7 @@
 package eu.gir.girutility.blocks;
 
+import java.util.Random;
+
 import eu.gir.girutility.init.GIRBlocks;
 import eu.gir.girutility.init.GIRItems;
 import net.minecraft.block.BlockDoor;
@@ -20,6 +22,15 @@ public class Door extends BlockDoor {
     @Override
     public String getLocalizedName() {
         return null;
+    }
+    
+    @Override
+    public Item getItemDropped(IBlockState state, Random rand, int fortune) {
+        if (state.getValue(HALF) == Door.EnumDoorHalf.LOWER) {
+            return this.getItem();
+        } else {
+            return Items.AIR;
+        }
     }
     
     @Override
