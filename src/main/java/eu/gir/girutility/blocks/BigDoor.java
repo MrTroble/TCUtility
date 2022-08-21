@@ -5,7 +5,6 @@ import java.util.Random;
 import eu.gir.girutility.init.GIRBlocks;
 import eu.gir.girutility.init.GIRItems;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockDoor;
 import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.material.EnumPushReaction;
 import net.minecraft.block.material.Material;
@@ -195,18 +194,40 @@ public class BigDoor extends Block {
         if (this.blockMaterial == Material.IRON) {
             return false;
         } else {
-            state = state.cycleProperty(OPEN);
-            worldIn.setBlockState(pos, state, 10);
-            worldIn.playEvent(playerIn, ((Boolean)state.getValue(OPEN)).booleanValue() ? this.getOpenSound() : this.getCloseSound(), pos, 0);
-            return true;
+            if (state.getValue(THIRD) == BigDoor.EnumDoorThird.LOWER) {
+                BlockPos blockpos = pos;
+                IBlockState iblockstate = pos.equals(blockpos) ? state : worldIn.getBlockState(blockpos);
+                state = iblockstate.cycleProperty(OPEN);
+                worldIn.setBlockState(blockpos, state, 10);
+                worldIn.markBlockRangeForRenderUpdate(blockpos, pos);
+                worldIn.playEvent(playerIn, ((Boolean)state.getValue(OPEN)).booleanValue() ? this.getOpenSound() : this.getCloseSound(), pos, 0);
+                return true;
+            } else if (state.getValue(THIRD) == BigDoor.EnumDoorThird.MIDDLE) {
+                BlockPos blockpos = pos.down();
+                IBlockState iblockstate = pos.equals(blockpos) ? state : worldIn.getBlockState(blockpos);
+                state = iblockstate.cycleProperty(OPEN);
+                worldIn.setBlockState(blockpos, state, 10);
+                worldIn.markBlockRangeForRenderUpdate(blockpos, pos);
+                worldIn.playEvent(playerIn, ((Boolean)state.getValue(OPEN)).booleanValue() ? this.getOpenSound() : this.getCloseSound(), pos, 0);
+                return true;
+            } else {
+                BlockPos blockpos = pos.down(2);
+                IBlockState iblockstate = pos.equals(blockpos) ? state : worldIn.getBlockState(blockpos);
+                state = iblockstate.cycleProperty(OPEN);
+                worldIn.setBlockState(blockpos, state, 10);
+                worldIn.markBlockRangeForRenderUpdate(blockpos, pos);
+                worldIn.markBlockRangeForRenderUpdate(blockpos, pos);
+                worldIn.playEvent(playerIn, ((Boolean)state.getValue(OPEN)).booleanValue() ? this.getOpenSound() : this.getCloseSound(), pos, 0);
+                return true; 
+            }
         }
     }
     
-    public void toggleDoor(World worldIn, BlockPos pos, boolean open) {
+    /*public void toggleDoor(World worldIn, BlockPos pos, boolean open) {
         IBlockState iblockstate = worldIn.getBlockState(pos);
 
         if (iblockstate.getBlock() == this) {
-            BlockPos blockpos = iblockstate.getValue(THIRD) == BigDoor.EnumDoorThird.LOWER ? pos : pos.down();
+            BlockPos blockpos = iblockstate.getValue(THIRD) == BigDoor.EnumDoorThird.LOWER ? pos : pos.up();
             IBlockState iblockstate1 = pos == blockpos ? iblockstate : worldIn.getBlockState(blockpos);
 
             if (iblockstate1.getBlock() == this && ((Boolean)iblockstate1.getValue(OPEN)).booleanValue() != open) {
@@ -215,7 +236,7 @@ public class BigDoor extends Block {
                 worldIn.playEvent((EntityPlayer)null, open ? this.getOpenSound() : this.getCloseSound(), pos, 0);
             }
         }
-    }
+    }*/
     
     @Override
     public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
@@ -313,55 +334,19 @@ public class BigDoor extends Block {
     
     public static int combineMetadata(IBlockAccess worldIn, BlockPos pos) {
         IBlockState iblockstate = worldIn.getBlockState(pos);
+        int i = iblockstate.getBlock().getMetaFromState(iblockstate); 
+        boolean flag = isTop(i);
+        
         IBlockState iblockstate1 = worldIn.getBlockState(pos.down(2));
-        IBlockState iblockstate2 = worldIn.getBlockState(pos.down(1));
-        int i = iblockstate.getBlock().getMetaFromState(iblockstate);
         int j = iblockstate1.getBlock().getMetaFromState(iblockstate1);
-        int k = iblockstate2.getBlock().getMetaFromState(iblockstate2);
-        boolean flag = isTop(i);
-        boolean flag1 = isMiddle(k);
-        
-        int l = 0;
-        if (flag == true && flag1 == false) {
-            l = j;
-        } else if (flag == false && flag1 == true) {
-            l = k;
-        } else {
-            l = i;
-        }
-        
-        IBlockState iblockstate3 = worldIn.getBlockState(pos.up(2));
-        int m = iblockstate3.getBlock().getMetaFromState(iblockstate3);
-        int i1 = flag ? i : m;
-        boolean flag2 = (i1 & 1) != 0;
-        boolean flag3 = (i1 & 2) != 0;
-        
-        
-        return removeHalfBit(l) | (flag ? 8 : 0) | (flag2 ? 16 : 0) | (flag3 ? 32 : 0);
-    }
-    
-    /*public static int combineMetadata(IBlockAccess worldIn, BlockPos pos) {
-        IBlockState iblockstate = worldIn.getBlockState(pos);
-        int i = iblockstate.getBlock().getMetaFromState(iblockstate);
-        boolean flag = isTop(i);
-        boolean flag0 = isMiddle(i);
-        
-        IBlockState iblockstate1 = worldIn.getBlockState(pos.up());
-        int j = iblockstate1.getBlock().getMetaFromState(iblockstate1);
-        boolean flag0 = isMiddle(j);
-        
         int k = flag ? j : i;
-        
-        
         IBlockState iblockstate2 = worldIn.getBlockState(pos.up(2));
         int l = iblockstate2.getBlock().getMetaFromState(iblockstate2);
-        
         int i1 = flag ? i : l;
         boolean flag1 = (i1 & 1) != 0;
         boolean flag2 = (i1 & 2) != 0;
-        
-        return removeHalfBit(k) | (flag ? 8 : 0);
-    }*/
+        return removeHalfBit(k) | (flag ? 8 : 0) | (flag1 ? 16 : 0) | (flag2 ? 32 : 0);
+    }
     
     public ItemStack getItem(World worldIn, BlockPos pos, IBlockState state) {
         return new ItemStack(this.getItem());
@@ -409,20 +394,32 @@ public class BigDoor extends Block {
     @Override
     public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
         if (state.getValue(THIRD) == BigDoor.EnumDoorThird.LOWER) {
-            IBlockState iblockstate = worldIn.getBlockState(pos); //pos.up()
+            IBlockState iblockstate = worldIn.getBlockState(pos.up(2));
+            IBlockState iblockstate1 = worldIn.getBlockState(pos.up());
             if (iblockstate.getBlock() == this) {
                 state = state.withProperty(HINGE, iblockstate.getValue(HINGE)).withProperty(POWERED, iblockstate.getValue(POWERED));
             }
+            /*if (iblockstate1.getBlock() == this) {
+                state = state.withProperty(THIRD, iblockstate.getValue(THIRD));
+            }*/
         } else if (state.getValue(THIRD) == BigDoor.EnumDoorThird.MIDDLE) {
-            IBlockState iblockstate1 = worldIn.getBlockState(pos.down());
+            IBlockState iblockstate = worldIn.getBlockState(pos.down());
+            IBlockState iblockstate1 = worldIn.getBlockState(pos.up());
+            if (iblockstate.getBlock() == this) {
+                state = state.withProperty(FACING, iblockstate.getValue(FACING)).withProperty(OPEN, iblockstate.getValue(OPEN));
+            }
             if (iblockstate1.getBlock() == this) {
                 state = state.withProperty(HINGE, iblockstate1.getValue(HINGE)).withProperty(POWERED, iblockstate1.getValue(POWERED));
             }
-        } else {
-            IBlockState iblockstate2 = worldIn.getBlockState(pos.down(2));
-            if (iblockstate2.getBlock() == this) {
-                state = state.withProperty(FACING, iblockstate2.getValue(FACING)).withProperty(OPEN, iblockstate2.getValue(OPEN));
+        } else if (state.getValue(THIRD) == BigDoor.EnumDoorThird.UPPER) {
+            IBlockState iblockstate = worldIn.getBlockState(pos.down(2));
+            IBlockState iblockstate1 = worldIn.getBlockState(pos.down());
+            if (iblockstate.getBlock() == this) {
+                state = state.withProperty(FACING, iblockstate.getValue(FACING)).withProperty(OPEN, iblockstate.getValue(OPEN));
             }
+            /*if (iblockstate1.getBlock() == this) {
+                state = state.withProperty(THIRD, iblockstate.getValue(THIRD));
+            }*/
         }
         return state;
     }
@@ -446,9 +443,7 @@ public class BigDoor extends Block {
                     .withProperty(POWERED, Boolean.valueOf((meta & 2) > 0));
         } else if ((meta & 12) > 0) {
             return this.getDefaultState()
-                    .withProperty(THIRD, BigDoor.EnumDoorThird.MIDDLE)
-                    .withProperty(HINGE, (meta & 13) > 0 ? BigDoor.EnumHingePosition.RIGHT : BigDoor.EnumHingePosition.LEFT)
-                    .withProperty(POWERED, Boolean.valueOf((meta & 14) > 0));
+                    .withProperty(THIRD, BigDoor.EnumDoorThird.MIDDLE);
         } else {
             return this.getDefaultState()
                     .withProperty(THIRD, BigDoor.EnumDoorThird.LOWER)
@@ -471,12 +466,6 @@ public class BigDoor extends Block {
             }
         } else if (state.getValue(THIRD) == BigDoor.EnumDoorThird.MIDDLE) {
             i = i | 12;
-            if (state.getValue(HINGE) == BigDoor.EnumHingePosition.RIGHT) {
-                i |= 13;
-            }
-            if (((Boolean)state.getValue(POWERED)).booleanValue()) {
-                i |= 14;
-            }
         } else {
             i = i | ((EnumFacing)state.getValue(FACING)).rotateY().getHorizontalIndex();
 
@@ -484,7 +473,6 @@ public class BigDoor extends Block {
                 i |= 4;
             }
         }
-
         return i;
     }
     

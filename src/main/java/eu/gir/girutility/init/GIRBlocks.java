@@ -31,6 +31,7 @@ import eu.gir.girutility.blocks.DefaultBlock;
 import eu.gir.girutility.blocks.Ladder;
 import eu.gir.girutility.blocks.Lantern;
 import eu.gir.girutility.blocks.PlatformEdge;
+import eu.gir.girutility.blocks.SlabBase;
 import eu.gir.girutility.blocks.Stairs;
 import eu.gir.girutility.blocks.TrafficCone;
 import eu.gir.girutility.blocks.TrapDoor;
@@ -94,8 +95,7 @@ public class GIRBlocks {
     public static final Lantern LANTERN = new Lantern();
     public static final Ladder LADDER_IRON = new Ladder(Material.IRON);
     public static final Ladder LADDER_RUSTY = new Ladder(Material.IRON);
-    public static final Ladder LADDER_ROOF = new Ladder(Material.IRON);
-    
+    public static final Ladder LADDER_ROOF = new Ladder(Material.IRON); 
 
     public static ArrayList<Block> blocksToRegister = new ArrayList<>();
 
@@ -216,13 +216,11 @@ public class GIRBlocks {
         return content;
     }
     
-    /* - Zusammenführen von Ordner mit Jsons und Auslesen der Infos
-     * - Einmal registrieren für Stair, Slab und Wall (gefiltert auslesen), evtl getrennt registern
-     * - Name auslesen und zum registrieren + Block [Purple_Glas_Stair]
-     * - An BlockCreationInfo Methode die Blockdefinitions übergeben
-     */
     public static void register() {
-        Map<String, BlockProperties> fromJson = getFromJson("/assets/" + GirutilityMain.MODID + "/blockdefinitions");
+        final Map<String, BlockProperties> fromJson = getFromJson("/assets/" + GirutilityMain.MODID + "/blockdefinitions");
+        fromJson.forEach((filename, content) -> {
+            
+        });
     }
     
 }

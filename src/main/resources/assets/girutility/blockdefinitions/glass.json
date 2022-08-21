@@ -1,28 +1,189 @@
 {
-    "purple_glass": {
+    "glass": {
         "resource": "minecraft:glass",
         "hardness": 1,
-        "material": "GLASS",
-        "soundtype": "GLASS",
+        "material": "glass",
+        "soundtype": "glass",
         "opacity": 0,
         "states": [
             "stair",
-            "slab",
-            "wall",
-            "fence"
+            "slab"
         ]
     },
-    "green_glass": {
+    "glass_white": {
         "resource": "minecraft:glass",
         "hardness": 1,
-        "material": "GLASS",
-        "soundtype": "GLASS",
+        "material": "glass",
+        "soundtype": "glass",
         "opacity": 0,
         "states": [
             "stair",
-            "slab",
-            "wall",
-            "fence"
+            "slab"
+        ]
+    },
+    "glass_orange": {
+        "resource": "minecraft:glass",
+        "hardness": 1,
+        "material": "glass",
+        "soundtype": "glass",
+        "opacity": 0,
+        "states": [
+            "stair",
+            "slab"
+        ]
+    },
+    "glass_magenta": {
+        "resource": "minecraft:glass",
+        "hardness": 1,
+        "material": "glass",
+        "soundtype": "glass",
+        "opacity": 0,
+        "states": [
+            "stair",
+            "slab"
+        ]
+    },
+    "glass_lightblue": {
+        "resource": "minecraft:glass",
+        "hardness": 1,
+        "material": "glass",
+        "soundtype": "glass",
+        "opacity": 0,
+        "states": [
+            "stair",
+            "slab"
+        ]
+    },
+    "glass_yellow": {
+        "resource": "minecraft:glass",
+        "hardness": 1,
+        "material": "glass",
+        "soundtype": "glass",
+        "opacity": 0,
+        "states": [
+            "stair",
+            "slab"
+        ]
+    },
+    "glass_lime": {
+        "resource": "minecraft:glass",
+        "hardness": 1,
+        "material": "glass",
+        "soundtype": "glass",
+        "opacity": 0,
+        "states": [
+            "stair",
+            "slab"
+        ]
+    },
+    "glass_pink": {
+        "resource": "minecraft:glass",
+        "hardness": 1,
+        "material": "glass",
+        "soundtype": "glass",
+        "opacity": 0,
+        "states": [
+            "stair",
+            "slab"
+        ]
+    },
+    "glass_gray": {
+        "resource": "minecraft:glass",
+        "hardness": 1,
+        "material": "glass",
+        "soundtype": "glass",
+        "opacity": 0,
+        "states": [
+            "stair",
+            "slab"
+        ]
+    },
+    "glass_lightgray": {
+        "resource": "minecraft:glass",
+        "hardness": 1,
+        "material": "glass",
+        "soundtype": "glass",
+        "opacity": 0,
+        "states": [
+            "stair",
+            "slab"
+        ]
+    },
+    "glass_cyan": {
+        "resource": "minecraft:glass",
+        "hardness": 1,
+        "material": "glass",
+        "soundtype": "glass",
+        "opacity": 0,
+        "states": [
+            "stair",
+            "slab"
+        ]
+    },
+    "glass_purple": {
+        "resource": "minecraft:glass",
+        "hardness": 1,
+        "material": "glass",
+        "soundtype": "glass",
+        "opacity": 0,
+        "states": [
+            "stair",
+            "slab"
+        ]
+    },
+	    "glass_blue": {
+        "resource": "minecraft:glass",
+        "hardness": 1,
+        "material": "glass",
+        "soundtype": "glass",
+        "opacity": 0,
+        "states": [
+            "stair",
+            "slab"
+        ]
+    },
+    "glass_brown": {
+        "resource": "minecraft:glass",
+        "hardness": 1,
+        "material": "glass",
+        "soundtype": "glass",
+        "opacity": 0,
+        "states": [
+            "stair",
+            "slab"
+        ]
+    },
+    "glass_green": {
+        "resource": "minecraft:glass",
+        "hardness": 1,
+        "material": "glass",
+        "soundtype": "glass",
+        "opacity": 0,
+        "states": [
+            "stair",
+            "slab"
+        ]
+    },
+    "glass_red": {
+        "resource": "minecraft:glass",
+        "hardness": 1,
+        "material": "glass",
+        "soundtype": "glass",
+        "opacity": 0,
+        "states": [
+            "stair",
+            "slab"
+        ]
+    },
+    "glass_black": {
+        "resource": "minecraft:glass",
+        "hardness": 1,
+        "material": "glass",
+        "soundtype": "glass",
+        "opacity": 0,
+        "states": [
+            "stair",
+            "slab"
         ]
     }
 }

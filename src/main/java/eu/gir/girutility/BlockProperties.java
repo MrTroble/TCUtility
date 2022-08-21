@@ -81,12 +81,15 @@ public class BlockProperties {
                     Stairs stair = new Stairs(defaultBlock.getDefaultState());
                     break;
                 case "slab":
-                    SlabBase slabHalf = new SlabBase.HalfSlab(slabHalf, slabHalf, null);
-                    SlabBase slabDouble = new SlabBase.DoubleSlab(slabHalf, null);
+                    SlabBase slabHalf = new SlabBase.HalfSlab(slabHalf, slabHalf, blockInfo);
+                    SlabBase slabDouble = new SlabBase.DoubleSlab(slabHalf, blockInfo);
                     ItemSlab slabItem = new ItemSlab(slabHalf, slabHalf, slabDouble);
+                    break;
                 case "wall":
                     Wall wall = new Wall(blockInfo);
+                    break;
                 default:
+                    GirutilityMain.LOG.error("The given state [%s] is not valid.", state);
                     break;
             }
         }
