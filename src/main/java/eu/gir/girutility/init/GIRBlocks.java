@@ -27,6 +27,8 @@ import eu.gir.girutility.blocks.BigDoor;
 import eu.gir.girutility.blocks.Bin;
 import eu.gir.girutility.blocks.Crate;
 import eu.gir.girutility.blocks.Door;
+import eu.gir.girutility.blocks.Fence;
+import eu.gir.girutility.blocks.FenceGate;
 import eu.gir.girutility.blocks.DefaultBlock;
 import eu.gir.girutility.blocks.Ladder;
 import eu.gir.girutility.blocks.Lantern;
@@ -37,8 +39,10 @@ import eu.gir.girutility.blocks.TrafficCone;
 import eu.gir.girutility.blocks.TrapDoor;
 import eu.gir.girutility.blocks.WoodenWindow;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockPlanks;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.SoundType;
+import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
@@ -95,8 +99,10 @@ public class GIRBlocks {
     public static final Lantern LANTERN = new Lantern();
     public static final Ladder LADDER_IRON = new Ladder(Material.IRON);
     public static final Ladder LADDER_RUSTY = new Ladder(Material.IRON);
-    public static final Ladder LADDER_ROOF = new Ladder(Material.IRON); 
-
+    public static final Ladder LADDER_ROOF = new Ladder(Material.IRON);
+    public static final Fence TEST_FENCE = new Fence(Material.WOOD, MapColor.WOOD);
+    public static final FenceGate TEST_FENCE_GATE = new FenceGate(BlockPlanks.EnumType.OAK); 
+    
     public static ArrayList<Block> blocksToRegister = new ArrayList<>();
 
     public static void init() {
