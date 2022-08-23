@@ -21,9 +21,29 @@ public class GIRItems {
             ItemReflectiveArmor.reflectiveArmorMaterial, 1, EntityEquipmentSlot.CHEST);
     //public static final SlabItem slabItem = new SlabItem(GIRBlocks.SLAB1_HALF, GIRBlocks.SLAB1_HALF,
     //        GIRBlocks.SLAB1_DOUBLE);
-    public static final ItemDoor DOOR1 = new ItemDoor(GIRBlocks.DOOR1_BLOCK);
-    public static final ItemBigDoor BIGDOOR1 = new ItemBigDoor(GIRBlocks.BIGDOOR1_BLOCK);
     public static final ItemDoor DOOR_JAIL = new ItemDoor(GIRBlocks.DOOR_JAIL_BLOCK);
+    public static final ItemDoor DOOR_IRON_GLASS = new ItemDoor(GIRBlocks.DOOR_IRON_GLASS_BLOCK);
+    public static final ItemDoor DOOR_OAK_GLASS = new ItemDoor(GIRBlocks.DOOR_OAK_GLASS_BLOCK);
+    public static final ItemDoor DOOR_OAK_WINDOWED = new ItemDoor(GIRBlocks.DOOR_OAK_WINDOWED_BLOCK);
+    public static final ItemDoor DOOR_SPRUCE_WINDOWED = new ItemDoor(GIRBlocks.DOOR_SPRUCE_WINDOWED_BLOCK);
+    public static final ItemDoor DOOR_BIRCH_WINDOWED = new ItemDoor(GIRBlocks.DOOR_BIRCH_WINDOWED_BLOCK);
+    public static final ItemDoor DOOR_JUNGLE_WINDOWED = new ItemDoor(GIRBlocks.DOOR_JUNGLE_WINDOWED_BLOCK);
+    public static final ItemDoor DOOR_ACACIA_WINDOWED = new ItemDoor(GIRBlocks.DOOR_ACACIA_WINDOWED_BLOCK);
+    public static final ItemDoor DOOR_DARK_OAK_WINDOWED = new ItemDoor(GIRBlocks.DOOR_DARK_OAK_WINDOWED_BLOCK);
+    public static final ItemDoor DOOR_IRON_WINDOWED = new ItemDoor(GIRBlocks.DOOR_IRON_WINDOWED_BLOCK);
+    public static final ItemDoor DOOR_WHITE_WINDOWED = new ItemDoor(GIRBlocks.DOOR_WHITE_WINDOWED_BLOCK);
+    public static final ItemDoor DOOR_OAK = new ItemDoor(GIRBlocks.DOOR_OAK_BLOCK);
+    public static final ItemDoor DOOR_SPRUCE = new ItemDoor(GIRBlocks.DOOR_SPRUCE_BLOCK);
+    public static final ItemDoor DOOR_BIRCH = new ItemDoor(GIRBlocks.DOOR_BIRCH_BLOCK);
+    public static final ItemDoor DOOR_JUNGLE = new ItemDoor(GIRBlocks.DOOR_JUNGLE_BLOCK);
+    public static final ItemDoor DOOR_ACACIA = new ItemDoor(GIRBlocks.DOOR_ACACIA_BLOCK);
+    public static final ItemDoor DOOR_DARK_OAK = new ItemDoor(GIRBlocks.DOOR_DARK_OAK_BLOCK);
+    public static final ItemDoor DOOR_IRON = new ItemDoor(GIRBlocks.DOOR_IRON_BLOCK);
+    public static final ItemDoor DOOR_WHITE = new ItemDoor(GIRBlocks.DOOR_WHITE_BLOCK);
+    public static final ItemDoor DOOR_OLD = new ItemDoor(GIRBlocks.DOOR_OLD_BLOCK);
+    public static final ItemDoor DOOR_RUSTY = new ItemDoor(GIRBlocks.DOOR_RUSTY_BLOCK);
+    public static final ItemBigDoor BIGDOOR1 = new ItemBigDoor(GIRBlocks.BIGDOOR1_BLOCK);
+    
     
     public static ArrayList<Item> itemsToRegister = new ArrayList<>();
 

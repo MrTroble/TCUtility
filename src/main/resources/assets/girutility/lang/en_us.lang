@@ -3,6 +3,26 @@ itemGroup.GIRUtility=GIR Utility
 
 #Items
 item.reflective_chestplate.name=Reflective Chestplate
+item.door_jail.name=Jail Door
+item.door_iron_glass.name=Iron Glass Door
+item.door_oak_glass.name=Oak Glass Door
+item.door_oak_windowed.name=Oak Windowed Door
+item.door_spruce_windowed.name=Spruce Windowed Door
+item.door_birch_windowed.name=Birch Windowed Door
+item.door_jungle_windowed.name=Jungle Windowed Door
+item.door_acacia_windowed.name=Acacia Windowed Door
+item.door_dark_oak_windowed.name=Dark Oak Windowed Door
+item.door_white_windowed.name=White Windowed Door
+item.door_oak.name=Oak Door
+item.door_spruce.name=SpruceDoor
+item.door_birch.name=Birch Door
+item.door_jungle.name=Jungle Door
+item.door_acacia.name=Acacia Door
+item.door_dark_oak.name=Dark Oak Door
+item.door_iron.name=Iron Door
+item.door_white.name=White Door
+item.door_old.name=Old Door
+item.door_rusty.name=Rusty Door
 
 #Blocks
 tile.traffic_cone.name=Traffic Cone
@@ -45,3 +65,8 @@ tile.platform_edge_2_concrete_1.name=Platform Edge Concrete
 tile.platform_edge_2_concrete_2.name=Platform Edge Concrete
 tile.platform_edge_2_concrete_3.name=Platform Edge Concrete
 tile.lantern.name=Lantern
+tile.ladder_iron.name=Iron Ladder
+tile.ladder_rusty.name=Rusty Iron Ladder
+tile.ladder_roof.name=Roof Ladder
+tile.test_fence.name=Test Fence
+tile.test_fencegate.name=Test Fencegate
