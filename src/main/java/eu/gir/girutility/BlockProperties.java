@@ -14,7 +14,6 @@ import net.minecraft.block.material.Material;
 
 public class BlockProperties {
     
-    private String resource;
     private float hardness;
     private String material;
     private String soundtype;

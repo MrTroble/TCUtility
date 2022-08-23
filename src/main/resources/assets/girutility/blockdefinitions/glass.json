@@ -1,6 +1,5 @@
 {
     "glass": {
-        "resource": "minecraft:glass",
         "hardness": 1,
         "material": "glass",
         "soundtype": "glass",
@@ -11,7 +10,6 @@
         ]
     },
     "glass_white": {
-        "resource": "minecraft:glass",
         "hardness": 1,
         "material": "glass",
         "soundtype": "glass",
@@ -22,7 +20,6 @@
         ]
     },
     "glass_orange": {
-        "resource": "minecraft:glass",
         "hardness": 1,
         "material": "glass",
         "soundtype": "glass",
@@ -33,7 +30,6 @@
         ]
     },
     "glass_magenta": {
-        "resource": "minecraft:glass",
         "hardness": 1,
         "material": "glass",
         "soundtype": "glass",
@@ -44,7 +40,6 @@
         ]
     },
     "glass_lightblue": {
-        "resource": "minecraft:glass",
         "hardness": 1,
         "material": "glass",
         "soundtype": "glass",
@@ -55,7 +50,6 @@
         ]
     },
     "glass_yellow": {
-        "resource": "minecraft:glass",
         "hardness": 1,
         "material": "glass",
         "soundtype": "glass",
@@ -66,7 +60,6 @@
         ]
     },
     "glass_lime": {
-        "resource": "minecraft:glass",
         "hardness": 1,
         "material": "glass",
         "soundtype": "glass",
@@ -77,7 +70,6 @@
         ]
     },
     "glass_pink": {
-        "resource": "minecraft:glass",
         "hardness": 1,
         "material": "glass",
         "soundtype": "glass",
@@ -88,7 +80,6 @@
         ]
     },
     "glass_gray": {
-        "resource": "minecraft:glass",
         "hardness": 1,
         "material": "glass",
         "soundtype": "glass",
@@ -99,7 +90,6 @@
         ]
     },
     "glass_lightgray": {
-        "resource": "minecraft:glass",
         "hardness": 1,
         "material": "glass",
         "soundtype": "glass",
@@ -110,7 +100,6 @@
         ]
     },
     "glass_cyan": {
-        "resource": "minecraft:glass",
         "hardness": 1,
         "material": "glass",
         "soundtype": "glass",
@@ -121,7 +110,6 @@
         ]
     },
     "glass_purple": {
-        "resource": "minecraft:glass",
         "hardness": 1,
         "material": "glass",
         "soundtype": "glass",
@@ -132,7 +120,6 @@
         ]
     },
 	    "glass_blue": {
-        "resource": "minecraft:glass",
         "hardness": 1,
         "material": "glass",
         "soundtype": "glass",
@@ -143,7 +130,6 @@
         ]
     },
     "glass_brown": {
-        "resource": "minecraft:glass",
         "hardness": 1,
         "material": "glass",
         "soundtype": "glass",
@@ -154,7 +140,6 @@
         ]
     },
     "glass_green": {
-        "resource": "minecraft:glass",
         "hardness": 1,
         "material": "glass",
         "soundtype": "glass",
@@ -165,7 +150,6 @@
         ]
     },
     "glass_red": {
-        "resource": "minecraft:glass",
         "hardness": 1,
         "material": "glass",
         "soundtype": "glass",
@@ -176,7 +160,6 @@
         ]
     },
     "glass_black": {
-        "resource": "minecraft:glass",
         "hardness": 1,
         "material": "glass",
         "soundtype": "glass",

@@ -1,6 +1,5 @@
 {
     "purple_glass": {
-        "resource": "minecraft:glass",
         "hardness": 1,
         "material": "GLASS",
         "soundtype": "GLASS",
@@ -13,7 +12,6 @@
         ]
     },
     "green_glass": {
-        "resource": "minecraft:glass",
         "hardness": 1,
         "material": "GLASS",
         "soundtype": "GLASS",
