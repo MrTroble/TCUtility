@@ -19,8 +19,6 @@ public class GIRItems {
 
     public static final ItemReflectiveArmor REFLECTIVE_CHESTPLATE = new ItemReflectiveArmor(
             ItemReflectiveArmor.reflectiveArmorMaterial, 1, EntityEquipmentSlot.CHEST);
-    //public static final SlabItem slabItem = new SlabItem(GIRBlocks.SLAB1_HALF, GIRBlocks.SLAB1_HALF,
-    //        GIRBlocks.SLAB1_DOUBLE);
     public static final ItemDoor DOOR_JAIL = new ItemDoor(GIRBlocks.DOOR_JAIL_BLOCK);
     public static final ItemDoor DOOR_IRON_GLASS = new ItemDoor(GIRBlocks.DOOR_IRON_GLASS_BLOCK);
     public static final ItemDoor DOOR_OAK_GLASS = new ItemDoor(GIRBlocks.DOOR_OAK_GLASS_BLOCK);

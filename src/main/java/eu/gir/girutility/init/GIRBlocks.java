@@ -21,7 +21,7 @@ import java.util.stream.Stream;
 
 import com.google.gson.Gson;
 
-import eu.gir.girutility.BlockProperties;
+import eu.gir.girutility.BlockDefinitons;
 import eu.gir.girutility.GirutilityMain;
 import eu.gir.girutility.blocks.BigDoor;
 import eu.gir.girutility.blocks.Bin;
@@ -32,6 +32,7 @@ import eu.gir.girutility.blocks.FenceGate;
 import eu.gir.girutility.blocks.Ladder;
 import eu.gir.girutility.blocks.Lantern;
 import eu.gir.girutility.blocks.PlatformEdge;
+import eu.gir.girutility.blocks.Slab;
 import eu.gir.girutility.blocks.TrafficCone;
 import eu.gir.girutility.blocks.TrapDoor;
 import eu.gir.girutility.blocks.WoodenWindow;
@@ -118,6 +119,7 @@ public class GIRBlocks {
     public static final FenceGate TEST_FENCEGATE = new FenceGate(BlockPlanks.EnumType.OAK);
     
     public static final BigDoor BIGDOOR1_BLOCK = new BigDoor(Material.WOOD);
+    public static final Slab TEST_SLAB = new Slab(Material.ROCK);
     
     public static ArrayList<Block> blocksToRegister = new ArrayList<>();
 
@@ -179,18 +181,23 @@ public class GIRBlocks {
         try {
             if (url != null) {
                 final URI uri = url.toURI();
-                Path path;
+                
                 if ("file".equals(uri.getScheme())) {
-                    path = Paths.get(GIRBlocks.class.getResource(location).toURI());
-                    return Optional.of(path);
+                    if (!location.startsWith("/")) {
+                        location = "/" + location;
+                    }
+                    final URL resource = GIRBlocks.class.getResource(location);
+                    if (resource == null) {
+                        return Optional.empty();
+                    }
+                    return Optional.of(Paths.get(resource.toURI()));
                 } else {
                     if (!"jar".equals(uri.getScheme())) {
                         return Optional.empty();
                     }
-                    final FileSystem filesystem = FileSystems.newFileSystem(uri,
-                            Collections.emptyMap());
-                    path = filesystem.getPath(location);
-                    return Optional.of(path);
+                    try (final FileSystem filesystem = FileSystems.newFileSystem(uri, Collections.emptyMap())) {
+                        return Optional.of(filesystem.getPath(location));
+                    }
                 }
             }
         } catch (IOException | URISyntaxException e1) {
@@ -225,24 +232,27 @@ public class GIRBlocks {
         return null;
     }
     
-    public static Map<String, BlockProperties> getFromJson(final String directory) {
+    public static Map<String, BlockDefinitons> getFromJson(final String directory) {
         final Gson gson = new Gson();
         final Map<String, String> entrySet = readFiles(directory);
-        final Map<String, BlockProperties> content = new HashMap<>();
+        final Map<String, BlockDefinitons> content = new HashMap<>();
         if (entrySet != null) {
             entrySet.forEach((filename, file) -> {
-                final BlockProperties json = gson.fromJson(file, BlockProperties.class);
+                final BlockDefinitons json = gson.fromJson(file, BlockDefinitons.class);
                 content.put(filename, json);
             });
         }
         return content;
     }
     
-    public static void register() {
-        final Map<String, BlockProperties> fromJson = getFromJson("/assets/" + GirutilityMain.MODID + "/blockdefinitions");
-        fromJson.forEach((filename, content) -> {
-            
+    /*public static void register() {
+        final Map<String, BlockDefinitons> fromJsonMap = getFromJson("/assets/" + GirutilityMain.MODID + "/blockdefinitions");
+        fromJsonMap.forEach((filename, content) -> {
+            content -> {
+                content.getName().forEach(name, property) -> {
+                }
+            }
         });
-    }
+    }*/
     
 }
