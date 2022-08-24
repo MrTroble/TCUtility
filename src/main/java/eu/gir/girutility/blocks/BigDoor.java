@@ -115,65 +115,8 @@ public class BigDoor extends Block {
     }
     
     @Override
-    public AxisAlignedBB getCollisionBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
-        state = state.getActualState(source, pos);
-        EnumFacing enumfacing = (EnumFacing)state.getValue(FACING);
-        boolean flag = !((Boolean)state.getValue(OPEN)).booleanValue();
-        boolean flag1 = state.getValue(HINGE) == BigDoor.EnumHingePosition.RIGHT;
-
-        switch (enumfacing) {
-            case EAST:
-            default:
-                if (flag == false && flag1 == false) {
-                    return SOUTH_L_AABB; //east, left, open
-                } else if (flag == false && flag1 == true) {
-                    return NORTH_L_AABB; //east, right, open
-                } else if (flag == true && flag1 == false) {
-                    return EAST_L_AABB; //east, left, close
-                } else {
-                    return EAST_R_AABB; //east, right, close
-                }
-            case SOUTH:
-                if (flag == false && flag1 == false) {
-                    return WEST_L_AABB; //south, left, open
-                } else if (flag == false && flag1 == true) {
-                    return EAST_L_AABB; //south, right, open
-                } else if (flag == true && flag1 == false) {
-                    return SOUTH_R_AABB; //south, left, close
-                } else {
-                    return SOUTH_L_AABB; //south, right, close
-                }
-            case WEST:
-                if (flag == false && flag1 == false) {
-                    return NORTH_R_AABB; //west, left, open
-                } else if (flag == false && flag1 == true) {
-                    return SOUTH_R_AABB; //west, right, open
-                } else if (flag == true && flag1 == false) {
-                    return WEST_R_AABB; //west, left, close
-                } else {
-                    return WEST_L_AABB; //west, right, close
-                }
-            case NORTH:
-                if (flag == false && flag1 == false) {
-                    return EAST_R_AABB; //north, left, open
-                } else if (flag == false && flag1 == true) {
-                    return WEST_R_AABB; //north, right, open
-                } else if (flag == true && flag1 == false) {
-                    return NORTH_L_AABB; //north, left, close
-                } else {
-                    return NORTH_R_AABB; //north, right, close
-                }
-        }
-    }
-    
-    @Override
     public boolean isOpaqueCube(IBlockState state) {
         return false;
-    }
-    
-    @Override
-    public boolean isPassable(IBlockAccess worldIn, BlockPos pos) {
-        return isOpen(combineMetadata(worldIn, pos));
     }
     
     @Override
@@ -229,27 +172,7 @@ public class BigDoor extends Block {
         }
     }
     
-    /*public void toggleDoor(World worldIn, BlockPos pos, boolean open) {
-        IBlockState iblockstate = worldIn.getBlockState(pos);
-
-        if (iblockstate.getBlock() == this) {
-            BlockPos blockpos = iblockstate.getValue(THIRD) == BigDoor.EnumDoorThird.LOWER ? pos : pos.up();
-            IBlockState iblockstate1 = pos == blockpos ? iblockstate : worldIn.getBlockState(blockpos);
-
-            if (iblockstate1.getBlock() == this && ((Boolean)iblockstate1.getValue(OPEN)).booleanValue() != open) {
-                worldIn.setBlockState(blockpos, iblockstate1.withProperty(OPEN, Boolean.valueOf(open)), 10);
-                worldIn.markBlockRangeForRenderUpdate(blockpos, pos);
-                worldIn.playEvent((EntityPlayer)null, open ? this.getOpenSound() : this.getCloseSound(), pos, 0);
-            }
-        }
-    }*/
-    
     @Override
-    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
-        
-    }
-    
-    /*@Override
     public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
         if (state.getValue(THIRD) == BigDoor.EnumDoorThird.UPPER) {
             BlockPos blockpos = pos.down();
@@ -261,7 +184,6 @@ public class BigDoor extends Block {
                 worldIn.setBlockToAir(pos);
             } else if (blockIn != this) {
                 iblockstate.neighborChanged(worldIn, blockpos, blockIn, fromPos);
-                iblockstate1.neighborChanged(worldIn, blockpos1, blockIn, fromPos);
             }
         } else if (state.getValue(THIRD) == BigDoor.EnumDoorThird.MIDDLE) {
             BlockPos blockpos = pos.down();
@@ -273,7 +195,6 @@ public class BigDoor extends Block {
                 worldIn.setBlockToAir(pos);
             } else if (blockIn != this) {
                 iblockstate.neighborChanged(worldIn, blockpos, blockIn, fromPos);
-                iblockstate1.neighborChanged(worldIn, blockpos1, blockIn, fromPos);
             }
         } else {
             boolean flag1 = false;
@@ -310,7 +231,7 @@ public class BigDoor extends Block {
             else {
                 boolean flag = worldIn.isBlockPowered(pos) || worldIn.isBlockPowered(blockpos1) || worldIn.isBlockPowered(blockpos2);
 
-                if (blockIn != this && (flag || blockIn.getDefaultState().canProvidePower()) && flag != ((Boolean)iblockstate1.getValue(POWERED)).booleanValue() && flag != ((Boolean)iblockstate2.getValue(POWERED)).booleanValue()) {
+                if (blockIn != this && (flag || blockIn.getDefaultState().canProvidePower()) && (flag != ((Boolean)iblockstate1.getValue(POWERED)).booleanValue() || flag != ((Boolean)iblockstate2.getValue(POWERED)).booleanValue())) {
                     worldIn.setBlockState(blockpos1, iblockstate1.withProperty(POWERED, Boolean.valueOf(flag)), 2);
                     worldIn.setBlockState(blockpos2, iblockstate2.withProperty(POWERED, Boolean.valueOf(flag)), 2);
 
@@ -322,7 +243,7 @@ public class BigDoor extends Block {
                 }
             }
         }
-    }*/
+    }
     
     @Override
     public Item getItemDropped(IBlockState state, Random rand, int fortune) {
@@ -336,22 +257,6 @@ public class BigDoor extends Block {
     @Override
     public EnumPushReaction getMobilityFlag(IBlockState state) {
         return EnumPushReaction.DESTROY;
-    }
-    
-    public static int combineMetadata(IBlockAccess worldIn, BlockPos pos) {
-        IBlockState iblockstate = worldIn.getBlockState(pos);
-        int i = iblockstate.getBlock().getMetaFromState(iblockstate); 
-        boolean flag = isTop(i);
-        
-        IBlockState iblockstate1 = worldIn.getBlockState(pos.down(2));
-        int j = iblockstate1.getBlock().getMetaFromState(iblockstate1);
-        int k = flag ? j : i;
-        IBlockState iblockstate2 = worldIn.getBlockState(pos.up(2));
-        int l = iblockstate2.getBlock().getMetaFromState(iblockstate2);
-        int i1 = flag ? i : l;
-        boolean flag1 = (i1 & 1) != 0;
-        boolean flag2 = (i1 & 2) != 0;
-        return removeHalfBit(k) | (flag ? 8 : 0) | (flag1 ? 16 : 0) | (flag2 ? 32 : 0);
     }
     
     public ItemStack getItem(World worldIn, BlockPos pos, IBlockState state) {
@@ -434,28 +339,24 @@ public class BigDoor extends Block {
     
     @Override
     public IBlockState getStateFromMeta(int meta) {
-        if (((meta & 8) > 0) && ((meta & 8) <= 12)) {
+        if (((meta & 8) > 0) && ((meta & 12) < 12)) {
             return this.getDefaultState()
                     .withProperty(THIRD, BigDoor.EnumDoorThird.UPPER)
                     .withProperty(HINGE, (meta & 1) > 0 ? BigDoor.EnumHingePosition.RIGHT : BigDoor.EnumHingePosition.LEFT)
                     .withProperty(POWERED, Boolean.valueOf((meta & 2) > 0));
-        } else if ((meta & 12) > 0) {
-            return this.getDefaultState()
-                    .withProperty(THIRD, BigDoor.EnumDoorThird.MIDDLE);
-        } else if ((meta & 0) >= 0){
+        } else if ((meta & 0) >= 0 && ((meta & 12) < 12)){
             return this.getDefaultState()
                     .withProperty(THIRD, BigDoor.EnumDoorThird.LOWER)
                     .withProperty(FACING, EnumFacing.getHorizontal(meta & 3).rotateYCCW())
                     .withProperty(OPEN, Boolean.valueOf((meta & 4) > 0));
         } else {
-            return null;
+            return this.getDefaultState().withProperty(THIRD, BigDoor.EnumDoorThird.MIDDLE);
         }
     }
     
     @Override
     public int getMetaFromState(IBlockState state) {
         int i = 0;
-
         if (state.getValue(THIRD) == BigDoor.EnumDoorThird.UPPER) {
             i = i | 8;
             if (state.getValue(HINGE) == BigDoor.EnumHingePosition.RIGHT) {
@@ -474,30 +375,6 @@ public class BigDoor extends Block {
             }
         }
         return i;
-    }
-    
-    protected static int removeHalfBit(int meta) {
-        return meta & 7;
-    }
-
-    public static boolean isOpen(IBlockAccess worldIn, BlockPos pos) {
-        return isOpen(combineMetadata(worldIn, pos));
-    }
-
-    public static EnumFacing getFacing(IBlockAccess worldIn, BlockPos pos) {
-        return getFacing(combineMetadata(worldIn, pos));
-    }
-
-    public static EnumFacing getFacing(int combinedMeta) {
-        return EnumFacing.getHorizontal(combinedMeta & 3).rotateYCCW();
-    }
-    
-    protected static boolean isOpen(int combinedMeta) {
-        return (combinedMeta & 4) != 0;
-    }
-
-    protected static boolean isTop(int meta) {
-        return (meta & 8) != 0;
     }
     
     @Override
