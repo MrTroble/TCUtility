@@ -55,8 +55,22 @@ public class BigDoor extends Block {
     }
     
     private Item getItem() {
-        if (this == GIRBlocks.BIGDOOR1_BLOCK) {
-            return GIRItems.BIGDOOR1;
+        if (this == GIRBlocks.BIGDOOR_OAK_BLOCK) {
+            return GIRItems.BIGDOOR_OAK;
+        } else if (this == GIRBlocks.BIGDOOR_SPRUCE_BLOCK) {
+            return GIRItems.BIGDOOR_SPRUCE;
+        } else if (this == GIRBlocks.BIGDOOR_BIRCH_BLOCK) {
+            return GIRItems.BIGDOOR_BIRCH;
+        } else if (this == GIRBlocks.BIGDOOR_JUNGLE_BLOCK) {
+            return GIRItems.BIGDOOR_JUNGLE;
+        } else if (this == GIRBlocks.BIGDOOR_ACACIA_BLOCK) {
+            return GIRItems.BIGDOOR_ACACIA;
+        } else if (this == GIRBlocks.BIGDOOR_DARK_OAK_BLOCK) {
+            return GIRItems.BIGDOOR_DARK_OAK;
+        } else if (this == GIRBlocks.BIGDOOR_IRON_BLOCK) {
+            return GIRItems.BIGDOOR_IRON;
+        } else if (this == GIRBlocks.BIGDOOR_WHITE_BLOCK) {
+            return GIRItems.BIGDOOR_WHITE;
         } else {
             return Items.OAK_DOOR;
         }

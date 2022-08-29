@@ -27,19 +27,14 @@ import eu.gir.girutility.blocks.BigDoor;
 import eu.gir.girutility.blocks.Bin;
 import eu.gir.girutility.blocks.Crate;
 import eu.gir.girutility.blocks.Door;
-import eu.gir.girutility.blocks.Fence;
-import eu.gir.girutility.blocks.FenceGate;
 import eu.gir.girutility.blocks.Ladder;
 import eu.gir.girutility.blocks.Lantern;
 import eu.gir.girutility.blocks.PlatformEdge;
-import eu.gir.girutility.blocks.Slab;
 import eu.gir.girutility.blocks.TrafficCone;
 import eu.gir.girutility.blocks.TrapDoor;
 import eu.gir.girutility.blocks.WoodenWindow;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockPlanks;
 import net.minecraft.block.ITileEntityProvider;
-import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -112,14 +107,21 @@ public class GIRBlocks {
     public static final Door DOOR_WHITE_BLOCK = new Door(Material.WOOD);
     public static final Door DOOR_OLD_BLOCK = new Door(Material.WOOD);
     public static final Door DOOR_RUSTY_BLOCK = new Door(Material.IRON);
+    public static final BigDoor BIGDOOR_OAK_BLOCK = new BigDoor(Material.WOOD);
+    public static final BigDoor BIGDOOR_SPRUCE_BLOCK = new BigDoor(Material.WOOD);
+    public static final BigDoor BIGDOOR_BIRCH_BLOCK = new BigDoor(Material.WOOD);
+    public static final BigDoor BIGDOOR_JUNGLE_BLOCK = new BigDoor(Material.WOOD);
+    public static final BigDoor BIGDOOR_ACACIA_BLOCK = new BigDoor(Material.WOOD);
+    public static final BigDoor BIGDOOR_DARK_OAK_BLOCK = new BigDoor(Material.WOOD);
+    public static final BigDoor BIGDOOR_IRON_BLOCK = new BigDoor(Material.IRON);
+    public static final BigDoor BIGDOOR_WHITE_BLOCK = new BigDoor(Material.WOOD);
     public static final Ladder LADDER_IRON = new Ladder(Material.IRON);
     public static final Ladder LADDER_RUSTY = new Ladder(Material.IRON);
     public static final Ladder LADDER_ROOF = new Ladder(Material.IRON);
-    public static final Fence TEST_FENCE = new Fence(Material.WOOD, MapColor.WOOD);
-    public static final FenceGate TEST_FENCEGATE = new FenceGate(BlockPlanks.EnumType.OAK);
     
-    public static final BigDoor BIGDOOR1_BLOCK = new BigDoor(Material.WOOD);
-    public static final Slab TEST_SLAB = new Slab(Material.ROCK);
+    //public static final Fence TEST_FENCE = new Fence(Material.WOOD, MapColor.WOOD);
+    //public static final FenceGate TEST_FENCEGATE = new FenceGate(BlockPlanks.EnumType.OAK);
+    //public static final Slab TEST_SLAB = new Slab(Material.ROCK);
     
     public static ArrayList<Block> blocksToRegister = new ArrayList<>();
 

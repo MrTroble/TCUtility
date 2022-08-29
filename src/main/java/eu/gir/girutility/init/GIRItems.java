@@ -40,7 +40,14 @@ public class GIRItems {
     public static final ItemDoor DOOR_WHITE = new ItemDoor(GIRBlocks.DOOR_WHITE_BLOCK);
     public static final ItemDoor DOOR_OLD = new ItemDoor(GIRBlocks.DOOR_OLD_BLOCK);
     public static final ItemDoor DOOR_RUSTY = new ItemDoor(GIRBlocks.DOOR_RUSTY_BLOCK);
-    public static final ItemBigDoor BIGDOOR1 = new ItemBigDoor(GIRBlocks.BIGDOOR1_BLOCK);
+    public static final ItemBigDoor BIGDOOR_OAK = new ItemBigDoor(GIRBlocks.BIGDOOR_OAK_BLOCK);
+    public static final ItemBigDoor BIGDOOR_SPRUCE = new ItemBigDoor(GIRBlocks.BIGDOOR_SPRUCE_BLOCK);
+    public static final ItemBigDoor BIGDOOR_BIRCH = new ItemBigDoor(GIRBlocks.BIGDOOR_BIRCH_BLOCK);
+    public static final ItemBigDoor BIGDOOR_JUNGLE = new ItemBigDoor(GIRBlocks.BIGDOOR_JUNGLE_BLOCK);
+    public static final ItemBigDoor BIGDOOR_ACACIA = new ItemBigDoor(GIRBlocks.BIGDOOR_ACACIA_BLOCK);
+    public static final ItemBigDoor BIGDOOR_DARK_OAK = new ItemBigDoor(GIRBlocks.BIGDOOR_DARK_OAK_BLOCK);
+    public static final ItemBigDoor BIGDOOR_IRON = new ItemBigDoor(GIRBlocks.BIGDOOR_IRON_BLOCK);
+    public static final ItemBigDoor BIGDOOR_WHITE = new ItemBigDoor(GIRBlocks.BIGDOOR_WHITE_BLOCK);
     
     
     public static ArrayList<Item> itemsToRegister = new ArrayList<>();
