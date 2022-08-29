@@ -72,14 +72,14 @@ public class BlockProperties {
     public void addToList() {
         BlockCreateInfo blockInfo = getBlockInfo();
         
-        for (String states : state) {
+        for (final String states : state) {
             switch (states) {
                 case "stair":
                     DefaultBlock defaultBlock = new DefaultBlock(blockInfo);
                     Stairs stair = new Stairs(defaultBlock.getDefaultState());
                     break;
                 case "slab":
-                    Slab slab = new Slab(blockInfo);
+                    Slab slab = new Slab(blockInfo); //supplier evtl ja Defunctional Interfaces Funktionen mit (Eingabe und) Ausgabe Parameter
                     break;
                 case "wall":
                     Wall wall = new Wall(blockInfo);

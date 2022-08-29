@@ -12,7 +12,7 @@ import net.minecraft.world.IBlockAccess;
 public class Bin extends Block {
 
     private static final AxisAlignedBB BOUNDING_BOX = new AxisAlignedBB(2 * 0.0625, 0.0, 2 * 0.0625,
-            14 * 0.0625, 13 * 0.0625, 14 * 0.0625);
+            14 * 0.0625, 14 * 0.0625, 14 * 0.0625);
 
     public Bin() {
         super(Material.ANVIL);
