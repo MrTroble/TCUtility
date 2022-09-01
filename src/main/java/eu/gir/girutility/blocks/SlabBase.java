@@ -112,7 +112,7 @@ public class SlabBase extends BlockSlab {
             return true;
         }
         
-        @Override
+        /*@Override
         public ItemStack getItem(World worldIn, BlockPos pos, IBlockState state) {
             return new ItemStack(GIRBlocks.SLAB1_HALF);
         }
@@ -120,7 +120,7 @@ public class SlabBase extends BlockSlab {
         @Override
         public Item getItemDropped(IBlockState state, Random rand, int fortune) {
             return Item.getItemFromBlock(GIRBlocks.SLAB1_HALF);      
-        }
+        }*/
         
         @Override
         public int quantityDropped(Random random) {
