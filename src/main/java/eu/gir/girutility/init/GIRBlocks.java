@@ -155,8 +155,23 @@ public class GIRBlocks {
     public static final FenceGate FENCE_STICK_GATE_BIRCH = new FenceGate(EnumType.OAK);
     public static final FenceGate FENCE_STICK_GATE_ACACIA = new FenceGate(EnumType.OAK);
     public static final FenceGate FENCE_STICK_GATE_WHITE = new FenceGate(EnumType.OAK);
+    public static final Concrete CONCRETE_WHITE = new Concrete(Material.ROCK);
+    public static final Concrete CONCRETE_ORANGE = new Concrete(Material.ROCK);
+    public static final Concrete CONCRETE_MAGENTA = new Concrete(Material.ROCK);
+    public static final Concrete CONCRETE_LIGHT_BLUE = new Concrete(Material.ROCK);
+    public static final Concrete CONCRETE_YELLOW = new Concrete(Material.ROCK);
+    public static final Concrete CONCRETE_LIME = new Concrete(Material.ROCK);
+    public static final Concrete CONCRETE_PINK = new Concrete(Material.ROCK);
+    public static final Concrete CONCRETE_GRAY = new Concrete(Material.ROCK);
+    public static final Concrete CONCRETE_SILVER = new Concrete(Material.ROCK);
+    public static final Concrete CONCRETE_CYAN = new Concrete(Material.ROCK);
+    public static final Concrete CONCRETE_PURPLE = new Concrete(Material.ROCK);
+    public static final Concrete CONCRETE_BLUE = new Concrete(Material.ROCK);
+    public static final Concrete CONCRETE_BROWN = new Concrete(Material.ROCK);
+    public static final Concrete CONCRETE_GREEN = new Concrete(Material.ROCK);
+    public static final Concrete CONCRETE_RED = new Concrete(Material.ROCK);
+    public static final Concrete CONCRETE_BLACK = new Concrete(Material.ROCK);
     
-    public static final Concrete TEST_CONCRETE = new Concrete(Material.ROCK);
     
     //public static final Fence TEST_FENCE = new Fence(Material.WOOD, MapColor.WOOD);
     //public static final FenceGate TEST_FENCEGATE = new FenceGate(BlockPlanks.EnumType.OAK);
