@@ -122,7 +122,7 @@ public class GIRBlocks {
     public static final BigDoor BIGDOOR_WHITE_BLOCK = new BigDoor(Material.WOOD);
     public static final Ladder LADDER_IRON = new Ladder(Material.IRON);
     public static final Ladder LADDER_RUSTY = new Ladder(Material.IRON);
-    public static final Ladder LADDER_ROOF = new Ladder(Material.IRON);    
+    public static final Ladder LADDER_ROOF = new Ladder(Material.IRON);
     public static final Fence FENCE_PICKET_OAK = new Fence(Material.WOOD, MapColor.WOOD);
     public static final Fence FENCE_PICKET_BIRCH = new Fence(Material.WOOD, MapColor.WOOD);
     public static final Fence FENCE_PICKET_ACACIA = new Fence(Material.WOOD, MapColor.WOOD);
@@ -171,12 +171,13 @@ public class GIRBlocks {
     public static final Concrete CONCRETE_GREEN = new Concrete(Material.ROCK);
     public static final Concrete CONCRETE_RED = new Concrete(Material.ROCK);
     public static final Concrete CONCRETE_BLACK = new Concrete(Material.ROCK);
-    
-    
-    //public static final Fence TEST_FENCE = new Fence(Material.WOOD, MapColor.WOOD);
-    //public static final FenceGate TEST_FENCEGATE = new FenceGate(BlockPlanks.EnumType.OAK);
-    //public static final Slab TEST_SLAB = new Slab(Material.ROCK);
-    
+
+    // public static final Fence TEST_FENCE = new Fence(Material.WOOD,
+    // MapColor.WOOD);
+    // public static final FenceGate TEST_FENCEGATE = new
+    // FenceGate(BlockPlanks.EnumType.OAK);
+    // public static final Slab TEST_SLAB = new Slab(Material.ROCK);
+
     public static ArrayList<Block> blocksToRegister = new ArrayList<>();
 
     public static void init() {
@@ -219,8 +220,8 @@ public class GIRBlocks {
     @SubscribeEvent
     public static void registerItem(final RegistryEvent.Register<Item> event) {
         final IForgeRegistry<Item> registry = event.getRegistry();
-            blocksToRegister.forEach(block -> registry
-                    .register(new ItemBlock(block).setRegistryName(block.getRegistryName())));
+        blocksToRegister.forEach(block -> registry
+                .register(new ItemBlock(block).setRegistryName(block.getRegistryName())));
     }
 
     private static String toString(final List<String> text) {
@@ -237,7 +238,7 @@ public class GIRBlocks {
         try {
             if (url != null) {
                 final URI uri = url.toURI();
-                
+
                 if ("file".equals(uri.getScheme())) {
                     if (!location.startsWith("/")) {
                         location = "/" + location;
@@ -251,7 +252,8 @@ public class GIRBlocks {
                     if (!"jar".equals(uri.getScheme())) {
                         return Optional.empty();
                     }
-                    try (final FileSystem filesystem = FileSystems.newFileSystem(uri, Collections.emptyMap())) {
+                    try (final FileSystem filesystem = FileSystems.newFileSystem(uri,
+                            Collections.emptyMap())) {
                         return Optional.of(filesystem.getPath(location));
                     }
                 }
@@ -287,7 +289,7 @@ public class GIRBlocks {
         }
         return null;
     }
-    
+
     public static Map<String, BlockDefinitons> getFromJson(final String directory) {
         final Gson gson = new Gson();
         final Map<String, String> entrySet = readFiles(directory);
@@ -300,15 +302,12 @@ public class GIRBlocks {
         }
         return content;
     }
-    
-    /*public static void register() {
-        final Map<String, BlockDefinitons> fromJsonMap = getFromJson("/assets/" + GirutilityMain.MODID + "/blockdefinitions");
-        fromJsonMap.forEach((filename, content) -> {
-            content -> {
-                content.getName().forEach(name, property) -> {
-                }
-            }
-        });
-    }*/
-    
+
+    /*
+     * public static void register() { final Map<String, BlockDefinitons>
+     * fromJsonMap = getFromJson("/assets/" + GirutilityMain.MODID +
+     * "/blockdefinitions"); fromJsonMap.forEach((filename, content) -> { content ->
+     * { content.getName().forEach(name, property) -> { } } }); }
+     */
+
 }

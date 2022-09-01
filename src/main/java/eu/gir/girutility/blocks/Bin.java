@@ -32,7 +32,8 @@ public class Bin extends Block {
     }
 
     @Override
-    public AxisAlignedBB getBoundingBox(final IBlockState state, final IBlockAccess source, final BlockPos pos) {
+    public AxisAlignedBB getBoundingBox(final IBlockState state, final IBlockAccess source,
+            final BlockPos pos) {
         return BOUNDING_BOX;
     }
 

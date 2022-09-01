@@ -32,7 +32,8 @@ public class WoodenWindow extends BlockPane {
     }
 
     @Override
-    public IBlockState getActualState(IBlockState state, final IBlockAccess worldIn, final BlockPos pos) {
+    public IBlockState getActualState(IBlockState state, final IBlockAccess worldIn,
+            final BlockPos pos) {
         state = state.withProperty(NORTH, this.attachesTo(worldIn,
                 worldIn.getBlockState(pos.north()), pos.north(), EnumFacing.SOUTH));
         state = state.withProperty(EAST, this.attachesTo(worldIn, worldIn.getBlockState(pos.east()),

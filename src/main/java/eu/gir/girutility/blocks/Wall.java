@@ -5,7 +5,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockWall;
 
 public class Wall extends BlockWall {
-    
+
     public Wall(final BlockCreateInfo blockInfo) {
         super(new Block(blockInfo.material));
         setCreativeTab(GIRTabs.tab);

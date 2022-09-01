@@ -12,16 +12,16 @@ import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 
 public class BlockProperties {
-    
+
     private float hardness;
     private String material;
     private String soundtype;
     private int opacity;
     private List<String> state;
-    
+
     public static final HashMap<String, Material> materialTable = translateTableMaterial();
     public static final HashMap<String, SoundType> soundTable = translateTableSoundType();
-    
+
     public static HashMap<String, Material> translateTableMaterial() {
         final HashMap<String, Material> translateTable = new HashMap<>();
         translateTable.put("grass", Material.GRASS);
@@ -36,9 +36,9 @@ public class BlockProperties {
         translateTable.put("packed_ice", Material.PACKED_ICE);
         translateTable.put("snow", Material.SNOW);
         translateTable.put("clay", Material.CLAY);
-        return translateTable;   
+        return translateTable;
     }
-    
+
     public static HashMap<String, SoundType> translateTableSoundType() {
         final HashMap<String, SoundType> translateTable = new HashMap<>();
         translateTable.put("wood", SoundType.WOOD);
@@ -53,7 +53,7 @@ public class BlockProperties {
         translateTable.put("slime", SoundType.SLIME);
         return translateTable;
     }
-    
+
     public BlockCreateInfo getBlockInfo() {
         final Material mat = materialTable.get(material);
         final SoundType sound = soundTable.get(soundtype);
@@ -68,10 +68,10 @@ public class BlockProperties {
         final BlockCreateInfo info = new BlockCreateInfo(mat, hardness, sound, opacity);
         return info;
     }
-    
+
     public void addToList() {
         final BlockCreateInfo blockInfo = getBlockInfo();
-        
+
         for (final String states : state) {
             switch (states) {
                 case "stair":
@@ -79,7 +79,9 @@ public class BlockProperties {
                     final Stairs stair = new Stairs(defaultBlock.getDefaultState());
                     break;
                 case "slab":
-                    final Slab slab = new Slab(blockInfo); //supplier evtl ja Defunctional Interfaces Funktionen mit (Eingabe und) Ausgabe Parameter
+                    final Slab slab = new Slab(blockInfo); // supplier evtl ja Defunctional
+                                                           // Interfaces Funktionen mit (Eingabe
+                                                           // und) Ausgabe Parameter
                     break;
                 case "wall":
                     final Wall wall = new Wall(blockInfo);
@@ -90,5 +92,5 @@ public class BlockProperties {
             }
         }
     }
-    
+
 }

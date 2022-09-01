@@ -14,7 +14,7 @@ public class ItemReflectiveArmor extends ItemArmor {
         super(materialIn, renderIndexIn, equipmentSlotIn);
         setCreativeTab(CreativeTabs.COMBAT);
     }
-    
+
     public static final ArmorMaterial reflectiveArmorMaterial = EnumHelper
             .addArmorMaterial("reflective", GirutilityMain.MODID + ":reflective", 1000, new int[] {
                     1, 1, 1, 1

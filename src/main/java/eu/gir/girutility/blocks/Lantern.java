@@ -23,7 +23,7 @@ public class Lantern extends Block {
 
     private static final AxisAlignedBB BOUNDING_BOX = new AxisAlignedBB(0.25, 0.0, 0.25, 0.75, 0.75,
             0.75);
-    
+
     public Lantern() {
         super(Material.IRON);
         setCreativeTab(GIRTabs.tab);
@@ -32,12 +32,13 @@ public class Lantern extends Block {
     }
 
     @Override
-    public AxisAlignedBB getBoundingBox(final IBlockState state, final IBlockAccess source, final BlockPos pos) {
+    public AxisAlignedBB getBoundingBox(final IBlockState state, final IBlockAccess source,
+            final BlockPos pos) {
         return BOUNDING_BOX;
     }
 
-    public AxisAlignedBB getCollissionBoundingBox(final IBlockState blockState, final IBlockAccess worldIn,
-            final BlockPos pos) {
+    public AxisAlignedBB getCollissionBoundingBox(final IBlockState blockState,
+            final IBlockAccess worldIn, final BlockPos pos) {
         return BOUNDING_BOX;
     }
 
@@ -52,8 +53,9 @@ public class Lantern extends Block {
     }
 
     @Override
-    public IBlockState getStateForPlacement(final World worldIn, final BlockPos pos, final EnumFacing facing,
-            final float hitX, final float hitY, final float hitZ, final int meta, final EntityLivingBase placer, final EnumHand hand) {
+    public IBlockState getStateForPlacement(final World worldIn, final BlockPos pos,
+            final EnumFacing facing, final float hitX, final float hitY, final float hitZ,
+            final int meta, final EntityLivingBase placer, final EnumHand hand) {
         return this.getDefaultState().withProperty(FACING, facing);
     }
 

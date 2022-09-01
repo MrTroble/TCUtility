@@ -23,7 +23,7 @@ public class PlatformEdge extends Block {
         setDefaultState(getDefaultState().withProperty(FACING, EnumFacing.NORTH));
         setCreativeTab(GIRTabs.tab);
     }
-    
+
     @Override
     public boolean canRenderInLayer(final IBlockState state, final BlockRenderLayer layer) {
         return layer.equals(BlockRenderLayer.CUTOUT_MIPPED);
@@ -40,8 +40,9 @@ public class PlatformEdge extends Block {
     }
 
     @Override
-    public IBlockState getStateForPlacement(final World world, final BlockPos pos, final EnumFacing facing,
-            final float hitX, final float hitY, final float hitZ, final int meta, final EntityLivingBase placer, final EnumHand hand) {
+    public IBlockState getStateForPlacement(final World world, final BlockPos pos,
+            final EnumFacing facing, final float hitX, final float hitY, final float hitZ,
+            final int meta, final EntityLivingBase placer, final EnumHand hand) {
         return getDefaultState().withProperty(FACING, placer.getHorizontalFacing());
     }
 

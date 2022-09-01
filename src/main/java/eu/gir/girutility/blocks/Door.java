@@ -14,16 +14,16 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class Door extends BlockDoor {
-    
+
     public Door(final Material material) {
-        super (material);
+        super(material);
     }
-    
+
     @Override
     public String getLocalizedName() {
         return null;
     }
-    
+
     @Override
     public Item getItemDropped(final IBlockState state, final Random rand, final int fortune) {
         if (state.getValue(HALF) == Door.EnumDoorHalf.LOWER) {
@@ -32,12 +32,12 @@ public class Door extends BlockDoor {
             return Items.AIR;
         }
     }
-    
+
     @Override
     public ItemStack getItem(final World worldIn, final BlockPos pos, final IBlockState state) {
         return new ItemStack(this.getItem());
     }
-    
+
     private Item getItem() {
         if (this == GIRBlocks.DOOR_JAIL_BLOCK) {
             return GIRItems.DOOR_JAIL;

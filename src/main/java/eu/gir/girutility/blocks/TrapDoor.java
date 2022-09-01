@@ -57,7 +57,8 @@ public class TrapDoor extends Block {
     }
 
     @Override
-    public AxisAlignedBB getBoundingBox(final IBlockState state, final IBlockAccess source, final BlockPos pos) {
+    public AxisAlignedBB getBoundingBox(final IBlockState state, final IBlockAccess source,
+            final BlockPos pos) {
         AxisAlignedBB axisalignedbb;
 
         if (state.getValue(OPEN).booleanValue()) {
@@ -101,23 +102,23 @@ public class TrapDoor extends Block {
 
     @Override
     public boolean onBlockActivated(final World worldIn, final BlockPos pos, IBlockState state,
-            final EntityPlayer playerIn, final EnumHand hand, final EnumFacing facing, final float hitX, final float hitY,
-            final float hitZ) {
+            final EntityPlayer playerIn, final EnumHand hand, final EnumFacing facing,
+            final float hitX, final float hitY, final float hitZ) {
         state = state.cycleProperty(OPEN);
         worldIn.setBlockState(pos, state, 2);
         this.playSound(playerIn, worldIn, pos, state.getValue(OPEN).booleanValue());
         return true;
     }
 
-    protected void playSound(@Nullable final EntityPlayer player, final World worldIn, final BlockPos pos,
-            final boolean p_185731_4_) {
+    protected void playSound(@Nullable final EntityPlayer player, final World worldIn,
+            final BlockPos pos, final boolean p_185731_4_) {
         final int j = this.blockMaterial == Material.IRON ? 1036 : 1013;
         worldIn.playEvent(player, j, pos, 0);
     }
 
     @Override
-    public void neighborChanged(final IBlockState state, final World worldIn, final BlockPos pos, final Block blockIn,
-            final BlockPos fromPos) {
+    public void neighborChanged(final IBlockState state, final World worldIn, final BlockPos pos,
+            final Block blockIn, final BlockPos fromPos) {
         if (!worldIn.isRemote) {
             final boolean flag = worldIn.isBlockPowered(pos);
 
@@ -133,8 +134,9 @@ public class TrapDoor extends Block {
     }
 
     @Override
-    public IBlockState getStateForPlacement(final World worldIn, final BlockPos pos, final EnumFacing facing,
-            final float hitX, final float hitY, final float hitZ, final int meta, final EntityLivingBase placer) {
+    public IBlockState getStateForPlacement(final World worldIn, final BlockPos pos,
+            final EnumFacing facing, final float hitX, final float hitY, final float hitZ,
+            final int meta, final EntityLivingBase placer) {
         IBlockState iblockstate = this.getDefaultState();
 
         if (facing.getAxis().isHorizontal()) {
@@ -159,7 +161,8 @@ public class TrapDoor extends Block {
     }
 
     @Override
-    public boolean canPlaceBlockOnSide(final World worldIn, final BlockPos pos, final EnumFacing side) {
+    public boolean canPlaceBlockOnSide(final World worldIn, final BlockPos pos,
+            final EnumFacing side) {
         return true;
     }
 
@@ -239,8 +242,8 @@ public class TrapDoor extends Block {
     }
 
     @Override
-    public BlockFaceShape getBlockFaceShape(final IBlockAccess worldIn, final IBlockState state, final BlockPos pos,
-            final EnumFacing face) {
+    public BlockFaceShape getBlockFaceShape(final IBlockAccess worldIn, final IBlockState state,
+            final BlockPos pos, final EnumFacing face) {
         return (face == EnumFacing.UP && state.getValue(HALF) == BlockTrapDoor.DoorHalf.TOP
                 || face == EnumFacing.DOWN && state.getValue(HALF) == BlockTrapDoor.DoorHalf.BOTTOM)
                 && !state.getValue(OPEN).booleanValue() ? BlockFaceShape.SOLID
