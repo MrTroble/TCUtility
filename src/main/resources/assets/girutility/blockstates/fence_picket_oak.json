@@ -1,0 +1,20 @@
+{
+    "multipart": [
+        {   "apply": { "model": "girutility:fence_post_spruce" }},
+        {   "when": { "north": "true" },
+            "apply": { "model": "girutility:fence_picket_side_oak", "uvlock": true }
+        },
+        {   "when": { "east": "true" },
+            "apply": { "model": "girutility:fence_picket_side_oak", "y": 90, "uvlock": true }
+        },
+        {   "when": { "south": "true" },
+            "apply": { "model": "girutility:fence_picket_side_oak", "y": 180, "uvlock": true }
+        },
+        {   "when": { "west": "true" },
+            "apply": { "model": "girutility:fence_picket_side_oak", "y": 270, "uvlock": true }
+        }
+    ],
+	"variants": {
+		"inventory": {"model": "girutility:fence_picket_inventory_oak"}
+	}
+}

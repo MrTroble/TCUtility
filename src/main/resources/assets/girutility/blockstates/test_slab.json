@@ -1,0 +1,23 @@
+{
+  "forge_marker": 1,
+  "variants": {
+	"inventory": {
+      "model": "girutility:slab_bottom",
+      "textures": {
+        "texture": "girutility:blocks/rusty_block"
+      }		
+	},
+    "half=bottom": {
+      "model": "girutility:slab_bottom",
+      "textures": {
+        "texture": "girutility:blocks/rusty_block"
+      }
+    },
+    "half=top": {
+      "model": "girutility:slab_top",
+      "textures": {
+        "texture": "girutility:blocks/rusty_block"
+      }
+    }
+  }
+}

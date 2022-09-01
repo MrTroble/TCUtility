@@ -8,16 +8,19 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 public class ClientProxy extends CommonProxy {
 
-	public void preinit(FMLPreInitializationEvent event) {
-		super.preinit(event);
-		MinecraftForge.EVENT_BUS.register(GIRModels.class);
-	}
+    @Override
+    public void preinit(final FMLPreInitializationEvent event) {
+        super.preinit(event);
+        MinecraftForge.EVENT_BUS.register(GIRModels.class);
+    }
 
-	public void init(FMLInitializationEvent event) {
-		super.init(event);
-	}
+    @Override
+    public void init(final FMLInitializationEvent event) {
+        super.init(event);
+    }
 
-	public void postinit(FMLPostInitializationEvent event) {
-		super.postinit(event);
-	}
+    @Override
+    public void postinit(final FMLPostInitializationEvent event) {
+        super.postinit(event);
+    }
 }

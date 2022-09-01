@@ -1,0 +1,27 @@
+{
+    "purple_glass": {
+        "hardness": 1,
+        "material": "GLASS",
+        "soundtype": "GLASS",
+        "opacity": 0,
+        "states": [
+            "stair",
+            "slab",
+            "wall",
+            "fence"
+        ]
+    },
+    "green_glass": {
+        "hardness": 1,
+        "material": "GLASS",
+        "soundtype": "GLASS",
+        "opacity": 0,
+        "states": [
+            "stair",
+            "slab",
+            "wall",
+            "fence"
+        ]
+    }
+} }
+} 

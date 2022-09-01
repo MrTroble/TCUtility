@@ -15,31 +15,31 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 public class GirutilityMain {
 
-	@Instance
-	private static GirutilityMain instance;
-	public static final String MODID = "girutility";
+    @Instance
+    private static GirutilityMain instance;
+    public static final String MODID = "girutility";
 
-	public static GirutilityMain getInstance() {
-		return instance;
-	}
+    public static GirutilityMain getInstance() {
+        return instance;
+    }
 
-	@SidedProxy(serverSide = "eu.gir.girutility.proxy.CommonProxy", clientSide = "eu.gir.girutility.proxy.ClientProxy")
-	public static CommonProxy PROXY;
-	public static Logger LOG;
+    @SidedProxy(serverSide = "eu.gir.girutility.proxy.CommonProxy", clientSide = "eu.gir.girutility.proxy.ClientProxy")
+    public static CommonProxy PROXY;
+    public static Logger LOG;
 
-	@EventHandler
-	public void preinit(FMLPreInitializationEvent event) {
-		LOG = event.getModLog();
-		PROXY.preinit(event);
-	}
+    @EventHandler
+    public void preinit(final FMLPreInitializationEvent event) {
+        LOG = event.getModLog();
+        PROXY.preinit(event);
+    }
 
-	@EventHandler
-	public void init(FMLInitializationEvent event) {
-		PROXY.init(event);
-	}
+    @EventHandler
+    public void init(final FMLInitializationEvent event) {
+        PROXY.init(event);
+    }
 
-	@EventHandler
-	public void postinit(FMLPostInitializationEvent event) {
-		PROXY.postinit(event);
-	}
+    @EventHandler
+    public void postinit(final FMLPostInitializationEvent event) {
+        PROXY.postinit(event);
+    }
 }

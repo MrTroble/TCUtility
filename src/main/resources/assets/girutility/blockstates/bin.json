@@ -1,5 +1,5 @@
 {
     "variants": {
-        "normal": { "model": "girutility:bin_pre" }
+        "normal": { "model": "girutility:bin" }
     }
 }

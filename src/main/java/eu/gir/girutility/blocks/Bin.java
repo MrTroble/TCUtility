@@ -11,29 +11,30 @@ import net.minecraft.world.IBlockAccess;
 
 public class Bin extends Block {
 
-	private static final AxisAlignedBB BOUNDING_BOX = new AxisAlignedBB(2 * 0.0625, 0.0, 2 * 0.0625, 14 * 0.0625,
-			13 * 0.0625, 14 * 0.0625);
+    private static final AxisAlignedBB BOUNDING_BOX = new AxisAlignedBB(2 * 0.0625, 0.0, 2 * 0.0625,
+            14 * 0.0625, 14 * 0.0625, 14 * 0.0625);
 
-	public Bin() {
-		super(Material.ANVIL);
-		this.setSoundType(SoundType.ANVIL);
-		this.setHardness(0.5F);
-		setCreativeTab(GIRTabs.tab);
-	}
+    public Bin() {
+        super(Material.ANVIL);
+        this.setSoundType(SoundType.ANVIL);
+        this.setHardness(0.5F);
+        setCreativeTab(GIRTabs.tab);
+    }
 
-	@Override
-	public boolean isOpaqueCube(IBlockState state) {
-		return false;
-	}
+    @Override
+    public boolean isOpaqueCube(final IBlockState state) {
+        return false;
+    }
 
-	@Override
-	public boolean isFullCube(IBlockState state) {
-		return false;
-	}
+    @Override
+    public boolean isFullCube(final IBlockState state) {
+        return false;
+    }
 
-	@Override
-	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
-		return BOUNDING_BOX;
-	}
+    @Override
+    public AxisAlignedBB getBoundingBox(final IBlockState state, final IBlockAccess source,
+            final BlockPos pos) {
+        return BOUNDING_BOX;
+    }
 
 }

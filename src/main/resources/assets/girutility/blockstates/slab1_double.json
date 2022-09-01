@@ -1,0 +1,6 @@
+{
+    "variants":
+    {
+        "variant=default": { "model": "girutility:slab_double" }
+    }
+}

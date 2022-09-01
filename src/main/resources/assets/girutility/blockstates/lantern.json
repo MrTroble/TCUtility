@@ -1,0 +1,10 @@
+{
+    "variants": {
+        "facing=up": { "model": "girutility:lantern" },
+		"facing=down": { "model": "girutility:lantern_hanging" },
+        "facing=east": { "model": "girutility:lantern_wall", "y": 180 },
+        "facing=south": { "model": "girutility:lantern_wall", "y": 270 },
+        "facing=west": { "model": "girutility:lantern_wall" },
+        "facing=north": { "model": "girutility:lantern_wall", "y": 90 }
+    }
+}

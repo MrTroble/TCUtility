@@ -1,0 +1,10 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"model": "girutility:concrete", "textures": {"texture": "blocks/concrete_powder_black"}
+	},
+	"variants": {
+		"inventory": {"model": "girutility:concrete", "textures": {"texture": "blocks/concrete_powder_black"}},
+		"normal": {"model": "girutility:concrete", "textures": {"texture": "blocks/concrete_powder_black"}}
+	}
+}

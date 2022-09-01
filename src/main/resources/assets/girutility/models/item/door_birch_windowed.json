@@ -1,0 +1,6 @@
+{
+    "parent": "item/generated",
+    "textures": {
+        "layer0": "girutility:items/door_birch_windowed"
+    }
+}
