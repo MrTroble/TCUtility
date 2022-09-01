@@ -6,12 +6,11 @@ import net.minecraft.block.BlockWall;
 
 public class Wall extends BlockWall {
     
-    public Wall(BlockCreateInfo blockInfo) {
+    public Wall(final BlockCreateInfo blockInfo) {
         super(new Block(blockInfo.material));
         setCreativeTab(GIRTabs.tab);
         setHardness(blockInfo.hardness);
         setSoundType(blockInfo.soundtype);
         setLightOpacity(blockInfo.opacity);
     }
-
 }

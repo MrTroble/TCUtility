@@ -6,7 +6,7 @@ import net.minecraft.block.state.IBlockState;
 
 public class Stairs extends BlockStairs {
 
-    public Stairs(IBlockState modelState) {
+    public Stairs(final IBlockState modelState) {
         super(modelState);
         setCreativeTab(GIRTabs.tab);
         this.useNeighborBrightness = true;

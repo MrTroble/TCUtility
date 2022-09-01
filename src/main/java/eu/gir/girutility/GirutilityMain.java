@@ -28,18 +28,18 @@ public class GirutilityMain {
 	public static Logger LOG;
 
 	@EventHandler
-	public void preinit(FMLPreInitializationEvent event) {
+	public void preinit(final FMLPreInitializationEvent event) {
 		LOG = event.getModLog();
 		PROXY.preinit(event);
 	}
 
 	@EventHandler
-	public void init(FMLInitializationEvent event) {
+	public void init(final FMLInitializationEvent event) {
 		PROXY.init(event);
 	}
 
 	@EventHandler
-	public void postinit(FMLPostInitializationEvent event) {
+	public void postinit(final FMLPostInitializationEvent event) {
 		PROXY.postinit(event);
 	}
 }

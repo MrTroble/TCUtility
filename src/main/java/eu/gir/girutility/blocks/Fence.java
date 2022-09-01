@@ -7,9 +7,8 @@ import net.minecraft.block.material.Material;
 
 public class Fence extends BlockFence {
 
-    public Fence(Material materialIn, MapColor mapColorIn) {
+    public Fence(final Material materialIn, final MapColor mapColorIn) {
         super(materialIn, mapColorIn);
         setCreativeTab(GIRTabs.tab);
     }
-
 }

@@ -9,7 +9,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 public class CommonProxy {
 
-    public void preinit(FMLPreInitializationEvent event) {
+    public void preinit(final FMLPreInitializationEvent event) {
         GIRItems.init();
         GIRBlocks.init();
 
@@ -17,11 +17,11 @@ public class CommonProxy {
         MinecraftForge.EVENT_BUS.register(GIRBlocks.class);
     }
 
-    public void init(FMLInitializationEvent event) {
+    public void init(final FMLInitializationEvent event) {
 
     }
 
-    public void postinit(FMLPostInitializationEvent event) {
+    public void postinit(final FMLPostInitializationEvent event) {
 
     }
 

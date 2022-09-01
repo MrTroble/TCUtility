@@ -9,7 +9,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 public class GIRModels {
 
     @SubscribeEvent
-    public static void register(ModelRegistryEvent event) {
+    public static void register(final ModelRegistryEvent event) {
         for (int i = 0; i < GIRBlocks.blocksToRegister.size(); i++) {
             registerModel(Item.getItemFromBlock(GIRBlocks.blocksToRegister.get(i)));
         }
@@ -19,7 +19,7 @@ public class GIRModels {
         }
     }
 
-    private static void registerModel(Item item) {
+    private static void registerModel(final Item item) {
         ModelLoader.setCustomModelResourceLocation(item, 0,
                 new ModelResourceLocation(item.getRegistryName(), "inventory"));
     }

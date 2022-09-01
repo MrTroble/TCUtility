@@ -6,7 +6,7 @@ import net.minecraft.block.material.Material;
 
 public class Ladder extends BlockLadder{
 
-    public Ladder(Material material) {
+    public Ladder(final Material material) {
         super();
         setCreativeTab(GIRTabs.tab);
     }

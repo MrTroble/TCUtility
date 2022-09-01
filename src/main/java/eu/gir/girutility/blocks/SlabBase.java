@@ -2,9 +2,6 @@ package eu.gir.girutility.blocks;
 
 import java.util.Random;
 
-import eu.gir.girutility.BlockDefinitons;
-import eu.gir.girutility.BlockProperties;
-import eu.gir.girutility.init.GIRBlocks;
 import eu.gir.girutility.init.GIRTabs;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSlab;
@@ -23,7 +20,7 @@ public class SlabBase extends BlockSlab {
     Block half;
     public static final PropertyEnum<Variant> VARIANT = PropertyEnum.<Variant>create("variant", Variant.class);
     
-    public SlabBase(BlockSlab half, BlockCreateInfo blockInfo) {
+    public SlabBase(final BlockSlab half, final BlockCreateInfo blockInfo) {
         super (blockInfo.material);
         setCreativeTab(GIRTabs.tab);
         setHardness(blockInfo.hardness);
@@ -35,12 +32,12 @@ public class SlabBase extends BlockSlab {
     }
     
     @Override
-    public Item getItemDropped(IBlockState state, Random rand, int fortune) {
+    public Item getItemDropped(final IBlockState state, final Random rand, final int fortune) {
         return Item.getItemFromBlock(this);
     }
     
     @Override
-    public ItemStack getItem(World worldIn, BlockPos pos, IBlockState state) {
+    public ItemStack getItem(final World worldIn, final BlockPos pos, final IBlockState state) {
         if(this.isDouble()) {
             return new ItemStack(this);
         } else {
@@ -49,7 +46,7 @@ public class SlabBase extends BlockSlab {
     }
     
     @Override
-    public IBlockState getStateFromMeta(int meta) {
+    public IBlockState getStateFromMeta(final int meta) {
         IBlockState state = this.getDefaultState().withProperty(VARIANT, Variant.DEFAULT);
         if (!this.isDouble()) {
             EnumBlockHalf value = EnumBlockHalf.BOTTOM;
@@ -60,7 +57,7 @@ public class SlabBase extends BlockSlab {
     }
     
     @Override
-    public int getMetaFromState(IBlockState state) {
+    public int getMetaFromState(final IBlockState state) {
         int meta = 0;
         if (!this.isDouble() && state.getValue(HALF) == EnumBlockHalf.TOP)
        {meta |= 8;}
@@ -79,12 +76,12 @@ public class SlabBase extends BlockSlab {
     }
     
     @Override
-    public Comparable<?> getTypeForItem(ItemStack stack) {
+    public Comparable<?> getTypeForItem(final ItemStack stack) {
         return Variant.DEFAULT;
     }
 
     @Override
-    public String getUnlocalizedName(int meta) {
+    public String getUnlocalizedName(final int meta) {
         return super.getUnlocalizedName();
     }
     
@@ -103,7 +100,7 @@ public class SlabBase extends BlockSlab {
     }
     
     public static class DoubleSlab extends SlabBase {
-        public DoubleSlab(BlockSlab half, BlockCreateInfo blockInfo) {
+        public DoubleSlab(final BlockSlab half, final BlockCreateInfo blockInfo) {
             super(half, blockInfo);
         }
 
@@ -123,7 +120,7 @@ public class SlabBase extends BlockSlab {
         }*/
         
         @Override
-        public int quantityDropped(Random random) {
+        public int quantityDropped(final Random random) {
             return 2;
         }
         
@@ -135,7 +132,7 @@ public class SlabBase extends BlockSlab {
         
     public static class HalfSlab extends SlabBase {
 
-        public HalfSlab(BlockSlab half, BlockSlab doubleSlab, BlockCreateInfo blockInfo) {
+        public HalfSlab(final BlockSlab half, final BlockSlab doubleSlab, final BlockCreateInfo blockInfo) {
             super(half, blockInfo);
             setCreativeTab(GIRTabs.tab);
         }
@@ -146,7 +143,7 @@ public class SlabBase extends BlockSlab {
         }
         
         @Override
-        public int quantityDropped(Random random) {
+        public int quantityDropped(final Random random) {
             return this.isDouble() ? 2 : 1;
         }
     }

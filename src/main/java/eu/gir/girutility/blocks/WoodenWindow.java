@@ -32,7 +32,7 @@ public class WoodenWindow extends BlockPane {
     }
 
     @Override
-    public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
+    public IBlockState getActualState(IBlockState state, final IBlockAccess worldIn, final BlockPos pos) {
         state = state.withProperty(NORTH, this.attachesTo(worldIn,
                 worldIn.getBlockState(pos.north()), pos.north(), EnumFacing.SOUTH));
         state = state.withProperty(EAST, this.attachesTo(worldIn, worldIn.getBlockState(pos.east()),
@@ -50,13 +50,14 @@ public class WoodenWindow extends BlockPane {
         return state;
     }
 
+    @Override
     protected BlockStateContainer createBlockState() {
         return new BlockStateContainer(this, NORTH, EAST, WEST, SOUTH, PANE_NORTH, PANE_EAST,
                 PANE_SOUTH, PANE_WEST, PANE_UP, PANE_DOWN);
     }
 
-    private boolean attachesToBlock(IBlockAccess world, BlockPos pos) {
-        Block block = world.getBlockState(pos).getBlock();
+    private boolean attachesToBlock(final IBlockAccess world, final BlockPos pos) {
+        final Block block = world.getBlockState(pos).getBlock();
         return block instanceof BlockPane;
     }
 

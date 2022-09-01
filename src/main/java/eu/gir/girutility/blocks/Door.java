@@ -15,7 +15,7 @@ import net.minecraft.world.World;
 
 public class Door extends BlockDoor {
     
-    public Door(Material material) {
+    public Door(final Material material) {
         super (material);
     }
     
@@ -25,7 +25,7 @@ public class Door extends BlockDoor {
     }
     
     @Override
-    public Item getItemDropped(IBlockState state, Random rand, int fortune) {
+    public Item getItemDropped(final IBlockState state, final Random rand, final int fortune) {
         if (state.getValue(HALF) == Door.EnumDoorHalf.LOWER) {
             return this.getItem();
         } else {
@@ -34,7 +34,7 @@ public class Door extends BlockDoor {
     }
     
     @Override
-    public ItemStack getItem(World worldIn, BlockPos pos, IBlockState state) {
+    public ItemStack getItem(final World worldIn, final BlockPos pos, final IBlockState state) {
         return new ItemStack(this.getItem());
     }
     

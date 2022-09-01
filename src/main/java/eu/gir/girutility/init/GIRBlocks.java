@@ -37,8 +37,8 @@ import eu.gir.girutility.blocks.TrafficCone;
 import eu.gir.girutility.blocks.TrapDoor;
 import eu.gir.girutility.blocks.WoodenWindow;
 import net.minecraft.block.Block;
-import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.BlockPlanks.EnumType;
+import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.Item;
@@ -180,24 +180,24 @@ public class GIRBlocks {
     public static ArrayList<Block> blocksToRegister = new ArrayList<>();
 
     public static void init() {
-        Field[] fields = GIRBlocks.class.getFields();
-        for (Field field : fields) {
-            int modifiers = field.getModifiers();
+        final Field[] fields = GIRBlocks.class.getFields();
+        for (final Field field : fields) {
+            final int modifiers = field.getModifiers();
             if (Modifier.isStatic(modifiers) && Modifier.isFinal(modifiers)
                     && Modifier.isPublic(modifiers)) {
-                String name = field.getName().toLowerCase();
+                final String name = field.getName().toLowerCase();
                 try {
-                    Block block = (Block) field.get(null);
+                    final Block block = (Block) field.get(null);
                     block.setRegistryName(new ResourceLocation(GirutilityMain.MODID, name));
                     block.setUnlocalizedName(name);
                     blocksToRegister.add(block);
                     if (block instanceof ITileEntityProvider) {
-                        ITileEntityProvider provider = (ITileEntityProvider) block;
+                        final ITileEntityProvider provider = (ITileEntityProvider) block;
                         try {
-                            Class<? extends TileEntity> tileclass = provider
+                            final Class<? extends TileEntity> tileclass = provider
                                     .createNewTileEntity(null, 0).getClass();
                             TileEntity.register(tileclass.getSimpleName().toLowerCase(), tileclass);
-                        } catch (NullPointerException ex) {
+                        } catch (final NullPointerException ex) {
                             GirutilityMain.LOG.trace(
                                     "All tileentity provide need to call back a default entity if the world is null!",
                                     ex);
@@ -211,14 +211,14 @@ public class GIRBlocks {
     }
 
     @SubscribeEvent
-    public static void registerBlock(RegistryEvent.Register<Block> event) {
-        IForgeRegistry<Block> registry = event.getRegistry();
+    public static void registerBlock(final RegistryEvent.Register<Block> event) {
+        final IForgeRegistry<Block> registry = event.getRegistry();
         blocksToRegister.forEach(registry::register);
     }
 
     @SubscribeEvent
-    public static void registerItem(RegistryEvent.Register<Item> event) {
-        IForgeRegistry<Item> registry = event.getRegistry();
+    public static void registerItem(final RegistryEvent.Register<Item> event) {
+        final IForgeRegistry<Item> registry = event.getRegistry();
             blocksToRegister.forEach(block -> registry
                     .register(new ItemBlock(block).setRegistryName(block.getRegistryName())));
     }
@@ -262,7 +262,7 @@ public class GIRBlocks {
         return Optional.empty();
     }
 
-    public static Map<String, String> readFiles(String location) {
+    public static Map<String, String> readFiles(final String location) {
         final Optional<Path> loc = getRessourceLocation(location);
         if (loc.isPresent()) {
             final Path path = loc.get();
@@ -275,13 +275,13 @@ public class GIRBlocks {
                         final String content = toString(text);
                         final String name = file.getFileName().toString();
                         files.put(name, content);
-                    } catch (IOException e) {
+                    } catch (final IOException e) {
                         e.printStackTrace();
                     }
                 });
                 inputs.close();
                 return files;
-            } catch (IOException e) {
+            } catch (final IOException e) {
                 e.printStackTrace();
             }
         }

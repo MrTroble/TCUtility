@@ -53,14 +53,14 @@ public class GIRItems {
     public static ArrayList<Item> itemsToRegister = new ArrayList<>();
 
     public static void init() {
-        Field[] fields = GIRItems.class.getFields();
-        for (Field field : fields) {
-            int modifiers = field.getModifiers();
+        final Field[] fields = GIRItems.class.getFields();
+        for (final Field field : fields) {
+            final int modifiers = field.getModifiers();
             if (Modifier.isStatic(modifiers) && Modifier.isFinal(modifiers)
                     && Modifier.isPublic(modifiers)) {
-                String name = field.getName().toLowerCase();
+                final String name = field.getName().toLowerCase();
                 try {
-                    Item item = (Item) field.get(null);
+                    final Item item = (Item) field.get(null);
                     item.setRegistryName(new ResourceLocation(GirutilityMain.MODID, name));
                     item.setUnlocalizedName(name);
                     itemsToRegister.add(item);
@@ -72,12 +72,12 @@ public class GIRItems {
     }
 
     @SubscribeEvent
-    public static void registerItem(RegistryEvent.Register<Item> event) {
-        IForgeRegistry<Item> registry = event.getRegistry();
+    public static void registerItem(final RegistryEvent.Register<Item> event) {
+        final IForgeRegistry<Item> registry = event.getRegistry();
         itemsToRegister.forEach(registry::register);
     }
 
-    public static void setName(Item item, String name) {
+    public static void setName(final Item item, final String name) {
         item.setRegistryName(new ResourceLocation(GirutilityMain.MODID, name));
         item.setUnlocalizedName(name);
         itemsToRegister.add(item);

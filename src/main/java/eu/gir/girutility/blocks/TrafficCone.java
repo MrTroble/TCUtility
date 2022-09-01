@@ -18,21 +18,20 @@ public class TrafficCone extends Block {
         super(Material.CLAY, MapColor.ORANGE_STAINED_HARDENED_CLAY);
         this.setHardness(0.5F);
         setCreativeTab(GIRTabs.tab);
-
     }
 
     @Override
-    public boolean isOpaqueCube(IBlockState state) {
+    public boolean isOpaqueCube(final IBlockState state) {
         return false;
     }
 
     @Override
-    public boolean isFullCube(IBlockState state) {
+    public boolean isFullCube(final IBlockState state) {
         return false;
     }
 
     @Override
-    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
+    public AxisAlignedBB getBoundingBox(final IBlockState state, final IBlockAccess source, final BlockPos pos) {
         return BOUNDING_BOX;
     }
 

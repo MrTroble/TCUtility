@@ -23,35 +23,35 @@ public class PlatformEdge extends Block {
         setDefaultState(getDefaultState().withProperty(FACING, EnumFacing.NORTH));
         setCreativeTab(GIRTabs.tab);
     }
-
+    
     @Override
-    public boolean canRenderInLayer(IBlockState state, BlockRenderLayer layer) {
+    public boolean canRenderInLayer(final IBlockState state, final BlockRenderLayer layer) {
         return layer.equals(BlockRenderLayer.CUTOUT_MIPPED);
     }
 
     @Override
-    public boolean isOpaqueCube(IBlockState state) {
+    public boolean isOpaqueCube(final IBlockState state) {
         return false;
     }
 
     @Override
-    public boolean isFullCube(IBlockState state) {
+    public boolean isFullCube(final IBlockState state) {
         return false;
     }
 
     @Override
-    public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing,
-            float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand) {
+    public IBlockState getStateForPlacement(final World world, final BlockPos pos, final EnumFacing facing,
+            final float hitX, final float hitY, final float hitZ, final int meta, final EntityLivingBase placer, final EnumHand hand) {
         return getDefaultState().withProperty(FACING, placer.getHorizontalFacing());
     }
 
     @Override
-    public int getMetaFromState(IBlockState state) {
+    public int getMetaFromState(final IBlockState state) {
         return state.getValue(FACING).getIndex();
     }
 
     @Override
-    public IBlockState getStateFromMeta(int meta) {
+    public IBlockState getStateFromMeta(final int meta) {
         return getDefaultState().withProperty(FACING, EnumFacing.getFront(meta));
     }
 

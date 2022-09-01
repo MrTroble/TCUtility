@@ -5,7 +5,7 @@ import net.minecraft.block.Block;
 
 public class ItemDoor extends net.minecraft.item.ItemDoor {
     
-    public ItemDoor(Block block) {
+    public ItemDoor(final Block block) {
         super(block);
         this.setCreativeTab(GIRTabs.tab);
     }

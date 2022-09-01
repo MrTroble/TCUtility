@@ -23,7 +23,7 @@ public class Lantern extends Block {
 
     private static final AxisAlignedBB BOUNDING_BOX = new AxisAlignedBB(0.25, 0.0, 0.25, 0.75, 0.75,
             0.75);
-
+    
     public Lantern() {
         super(Material.IRON);
         setCreativeTab(GIRTabs.tab);
@@ -31,33 +31,34 @@ public class Lantern extends Block {
         this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.UP));
     }
 
-    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
+    @Override
+    public AxisAlignedBB getBoundingBox(final IBlockState state, final IBlockAccess source, final BlockPos pos) {
         return BOUNDING_BOX;
     }
 
-    public AxisAlignedBB getCollissionBoundingBox(IBlockState blockState, IBlockAccess worldIn,
-            BlockPos pos) {
+    public AxisAlignedBB getCollissionBoundingBox(final IBlockState blockState, final IBlockAccess worldIn,
+            final BlockPos pos) {
         return BOUNDING_BOX;
     }
 
     @Override
-    public boolean isOpaqueCube(IBlockState state) {
+    public boolean isOpaqueCube(final IBlockState state) {
         return false;
     }
 
     @Override
-    public boolean isFullCube(IBlockState state) {
+    public boolean isFullCube(final IBlockState state) {
         return false;
     }
 
     @Override
-    public IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing facing,
-            float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand) {
+    public IBlockState getStateForPlacement(final World worldIn, final BlockPos pos, final EnumFacing facing,
+            final float hitX, final float hitY, final float hitZ, final int meta, final EntityLivingBase placer, final EnumHand hand) {
         return this.getDefaultState().withProperty(FACING, facing);
     }
 
     @Override
-    public IBlockState getStateFromMeta(int meta) {
+    public IBlockState getStateFromMeta(final int meta) {
         IBlockState iblockstate = this.getDefaultState();
 
         switch (meta) {
@@ -84,10 +85,10 @@ public class Lantern extends Block {
     }
 
     @Override
-    public int getMetaFromState(IBlockState state) {
+    public int getMetaFromState(final IBlockState state) {
         int i = 0;
 
-        switch ((EnumFacing) state.getValue(FACING)) {
+        switch (state.getValue(FACING)) {
             case EAST:
                 i = i | 1;
                 break;
@@ -111,13 +112,13 @@ public class Lantern extends Block {
     }
 
     @Override
-    public IBlockState withRotation(IBlockState state, Rotation rot) {
-        return state.withProperty(FACING, rot.rotate((EnumFacing) state.getValue(FACING)));
+    public IBlockState withRotation(final IBlockState state, final Rotation rot) {
+        return state.withProperty(FACING, rot.rotate(state.getValue(FACING)));
     }
 
     @Override
-    public IBlockState withMirror(IBlockState state, Mirror mirrorIn) {
-        return state.withRotation(mirrorIn.toRotation((EnumFacing) state.getValue(FACING)));
+    public IBlockState withMirror(final IBlockState state, final Mirror mirrorIn) {
+        return state.withRotation(mirrorIn.toRotation(state.getValue(FACING)));
     }
 
     @Override

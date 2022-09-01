@@ -6,7 +6,7 @@ import net.minecraft.block.material.Material;
 
 public class Concrete extends Block {
     
-    public Concrete(Material materialIn) {
+    public Concrete(final Material materialIn) {
         super(materialIn);
         this.setCreativeTab(GIRTabs.tab);
     }

@@ -10,7 +10,7 @@ public class BlockCreateInfo {
     public final SoundType soundtype;
     public final int opacity;
     
-    public BlockCreateInfo(Material material, float hardness, SoundType soundtype, int opacity) {
+    public BlockCreateInfo(final Material material, final float hardness, final SoundType soundtype, final int opacity) {
         this.material = material;
         this.hardness = hardness;
         this.soundtype = soundtype;

@@ -23,7 +23,7 @@ public class BlockProperties {
     public static final HashMap<String, SoundType> soundTable = translateTableSoundType();
     
     public static HashMap<String, Material> translateTableMaterial() {
-        HashMap<String, Material> translateTable = new HashMap<>();
+        final HashMap<String, Material> translateTable = new HashMap<>();
         translateTable.put("grass", Material.GRASS);
         translateTable.put("ground", Material.GROUND);
         translateTable.put("wood", Material.WOOD);
@@ -40,7 +40,7 @@ public class BlockProperties {
     }
     
     public static HashMap<String, SoundType> translateTableSoundType() {
-        HashMap<String, SoundType> translateTable = new HashMap<>();
+        final HashMap<String, SoundType> translateTable = new HashMap<>();
         translateTable.put("wood", SoundType.WOOD);
         translateTable.put("ground", SoundType.GROUND);
         translateTable.put("stone", SoundType.STONE);
@@ -55,8 +55,8 @@ public class BlockProperties {
     }
     
     public BlockCreateInfo getBlockInfo() {
-        Material mat = materialTable.get(material);
-        SoundType sound = soundTable.get(soundtype);
+        final Material mat = materialTable.get(material);
+        final SoundType sound = soundTable.get(soundtype);
         if (mat == null) {
             GirutilityMain.LOG.error("The given material name [%s] is not valid.", material);
             return null;
@@ -65,24 +65,24 @@ public class BlockProperties {
             GirutilityMain.LOG.error("The given sound type [%s] is not valid.", soundtype);
             return null;
         }
-        BlockCreateInfo info = new BlockCreateInfo(mat, hardness, sound, opacity);
+        final BlockCreateInfo info = new BlockCreateInfo(mat, hardness, sound, opacity);
         return info;
     }
     
     public void addToList() {
-        BlockCreateInfo blockInfo = getBlockInfo();
+        final BlockCreateInfo blockInfo = getBlockInfo();
         
         for (final String states : state) {
             switch (states) {
                 case "stair":
-                    DefaultBlock defaultBlock = new DefaultBlock(blockInfo);
-                    Stairs stair = new Stairs(defaultBlock.getDefaultState());
+                    final DefaultBlock defaultBlock = new DefaultBlock(blockInfo);
+                    final Stairs stair = new Stairs(defaultBlock.getDefaultState());
                     break;
                 case "slab":
-                    Slab slab = new Slab(blockInfo); //supplier evtl ja Defunctional Interfaces Funktionen mit (Eingabe und) Ausgabe Parameter
+                    final Slab slab = new Slab(blockInfo); //supplier evtl ja Defunctional Interfaces Funktionen mit (Eingabe und) Ausgabe Parameter
                     break;
                 case "wall":
-                    Wall wall = new Wall(blockInfo);
+                    final Wall wall = new Wall(blockInfo);
                     break;
                 default:
                     GirutilityMain.LOG.error("The given state [%s] is not valid.", state);

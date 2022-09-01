@@ -9,8 +9,8 @@ import net.minecraftforge.common.util.EnumHelper;
 
 public class ItemReflectiveArmor extends ItemArmor {
 
-    public ItemReflectiveArmor(ArmorMaterial materialIn, int renderIndexIn,
-            EntityEquipmentSlot equipmentSlotIn) {
+    public ItemReflectiveArmor(final ArmorMaterial materialIn, final int renderIndexIn,
+            final EntityEquipmentSlot equipmentSlotIn) {
         super(materialIn, renderIndexIn, equipmentSlotIn);
         setCreativeTab(CreativeTabs.COMBAT);
     }

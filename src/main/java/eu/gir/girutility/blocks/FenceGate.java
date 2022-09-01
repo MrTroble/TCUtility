@@ -6,9 +6,8 @@ import net.minecraft.block.BlockPlanks.EnumType;
 
 public class FenceGate extends BlockFenceGate {
 
-    public FenceGate(EnumType woodType) {
+    public FenceGate(final EnumType woodType) {
         super(woodType);
         setCreativeTab(GIRTabs.tab);
     }
-
 }

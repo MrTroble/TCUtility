@@ -20,8 +20,8 @@ public class Slab extends Block {
     public static final PropertyEnum<Slab.EnumBlockHalf> HALF = PropertyEnum.<Slab.EnumBlockHalf>create("half", Slab.EnumBlockHalf.class);
     protected static final AxisAlignedBB AABB_BOTTOM_HALF = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.5D, 1.0D);
     protected static final AxisAlignedBB AABB_TOP_HALF = new AxisAlignedBB(0.0D, 0.5D, 0.0D, 1.0D, 1.0D, 1.0D);
-
-    public Slab(BlockCreateInfo blockInfo) {
+    
+    public Slab(final BlockCreateInfo blockInfo) {
         super(blockInfo.material);
         setHardness(blockInfo.hardness);
         setSoundType(blockInfo.soundtype);
@@ -32,7 +32,7 @@ public class Slab extends Block {
         this.setDefaultState(iblockstate);
     }
     
-    public Slab(Material material) {
+    public Slab(final Material material) {
         super(material);
         IBlockState iblockstate = this.blockState.getBaseState();
         iblockstate = iblockstate.withProperty(HALF, Slab.EnumBlockHalf.BOTTOM);
@@ -40,31 +40,38 @@ public class Slab extends Block {
         this.setDefaultState(iblockstate);
     }
     
-    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
+    @Override
+    public AxisAlignedBB getBoundingBox(final IBlockState state, final IBlockAccess source, final BlockPos pos) {
             return state.getValue(HALF) == Slab.EnumBlockHalf.TOP ? AABB_TOP_HALF : AABB_BOTTOM_HALF;
     }
     
-    public boolean isOpaqueCube(IBlockState state) {
+    @Override
+    public boolean isOpaqueCube(final IBlockState state) {
         return false;
     }
     
-    public boolean isFullCube(IBlockState state) {
+    @Override
+    public boolean isFullCube(final IBlockState state) {
         return false;
     }
     
-    public IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
+    @Override
+    public IBlockState getStateForPlacement(final World worldIn, final BlockPos pos, final EnumFacing facing, final float hitX, final float hitY, final float hitZ, final int meta, final EntityLivingBase placer) {
         @SuppressWarnings("deprecation")
+        final
         IBlockState iblockstate = super.getStateForPlacement(worldIn, pos, facing, hitX, hitY, hitZ, meta, placer).withProperty(HALF, Slab.EnumBlockHalf.BOTTOM);
-            return facing != EnumFacing.DOWN && (facing == EnumFacing.UP || (double)hitY <= 0.5D) ? iblockstate : iblockstate.withProperty(HALF, Slab.EnumBlockHalf.TOP);
+            return facing != EnumFacing.DOWN && (facing == EnumFacing.UP || hitY <= 0.5D) ? iblockstate : iblockstate.withProperty(HALF, Slab.EnumBlockHalf.TOP);
     }
     
-    public IBlockState getStateFromMeta(int meta) {
+    @Override
+    public IBlockState getStateFromMeta(final int meta) {
         IBlockState iblockstate = this.getDefaultState();
         iblockstate = iblockstate.withProperty(HALF, (meta & 8) == 0 ? Slab.EnumBlockHalf.BOTTOM : Slab.EnumBlockHalf.TOP);
         return iblockstate;
     }
     
-    public int getMetaFromState(IBlockState state) {
+    @Override
+    public int getMetaFromState(final IBlockState state) {
         int i = 0;
         if (state.getValue(HALF) == Slab.EnumBlockHalf.TOP) {
             i |= 8;
@@ -72,6 +79,7 @@ public class Slab extends Block {
         return i;
     }
     
+    @Override
     protected BlockStateContainer createBlockState() {
         return new BlockStateContainer(this, new IProperty[] {HALF});
     } 
@@ -80,10 +88,12 @@ public class Slab extends Block {
         TOP,
         BOTTOM;
         
+        @Override
         public String toString() {
             return this.getName();
         }
         
+        @Override
         public String getName() {
             return this == BOTTOM ? "bottom" : "top";
         }
