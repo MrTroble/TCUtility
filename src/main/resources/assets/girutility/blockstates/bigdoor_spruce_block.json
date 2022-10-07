@@ -11,10 +11,10 @@
         "facing=west,hinge=left,open=true,powered=false,third=lower":  { "model": "girutility:bigdoor_bottom_rh", "y": 270, "textures": {"b": "girutility:blocks/bigdoor_spruce_lower", "t": "girutility:blocks/bigdoor_spruce_upper"}},
         "facing=north,hinge=left,open=true,powered=false,third=lower": { "model": "girutility:bigdoor_bottom_rh", "textures": {"b": "girutility:blocks/bigdoor_spruce_lower", "t": "girutility:blocks/bigdoor_spruce_upper"}},
 
-		"facing=east,hinge=left,open=false,powered=true,third=lower":  { "model": "girutility:bigdoor_bottom", "y": 90, "textures": {"b": "girutility:blocks/bigdoor_spruce_lower", "t": "girutility:blocks/bigdoor_spruce_upper"}},
-        "facing=south,hinge=left,open=false,powered=true,third=lower": { "model": "girutility:bigdoor_bottom", "y": 180, "textures": {"b": "girutility:blocks/bigdoor_spruce_lower", "t": "girutility:blocks/bigdoor_spruce_upper"}},
-        "facing=west,hinge=left,open=false,powered=true,third=lower":  { "model": "girutility:bigdoor_bottom", "y": 270, "textures": {"b": "girutility:blocks/bigdoor_spruce_lower", "t": "girutility:blocks/bigdoor_spruce_upper"}},
-        "facing=north,hinge=left,open=false,powered=true,third=lower": { "model": "girutility:bigdoor_bottom", "textures": {"b": "girutility:blocks/bigdoor_spruce_lower", "t": "girutility:blocks/bigdoor_spruce_upper"}},
+		"facing=east,hinge=left,open=false,powered=true,third=lower":  { "model": "girutility:bigdoor_bottom", "textures": {"b": "girutility:blocks/bigdoor_spruce_lower", "t": "girutility:blocks/bigdoor_spruce_upper"}},
+        "facing=south,hinge=left,open=false,powered=true,third=lower": { "model": "girutility:bigdoor_bottom", "y": 90, "textures": {"b": "girutility:blocks/bigdoor_spruce_lower", "t": "girutility:blocks/bigdoor_spruce_upper"}},
+        "facing=west,hinge=left,open=false,powered=true,third=lower":  { "model": "girutility:bigdoor_bottom", "y": 180, "textures": {"b": "girutility:blocks/bigdoor_spruce_lower", "t": "girutility:blocks/bigdoor_spruce_upper"}},
+        "facing=north,hinge=left,open=false,powered=true,third=lower": { "model": "girutility:bigdoor_bottom", "y": 270, "textures": {"b": "girutility:blocks/bigdoor_spruce_lower", "t": "girutility:blocks/bigdoor_spruce_upper"}},
 
 		"facing=east,hinge=left,open=true,powered=true,third=lower":  { "model": "girutility:bigdoor_bottom_rh", "y": 90, "textures": {"b": "girutility:blocks/bigdoor_spruce_lower", "t": "girutility:blocks/bigdoor_spruce_upper"}},
         "facing=south,hinge=left,open=true,powered=true,third=lower": { "model": "girutility:bigdoor_bottom_rh", "y": 180, "textures": {"b": "girutility:blocks/bigdoor_spruce_lower", "t": "girutility:blocks/bigdoor_spruce_upper"}},
@@ -54,10 +54,10 @@
         "facing=west,hinge=left,open=true,powered=false,third=middle":  { "model": "girutility:bigdoor_middle_rh", "y": 270, "textures": {"m": "girutility:blocks/bigdoor_spruce_middle", "t": "girutility:blocks/bigdoor_spruce_upper"}},
         "facing=north,hinge=left,open=true,powered=false,third=middle": { "model": "girutility:bigdoor_middle_rh", "textures": {"m": "girutility:blocks/bigdoor_spruce_middle", "t": "girutility:blocks/bigdoor_spruce_upper"}},
 
-		"facing=east,hinge=left,open=false,powered=true,third=middle":  { "model": "girutility:bigdoor_middle", "y": 90, "textures": {"m": "girutility:blocks/bigdoor_spruce_middle", "t": "girutility:blocks/bigdoor_spruce_upper"}},
-        "facing=south,hinge=left,open=false,powered=true,third=middle": { "model": "girutility:bigdoor_middle", "y": 180, "textures": {"m": "girutility:blocks/bigdoor_spruce_middle", "t": "girutility:blocks/bigdoor_spruce_upper"}},
-        "facing=west,hinge=left,open=false,powered=true,third=middle":  { "model": "girutility:bigdoor_middle", "y": 270, "textures": {"m": "girutility:blocks/bigdoor_spruce_middle", "t": "girutility:blocks/bigdoor_spruce_upper"}},
-        "facing=north,hinge=left,open=false,powered=true,third=middle": { "model": "girutility:bigdoor_middle", "textures": {"m": "girutility:blocks/bigdoor_spruce_middle", "t": "girutility:blocks/bigdoor_spruce_upper"}},
+		"facing=east,hinge=left,open=false,powered=true,third=middle":  { "model": "girutility:bigdoor_middle", "textures": {"m": "girutility:blocks/bigdoor_spruce_middle", "t": "girutility:blocks/bigdoor_spruce_upper"}},
+        "facing=south,hinge=left,open=false,powered=true,third=middle": { "model": "girutility:bigdoor_middle", "y": 90, "textures": {"m": "girutility:blocks/bigdoor_spruce_middle", "t": "girutility:blocks/bigdoor_spruce_upper"}},
+        "facing=west,hinge=left,open=false,powered=true,third=middle":  { "model": "girutility:bigdoor_middle", "y": 180, "textures": {"m": "girutility:blocks/bigdoor_spruce_middle", "t": "girutility:blocks/bigdoor_spruce_upper"}},
+        "facing=north,hinge=left,open=false,powered=true,third=middle": { "model": "girutility:bigdoor_middle", "y": 270, "textures": {"m": "girutility:blocks/bigdoor_spruce_middle", "t": "girutility:blocks/bigdoor_spruce_upper"}},
 
 		"facing=east,hinge=left,open=true,powered=true,third=middle":  { "model": "girutility:bigdoor_middle_rh", "y": 90, "textures": {"m": "girutility:blocks/bigdoor_spruce_middle", "t": "girutility:blocks/bigdoor_spruce_upper"}},
         "facing=south,hinge=left,open=true,powered=true,third=middle": { "model": "girutility:bigdoor_middle_rh", "y": 180, "textures": {"m": "girutility:blocks/bigdoor_spruce_middle", "t": "girutility:blocks/bigdoor_spruce_upper"}},
@@ -97,10 +97,10 @@
         "facing=west,hinge=left,open=true,powered=false,third=upper":  { "model": "girutility:bigdoor_top_rh", "y": 270, "textures": {"b": "girutility:blocks/bigdoor_spruce_lower", "t": "girutility:blocks/bigdoor_spruce_upper"}},
         "facing=north,hinge=left,open=true,powered=false,third=upper": { "model": "girutility:bigdoor_top_rh", "textures": {"b": "girutility:blocks/bigdoor_spruce_lower", "t": "girutility:blocks/bigdoor_spruce_upper"}},
 
-		"facing=east,hinge=left,open=false,powered=true,third=upper":  { "model": "girutility:bigdoor_top", "y": 90, "textures": {"b": "girutility:blocks/bigdoor_spruce_lower", "t": "girutility:blocks/bigdoor_spruce_upper"}},
-        "facing=south,hinge=left,open=false,powered=true,third=upper": { "model": "girutility:bigdoor_top", "y": 180, "textures": {"b": "girutility:blocks/bigdoor_spruce_lower", "t": "girutility:blocks/bigdoor_spruce_upper"}},
-        "facing=west,hinge=left,open=false,powered=true,third=upper":  { "model": "girutility:bigdoor_top", "y": 270, "textures": {"b": "girutility:blocks/bigdoor_spruce_lower", "t": "girutility:blocks/bigdoor_spruce_upper"}},
-        "facing=north,hinge=left,open=false,powered=true,third=upper": { "model": "girutility:bigdoor_top", "textures": {"b": "girutility:blocks/bigdoor_spruce_lower", "t": "girutility:blocks/bigdoor_spruce_upper"}},
+		"facing=east,hinge=left,open=false,powered=true,third=upper":  { "model": "girutility:bigdoor_top", "textures": {"b": "girutility:blocks/bigdoor_spruce_lower", "t": "girutility:blocks/bigdoor_spruce_upper"}},
+        "facing=south,hinge=left,open=false,powered=true,third=upper": { "model": "girutility:bigdoor_top", "y": 90, "textures": {"b": "girutility:blocks/bigdoor_spruce_lower", "t": "girutility:blocks/bigdoor_spruce_upper"}},
+        "facing=west,hinge=left,open=false,powered=true,third=upper":  { "model": "girutility:bigdoor_top", "y": 180, "textures": {"b": "girutility:blocks/bigdoor_spruce_lower", "t": "girutility:blocks/bigdoor_spruce_upper"}},
+        "facing=north,hinge=left,open=false,powered=true,third=upper": { "model": "girutility:bigdoor_top", "y": 270, "textures": {"b": "girutility:blocks/bigdoor_spruce_lower", "t": "girutility:blocks/bigdoor_spruce_upper"}},
 
 		"facing=east,hinge=left,open=true,powered=true,third=upper":  { "model": "girutility:bigdoor_top_rh", "y": 90, "textures": {"b": "girutility:blocks/bigdoor_spruce_lower", "t": "girutility:blocks/bigdoor_spruce_upper"}},
         "facing=south,hinge=left,open=true,powered=true,third=upper": { "model": "girutility:bigdoor_top_rh", "y": 180, "textures": {"b": "girutility:blocks/bigdoor_spruce_lower", "t": "girutility:blocks/bigdoor_spruce_upper"}},

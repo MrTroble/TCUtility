@@ -1,5 +1,9 @@
 # Changelog
 
+## [Fix]
+
+* fix: bigdoor rotation with redstone signal
+
 ## [Addition] 01.09.2022 - 1
 
 * Added doors
