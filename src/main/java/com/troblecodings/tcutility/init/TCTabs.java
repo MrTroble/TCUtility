@@ -3,7 +3,7 @@ package com.troblecodings.tcutility.init;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 
-public class TCTabs {
+public final class TCTabs {
     
     private TCTabs() {
     }
