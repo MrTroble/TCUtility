@@ -1,8 +1,0 @@
-{
-    "variants": {
-        "facing=north": { "model": "girutility:ladder_iron" },
-        "facing=east":  { "model": "girutility:ladder_iron", "y": 90 },
-        "facing=south": { "model": "girutility:ladder_iron", "y": 180 },
-        "facing=west":  { "model": "girutility:ladder_iron", "y": 270 }
-    }
-}

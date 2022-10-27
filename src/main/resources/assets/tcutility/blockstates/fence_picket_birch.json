@@ -1,0 +1,20 @@
+{
+    "multipart": [
+        {   "apply": { "model": "tcutility:fence_post_dark_oak" }},
+        {   "when": { "north": "true" },
+            "apply": { "model": "tcutility:fence_picket_side_birch", "uvlock": true }
+        },
+        {   "when": { "east": "true" },
+            "apply": { "model": "tcutility:fence_picket_side_birch", "y": 90, "uvlock": true }
+        },
+        {   "when": { "south": "true" },
+            "apply": { "model": "tcutility:fence_picket_side_birch", "y": 180, "uvlock": true }
+        },
+        {   "when": { "west": "true" },
+            "apply": { "model": "tcutility:fence_picket_side_birch", "y": 270, "uvlock": true }
+        }
+    ],
+	"variants": {
+		"inventory": {"model": "tcutility:fence_picket_inventory_birch"}
+	}
+}

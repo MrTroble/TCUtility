@@ -1,0 +1,5 @@
+{
+    "variants": {
+        "normal": { "model": "tcutility:bin" }
+    }
+}

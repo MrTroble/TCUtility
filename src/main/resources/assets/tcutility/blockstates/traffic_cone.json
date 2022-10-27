@@ -1,0 +1,5 @@
+{
+    "variants": {
+        "normal": { "model": "tcutility:traffic_cone" }
+    }
+}

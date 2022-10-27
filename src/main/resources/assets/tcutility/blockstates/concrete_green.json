@@ -1,0 +1,10 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"model": "tcutility:concrete", "textures": {"texture": "blocks/concrete_powder_green"}
+	},
+	"variants": {
+		"inventory": {"model": "tcutility:concrete"},
+		"normal": {"model": "tcutility:concrete"}
+	}
+}
