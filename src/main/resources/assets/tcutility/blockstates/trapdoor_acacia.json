@@ -1,0 +1,21 @@
+{
+    "variants": {
+		"inventory": { "model": "tcutility:trapdoor_bottom_acacia" },
+        "facing=north,half=bottom,open=false": { "model": "tcutility:trapdoor_bottom_acacia" },
+        "facing=south,half=bottom,open=false": { "model": "tcutility:trapdoor_bottom_acacia" },
+        "facing=east,half=bottom,open=false": { "model": "tcutility:trapdoor_bottom_acacia" },
+        "facing=west,half=bottom,open=false": { "model": "tcutility:trapdoor_bottom_acacia" },
+        "facing=north,half=top,open=false": { "model": "tcutility:trapdoor_top_acacia" },
+        "facing=south,half=top,open=false": { "model": "tcutility:trapdoor_top_acacia" },
+        "facing=east,half=top,open=false": { "model": "tcutility:trapdoor_top_acacia" },
+        "facing=west,half=top,open=false": { "model": "tcutility:trapdoor_top_acacia" },
+        "facing=north,half=bottom,open=true": { "model": "tcutility:trapdoor_open_acacia" },
+        "facing=south,half=bottom,open=true": { "model": "tcutility:trapdoor_open_acacia", "y": 180 },
+        "facing=east,half=bottom,open=true": { "model": "tcutility:trapdoor_open_acacia", "y": 90 },
+        "facing=west,half=bottom,open=true": { "model": "tcutility:trapdoor_open_acacia", "y": 270 },
+        "facing=north,half=top,open=true": { "model": "tcutility:trapdoor_open_acacia" },
+        "facing=south,half=top,open=true": { "model": "tcutility:trapdoor_open_acacia", "y": 180 },
+        "facing=east,half=top,open=true": { "model": "tcutility:trapdoor_open_acacia", "y": 90 },
+        "facing=west,half=top,open=true": { "model": "tcutility:trapdoor_open_acacia", "y": 270 }
+    }
+}

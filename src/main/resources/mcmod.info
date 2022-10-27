@@ -1,11 +1,11 @@
 [
 {
-  "modid": "girutility",
-  "name": "GIR Utility",
+  "modid": "tcutility",
+  "name": "TC Utility",
   "description": "placeholder",
   "version": "${version}",
   "mcversion": "${mcversion}",
-  "url": "https://discord.gg/Va5P7KBry6",
+  "url": "https://discord.gg/Um97SHnrYp",
   "updateUrl": "",
   "authorList": ["Jeronimo"],
   "credits": "The Forge and FML guys, for making this example",

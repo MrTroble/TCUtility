@@ -1,5 +1,12 @@
 # Changelog
 
+## [Ref, Feat]
+
+* feat: added conductor trowels
+* ref: rename mod
+
+Please note that the internal registry names have changed and therefore the blocks in old worlds are broken.
+
 ## [Fix]
 
 * fix: bigdoor rotation with redstone signal
