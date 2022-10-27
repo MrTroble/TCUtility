@@ -23,7 +23,7 @@ public class WoodenWindow extends BlockPane {
 
     public WoodenWindow() {
         super(Material.GLASS, true);
-        setCreativeTab(TCTabs.tab);
+        setCreativeTab(TCTabs.TAB);
         this.setDefaultState(this.blockState.getBaseState().withProperty(NORTH, Boolean.FALSE)
                 .withProperty(EAST, Boolean.FALSE).withProperty(SOUTH, Boolean.FALSE)
                 .withProperty(WEST, Boolean.FALSE).withProperty(PANE_NORTH, Boolean.FALSE)

@@ -19,7 +19,7 @@ public class Bin extends Block {
         super(Material.ANVIL);
         this.setSoundType(SoundType.ANVIL);
         this.setHardness(0.5F);
-        setCreativeTab(TCTabs.tab);
+        setCreativeTab(TCTabs.TAB);
     }
 
     @Override

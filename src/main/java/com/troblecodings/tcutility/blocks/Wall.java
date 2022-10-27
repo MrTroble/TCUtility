@@ -9,7 +9,7 @@ public class Wall extends BlockWall {
 
     public Wall(final BlockCreateInfo blockInfo) {
         super(new Block(blockInfo.material));
-        setCreativeTab(TCTabs.tab);
+        setCreativeTab(TCTabs.TAB);
         setHardness(blockInfo.hardness);
         setSoundType(blockInfo.soundtype);
         setLightOpacity(blockInfo.opacity);

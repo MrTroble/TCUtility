@@ -9,7 +9,7 @@ public class Stairs extends BlockStairs {
 
     public Stairs(final IBlockState modelState) {
         super(modelState);
-        setCreativeTab(TCTabs.tab);
+        setCreativeTab(TCTabs.TAB);
         this.useNeighborBrightness = true;
     }
 }

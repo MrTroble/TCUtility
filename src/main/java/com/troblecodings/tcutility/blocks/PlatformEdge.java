@@ -22,7 +22,7 @@ public class PlatformEdge extends Block {
     public PlatformEdge() {
         super(Material.ROCK);
         setDefaultState(getDefaultState().withProperty(FACING, EnumFacing.NORTH));
-        setCreativeTab(TCTabs.tab);
+        setCreativeTab(TCTabs.TAB);
     }
 
     @Override

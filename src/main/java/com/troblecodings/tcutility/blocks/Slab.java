@@ -32,7 +32,7 @@ public class Slab extends Block {
         setLightOpacity(blockInfo.opacity);
         IBlockState iblockstate = this.blockState.getBaseState();
         iblockstate = iblockstate.withProperty(HALF, Slab.EnumBlockHalf.BOTTOM);
-        this.setCreativeTab(TCTabs.tab);
+        this.setCreativeTab(TCTabs.TAB);
         this.setDefaultState(iblockstate);
     }
 
@@ -40,7 +40,7 @@ public class Slab extends Block {
         super(material);
         IBlockState iblockstate = this.blockState.getBaseState();
         iblockstate = iblockstate.withProperty(HALF, Slab.EnumBlockHalf.BOTTOM);
-        this.setCreativeTab(TCTabs.tab);
+        this.setCreativeTab(TCTabs.TAB);
         this.setDefaultState(iblockstate);
     }
 

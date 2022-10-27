@@ -24,7 +24,8 @@ public class TCUtilityMain {
         return instance;
     }
 
-    @SidedProxy(serverSide = "com.troblecodings.tcutility.proxy.CommonProxy", clientSide = "com.troblecodings.tcutility.proxy.ClientProxy")
+    @SidedProxy(serverSide = "com.troblecodings.tcutility.proxy.CommonProxy",
+            clientSide = "com.troblecodings.tcutility.proxy.ClientProxy")
     public static CommonProxy PROXY;
     public static Logger LOG;
 

@@ -18,7 +18,7 @@ public class TrafficCone extends Block {
     public TrafficCone() {
         super(Material.CLAY, MapColor.ORANGE_STAINED_HARDENED_CLAY);
         this.setHardness(0.5F);
-        setCreativeTab(TCTabs.tab);
+        setCreativeTab(TCTabs.TAB);
     }
 
     @Override

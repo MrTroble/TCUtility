@@ -18,6 +18,9 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.registries.IForgeRegistry;
 
 public class TCItems {
+    
+    private TCItems() {
+    }
 
     public static final ItemReflectiveArmor REFLECTIVE_CHESTPLATE = new ItemReflectiveArmor(
             ItemReflectiveArmor.reflectiveArmorMaterial, 1, EntityEquipmentSlot.CHEST);

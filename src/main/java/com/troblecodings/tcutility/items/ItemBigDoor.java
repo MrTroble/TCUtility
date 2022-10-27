@@ -22,7 +22,7 @@ public class ItemBigDoor extends Item {
 
     public ItemBigDoor(final Block block) {
         this.block = block;
-        setCreativeTab(TCTabs.tab);
+        setCreativeTab(TCTabs.TAB);
     }
 
     @Override

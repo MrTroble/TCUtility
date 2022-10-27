@@ -50,6 +50,10 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.registries.IForgeRegistry;
 
 public class TCBlocks {
+    
+    private TCBlocks() {
+    }
+    
     public static final TrafficCone TRAFFIC_CONE = new TrafficCone();
     public static final Crate CRATE = new Crate();
     public static final Crate CRATE_SPRUCE = new Crate();

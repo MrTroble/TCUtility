@@ -4,8 +4,11 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 
 public class TCTabs {
+    
+    private TCTabs() {
+    }
 
-    public static final CreativeTabs tab = new CreativeTabs("TCUtility") {
+    public static final CreativeTabs TAB = new CreativeTabs("TCUtility") {
 
         @Override
         public ItemStack getTabIconItem() {

@@ -9,6 +9,6 @@ public class FenceGate extends BlockFenceGate {
 
     public FenceGate(final EnumType woodType) {
         super(woodType);
-        setCreativeTab(TCTabs.tab);
+        setCreativeTab(TCTabs.TAB);
     }
 }
