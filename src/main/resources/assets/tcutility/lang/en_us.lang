@@ -3,6 +3,8 @@ itemGroup.TCUtility=TC Utility
 
 #Items
 item.reflective_chestplate.name=Reflective Chestplate
+item.conductor_trowel_green.name=Conductor Towel Green
+item.conductor_trowel_red.name=Conductor Towel Red
 item.door_jail.name=Jail Door
 item.door_iron_glass.name=Iron Glass Door
 item.door_oak_glass.name=Oak Glass Door
