@@ -2,9 +2,6 @@
 itemGroup.TCUtility=TC Utility
 
 #Items
-item.reflective_chestplate.name=Sicherheitsweste
-item.conductor_trowel_green.name=Handkelle Grün
-item.conductor_trowel_red.name=Handkelle Rot
 item.door_jail.name=Gefängnistür
 item.door_iron_glass.name=Glastür mit Eisenrahmen
 item.door_oak_glass.name=Glastür mit Holzrahmen
