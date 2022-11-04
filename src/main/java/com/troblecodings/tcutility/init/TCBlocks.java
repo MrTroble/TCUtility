@@ -24,6 +24,7 @@ import com.troblecodings.tcutility.BlockDefinitons;
 import com.troblecodings.tcutility.TCUtilityMain;
 import com.troblecodings.tcutility.blocks.BigDoor;
 import com.troblecodings.tcutility.blocks.Bin;
+import com.troblecodings.tcutility.blocks.Clock;
 import com.troblecodings.tcutility.blocks.Concrete;
 import com.troblecodings.tcutility.blocks.Crate;
 import com.troblecodings.tcutility.blocks.Door;
@@ -175,12 +176,7 @@ public final class TCBlocks {
     public static final Concrete CONCRETE_GREEN = new Concrete(Material.ROCK);
     public static final Concrete CONCRETE_RED = new Concrete(Material.ROCK);
     public static final Concrete CONCRETE_BLACK = new Concrete(Material.ROCK);
-
-    // public static final Fence TEST_FENCE = new Fence(Material.WOOD,
-    // MapColor.WOOD);
-    // public static final FenceGate TEST_FENCEGATE = new
-    // FenceGate(BlockPlanks.EnumType.OAK);
-    // public static final Slab TEST_SLAB = new Slab(Material.ROCK);
+    public static final Clock CLOCK = new Clock(); 
 
     public static ArrayList<Block> blocksToRegister = new ArrayList<>();
 
