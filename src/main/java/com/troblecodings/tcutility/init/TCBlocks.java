@@ -1,26 +1,9 @@
 package com.troblecodings.tcutility.init;
 
-import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.file.FileSystem;
-import java.nio.file.FileSystems;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.stream.Stream;
 
-import com.google.gson.Gson;
-import com.troblecodings.tcutility.BlockDefinitons;
 import com.troblecodings.tcutility.TCUtilityMain;
 import com.troblecodings.tcutility.blocks.BigDoor;
 import com.troblecodings.tcutility.blocks.Bin;
@@ -223,91 +206,4 @@ public final class TCBlocks {
         blocksToRegister.forEach(block -> registry
                 .register(new ItemBlock(block).setRegistryName(block.getRegistryName())));
     }
-
-    private static String toString(final List<String> text) {
-        final StringBuilder stringbuilder = new StringBuilder();
-        text.forEach(string -> {
-            stringbuilder.append(string);
-            stringbuilder.append("\n");
-        });
-        return stringbuilder.toString();
-    }
-
-    public static Optional<Path> getRessourceLocation(String location) {
-        final URL url = TCBlocks.class.getResource(location);
-        try {
-            if (url != null) {
-                final URI uri = url.toURI();
-
-                if ("file".equals(uri.getScheme())) {
-                    if (!location.startsWith("/")) {
-                        location = "/" + location;
-                    }
-                    final URL resource = TCBlocks.class.getResource(location);
-                    if (resource == null) {
-                        return Optional.empty();
-                    }
-                    return Optional.of(Paths.get(resource.toURI()));
-                } else {
-                    if (!"jar".equals(uri.getScheme())) {
-                        return Optional.empty();
-                    }
-                    try (final FileSystem filesystem = FileSystems.newFileSystem(uri,
-                            Collections.emptyMap())) {
-                        return Optional.of(filesystem.getPath(location));
-                    }
-                }
-            }
-        } catch (IOException | URISyntaxException e1) {
-            e1.printStackTrace();
-        }
-        return Optional.empty();
-    }
-
-    public static Map<String, String> readFiles(final String location) {
-        final Optional<Path> loc = getRessourceLocation(location);
-        if (loc.isPresent()) {
-            final Path path = loc.get();
-            try {
-                final Stream<Path> inputs = Files.list(path);
-                final Map<String, String> files = new HashMap<>();
-                inputs.forEach(file -> {
-                    try {
-                        final List<String> text = Files.readAllLines(file);
-                        final String content = toString(text);
-                        final String name = file.getFileName().toString();
-                        files.put(name, content);
-                    } catch (final IOException e) {
-                        e.printStackTrace();
-                    }
-                });
-                inputs.close();
-                return files;
-            } catch (final IOException e) {
-                e.printStackTrace();
-            }
-        }
-        return null;
-    }
-
-    public static Map<String, BlockDefinitons> getFromJson(final String directory) {
-        final Gson gson = new Gson();
-        final Map<String, String> entrySet = readFiles(directory);
-        final Map<String, BlockDefinitons> content = new HashMap<>();
-        if (entrySet != null) {
-            entrySet.forEach((filename, file) -> {
-                final BlockDefinitons json = gson.fromJson(file, BlockDefinitons.class);
-                content.put(filename, json);
-            });
-        }
-        return content;
-    }
-
-    /*
-     * public static void register() { final Map<String, BlockDefinitons>
-     * fromJsonMap = getFromJson("/assets/" + GirutilityMain.MODID +
-     * "/blockdefinitions"); fromJsonMap.forEach((filename, content) -> { content ->
-     * { content.getName().forEach(name, property) -> { } } }); }
-     */
-
 }
