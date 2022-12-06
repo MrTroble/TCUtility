@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 
+import com.troblecodings.tcutility.BlockProperties;
 import com.troblecodings.tcutility.TCUtilityMain;
 import com.troblecodings.tcutility.blocks.BigDoor;
 import com.troblecodings.tcutility.blocks.Bin;
@@ -198,12 +199,15 @@ public final class TCBlocks {
     public static void registerBlock(final RegistryEvent.Register<Block> event) {
         final IForgeRegistry<Block> registry = event.getRegistry();
         blocksToRegister.forEach(registry::register);
+        BlockProperties.jsonBlocksToRegister.forEach(registry::register);
     }
 
     @SubscribeEvent
     public static void registerItem(final RegistryEvent.Register<Item> event) {
         final IForgeRegistry<Item> registry = event.getRegistry();
         blocksToRegister.forEach(block -> registry
+                .register(new ItemBlock(block).setRegistryName(block.getRegistryName())));
+        BlockProperties.jsonBlocksToRegister.forEach(block -> registry
                 .register(new ItemBlock(block).setRegistryName(block.getRegistryName())));
     }
 }

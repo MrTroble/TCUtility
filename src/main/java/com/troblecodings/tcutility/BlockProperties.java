@@ -1,16 +1,22 @@
 package com.troblecodings.tcutility;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import com.troblecodings.tcutility.blocks.BlockCreateInfo;
 import com.troblecodings.tcutility.blocks.DefaultBlock;
 import com.troblecodings.tcutility.blocks.Slab;
 import com.troblecodings.tcutility.blocks.Stairs;
 import com.troblecodings.tcutility.blocks.Wall;
+import com.troblecodings.tcutility.utils.FileReader;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
+import net.minecraft.util.ResourceLocation;
 
 public class BlockProperties {
 
@@ -22,6 +28,8 @@ public class BlockProperties {
 
     public static final HashMap<String, Material> materialTable = translateTableMaterial();
     public static final HashMap<String, SoundType> soundTable = translateTableSoundType();
+    
+    public static ArrayList<Block> jsonBlocksToRegister = new ArrayList<>();
 
     public static HashMap<String, Material> translateTableMaterial() {
         final HashMap<String, Material> translateTable = new HashMap<>();
@@ -65,33 +73,50 @@ public class BlockProperties {
         if (sound == null) {
             TCUtilityMain.LOG.error("The given sound type [%s] is not valid.", soundtype);
             return null;
-        }
-        final BlockCreateInfo info = new BlockCreateInfo(mat, hardness, sound, opacity);
-        return info;
+        };
+        return new BlockCreateInfo(mat, hardness, sound, opacity);
     }
 
-    public void addToList() {
+    public void addToBlockList() {
         final BlockCreateInfo blockInfo = getBlockInfo();
 
-        for (final String states : state) {
-            switch (states) {
-                case "stair":
-                    final DefaultBlock defaultBlock = new DefaultBlock(blockInfo);
-                    final Stairs stair = new Stairs(defaultBlock.getDefaultState());
-                    break;
-                case "slab":
-                    final Slab slab = new Slab(blockInfo); // supplier evtl ja Defunctional
-                                                           // Interfaces Funktionen mit (Eingabe
-                                                           // und) Ausgabe Parameter
-                    break;
-                case "wall":
-                    final Wall wall = new Wall(blockInfo);
-                    break;
-                default:
-                    TCUtilityMain.LOG.error("The given state [%s] is not valid.", state);
-                    break;
+        final Map<String, BlockProperties> blocks = FileReader
+                .getFromJson("/assets/tcutility/blockdefinitions");
+
+        for (final Entry<String, BlockProperties> blocksEntry : blocks.entrySet()) {
+            final String objectname = blocksEntry.getKey();
+            final BlockProperties property = blocksEntry.getValue();
+            
+            blockInfo.hardness = property.hardness;
+            //blockInfo.material = property.material;
+            blockInfo.opacity = property.opacity;
+            //blockInfo.soundtype = property.soundtype;
+            
+
+            for (final String states : state) {
+                switch (states) {
+                    case "stair":
+                        final DefaultBlock defaultBlock = new DefaultBlock(blockInfo);
+                        final Stairs stair = new Stairs(defaultBlock.getDefaultState());
+                        break;
+                    case "slab":
+                        final Slab slab = new Slab(blockInfo); // supplier evtl ja Defunctional
+                                                               // Interfaces Funktionen mit (Eingabe
+                                                               // und) Ausgabe Parameter
+                        break;
+                    case "wall":
+                        final Wall wall = new Wall(blockInfo);
+                        break;
+                    default:
+                        TCUtilityMain.LOG.error("The given state [%s] is not valid.", state);
+                        break;
+                }
             }
+
+            final Block block = null;
+            block.setRegistryName(new ResourceLocation(TCUtilityMain.MODID, objectname));
+            block.setUnlocalizedName(objectname);
+            jsonBlocksToRegister.add(block);
         }
     }
-
 }

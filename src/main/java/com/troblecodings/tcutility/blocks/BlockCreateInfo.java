@@ -5,10 +5,10 @@ import net.minecraft.block.material.Material;
 
 public class BlockCreateInfo {
 
-    public final Material material;
-    public final float hardness;
-    public final SoundType soundtype;
-    public final int opacity;
+    public Material material;
+    public float hardness;
+    public SoundType soundtype;
+    public int opacity;
 
     public BlockCreateInfo(final Material material, final float hardness, final SoundType soundtype,
             final int opacity) {
