@@ -9,6 +9,6 @@ public class Ladder extends BlockLadder {
 
     public Ladder(final Material material) {
         super();
-        setCreativeTab(TCTabs.TAB);
+        setCreativeTab(TCTabs.SPECIAL);
     }
 }

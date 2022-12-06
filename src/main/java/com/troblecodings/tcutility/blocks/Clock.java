@@ -23,7 +23,7 @@ public class Clock extends Block {
 
     public Clock() {
         super(Material.ROCK);
-        setCreativeTab(TCTabs.TAB);
+        setCreativeTab(TCTabs.SPECIAL);
         this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
     }
 

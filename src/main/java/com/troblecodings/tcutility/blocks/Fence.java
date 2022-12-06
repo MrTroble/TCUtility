@@ -10,6 +10,6 @@ public class Fence extends BlockFence {
 
     public Fence(final Material materialIn, final MapColor mapColorIn) {
         super(materialIn, mapColorIn);
-        setCreativeTab(TCTabs.TAB);
+        setCreativeTab(TCTabs.FENCE);
     }
 }

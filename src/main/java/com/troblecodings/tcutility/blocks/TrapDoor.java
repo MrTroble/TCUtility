@@ -54,7 +54,7 @@ public class TrapDoor extends Block {
         this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH)
                 .withProperty(OPEN, Boolean.valueOf(false))
                 .withProperty(HALF, BlockTrapDoor.DoorHalf.BOTTOM));
-        this.setCreativeTab(TCTabs.TAB);
+        this.setCreativeTab(TCTabs.DOORS);
     }
 
     @Override

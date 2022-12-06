@@ -24,7 +24,7 @@ public class SlabBase extends BlockSlab {
 
     public SlabBase(final BlockSlab half, final BlockCreateInfo blockInfo) {
         super(blockInfo.material);
-        setCreativeTab(TCTabs.TAB);
+        setCreativeTab(TCTabs.SLABS);
         setHardness(blockInfo.hardness);
         setSoundType(blockInfo.soundtype);
         setLightOpacity(blockInfo.opacity);
@@ -144,7 +144,7 @@ public class SlabBase extends BlockSlab {
         public HalfSlab(final BlockSlab half, final BlockSlab doubleSlab,
                 final BlockCreateInfo blockInfo) {
             super(half, blockInfo);
-            setCreativeTab(TCTabs.TAB);
+            setCreativeTab(TCTabs.SLABS);
         }
 
         @Override

@@ -12,7 +12,7 @@ public class Crate extends Block {
         super(Material.WOOD);
         this.setHardness(1.0F);
         this.setSoundType(SoundType.WOOD);
-        setCreativeTab(TCTabs.TAB);
+        setCreativeTab(TCTabs.BLOCKS);
     }
 
 }

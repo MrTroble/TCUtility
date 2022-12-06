@@ -9,7 +9,7 @@ public class ItemSlab extends net.minecraft.item.ItemSlab {
 
     public ItemSlab(final Block block, final BlockSlab singleSlab, final BlockSlab doubleSlab) {
         super(block, singleSlab, doubleSlab);
-        setCreativeTab(TCTabs.TAB);
+        setCreativeTab(TCTabs.SLABS);
     }
 
 }
