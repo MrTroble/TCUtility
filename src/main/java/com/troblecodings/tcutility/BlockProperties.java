@@ -8,7 +8,6 @@ import java.util.Map.Entry;
 
 import com.troblecodings.tcutility.blocks.BlockCreateInfo;
 import com.troblecodings.tcutility.blocks.DefaultBlock;
-import com.troblecodings.tcutility.blocks.Slab;
 import com.troblecodings.tcutility.blocks.Stairs;
 import com.troblecodings.tcutility.blocks.Wall;
 import com.troblecodings.tcutility.utils.FileReader;
@@ -24,11 +23,11 @@ public class BlockProperties {
     private String material;
     private String soundtype;
     private int opacity;
-    private List<String> state;
+    private List<String> states;
 
     public static final HashMap<String, Material> materialTable = translateTableMaterial();
     public static final HashMap<String, SoundType> soundTable = translateTableSoundType();
-    
+
     public static ArrayList<Block> jsonBlocksToRegister = new ArrayList<>();
 
     public static HashMap<String, Material> translateTableMaterial() {
@@ -77,46 +76,47 @@ public class BlockProperties {
         return new BlockCreateInfo(mat, hardness, sound, opacity);
     }
 
-    public void addToBlockList() {
-        final BlockCreateInfo blockInfo = getBlockInfo();
-
+    public void init() {
         final Map<String, BlockProperties> blocks = FileReader
                 .getFromJson("/assets/tcutility/blockdefinitions");
 
+        System.out.println(blocks);
         for (final Entry<String, BlockProperties> blocksEntry : blocks.entrySet()) {
             final String objectname = blocksEntry.getKey();
-            final BlockProperties property = blocksEntry.getValue();
-            
-            blockInfo.hardness = property.hardness;
-            //blockInfo.material = property.material;
-            blockInfo.opacity = property.opacity;
-            //blockInfo.soundtype = property.soundtype;
-            
 
-            for (final String states : state) {
-                switch (states) {
+            System.out.println(objectname);
+            
+            System.out.println(blocksEntry.getValue());
+
+            final BlockProperties property = blocksEntry.getValue();
+
+            final BlockCreateInfo blockInfo = property.getBlockInfo();
+
+            for (final String state : states) {
+                switch (state) {
                     case "stair":
                         final DefaultBlock defaultBlock = new DefaultBlock(blockInfo);
                         final Stairs stair = new Stairs(defaultBlock.getDefaultState());
-                        break;
-                    case "slab":
-                        final Slab slab = new Slab(blockInfo); // supplier evtl ja Defunctional
-                                                               // Interfaces Funktionen mit (Eingabe
-                                                               // und) Ausgabe Parameter
-                        break;
+                        stair.setRegistryName(
+                                new ResourceLocation(TCUtilityMain.MODID, objectname + "stair"));
+                        stair.setUnlocalizedName(objectname + "stair");
+                        jsonBlocksToRegister.add(stair);
+                        // case "slab":
+                        // final Slab slab = new Slab(blockInfo);
+                        // supplier evtl ja Defunctional
+                        // Interfaces Funktionen mit (Eingabe
+                        // und) Ausgabe Parameter
                     case "wall":
                         final Wall wall = new Wall(blockInfo);
-                        break;
+                        wall.setRegistryName(
+                                new ResourceLocation(TCUtilityMain.MODID, objectname + "wall"));
+                        wall.setUnlocalizedName(objectname + "wall");
+                        jsonBlocksToRegister.add(wall);
                     default:
                         TCUtilityMain.LOG.error("The given state [%s] is not valid.", state);
                         break;
                 }
             }
-
-            final Block block = null;
-            block.setRegistryName(new ResourceLocation(TCUtilityMain.MODID, objectname));
-            block.setUnlocalizedName(objectname);
-            jsonBlocksToRegister.add(block);
         }
     }
 }

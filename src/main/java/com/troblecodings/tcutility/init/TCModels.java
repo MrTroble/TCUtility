@@ -19,12 +19,12 @@ public final class TCModels {
             registerModel(Item.getItemFromBlock(TCBlocks.blocksToRegister.get(i)));
         }
 
-        for (int i = 0; i < BlockProperties.jsonBlocksToRegister.size(); i++) {
-            registerModel(Item.getItemFromBlock(BlockProperties.jsonBlocksToRegister.get(i)));
+        for (int j = 0; j < BlockProperties.jsonBlocksToRegister.size(); j++) {
+            registerModel(Item.getItemFromBlock(BlockProperties.jsonBlocksToRegister.get(j)));
         }
 
-        for (int j = 0; j < TCItems.itemsToRegister.size(); j++) {
-            registerModel(TCItems.itemsToRegister.get(j));
+        for (int k = 0; k < TCItems.itemsToRegister.size(); k++) {
+            registerModel(TCItems.itemsToRegister.get(k));
         }
     }
 
