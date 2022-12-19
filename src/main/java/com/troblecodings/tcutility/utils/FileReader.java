@@ -1,6 +1,7 @@
 package com.troblecodings.tcutility.utils;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -16,6 +17,7 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.troblecodings.tcutility.BlockProperties;
 import com.troblecodings.tcutility.TCUtilityMain;
 import com.troblecodings.tcutility.init.TCBlocks;
@@ -88,15 +90,15 @@ public class FileReader {
         return files;
     }
 
-    @SuppressWarnings("unchecked")
     public static Map<String, BlockProperties> getFromJson(final String directory) {
         final Gson gson = new Gson();
         final Map<String, String> entrySet = readFiles(directory);
         final Map<String, BlockProperties> properties = new HashMap<>();
+        final Type typeOfHashMap = new TypeToken<Map<String, BlockProperties>>() {
+        }.getType();
         if (entrySet != null) {
             entrySet.forEach((filename, content) -> {
-                final Map<String, BlockProperties> json = gson.fromJson(content,
-                        properties.getClass());
+                final Map<String, BlockProperties> json = gson.fromJson(content, typeOfHashMap);
                 properties.putAll(json);
             });
         }

@@ -3,23 +3,32 @@ package com.troblecodings.tcutility.init;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import com.troblecodings.tcutility.BlockProperties;
 import com.troblecodings.tcutility.TCUtilityMain;
 import com.troblecodings.tcutility.blocks.BigDoor;
 import com.troblecodings.tcutility.blocks.Bin;
+import com.troblecodings.tcutility.blocks.BlockCreateInfo;
 import com.troblecodings.tcutility.blocks.Clock;
 import com.troblecodings.tcutility.blocks.Concrete;
 import com.troblecodings.tcutility.blocks.Crate;
+import com.troblecodings.tcutility.blocks.DefaultBlock;
 import com.troblecodings.tcutility.blocks.Door;
 import com.troblecodings.tcutility.blocks.Fence;
 import com.troblecodings.tcutility.blocks.FenceGate;
 import com.troblecodings.tcutility.blocks.Ladder;
 import com.troblecodings.tcutility.blocks.Lantern;
 import com.troblecodings.tcutility.blocks.PlatformEdge;
+import com.troblecodings.tcutility.blocks.Slab;
+import com.troblecodings.tcutility.blocks.Stairs;
 import com.troblecodings.tcutility.blocks.TrafficCone;
 import com.troblecodings.tcutility.blocks.TrapDoor;
+import com.troblecodings.tcutility.blocks.Wall;
 import com.troblecodings.tcutility.blocks.WoodenWindow;
+import com.troblecodings.tcutility.utils.FileReader;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockPlanks.EnumType;
@@ -35,10 +44,10 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.registries.IForgeRegistry;
 
 public final class TCBlocks {
-    
+
     private TCBlocks() {
     }
-    
+
     public static final TrafficCone TRAFFIC_CONE = new TrafficCone();
     public static final Crate CRATE = new Crate();
     public static final Crate CRATE_SPRUCE = new Crate();
@@ -160,7 +169,7 @@ public final class TCBlocks {
     public static final Concrete CONCRETE_GREEN = new Concrete(Material.ROCK);
     public static final Concrete CONCRETE_RED = new Concrete(Material.ROCK);
     public static final Concrete CONCRETE_BLACK = new Concrete(Material.ROCK);
-    public static final Clock CLOCK = new Clock(); 
+    public static final Clock CLOCK = new Clock();
 
     public static ArrayList<Block> blocksToRegister = new ArrayList<>();
 
@@ -199,7 +208,6 @@ public final class TCBlocks {
     public static void registerBlock(final RegistryEvent.Register<Block> event) {
         final IForgeRegistry<Block> registry = event.getRegistry();
         blocksToRegister.forEach(registry::register);
-        BlockProperties.jsonBlocksToRegister.forEach(registry::register);
     }
 
     @SubscribeEvent
@@ -207,7 +215,53 @@ public final class TCBlocks {
         final IForgeRegistry<Item> registry = event.getRegistry();
         blocksToRegister.forEach(block -> registry
                 .register(new ItemBlock(block).setRegistryName(block.getRegistryName())));
-        BlockProperties.jsonBlocksToRegister.forEach(block -> registry
-                .register(new ItemBlock(block).setRegistryName(block.getRegistryName())));
+    }
+
+    public static void initJsonFiles() {
+        final Map<String, BlockProperties> blocks = FileReader
+                .getFromJson("/assets/tcutility/blockdefinitions");
+
+        System.out.println(blocks);
+        for (final Entry<String, BlockProperties> blocksEntry : blocks.entrySet()) {
+            final String objectname = blocksEntry.getKey();
+
+            System.out.println(objectname);
+
+            System.out.println(blocksEntry.getValue());
+
+            final BlockProperties property = blocksEntry.getValue();
+
+            final BlockCreateInfo blockInfo = property.getBlockInfo();
+
+            final List<String> states = property.getStates();
+
+            for (final String state : states) {
+                switch (state) {
+                    case "stair":
+                        final DefaultBlock defaultBlock = new DefaultBlock(blockInfo);
+                        final Block stair = new Stairs(defaultBlock.getDefaultState());
+                        stair.setRegistryName(
+                                new ResourceLocation(TCUtilityMain.MODID, objectname + "_stair"));
+                        stair.setUnlocalizedName(objectname + "_stair");
+                        blocksToRegister.add(stair);
+
+                    case "slab":
+                        final Slab slab = new Slab(blockInfo);
+                        slab.setRegistryName(
+                                new ResourceLocation(TCUtilityMain.MODID, objectname + "_slab"));
+                        slab.setUnlocalizedName(objectname + "_slab");
+                        blocksToRegister.add(slab);
+                    case "wall":
+                        final Wall wall = new Wall(blockInfo);
+                        wall.setRegistryName(
+                                new ResourceLocation(TCUtilityMain.MODID, objectname + "_wall"));
+                        wall.setUnlocalizedName(objectname + "_wall");
+                        blocksToRegister.add(wall);
+                    default:
+                        TCUtilityMain.LOG.error("The given state [%s] is not valid.", state);
+                        break;
+                }
+            }
+        }
     }
 }

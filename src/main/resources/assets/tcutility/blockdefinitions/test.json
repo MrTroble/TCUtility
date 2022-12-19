@@ -1,8 +1,8 @@
 {
     "purple_glass": {
         "hardness": 1,
-        "material": "GLASS",
-        "soundtype": "GLASS",
+        "material": "glass",
+        "soundtype": "glass",
         "opacity": 0,
         "states": [
             "stair",
@@ -13,8 +13,8 @@
     },
     "green_glass": {
         "hardness": 1,
-        "material": "GLASS",
-        "soundtype": "GLASS",
+        "material": "glass",
+        "soundtype": "glass",
         "opacity": 0,
         "states": [
             "stair",

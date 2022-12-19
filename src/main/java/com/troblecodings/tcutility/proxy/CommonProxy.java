@@ -1,6 +1,5 @@
 package com.troblecodings.tcutility.proxy;
 
-import com.troblecodings.tcutility.BlockProperties;
 import com.troblecodings.tcutility.init.TCBlocks;
 import com.troblecodings.tcutility.init.TCItems;
 
@@ -14,8 +13,7 @@ public class CommonProxy {
     public void preinit(final FMLPreInitializationEvent event) {
         TCItems.init();
         TCBlocks.init();
-        final BlockProperties blockProperties = new BlockProperties();
-        blockProperties.init();
+        TCBlocks.initJsonFiles();
 
         MinecraftForge.EVENT_BUS.register(TCItems.class);
         MinecraftForge.EVENT_BUS.register(TCBlocks.class);

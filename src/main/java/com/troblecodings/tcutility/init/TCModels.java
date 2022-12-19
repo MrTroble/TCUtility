@@ -1,7 +1,5 @@
 package com.troblecodings.tcutility.init;
 
-import com.troblecodings.tcutility.BlockProperties;
-
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.event.ModelRegistryEvent;
@@ -17,10 +15,6 @@ public final class TCModels {
     public static void register(final ModelRegistryEvent event) {
         for (int i = 0; i < TCBlocks.blocksToRegister.size(); i++) {
             registerModel(Item.getItemFromBlock(TCBlocks.blocksToRegister.get(i)));
-        }
-
-        for (int j = 0; j < BlockProperties.jsonBlocksToRegister.size(); j++) {
-            registerModel(Item.getItemFromBlock(BlockProperties.jsonBlocksToRegister.get(j)));
         }
 
         for (int k = 0; k < TCItems.itemsToRegister.size(); k++) {
