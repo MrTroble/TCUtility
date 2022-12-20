@@ -13,27 +13,23 @@ import com.troblecodings.tcutility.blocks.BigDoor;
 import com.troblecodings.tcutility.blocks.Bin;
 import com.troblecodings.tcutility.blocks.BlockCreateInfo;
 import com.troblecodings.tcutility.blocks.Clock;
-import com.troblecodings.tcutility.blocks.Concrete;
-import com.troblecodings.tcutility.blocks.Crate;
-import com.troblecodings.tcutility.blocks.DefaultBlock;
 import com.troblecodings.tcutility.blocks.Door;
-import com.troblecodings.tcutility.blocks.Fence;
-import com.troblecodings.tcutility.blocks.FenceGate;
-import com.troblecodings.tcutility.blocks.Ladder;
 import com.troblecodings.tcutility.blocks.Lantern;
-import com.troblecodings.tcutility.blocks.PlatformEdge;
 import com.troblecodings.tcutility.blocks.Slab;
 import com.troblecodings.tcutility.blocks.Stairs;
+import com.troblecodings.tcutility.blocks.TCCube;
+import com.troblecodings.tcutility.blocks.TCCubeRotation;
+import com.troblecodings.tcutility.blocks.TCFence;
+import com.troblecodings.tcutility.blocks.TCFenceGate;
+import com.troblecodings.tcutility.blocks.TCLadder;
+import com.troblecodings.tcutility.blocks.TCTrapDoor;
+import com.troblecodings.tcutility.blocks.TCWall;
+import com.troblecodings.tcutility.blocks.TCWindow;
 import com.troblecodings.tcutility.blocks.TrafficCone;
-import com.troblecodings.tcutility.blocks.TrapDoor;
-import com.troblecodings.tcutility.blocks.Wall;
-import com.troblecodings.tcutility.blocks.WoodenWindow;
 import com.troblecodings.tcutility.utils.FileReader;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockPlanks.EnumType;
 import net.minecraft.block.ITileEntityProvider;
-import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -49,45 +45,7 @@ public final class TCBlocks {
     }
 
     public static final TrafficCone TRAFFIC_CONE = new TrafficCone();
-    public static final Crate CRATE = new Crate();
-    public static final Crate CRATE_SPRUCE = new Crate();
-    public static final Crate CRATE_BIRCH = new Crate();
-    public static final Crate CRATE_JUNGLE = new Crate();
-    public static final Crate CRATE_ACACIA = new Crate();
-    public static final Crate CRATE_DARK_OAK = new Crate();
     public static final Bin BIN = new Bin();
-    public static final WoodenWindow WOODEN_WINDOW = new WoodenWindow();
-    public static final TrapDoor TRAPDOOR_OAK = new TrapDoor();
-    public static final TrapDoor TRAPDOOR_SPRUCE = new TrapDoor();
-    public static final TrapDoor TRAPDOOR_BIRCH = new TrapDoor();
-    public static final TrapDoor TRAPDOOR_JUNGLE = new TrapDoor();
-    public static final TrapDoor TRAPDOOR_ACACIA = new TrapDoor();
-    public static final TrapDoor TRAPDOOR_DARK_OAK = new TrapDoor();
-    public static final TrapDoor TRAPDOOR_GLASS = new TrapDoor();
-    public static final PlatformEdge PLATFORM_EDGE_1_ASPHALT_1 = new PlatformEdge();
-    public static final PlatformEdge PLATFORM_EDGE_1_CONCRETE_1 = new PlatformEdge();
-    public static final PlatformEdge PLATFORM_EDGE_1_STONE_1 = new PlatformEdge();
-    public static final PlatformEdge PLATFORM_EDGE_1_BRICK_1 = new PlatformEdge();
-    public static final PlatformEdge PLATFORM_EDGE_1_ASPHALT_2 = new PlatformEdge();
-    public static final PlatformEdge PLATFORM_EDGE_1_CONCRETE_2 = new PlatformEdge();
-    public static final PlatformEdge PLATFORM_EDGE_1_STONE_2 = new PlatformEdge();
-    public static final PlatformEdge PLATFORM_EDGE_1_BRICK_2 = new PlatformEdge();
-    public static final PlatformEdge PLATFORM_EDGE_1_ASPHALT_3 = new PlatformEdge();
-    public static final PlatformEdge PLATFORM_EDGE_1_CONCRETE_3 = new PlatformEdge();
-    public static final PlatformEdge PLATFORM_EDGE_1_STONE_3 = new PlatformEdge();
-    public static final PlatformEdge PLATFORM_EDGE_1_BRICK_3 = new PlatformEdge();
-    public static final PlatformEdge PLATFORM_EDGE_2_ASPHALT_1 = new PlatformEdge();
-    public static final PlatformEdge PLATFORM_EDGE_2_CONCRETE_1 = new PlatformEdge();
-    public static final PlatformEdge PLATFORM_EDGE_2_STONE_1 = new PlatformEdge();
-    public static final PlatformEdge PLATFORM_EDGE_2_BRICK_1 = new PlatformEdge();
-    public static final PlatformEdge PLATFORM_EDGE_2_ASPHALT_2 = new PlatformEdge();
-    public static final PlatformEdge PLATFORM_EDGE_2_CONCRETE_2 = new PlatformEdge();
-    public static final PlatformEdge PLATFORM_EDGE_2_STONE_2 = new PlatformEdge();
-    public static final PlatformEdge PLATFORM_EDGE_2_BRICK_2 = new PlatformEdge();
-    public static final PlatformEdge PLATFORM_EDGE_2_ASPHALT_3 = new PlatformEdge();
-    public static final PlatformEdge PLATFORM_EDGE_2_CONCRETE_3 = new PlatformEdge();
-    public static final PlatformEdge PLATFORM_EDGE_2_STONE_3 = new PlatformEdge();
-    public static final PlatformEdge PLATFORM_EDGE_2_BRICK_3 = new PlatformEdge();
     public static final Lantern LANTERN = new Lantern();
     public static final Door DOOR_JAIL_BLOCK = new Door(Material.IRON);
     public static final Door DOOR_IRON_GLASS_BLOCK = new Door(Material.IRON);
@@ -118,57 +76,6 @@ public final class TCBlocks {
     public static final BigDoor BIGDOOR_DARK_OAK_BLOCK = new BigDoor(Material.WOOD);
     public static final BigDoor BIGDOOR_IRON_BLOCK = new BigDoor(Material.IRON);
     public static final BigDoor BIGDOOR_WHITE_BLOCK = new BigDoor(Material.WOOD);
-    public static final Ladder LADDER_IRON = new Ladder(Material.IRON);
-    public static final Ladder LADDER_RUSTY = new Ladder(Material.IRON);
-    public static final Ladder LADDER_ROOF = new Ladder(Material.IRON);
-    public static final Fence FENCE_PICKET_OAK = new Fence(Material.WOOD, MapColor.WOOD);
-    public static final Fence FENCE_PICKET_BIRCH = new Fence(Material.WOOD, MapColor.WOOD);
-    public static final Fence FENCE_PICKET_ACACIA = new Fence(Material.WOOD, MapColor.WOOD);
-    public static final Fence FENCE_PICKET_WHITE = new Fence(Material.WOOD, MapColor.WOOD);
-    public static final Fence FENCE_CROSS_OAK = new Fence(Material.WOOD, MapColor.WOOD);
-    public static final Fence FENCE_CROSS_BIRCH = new Fence(Material.WOOD, MapColor.WOOD);
-    public static final Fence FENCE_CROSS_ACACIA = new Fence(Material.WOOD, MapColor.WOOD);
-    public static final Fence FENCE_CROSS_WHITE = new Fence(Material.WOOD, MapColor.WOOD);
-    public static final Fence FENCE_BOLLARD_OAK = new Fence(Material.WOOD, MapColor.WOOD);
-    public static final Fence FENCE_BOLLARD_BIRCH = new Fence(Material.WOOD, MapColor.WOOD);
-    public static final Fence FENCE_BOLLARD_ACACIA = new Fence(Material.WOOD, MapColor.WOOD);
-    public static final Fence FENCE_BOLLARD_WHITE = new Fence(Material.WOOD, MapColor.WOOD);
-    public static final Fence FENCE_STICK_OAK = new Fence(Material.WOOD, MapColor.WOOD);
-    public static final Fence FENCE_STICK_BIRCH = new Fence(Material.WOOD, MapColor.WOOD);
-    public static final Fence FENCE_STICK_ACACIA = new Fence(Material.WOOD, MapColor.WOOD);
-    public static final Fence FENCE_STICK_WHITE = new Fence(Material.WOOD, MapColor.WOOD);
-    public static final FenceGate FENCE_PICKET_GATE_OAK = new FenceGate(EnumType.OAK);
-    public static final FenceGate FENCE_PICKET_GATE_BIRCH = new FenceGate(EnumType.OAK);
-    public static final FenceGate FENCE_PICKET_GATE_ACACIA = new FenceGate(EnumType.OAK);
-    public static final FenceGate FENCE_PICKET_GATE_WHITE = new FenceGate(EnumType.OAK);
-    public static final FenceGate FENCE_CROSS_GATE_OAK = new FenceGate(EnumType.OAK);
-    public static final FenceGate FENCE_CROSS_GATE_BIRCH = new FenceGate(EnumType.OAK);
-    public static final FenceGate FENCE_CROSS_GATE_ACACIA = new FenceGate(EnumType.OAK);
-    public static final FenceGate FENCE_CROSS_GATE_WHITE = new FenceGate(EnumType.OAK);
-    public static final FenceGate FENCE_BOLLARD_GATE_OAK = new FenceGate(EnumType.OAK);
-    public static final FenceGate FENCE_BOLLARD_GATE_BIRCH = new FenceGate(EnumType.OAK);
-    public static final FenceGate FENCE_BOLLARD_GATE_ACACIA = new FenceGate(EnumType.OAK);
-    public static final FenceGate FENCE_BOLLARD_GATE_WHITE = new FenceGate(EnumType.OAK);
-    public static final FenceGate FENCE_STICK_GATE_OAK = new FenceGate(EnumType.OAK);
-    public static final FenceGate FENCE_STICK_GATE_BIRCH = new FenceGate(EnumType.OAK);
-    public static final FenceGate FENCE_STICK_GATE_ACACIA = new FenceGate(EnumType.OAK);
-    public static final FenceGate FENCE_STICK_GATE_WHITE = new FenceGate(EnumType.OAK);
-    public static final Concrete CONCRETE_WHITE = new Concrete(Material.ROCK);
-    public static final Concrete CONCRETE_ORANGE = new Concrete(Material.ROCK);
-    public static final Concrete CONCRETE_MAGENTA = new Concrete(Material.ROCK);
-    public static final Concrete CONCRETE_LIGHT_BLUE = new Concrete(Material.ROCK);
-    public static final Concrete CONCRETE_YELLOW = new Concrete(Material.ROCK);
-    public static final Concrete CONCRETE_LIME = new Concrete(Material.ROCK);
-    public static final Concrete CONCRETE_PINK = new Concrete(Material.ROCK);
-    public static final Concrete CONCRETE_GRAY = new Concrete(Material.ROCK);
-    public static final Concrete CONCRETE_SILVER = new Concrete(Material.ROCK);
-    public static final Concrete CONCRETE_CYAN = new Concrete(Material.ROCK);
-    public static final Concrete CONCRETE_PURPLE = new Concrete(Material.ROCK);
-    public static final Concrete CONCRETE_BLUE = new Concrete(Material.ROCK);
-    public static final Concrete CONCRETE_BROWN = new Concrete(Material.ROCK);
-    public static final Concrete CONCRETE_GREEN = new Concrete(Material.ROCK);
-    public static final Concrete CONCRETE_RED = new Concrete(Material.ROCK);
-    public static final Concrete CONCRETE_BLACK = new Concrete(Material.ROCK);
     public static final Clock CLOCK = new Clock();
 
     public static ArrayList<Block> blocksToRegister = new ArrayList<>();
@@ -238,27 +145,76 @@ public final class TCBlocks {
             for (final String state : states) {
                 switch (state) {
                     case "stair":
-                        final DefaultBlock defaultBlock = new DefaultBlock(blockInfo);
-                        final Block stair = new Stairs(defaultBlock.getDefaultState());
+                        final TCCube tCCube = new TCCube(blockInfo);
+                        final Block stair = new Stairs(tCCube.getDefaultState());
                         stair.setRegistryName(
                                 new ResourceLocation(TCUtilityMain.MODID, objectname + "_stair"));
                         stair.setUnlocalizedName(objectname + "_stair");
                         blocksToRegister.add(stair);
-
                     case "slab":
                         final Slab slab = new Slab(blockInfo);
                         slab.setRegistryName(
                                 new ResourceLocation(TCUtilityMain.MODID, objectname + "_slab"));
                         slab.setUnlocalizedName(objectname + "_slab");
                         blocksToRegister.add(slab);
+                    case "cube":
+                        final TCCube cube = new TCCube(blockInfo);
+                        cube.setRegistryName(
+                                new ResourceLocation(TCUtilityMain.MODID, objectname));
+                        cube.setUnlocalizedName(objectname);
+                        blocksToRegister.add(cube);
+                        break;
+                    case "cube_rot":
+                        final TCCubeRotation cuberot = new TCCubeRotation(blockInfo);
+                        cuberot.setRegistryName(
+                                new ResourceLocation(TCUtilityMain.MODID, objectname));
+                        cuberot.setUnlocalizedName(objectname);
+                        blocksToRegister.add(cuberot);
+                        break;
+                    case "fence":
+                        final TCFence fence = new TCFence(blockInfo);
+                        fence.setRegistryName(
+                                new ResourceLocation(TCUtilityMain.MODID, "fence_" + objectname));
+                        fence.setUnlocalizedName("fence_" + objectname);
+                        blocksToRegister.add(fence);
+                        break;
+                    case "fence_gate":
+                        final TCFenceGate fencegate = new TCFenceGate(blockInfo);
+                        fencegate.setRegistryName(
+                                new ResourceLocation(TCUtilityMain.MODID, "fence_gate_" + objectname));
+                        fencegate.setUnlocalizedName("fence_gate_" + objectname);
+                        blocksToRegister.add(fencegate);
+                        break;
                     case "wall":
-                        final Wall wall = new Wall(blockInfo);
+                        final TCWall wall = new TCWall(blockInfo);
                         wall.setRegistryName(
-                                new ResourceLocation(TCUtilityMain.MODID, objectname + "_wall"));
-                        wall.setUnlocalizedName(objectname + "_wall");
+                                new ResourceLocation(TCUtilityMain.MODID, "wall_" + objectname));
+                        wall.setUnlocalizedName("wall_" + objectname);
                         blocksToRegister.add(wall);
+                        break;
+                    case "trapdoor":
+                        final TCTrapDoor trapdoor = new TCTrapDoor(blockInfo);
+                        trapdoor.setRegistryName(
+                                new ResourceLocation(TCUtilityMain.MODID, "trapdoor_" + objectname));
+                        trapdoor.setUnlocalizedName("trapdoor_" + objectname);
+                        blocksToRegister.add(trapdoor);
+                        break;
+                    case "window":
+                        final TCWindow window = new TCWindow(blockInfo);
+                        window.setRegistryName(
+                                new ResourceLocation(TCUtilityMain.MODID, objectname + "_window"));
+                        window.setUnlocalizedName(objectname + "_window");
+                        blocksToRegister.add(window);
+                        break;
+                    case "ladder":
+                        final TCLadder ladder = new TCLadder(blockInfo);
+                        ladder.setRegistryName(
+                                new ResourceLocation(TCUtilityMain.MODID, "ladder_" + objectname));
+                        ladder.setUnlocalizedName("ladder_" + objectname);
+                        blocksToRegister.add(ladder);
+                        break;
                     default:
-                        TCUtilityMain.LOG.error("The given state [%s] is not valid.", state);
+                        TCUtilityMain.LOG.error("The given state " + state + " is not valid.");
                         break;
                 }
             }

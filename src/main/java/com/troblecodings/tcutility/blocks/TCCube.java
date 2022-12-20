@@ -4,9 +4,9 @@ import com.troblecodings.tcutility.init.TCTabs;
 
 import net.minecraft.block.Block;
 
-public class DefaultBlock extends Block {
+public class TCCube extends Block {
 
-    public DefaultBlock(final BlockCreateInfo blockInfo) {
+    public TCCube(final BlockCreateInfo blockInfo) {
         super(blockInfo.material);
         this.setHardness(blockInfo.hardness);
         this.setSoundType(blockInfo.soundtype);

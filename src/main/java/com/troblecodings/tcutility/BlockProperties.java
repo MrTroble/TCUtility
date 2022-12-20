@@ -57,14 +57,13 @@ public class BlockProperties {
         final Material mat = materialTable.get(material);
         final SoundType sound = soundTable.get(soundtype);
         if (mat == null) {
-            TCUtilityMain.LOG.error("The given material name [%s] is not valid.", material);
+            TCUtilityMain.LOG.error("The given material " + material + " is not valid.");
             return null;
         }
         if (sound == null) {
-            TCUtilityMain.LOG.error("The given sound type [%s] is not valid.", soundtype);
+            TCUtilityMain.LOG.error("The given sound type " + soundtype + " is not valid.");
             return null;
         }
-        ;
         return new BlockCreateInfo(mat, hardness, sound, opacity);
     }
     

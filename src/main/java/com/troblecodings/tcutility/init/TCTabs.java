@@ -13,7 +13,7 @@ public final class TCTabs {
     public static final CreativeTabs SPECIAL = new CreativeTabs("tcspecial") {
         @Override
         public ItemStack getTabIconItem() {
-            return new ItemStack(TCBlocks.WOODEN_WINDOW);
+            return new ItemStack(Blocks.GLASS_PANE);
         }
     };
     

@@ -1,0 +1,147 @@
+{
+    "concrete_white": {
+        "hardness": 1,
+        "material": "rock",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": [
+            "cube"
+        ]
+    },
+    "concrete_orange": {
+        "hardness": 1,
+        "material": "rock",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": [
+            "cube"
+        ]
+    },
+    "concrete_magenta": {
+        "hardness": 1,
+        "material": "rock",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": [
+            "cube"
+        ]
+    },
+    "concrete_light_blue": {
+        "hardness": 1,
+        "material": "rock",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": [
+            "cube"
+        ]
+    },
+    "concrete_yellow": {
+        "hardness": 1,
+        "material": "rock",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": [
+            "cube"
+        ]
+    },
+    "concrete_lime": {
+        "hardness": 1,
+        "material": "rock",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": [
+            "cube"
+        ]
+    },
+    "concrete_pink": {
+        "hardness": 1,
+        "material": "rock",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": [
+            "cube"
+        ]
+    },
+    "concrete_gray": {
+        "hardness": 1,
+        "material": "rock",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": [
+            "cube"
+        ]
+    },
+    "concrete_silver": {
+        "hardness": 1,
+        "material": "rock",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": [
+            "cube"
+        ]
+    },
+    "concrete_cyan": {
+        "hardness": 1,
+        "material": "rock",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": [
+            "cube"
+        ]
+    },
+    "concrete_purple": {
+        "hardness": 1,
+        "material": "rock",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": [
+            "cube"
+        ]
+    },
+    "concrete_blue": {
+        "hardness": 1,
+        "material": "rock",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": [
+            "cube"
+        ]
+    },
+    "concrete_brown": {
+        "hardness": 1,
+        "material": "rock",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": [
+            "cube"
+        ]
+    },
+    "concrete_green": {
+        "hardness": 1,
+        "material": "rock",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": [
+            "cube"
+        ]
+    },
+    "concrete_red": {
+        "hardness": 1,
+        "material": "rock",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": [
+            "cube"
+        ]
+    },
+    "concrete_black": {
+        "hardness": 1,
+        "material": "rock",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": [
+            "cube"
+        ]
+    }
+    
+} 

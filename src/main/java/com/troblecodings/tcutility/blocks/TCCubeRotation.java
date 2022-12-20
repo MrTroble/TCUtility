@@ -1,10 +1,6 @@
 package com.troblecodings.tcutility.blocks;
 
-import com.troblecodings.tcutility.init.TCTabs;
-
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockHorizontal;
-import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
@@ -15,15 +11,13 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class PlatformEdge extends Block {
+public class TCCubeRotation extends TCCube {
+
+    public TCCubeRotation(final BlockCreateInfo blockInfo) {
+        super(blockInfo);
+    }
 
     public static final PropertyDirection FACING = BlockHorizontal.FACING;
-
-    public PlatformEdge() {
-        super(Material.ROCK);
-        setDefaultState(getDefaultState().withProperty(FACING, EnumFacing.NORTH));
-        setCreativeTab(TCTabs.BLOCKS);
-    }
 
     @Override
     public boolean canRenderInLayer(final IBlockState state, final BlockRenderLayer layer) {

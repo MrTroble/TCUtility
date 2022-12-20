@@ -1,0 +1,66 @@
+{
+    "oak": {
+        "hardness": 1,
+        "material": "wood",
+        "soundtype": "wood",
+        "opacity": 0,
+        "states": [
+            "trapdoor"
+        ]
+    },
+    "spruce": {
+        "hardness": 1,
+        "material": "wood",
+        "soundtype": "wood",
+        "opacity": 0,
+        "states": [
+            "trapdoor"
+        ]
+    },
+    "birch": {
+        "hardness": 1,
+        "material": "wood",
+        "soundtype": "wood",
+        "opacity": 0,
+        "states": [
+            "trapdoor"
+        ]
+    },
+    "jungle": {
+        "hardness": 1,
+        "material": "wood",
+        "soundtype": "wood",
+        "opacity": 0,
+        "states": [
+            "trapdoor"
+        ]
+    },
+    "acacia": {
+        "hardness": 1,
+        "material": "wood",
+        "soundtype": "wood",
+        "opacity": 0,
+        "states": [
+            "trapdoor"
+        ]
+    },
+    "dark_oak": {
+        "hardness": 1,
+        "material": "wood",
+        "soundtype": "wood",
+        "opacity": 0,
+        "states": [
+            "trapdoor",
+            "window"
+        ]
+    },
+    "glass": {
+        "hardness": 1,
+        "material": "wood",
+        "soundtype": "wood",
+        "opacity": 0,
+        "states": [
+            "trapdoor"
+        ]
+    }
+} 

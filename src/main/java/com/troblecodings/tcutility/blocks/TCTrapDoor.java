@@ -31,7 +31,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class TrapDoor extends Block {
+public class TCTrapDoor extends TCCube {
     public static final PropertyDirection FACING = BlockHorizontal.FACING;
     public static final PropertyBool OPEN = PropertyBool.create("open");
     public static final PropertyEnum<BlockTrapDoor.DoorHalf> HALF = PropertyEnum.<BlockTrapDoor.DoorHalf>create(
@@ -49,8 +49,8 @@ public class TrapDoor extends Block {
     protected static final AxisAlignedBB TOP_AABB = new AxisAlignedBB(0.0D, 0.8125D, 0.0D, 1.0D,
             1.0D, 1.0D);
 
-    public TrapDoor() {
-        super(Material.WOOD);
+    public TCTrapDoor(final BlockCreateInfo blockInfo) {
+        super(blockInfo);
         this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH)
                 .withProperty(OPEN, Boolean.valueOf(false))
                 .withProperty(HALF, BlockTrapDoor.DoorHalf.BOTTOM));
