@@ -1,6 +1,7 @@
 package com.troblecodings.tcutility.blocks;
 
 import com.troblecodings.tcutility.init.TCTabs;
+import com.troblecodings.tcutility.utils.BlockCreateInfo;
 
 import net.minecraft.block.Block;
 

@@ -18,7 +18,6 @@ import java.util.stream.Stream;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.troblecodings.tcutility.BlockProperties;
 import com.troblecodings.tcutility.TCUtilityMain;
 import com.troblecodings.tcutility.init.TCBlocks;
 

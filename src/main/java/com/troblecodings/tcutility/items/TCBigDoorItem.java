@@ -1,6 +1,6 @@
 package com.troblecodings.tcutility.items;
 
-import com.troblecodings.tcutility.blocks.BigDoor;
+import com.troblecodings.tcutility.blocks.TCBigDoor;
 import com.troblecodings.tcutility.init.TCTabs;
 
 import net.minecraft.block.Block;
@@ -16,11 +16,11 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class ItemBigDoor extends Item {
+public class TCBigDoorItem extends Item {
 
     private final Block block;
 
-    public ItemBigDoor(final Block block) {
+    public TCBigDoorItem(final Block block) {
         this.block = block;
         setCreativeTab(TCTabs.DOORS);
     }
@@ -65,19 +65,14 @@ public class ItemBigDoor extends Item {
             final Block door, boolean isRightHinge) {
         final BlockPos blockpos = pos.offset(facing.rotateY());
         final BlockPos blockpos1 = pos.offset(facing.rotateYCCW());
-        // BlockPos blockpos2 = pos.offset(facing.rotateYCCW());
         final int i = (worldIn.getBlockState(blockpos).isNormalCube() ? 1 : 0)
                 + (worldIn.getBlockState(blockpos.up()).isNormalCube() ? 1 : 0);
         final int j = (worldIn.getBlockState(blockpos1).isNormalCube() ? 1 : 0)
                 + (worldIn.getBlockState(blockpos1.up()).isNormalCube() ? 1 : 0);
-        // int k = (worldIn.getBlockState(blockpos2).isNormalCube() ? 1 : 0) +
-        // (worldIn.getBlockState(blockpos2.up(2)).isNormalCube() ? 1 : 0);
         final boolean flag = worldIn.getBlockState(blockpos).getBlock() == door
                 || worldIn.getBlockState(blockpos.up()).getBlock() == door;
         final boolean flag1 = worldIn.getBlockState(blockpos1).getBlock() == door
                 || worldIn.getBlockState(blockpos1.up()).getBlock() == door;
-        // boolean flag2 = worldIn.getBlockState(blockpos2).getBlock() == door ||
-        // worldIn.getBlockState(blockpos2.up(2)).getBlock() == door;
 
         if ((!flag1 || flag) && i <= j) {
             if (flag && !flag1 || i < j) {
@@ -90,18 +85,18 @@ public class ItemBigDoor extends Item {
         final BlockPos blockpos3 = pos.up();
         final BlockPos blockpos4 = pos.up(2);
         final boolean flag3 = worldIn.isBlockPowered(pos) || worldIn.isBlockPowered(blockpos3);
-        final IBlockState iblockstate = door.getDefaultState().withProperty(BigDoor.FACING, facing)
-                .withProperty(BigDoor.HINGE,
-                        isRightHinge ? BigDoor.EnumHingePosition.RIGHT
-                                : BigDoor.EnumHingePosition.LEFT)
-                .withProperty(BigDoor.POWERED, Boolean.valueOf(flag3))
-                .withProperty(BigDoor.OPEN, Boolean.valueOf(flag3));
+        final IBlockState iblockstate = door.getDefaultState().withProperty(TCBigDoor.FACING, facing)
+                .withProperty(TCBigDoor.HINGE,
+                        isRightHinge ? TCBigDoor.EnumHingePosition.RIGHT
+                                : TCBigDoor.EnumHingePosition.LEFT)
+                .withProperty(TCBigDoor.POWERED, Boolean.valueOf(flag3))
+                .withProperty(TCBigDoor.OPEN, Boolean.valueOf(flag3));
         worldIn.setBlockState(pos,
-                iblockstate.withProperty(BigDoor.THIRD, BigDoor.EnumDoorThird.LOWER), 2);
+                iblockstate.withProperty(TCBigDoor.THIRD, TCBigDoor.EnumDoorThird.LOWER), 2);
         worldIn.setBlockState(blockpos3,
-                iblockstate.withProperty(BigDoor.THIRD, BigDoor.EnumDoorThird.MIDDLE), 2);
+                iblockstate.withProperty(TCBigDoor.THIRD, TCBigDoor.EnumDoorThird.MIDDLE), 2);
         worldIn.setBlockState(blockpos4,
-                iblockstate.withProperty(BigDoor.THIRD, BigDoor.EnumDoorThird.UPPER), 2);
+                iblockstate.withProperty(TCBigDoor.THIRD, TCBigDoor.EnumDoorThird.UPPER), 2);
         worldIn.notifyNeighborsOfStateChange(pos, door, false);
         worldIn.notifyNeighborsOfStateChange(blockpos3, door, false);
         worldIn.notifyNeighborsOfStateChange(blockpos4, door, false);

@@ -1,0 +1,160 @@
+{
+    "oak": {
+        "hardness": 1,
+        "material": "wood",
+        "soundtype": "wood",
+        "opacity": 0,
+        "states": [
+            "trapdoor",
+            "bigdoor",
+            "door"
+        ]
+    },
+    "spruce": {
+        "hardness": 1,
+        "material": "wood",
+        "soundtype": "wood",
+        "opacity": 0,
+        "states": [
+            "trapdoor",
+            "bigdoor",
+            "door"
+        ]
+    },
+    "birch": {
+        "hardness": 1,
+        "material": "wood",
+        "soundtype": "wood",
+        "opacity": 0,
+        "states": [
+            "trapdoor",
+            "bigdoor",
+            "door"
+        ]
+    },
+    "jungle": {
+        "hardness": 1,
+        "material": "wood",
+        "soundtype": "wood",
+        "opacity": 0,
+        "states": [
+            "trapdoor",
+            "bigdoor",
+            "door"
+        ]
+    },
+    "acacia": {
+        "hardness": 1,
+        "material": "wood",
+        "soundtype": "wood",
+        "opacity": 0,
+        "states": [
+            "trapdoor",
+            "bigdoor",
+            "door"
+        ]
+    },
+    "dark_oak": {
+        "hardness": 1,
+        "material": "wood",
+        "soundtype": "wood",
+        "opacity": 0,
+        "states": [
+            "trapdoor",
+            "window",
+            "bigdoor",
+            "door"
+        ]
+    },
+    "white": {
+        "hardness": 1,
+        "material": "wood",
+        "soundtype": "wood",
+        "opacity": 0,
+        "states": [
+            "bigdoor",
+            "door"
+        ]
+    },
+    "old": {
+        "hardness": 1,
+        "material": "wood",
+        "soundtype": "wood",
+        "opacity": 0,
+        "states": [
+            "door"
+        ]
+    },
+    "oak_glass": {
+        "hardness": 1,
+        "material": "wood",
+        "soundtype": "wood",
+        "opacity": 0,
+        "states": [
+            "door"
+        ]
+    },
+    "oak_windowed": {
+        "hardness": 1,
+        "material": "wood",
+        "soundtype": "wood",
+        "opacity": 0,
+        "states": [
+            "door"
+        ]
+    },
+    "spruce_windowed": {
+        "hardness": 1,
+        "material": "wood",
+        "soundtype": "wood",
+        "opacity": 0,
+        "states": [
+            "door"
+        ]
+    },
+    "birch_windowed": {
+        "hardness": 1,
+        "material": "wood",
+        "soundtype": "wood",
+        "opacity": 0,
+        "states": [
+            "door"
+        ]
+    },
+    "jungle_windowed": {
+        "hardness": 1,
+        "material": "wood",
+        "soundtype": "wood",
+        "opacity": 0,
+        "states": [
+            "door"
+        ]
+    },
+    "acacia_windowed": {
+        "hardness": 1,
+        "material": "wood",
+        "soundtype": "wood",
+        "opacity": 0,
+        "states": [
+            "door"
+        ]
+    },
+    "dark_oak_windowed": {
+        "hardness": 1,
+        "material": "wood",
+        "soundtype": "wood",
+        "opacity": 0,
+        "states": [
+            "door"
+        ]
+    },
+    "white_windowed": {
+        "hardness": 1,
+        "material": "wood",
+        "soundtype": "wood",
+        "opacity": 0,
+        "states": [
+            "door"
+        ]
+    }
+} 

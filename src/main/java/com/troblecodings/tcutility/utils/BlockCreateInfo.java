@@ -1,4 +1,4 @@
-package com.troblecodings.tcutility.blocks;
+package com.troblecodings.tcutility.utils;
 
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;

@@ -7,30 +7,31 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import com.troblecodings.tcutility.BlockProperties;
 import com.troblecodings.tcutility.TCUtilityMain;
-import com.troblecodings.tcutility.blocks.BigDoor;
 import com.troblecodings.tcutility.blocks.Bin;
-import com.troblecodings.tcutility.blocks.BlockCreateInfo;
 import com.troblecodings.tcutility.blocks.Clock;
-import com.troblecodings.tcutility.blocks.Door;
 import com.troblecodings.tcutility.blocks.Lantern;
-import com.troblecodings.tcutility.blocks.Slab;
-import com.troblecodings.tcutility.blocks.Stairs;
+import com.troblecodings.tcutility.blocks.TCBigDoor;
 import com.troblecodings.tcutility.blocks.TCCube;
 import com.troblecodings.tcutility.blocks.TCCubeRotation;
+import com.troblecodings.tcutility.blocks.TCDoor;
 import com.troblecodings.tcutility.blocks.TCFence;
 import com.troblecodings.tcutility.blocks.TCFenceGate;
 import com.troblecodings.tcutility.blocks.TCLadder;
+import com.troblecodings.tcutility.blocks.TCSlab;
+import com.troblecodings.tcutility.blocks.TCStairs;
 import com.troblecodings.tcutility.blocks.TCTrapDoor;
 import com.troblecodings.tcutility.blocks.TCWall;
 import com.troblecodings.tcutility.blocks.TCWindow;
 import com.troblecodings.tcutility.blocks.TrafficCone;
+import com.troblecodings.tcutility.items.TCBigDoorItem;
+import com.troblecodings.tcutility.items.TCDoorItem;
+import com.troblecodings.tcutility.utils.BlockCreateInfo;
+import com.troblecodings.tcutility.utils.BlockProperties;
 import com.troblecodings.tcutility.utils.FileReader;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
-import net.minecraft.block.material.Material;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.tileentity.TileEntity;
@@ -47,37 +48,8 @@ public final class TCBlocks {
     public static final TrafficCone TRAFFIC_CONE = new TrafficCone();
     public static final Bin BIN = new Bin();
     public static final Lantern LANTERN = new Lantern();
-    public static final Door DOOR_JAIL_BLOCK = new Door(Material.IRON);
-    public static final Door DOOR_IRON_GLASS_BLOCK = new Door(Material.IRON);
-    public static final Door DOOR_OAK_GLASS_BLOCK = new Door(Material.WOOD);
-    public static final Door DOOR_OAK_WINDOWED_BLOCK = new Door(Material.WOOD);
-    public static final Door DOOR_SPRUCE_WINDOWED_BLOCK = new Door(Material.WOOD);
-    public static final Door DOOR_BIRCH_WINDOWED_BLOCK = new Door(Material.WOOD);
-    public static final Door DOOR_JUNGLE_WINDOWED_BLOCK = new Door(Material.WOOD);
-    public static final Door DOOR_ACACIA_WINDOWED_BLOCK = new Door(Material.WOOD);
-    public static final Door DOOR_DARK_OAK_WINDOWED_BLOCK = new Door(Material.WOOD);
-    public static final Door DOOR_IRON_WINDOWED_BLOCK = new Door(Material.IRON);
-    public static final Door DOOR_WHITE_WINDOWED_BLOCK = new Door(Material.WOOD);
-    public static final Door DOOR_OAK_BLOCK = new Door(Material.WOOD);
-    public static final Door DOOR_SPRUCE_BLOCK = new Door(Material.WOOD);
-    public static final Door DOOR_BIRCH_BLOCK = new Door(Material.WOOD);
-    public static final Door DOOR_JUNGLE_BLOCK = new Door(Material.WOOD);
-    public static final Door DOOR_ACACIA_BLOCK = new Door(Material.WOOD);
-    public static final Door DOOR_DARK_OAK_BLOCK = new Door(Material.WOOD);
-    public static final Door DOOR_IRON_BLOCK = new Door(Material.IRON);
-    public static final Door DOOR_WHITE_BLOCK = new Door(Material.WOOD);
-    public static final Door DOOR_OLD_BLOCK = new Door(Material.WOOD);
-    public static final Door DOOR_RUSTY_BLOCK = new Door(Material.IRON);
-    public static final BigDoor BIGDOOR_OAK_BLOCK = new BigDoor(Material.WOOD);
-    public static final BigDoor BIGDOOR_SPRUCE_BLOCK = new BigDoor(Material.WOOD);
-    public static final BigDoor BIGDOOR_BIRCH_BLOCK = new BigDoor(Material.WOOD);
-    public static final BigDoor BIGDOOR_JUNGLE_BLOCK = new BigDoor(Material.WOOD);
-    public static final BigDoor BIGDOOR_ACACIA_BLOCK = new BigDoor(Material.WOOD);
-    public static final BigDoor BIGDOOR_DARK_OAK_BLOCK = new BigDoor(Material.WOOD);
-    public static final BigDoor BIGDOOR_IRON_BLOCK = new BigDoor(Material.IRON);
-    public static final BigDoor BIGDOOR_WHITE_BLOCK = new BigDoor(Material.WOOD);
     public static final Clock CLOCK = new Clock();
-
+    
     public static ArrayList<Block> blocksToRegister = new ArrayList<>();
 
     public static void init() {
@@ -144,19 +116,6 @@ public final class TCBlocks {
 
             for (final String state : states) {
                 switch (state) {
-                    case "stair":
-                        final TCCube tCCube = new TCCube(blockInfo);
-                        final Block stair = new Stairs(tCCube.getDefaultState());
-                        stair.setRegistryName(
-                                new ResourceLocation(TCUtilityMain.MODID, objectname + "_stair"));
-                        stair.setUnlocalizedName(objectname + "_stair");
-                        blocksToRegister.add(stair);
-                    case "slab":
-                        final Slab slab = new Slab(blockInfo);
-                        slab.setRegistryName(
-                                new ResourceLocation(TCUtilityMain.MODID, objectname + "_slab"));
-                        slab.setUnlocalizedName(objectname + "_slab");
-                        blocksToRegister.add(slab);
                     case "cube":
                         final TCCube cube = new TCCube(blockInfo);
                         cube.setRegistryName(
@@ -170,6 +129,20 @@ public final class TCBlocks {
                                 new ResourceLocation(TCUtilityMain.MODID, objectname));
                         cuberot.setUnlocalizedName(objectname);
                         blocksToRegister.add(cuberot);
+                        break;
+                    case "stair":
+                        final TCStairs stair = new TCStairs(blockInfo);
+                        stair.setRegistryName(
+                                new ResourceLocation(TCUtilityMain.MODID, objectname + "_stair"));
+                        stair.setUnlocalizedName(objectname + "_stair");
+                        blocksToRegister.add(stair);
+                        break;
+                    case "slab":
+                        final TCSlab slab = new TCSlab(blockInfo);
+                        slab.setRegistryName(
+                                new ResourceLocation(TCUtilityMain.MODID, objectname + "_slab"));
+                        slab.setUnlocalizedName(objectname + "_slab");
+                        blocksToRegister.add(slab);
                         break;
                     case "fence":
                         final TCFence fence = new TCFence(blockInfo);
@@ -212,6 +185,30 @@ public final class TCBlocks {
                                 new ResourceLocation(TCUtilityMain.MODID, "ladder_" + objectname));
                         ladder.setUnlocalizedName("ladder_" + objectname);
                         blocksToRegister.add(ladder);
+                        break;
+                    case "door":
+                        final TCDoor door = new TCDoor(blockInfo);
+                        door.setRegistryName(
+                                new ResourceLocation(TCUtilityMain.MODID, "door_" + objectname + "_block"));
+                        door.setUnlocalizedName("door_" + objectname + "_block");
+                        blocksToRegister.add(door);
+                        final TCDoorItem dooritem = new TCDoorItem(door);
+                        dooritem.setRegistryName(
+                                new ResourceLocation(TCUtilityMain.MODID, "door_" + objectname));
+                        dooritem.setUnlocalizedName("door_" + objectname);
+                        TCItems.itemsToRegister.add(dooritem);
+                        break;
+                    case "bigdoor":
+                        final TCBigDoor bigdoor = new TCBigDoor(blockInfo);
+                        bigdoor.setRegistryName(
+                                new ResourceLocation(TCUtilityMain.MODID, "bigdoor_" + objectname + "_block"));
+                        bigdoor.setUnlocalizedName("bigdoor_" + objectname + "_block");
+                        blocksToRegister.add(bigdoor);
+                        final TCBigDoorItem bigdooritem = new TCBigDoorItem(bigdoor);
+                        bigdooritem.setRegistryName(
+                                new ResourceLocation(TCUtilityMain.MODID, "bigdoor_" + objectname));
+                        bigdooritem.setUnlocalizedName("bigdoor_" + objectname);
+                        TCItems.itemsToRegister.add(bigdooritem);
                         break;
                     default:
                         TCUtilityMain.LOG.error("The given state " + state + " is not valid.");

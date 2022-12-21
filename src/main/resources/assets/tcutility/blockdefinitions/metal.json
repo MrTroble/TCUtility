@@ -1,0 +1,59 @@
+{
+    "iron": {
+        "hardness": 1,
+        "material": "iron",
+        "soundtype": "metal",
+        "opacity": 0,
+        "states": [
+            "ladder",
+            "bigdoor",
+            "door"
+        ]
+    },
+    "rusty": {
+        "hardness": 1,
+        "material": "iron",
+        "soundtype": "metal",
+        "opacity": 0,
+        "states": [
+            "ladder",
+            "door"
+        ]
+    },
+    "roof": {
+        "hardness": 1,
+        "material": "iron",
+        "soundtype": "metal",
+        "opacity": 0,
+        "states": [
+            "ladder"
+        ]
+    },
+    "jail": {
+        "hardness": 1,
+        "material": "iron",
+        "soundtype": "metal",
+        "opacity": 0,
+        "states": [
+            "door"
+        ]
+    },
+    "iron_glass": {
+        "hardness": 1,
+        "material": "iron",
+        "soundtype": "metal",
+        "opacity": 0,
+        "states": [
+            "door"
+        ]
+    },
+    "iron_windowed": {
+        "hardness": 1,
+        "material": "iron",
+        "soundtype": "metal",
+        "opacity": 0,
+        "states": [
+            "door"
+        ]
+    }
+} 

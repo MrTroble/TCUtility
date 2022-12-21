@@ -2,8 +2,7 @@ package com.troblecodings.tcutility.blocks;
 
 import java.util.Random;
 
-import com.troblecodings.tcutility.init.TCBlocks;
-import com.troblecodings.tcutility.init.TCItems;
+import com.troblecodings.tcutility.utils.BlockCreateInfo;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockHorizontal;
@@ -17,9 +16,7 @@ import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
@@ -33,15 +30,15 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class BigDoor extends Block {
+public class TCBigDoor extends TCCube {
 
     public static final PropertyDirection FACING = BlockHorizontal.FACING;
     public static final PropertyBool OPEN = PropertyBool.create("open");
-    public static final PropertyEnum<BigDoor.EnumHingePosition> HINGE = PropertyEnum.<BigDoor.EnumHingePosition>create(
-            "hinge", BigDoor.EnumHingePosition.class);
+    public static final PropertyEnum<TCBigDoor.EnumHingePosition> HINGE = PropertyEnum.<TCBigDoor.EnumHingePosition>create(
+            "hinge", TCBigDoor.EnumHingePosition.class);
     public static final PropertyBool POWERED = PropertyBool.create("powered");
-    public static final PropertyEnum<BigDoor.EnumDoorThird> THIRD = PropertyEnum.<BigDoor.EnumDoorThird>create(
-            "third", BigDoor.EnumDoorThird.class);
+    public static final PropertyEnum<TCBigDoor.EnumDoorThird> THIRD = PropertyEnum.<TCBigDoor.EnumDoorThird>create(
+            "third", TCBigDoor.EnumDoorThird.class);
 
     protected static final AxisAlignedBB SOUTH_L_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.5D,
             1.0D, 0.1875D);
@@ -60,35 +57,14 @@ public class BigDoor extends Block {
     protected static final AxisAlignedBB EAST_R_AABB = new AxisAlignedBB(0.0D, 0.0D, -0.5D, 0.1875D,
             1.0D, 1.0D);
 
-    public BigDoor(final Material material) {
-        super(material);
+    public TCBigDoor(final BlockCreateInfo blockInfo) {
+        super(blockInfo);
         this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH)
                 .withProperty(OPEN, Boolean.valueOf(false))
-                .withProperty(HINGE, BigDoor.EnumHingePosition.LEFT)
+                .withProperty(HINGE, TCBigDoor.EnumHingePosition.LEFT)
                 .withProperty(POWERED, Boolean.valueOf(false))
-                .withProperty(THIRD, BigDoor.EnumDoorThird.LOWER));
-    }
-
-    private Item getItem() {
-        if (this == TCBlocks.BIGDOOR_OAK_BLOCK) {
-            return TCItems.BIGDOOR_OAK;
-        } else if (this == TCBlocks.BIGDOOR_SPRUCE_BLOCK) {
-            return TCItems.BIGDOOR_SPRUCE;
-        } else if (this == TCBlocks.BIGDOOR_BIRCH_BLOCK) {
-            return TCItems.BIGDOOR_BIRCH;
-        } else if (this == TCBlocks.BIGDOOR_JUNGLE_BLOCK) {
-            return TCItems.BIGDOOR_JUNGLE;
-        } else if (this == TCBlocks.BIGDOOR_ACACIA_BLOCK) {
-            return TCItems.BIGDOOR_ACACIA;
-        } else if (this == TCBlocks.BIGDOOR_DARK_OAK_BLOCK) {
-            return TCItems.BIGDOOR_DARK_OAK;
-        } else if (this == TCBlocks.BIGDOOR_IRON_BLOCK) {
-            return TCItems.BIGDOOR_IRON;
-        } else if (this == TCBlocks.BIGDOOR_WHITE_BLOCK) {
-            return TCItems.BIGDOOR_WHITE;
-        } else {
-            return Items.OAK_DOOR;
-        }
+                .withProperty(THIRD, TCBigDoor.EnumDoorThird.LOWER));
+        setCreativeTab(null);
     }
 
     @Override
@@ -97,7 +73,7 @@ public class BigDoor extends Block {
         state = state.getActualState(source, pos);
         final EnumFacing enumfacing = state.getValue(FACING);
         final boolean flag = !state.getValue(OPEN).booleanValue();
-        final boolean flag1 = state.getValue(HINGE) == BigDoor.EnumHingePosition.RIGHT;
+        final boolean flag1 = state.getValue(HINGE) == TCBigDoor.EnumHingePosition.RIGHT;
 
         switch (enumfacing) {
             case EAST:
@@ -169,7 +145,7 @@ public class BigDoor extends Block {
         if (this.blockMaterial == Material.IRON) {
             return false;
         } else {
-            if (state.getValue(THIRD) == BigDoor.EnumDoorThird.LOWER) {
+            if (state.getValue(THIRD) == TCBigDoor.EnumDoorThird.LOWER) {
                 final BlockPos blockpos = pos;
                 final IBlockState iblockstate = pos.equals(blockpos) ? state
                         : worldIn.getBlockState(blockpos);
@@ -183,7 +159,7 @@ public class BigDoor extends Block {
                                 : this.getCloseSound(),
                         pos, 0);
                 return true;
-            } else if (state.getValue(THIRD) == BigDoor.EnumDoorThird.MIDDLE) {
+            } else if (state.getValue(THIRD) == TCBigDoor.EnumDoorThird.MIDDLE) {
                 final BlockPos blockpos = pos.down();
                 final IBlockState iblockstate = pos.equals(blockpos) ? state
                         : worldIn.getBlockState(blockpos);
@@ -219,7 +195,7 @@ public class BigDoor extends Block {
     @Override
     public void neighborChanged(final IBlockState state, final World worldIn, final BlockPos pos,
             final Block blockIn, final BlockPos fromPos) {
-        if (state.getValue(THIRD) == BigDoor.EnumDoorThird.UPPER) {
+        if (state.getValue(THIRD) == TCBigDoor.EnumDoorThird.UPPER) {
             final BlockPos blockpos = pos.down();
             final BlockPos blockpos1 = pos.down(2);
             final IBlockState iblockstate = worldIn.getBlockState(blockpos);
@@ -230,7 +206,7 @@ public class BigDoor extends Block {
             } else if (blockIn != this) {
                 iblockstate.neighborChanged(worldIn, blockpos, blockIn, fromPos);
             }
-        } else if (state.getValue(THIRD) == BigDoor.EnumDoorThird.MIDDLE) {
+        } else if (state.getValue(THIRD) == TCBigDoor.EnumDoorThird.MIDDLE) {
             final BlockPos blockpos = pos.down();
             final BlockPos blockpos1 = pos.up();
             final IBlockState iblockstate = worldIn.getBlockState(blockpos);
@@ -299,11 +275,7 @@ public class BigDoor extends Block {
 
     @Override
     public Item getItemDropped(final IBlockState state, final Random rand, final int fortune) {
-        if (state.getValue(THIRD) == BigDoor.EnumDoorThird.LOWER) {
-            return this.getItem();
-        } else {
-            return Items.AIR;
-        }
+        return null;
     }
 
     @Override
@@ -312,14 +284,9 @@ public class BigDoor extends Block {
     }
 
     @Override
-    public ItemStack getItem(final World worldIn, final BlockPos pos, final IBlockState state) {
-        return new ItemStack(this.getItem());
-    }
-
-    @Override
     public void onBlockHarvested(final World worldIn, final BlockPos pos, final IBlockState state,
             final EntityPlayer player) {
-        final BigDoor.EnumDoorThird part = state.getValue(THIRD);
+        final TCBigDoor.EnumDoorThird part = state.getValue(THIRD);
         BlockPos blockPos1 = pos;
         BlockPos blockPos2 = pos;
         switch (part) {
@@ -365,13 +332,13 @@ public class BigDoor extends Block {
     @Override
     public IBlockState getActualState(IBlockState state, final IBlockAccess worldIn,
             final BlockPos pos) {
-        if (state.getValue(THIRD) == BigDoor.EnumDoorThird.LOWER) {
+        if (state.getValue(THIRD) == TCBigDoor.EnumDoorThird.LOWER) {
             final IBlockState iblockstate = worldIn.getBlockState(pos.up(2));
             if (iblockstate.getBlock() == this) {
                 state = state.withProperty(HINGE, iblockstate.getValue(HINGE)).withProperty(POWERED,
                         iblockstate.getValue(POWERED));
             }
-        } else if (state.getValue(THIRD) == BigDoor.EnumDoorThird.MIDDLE) {
+        } else if (state.getValue(THIRD) == TCBigDoor.EnumDoorThird.MIDDLE) {
             final IBlockState iblockstate = worldIn.getBlockState(pos.down());
             final IBlockState iblockstate1 = worldIn.getBlockState(pos.up());
             if (iblockstate1.getBlock() == this) {
@@ -382,7 +349,7 @@ public class BigDoor extends Block {
                 state = state.withProperty(FACING, iblockstate.getValue(FACING)).withProperty(OPEN,
                         iblockstate.getValue(OPEN));
             }
-        } else if (state.getValue(THIRD) == BigDoor.EnumDoorThird.UPPER) {
+        } else if (state.getValue(THIRD) == TCBigDoor.EnumDoorThird.UPPER) {
             final IBlockState iblockstate = worldIn.getBlockState(pos.down(2));
             if (iblockstate.getBlock() == this) {
                 state = state.withProperty(FACING, iblockstate.getValue(FACING)).withProperty(OPEN,
@@ -394,7 +361,7 @@ public class BigDoor extends Block {
 
     @Override
     public IBlockState withRotation(final IBlockState state, final Rotation rot) {
-        return state.getValue(THIRD) != BigDoor.EnumDoorThird.LOWER ? state
+        return state.getValue(THIRD) != TCBigDoor.EnumDoorThird.LOWER ? state
                 : state.withProperty(FACING, rot.rotate(state.getValue(FACING)));
     }
 
@@ -408,32 +375,32 @@ public class BigDoor extends Block {
     @Override
     public IBlockState getStateFromMeta(final int meta) {
         if (((meta & 8) > 0) && ((meta & 12) < 12)) {
-            return this.getDefaultState().withProperty(THIRD, BigDoor.EnumDoorThird.UPPER)
+            return this.getDefaultState().withProperty(THIRD, TCBigDoor.EnumDoorThird.UPPER)
                     .withProperty(HINGE,
-                            (meta & 1) > 0 ? BigDoor.EnumHingePosition.RIGHT
-                                    : BigDoor.EnumHingePosition.LEFT)
+                            (meta & 1) > 0 ? TCBigDoor.EnumHingePosition.RIGHT
+                                    : TCBigDoor.EnumHingePosition.LEFT)
                     .withProperty(POWERED, Boolean.valueOf((meta & 2) > 0));
         } else if ((meta & 0) >= 0 && ((meta & 12) < 12)) {
-            return this.getDefaultState().withProperty(THIRD, BigDoor.EnumDoorThird.LOWER)
+            return this.getDefaultState().withProperty(THIRD, TCBigDoor.EnumDoorThird.LOWER)
                     .withProperty(FACING, EnumFacing.getHorizontal(meta & 3).rotateYCCW())
                     .withProperty(OPEN, Boolean.valueOf((meta & 4) > 0));
         } else {
-            return this.getDefaultState().withProperty(THIRD, BigDoor.EnumDoorThird.MIDDLE);
+            return this.getDefaultState().withProperty(THIRD, TCBigDoor.EnumDoorThird.MIDDLE);
         }
     }
 
     @Override
     public int getMetaFromState(final IBlockState state) {
         int i = 0;
-        if (state.getValue(THIRD) == BigDoor.EnumDoorThird.UPPER) {
+        if (state.getValue(THIRD) == TCBigDoor.EnumDoorThird.UPPER) {
             i = i | 8;
-            if (state.getValue(HINGE) == BigDoor.EnumHingePosition.RIGHT) {
+            if (state.getValue(HINGE) == TCBigDoor.EnumHingePosition.RIGHT) {
                 i |= 1;
             }
             if (state.getValue(POWERED).booleanValue()) {
                 i |= 2;
             }
-        } else if (state.getValue(THIRD) == BigDoor.EnumDoorThird.MIDDLE) {
+        } else if (state.getValue(THIRD) == TCBigDoor.EnumDoorThird.MIDDLE) {
             i = i | 12;
         } else {
             i = i | state.getValue(FACING).rotateY().getHorizontalIndex();

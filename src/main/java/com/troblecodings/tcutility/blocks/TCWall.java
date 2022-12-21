@@ -5,6 +5,7 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import com.troblecodings.tcutility.init.TCTabs;
+import com.troblecodings.tcutility.utils.BlockCreateInfo;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFenceGate;

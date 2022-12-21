@@ -5,8 +5,6 @@ import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 
 import com.troblecodings.tcutility.TCUtilityMain;
-import com.troblecodings.tcutility.items.ItemBigDoor;
-import com.troblecodings.tcutility.items.ItemDoor;
 
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
@@ -18,44 +16,6 @@ public final class TCItems {
 
     private TCItems() {
     }
-
-    public static final ItemDoor DOOR_JAIL = new ItemDoor(TCBlocks.DOOR_JAIL_BLOCK);
-    public static final ItemDoor DOOR_IRON_GLASS = new ItemDoor(TCBlocks.DOOR_IRON_GLASS_BLOCK);
-    public static final ItemDoor DOOR_OAK_GLASS = new ItemDoor(TCBlocks.DOOR_OAK_GLASS_BLOCK);
-    public static final ItemDoor DOOR_OAK_WINDOWED = new ItemDoor(TCBlocks.DOOR_OAK_WINDOWED_BLOCK);
-    public static final ItemDoor DOOR_SPRUCE_WINDOWED = new ItemDoor(
-            TCBlocks.DOOR_SPRUCE_WINDOWED_BLOCK);
-    public static final ItemDoor DOOR_BIRCH_WINDOWED = new ItemDoor(
-            TCBlocks.DOOR_BIRCH_WINDOWED_BLOCK);
-    public static final ItemDoor DOOR_JUNGLE_WINDOWED = new ItemDoor(
-            TCBlocks.DOOR_JUNGLE_WINDOWED_BLOCK);
-    public static final ItemDoor DOOR_ACACIA_WINDOWED = new ItemDoor(
-            TCBlocks.DOOR_ACACIA_WINDOWED_BLOCK);
-    public static final ItemDoor DOOR_DARK_OAK_WINDOWED = new ItemDoor(
-            TCBlocks.DOOR_DARK_OAK_WINDOWED_BLOCK);
-    public static final ItemDoor DOOR_IRON_WINDOWED = new ItemDoor(
-            TCBlocks.DOOR_IRON_WINDOWED_BLOCK);
-    public static final ItemDoor DOOR_WHITE_WINDOWED = new ItemDoor(
-            TCBlocks.DOOR_WHITE_WINDOWED_BLOCK);
-    public static final ItemDoor DOOR_OAK = new ItemDoor(TCBlocks.DOOR_OAK_BLOCK);
-    public static final ItemDoor DOOR_SPRUCE = new ItemDoor(TCBlocks.DOOR_SPRUCE_BLOCK);
-    public static final ItemDoor DOOR_BIRCH = new ItemDoor(TCBlocks.DOOR_BIRCH_BLOCK);
-    public static final ItemDoor DOOR_JUNGLE = new ItemDoor(TCBlocks.DOOR_JUNGLE_BLOCK);
-    public static final ItemDoor DOOR_ACACIA = new ItemDoor(TCBlocks.DOOR_ACACIA_BLOCK);
-    public static final ItemDoor DOOR_DARK_OAK = new ItemDoor(TCBlocks.DOOR_DARK_OAK_BLOCK);
-    public static final ItemDoor DOOR_IRON = new ItemDoor(TCBlocks.DOOR_IRON_BLOCK);
-    public static final ItemDoor DOOR_WHITE = new ItemDoor(TCBlocks.DOOR_WHITE_BLOCK);
-    public static final ItemDoor DOOR_OLD = new ItemDoor(TCBlocks.DOOR_OLD_BLOCK);
-    public static final ItemDoor DOOR_RUSTY = new ItemDoor(TCBlocks.DOOR_RUSTY_BLOCK);
-    public static final ItemBigDoor BIGDOOR_OAK = new ItemBigDoor(TCBlocks.BIGDOOR_OAK_BLOCK);
-    public static final ItemBigDoor BIGDOOR_SPRUCE = new ItemBigDoor(TCBlocks.BIGDOOR_SPRUCE_BLOCK);
-    public static final ItemBigDoor BIGDOOR_BIRCH = new ItemBigDoor(TCBlocks.BIGDOOR_BIRCH_BLOCK);
-    public static final ItemBigDoor BIGDOOR_JUNGLE = new ItemBigDoor(TCBlocks.BIGDOOR_JUNGLE_BLOCK);
-    public static final ItemBigDoor BIGDOOR_ACACIA = new ItemBigDoor(TCBlocks.BIGDOOR_ACACIA_BLOCK);
-    public static final ItemBigDoor BIGDOOR_DARK_OAK = new ItemBigDoor(
-            TCBlocks.BIGDOOR_DARK_OAK_BLOCK);
-    public static final ItemBigDoor BIGDOOR_IRON = new ItemBigDoor(TCBlocks.BIGDOOR_IRON_BLOCK);
-    public static final ItemBigDoor BIGDOOR_WHITE = new ItemBigDoor(TCBlocks.BIGDOOR_WHITE_BLOCK);
 
     public static ArrayList<Item> itemsToRegister = new ArrayList<>();
 

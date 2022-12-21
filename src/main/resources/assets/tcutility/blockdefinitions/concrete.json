@@ -5,7 +5,9 @@
         "soundtype": "stone",
         "opacity": 0,
         "states": [
-            "cube"
+            "cube",
+            "stair",
+            "slab"
         ]
     },
     "concrete_orange": {

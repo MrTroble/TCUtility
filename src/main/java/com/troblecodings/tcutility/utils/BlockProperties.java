@@ -1,9 +1,9 @@
-package com.troblecodings.tcutility;
+package com.troblecodings.tcutility.utils;
 
 import java.util.HashMap;
 import java.util.List;
 
-import com.troblecodings.tcutility.blocks.BlockCreateInfo;
+import com.troblecodings.tcutility.TCUtilityMain;
 
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
