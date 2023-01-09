@@ -1,0 +1,30 @@
+{
+    "iron": {
+        "hardness": 1,
+        "material": "iron",
+        "soundtype": "metal",
+        "opacity": 0,
+        "states": [
+            "ladder",
+            "bigdoor"
+        ]
+    },
+    "rusty": {
+        "hardness": 1,
+        "material": "iron",
+        "soundtype": "metal",
+        "opacity": 0,
+        "states": [
+            "ladder"
+        ]
+    },
+    "roof": {
+        "hardness": 1,
+        "material": "iron",
+        "soundtype": "metal",
+        "opacity": 0,
+        "states": [
+            "ladder"
+        ]
+    }
+} 

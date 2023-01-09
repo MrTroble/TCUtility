@@ -9,7 +9,6 @@ import java.util.Map.Entry;
 
 import com.troblecodings.tcutility.TCUtilityMain;
 import com.troblecodings.tcutility.blocks.Bin;
-import com.troblecodings.tcutility.blocks.Clock;
 import com.troblecodings.tcutility.blocks.Lantern;
 import com.troblecodings.tcutility.blocks.TCBigDoor;
 import com.troblecodings.tcutility.blocks.TCCube;
@@ -48,7 +47,6 @@ public final class TCBlocks {
     public static final TrafficCone TRAFFIC_CONE = new TrafficCone();
     public static final Bin BIN = new Bin();
     public static final Lantern LANTERN = new Lantern();
-    public static final Clock CLOCK = new Clock();
     
     public static ArrayList<Block> blocksToRegister = new ArrayList<>();
 

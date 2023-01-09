@@ -1,0 +1,11 @@
+{
+    "clock": {
+        "hardness": 1,
+        "material": "rock",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": [
+            "cube_rot"
+        ]
+    }
+} 

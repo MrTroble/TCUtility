@@ -3,6 +3,7 @@ package com.troblecodings.tcutility.blocks;
 import com.troblecodings.tcutility.init.TCTabs;
 import com.troblecodings.tcutility.utils.BlockCreateInfo;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
@@ -17,8 +18,8 @@ import net.minecraft.world.World;
 
 public class TCSlab extends TCCube {
 
-    public static final PropertyEnum<TCSlab.EnumBlockHalf> HALF = PropertyEnum.<TCSlab.EnumBlockHalf>create(
-            "half", TCSlab.EnumBlockHalf.class);
+    public static final PropertyEnum<TCSlab.SlabType> TYPE = PropertyEnum.<TCSlab.SlabType>create(
+            "half", TCSlab.SlabType.class);
     protected static final AxisAlignedBB AABB_BOTTOM_HALF = new AxisAlignedBB(0.0D, 0.0D, 0.0D,
             1.0D, 0.5D, 1.0D);
     protected static final AxisAlignedBB AABB_TOP_HALF = new AxisAlignedBB(0.0D, 0.5D, 0.0D, 1.0D,
@@ -27,7 +28,7 @@ public class TCSlab extends TCCube {
     public TCSlab(final BlockCreateInfo blockInfo) {
         super(blockInfo);
         IBlockState iblockstate = this.blockState.getBaseState();
-        iblockstate = iblockstate.withProperty(HALF, TCSlab.EnumBlockHalf.BOTTOM);
+        iblockstate = iblockstate.withProperty(TYPE, TCSlab.SlabType.BOTTOM);
         this.setCreativeTab(TCTabs.SLABS);
         this.setDefaultState(iblockstate);
     }
@@ -35,17 +36,25 @@ public class TCSlab extends TCCube {
     @Override
     public AxisAlignedBB getBoundingBox(final IBlockState state, final IBlockAccess source,
             final BlockPos pos) {
-        return state.getValue(HALF) == TCSlab.EnumBlockHalf.TOP ? AABB_TOP_HALF : AABB_BOTTOM_HALF;
+        final SlabType slabtype = state.getValue(TYPE);
+        switch (slabtype) {
+            case DOUBLE:
+                return FULL_BLOCK_AABB;
+            case TOP:
+                return AABB_TOP_HALF;
+            default:
+                return AABB_BOTTOM_HALF;
+        }
     }
 
     @Override
     public boolean isOpaqueCube(final IBlockState state) {
-        return false;
+        return state.getValue(TYPE) == SlabType.DOUBLE;
     }
 
     @Override
     public boolean isFullCube(final IBlockState state) {
-        return false;
+        return state.getValue(TYPE) == SlabType.DOUBLE;
     }
 
     @SuppressWarnings("deprecation")
@@ -53,25 +62,53 @@ public class TCSlab extends TCCube {
     public IBlockState getStateForPlacement(final World worldIn, final BlockPos pos,
             final EnumFacing facing, final float hitX, final float hitY, final float hitZ,
             final int meta, final EntityLivingBase placer) {
-        final IBlockState iblockstate = super.getStateForPlacement(worldIn, pos, facing, hitX, hitY,
-                hitZ, meta, placer).withProperty(HALF, TCSlab.EnumBlockHalf.BOTTOM);
-        return facing != EnumFacing.DOWN && (facing == EnumFacing.UP || hitY <= 0.5D) ? iblockstate
-                : iblockstate.withProperty(HALF, TCSlab.EnumBlockHalf.TOP);
+        final IBlockState state = worldIn.getBlockState(pos);
+        final Block block = worldIn.getBlockState(pos).getBlock();
+        if (block == this
+                && (state.getValue(TYPE) == SlabType.BOTTOM
+                        || state.getValue(TYPE) == SlabType.TOP)) {
+            return state.withProperty(TYPE, SlabType.DOUBLE);
+        } else {
+            final IBlockState iblockstate = super.getStateForPlacement(worldIn, pos, facing, hitX,
+                    hitY, hitZ, meta, placer).withProperty(TYPE, TCSlab.SlabType.BOTTOM);
+            return facing != EnumFacing.DOWN && (facing == EnumFacing.UP || hitY <= 0.5D)
+                    ? iblockstate
+                    : iblockstate.withProperty(TYPE, TCSlab.SlabType.TOP);
+        }
+    }
+    
+    @Override
+    public boolean isReplaceable(final IBlockAccess worldIn, final BlockPos pos) {
+        final IBlockState blockstate = worldIn.getBlockState(pos);
+        final Block block = worldIn.getBlockState(pos).getBlock();
+        final SlabType type = blockstate.getValue(TYPE);
+        if (block == this && type != SlabType.DOUBLE) {
+            return true;
+        }
+        return false;
     }
 
     @Override
     public IBlockState getStateFromMeta(final int meta) {
-        IBlockState iblockstate = this.getDefaultState();
-        iblockstate = iblockstate.withProperty(HALF,
-                (meta & 8) == 0 ? TCSlab.EnumBlockHalf.BOTTOM : TCSlab.EnumBlockHalf.TOP);
-        return iblockstate;
+        final IBlockState iblockstate = this.getDefaultState();
+        if(meta == 2) {
+            return iblockstate.withProperty(TYPE, TCSlab.SlabType.DOUBLE);
+        } else if (meta == 1) {
+            return iblockstate.withProperty(TYPE, TCSlab.SlabType.TOP);
+        } else {
+            return iblockstate.withProperty(TYPE, TCSlab.SlabType.BOTTOM);
+        }
     }
 
     @Override
     public int getMetaFromState(final IBlockState state) {
-        int i = 0;
-        if (state.getValue(HALF) == TCSlab.EnumBlockHalf.TOP) {
-            i |= 8;
+        int i;
+        if (state.getValue(TYPE) == TCSlab.SlabType.DOUBLE) {
+            i = 2;
+        } else if (state.getValue(TYPE) == TCSlab.SlabType.TOP) {
+            i = 1;
+        } else {
+            i = 0;
         }
         return i;
     }
@@ -79,21 +116,27 @@ public class TCSlab extends TCCube {
     @Override
     protected BlockStateContainer createBlockState() {
         return new BlockStateContainer(this, new IProperty[] {
-                HALF
+                TYPE
         });
     }
 
-    public static enum EnumBlockHalf implements IStringSerializable {
-        TOP, BOTTOM;
+    public static enum SlabType implements IStringSerializable {
+        TOP("top"), BOTTOM("bottom"), DOUBLE("double");
+
+        private final String name;
+
+        SlabType(final String name) {
+            this.name = name;
+        }
 
         @Override
         public String toString() {
-            return this.getName();
+            return this.name;
         }
 
         @Override
         public String getName() {
-            return this == BOTTOM ? "bottom" : "top";
+            return name;
         }
     }
 }
