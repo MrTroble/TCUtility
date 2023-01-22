@@ -68,6 +68,7 @@ public class TCFenceGate extends TCCubeRotation {
     }
 
     @Override
+    public IBlockState getActualState(IBlockState state, final IBlockAccess worldIn,
             final BlockPos pos) {
         final EnumFacing.Axis enumfacing$axis = state.getValue(FACING).getAxis();
 
