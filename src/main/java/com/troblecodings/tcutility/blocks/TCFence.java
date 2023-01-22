@@ -69,6 +69,11 @@ public class TCFence extends TCCube {
     public TCFence(final BlockCreateInfo blockInfo) {
         super(blockInfo);
         setCreativeTab(TCTabs.FENCE);
+        this.setDefaultState(
+                this.blockState.getBaseState().withProperty(NORTH, Boolean.valueOf(false))
+                        .withProperty(EAST, Boolean.valueOf(false))
+                        .withProperty(SOUTH, Boolean.valueOf(false))
+                        .withProperty(WEST, Boolean.valueOf(false)));
     }
 
     @Override

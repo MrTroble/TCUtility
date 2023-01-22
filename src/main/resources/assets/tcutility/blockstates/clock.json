@@ -1,9 +1,0 @@
-{
-    "variants": {
-        "inventory": {"model": "tcutility:clock"},
-        "facing=east": {"model": "tcutility:clock", "y": 90},
-        "facing=south": {"model": "tcutility:clock"},
-        "facing=west": {"model": "tcutility:clock", "y": 270},
-        "facing=north": {"model": "tcutility:clock", "y": 180}
-    }
-}

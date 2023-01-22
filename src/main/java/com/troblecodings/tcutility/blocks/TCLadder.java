@@ -37,6 +37,7 @@ public class TCLadder extends TCCube {
     public TCLadder(final BlockCreateInfo blockInfo) {
         super(blockInfo);
         setCreativeTab(TCTabs.SPECIAL);
+        this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
     }
 
     @Override

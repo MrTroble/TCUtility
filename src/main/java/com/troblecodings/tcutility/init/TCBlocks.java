@@ -8,8 +8,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import com.troblecodings.tcutility.TCUtilityMain;
-import com.troblecodings.tcutility.blocks.Bin;
-import com.troblecodings.tcutility.blocks.Lantern;
 import com.troblecodings.tcutility.blocks.TCBigDoor;
 import com.troblecodings.tcutility.blocks.TCCube;
 import com.troblecodings.tcutility.blocks.TCCubeRotation;
@@ -22,7 +20,6 @@ import com.troblecodings.tcutility.blocks.TCStairs;
 import com.troblecodings.tcutility.blocks.TCTrapDoor;
 import com.troblecodings.tcutility.blocks.TCWall;
 import com.troblecodings.tcutility.blocks.TCWindow;
-import com.troblecodings.tcutility.blocks.TrafficCone;
 import com.troblecodings.tcutility.items.TCBigDoorItem;
 import com.troblecodings.tcutility.items.TCDoorItem;
 import com.troblecodings.tcutility.utils.BlockCreateInfo;
@@ -44,10 +41,6 @@ public final class TCBlocks {
     private TCBlocks() {
     }
 
-    public static final TrafficCone TRAFFIC_CONE = new TrafficCone();
-    public static final Bin BIN = new Bin();
-    public static final Lantern LANTERN = new Lantern();
-    
     public static ArrayList<Block> blocksToRegister = new ArrayList<>();
 
     public static void init() {
@@ -98,13 +91,8 @@ public final class TCBlocks {
         final Map<String, BlockProperties> blocks = FileReader
                 .getFromJson("/assets/tcutility/blockdefinitions");
 
-        System.out.println(blocks);
         for (final Entry<String, BlockProperties> blocksEntry : blocks.entrySet()) {
             final String objectname = blocksEntry.getKey();
-
-            System.out.println(objectname);
-
-            System.out.println(blocksEntry.getValue());
 
             final BlockProperties property = blocksEntry.getValue();
 
@@ -117,29 +105,29 @@ public final class TCBlocks {
                     case "cube":
                         final TCCube cube = new TCCube(blockInfo);
                         cube.setRegistryName(
-                                new ResourceLocation(TCUtilityMain.MODID, objectname));
-                        cube.setUnlocalizedName(objectname);
+                                new ResourceLocation(TCUtilityMain.MODID, "block_" + objectname));
+                        cube.setUnlocalizedName("block_" + objectname);
                         blocksToRegister.add(cube);
                         break;
                     case "cube_rot":
                         final TCCubeRotation cuberot = new TCCubeRotation(blockInfo);
-                        cuberot.setRegistryName(
-                                new ResourceLocation(TCUtilityMain.MODID, objectname));
-                        cuberot.setUnlocalizedName(objectname);
+                        cuberot.setRegistryName(new ResourceLocation(
+                                 TCUtilityMain.MODID, "block_rot_" + objectname));
+                        cuberot.setUnlocalizedName("block_rot_" + objectname);
                         blocksToRegister.add(cuberot);
                         break;
                     case "stair":
                         final TCStairs stair = new TCStairs(blockInfo);
                         stair.setRegistryName(
-                                new ResourceLocation(TCUtilityMain.MODID, objectname + "_stair"));
-                        stair.setUnlocalizedName(objectname + "_stair");
+                                new ResourceLocation(TCUtilityMain.MODID, "stair_" + objectname));
+                        stair.setUnlocalizedName("stair_" + objectname);
                         blocksToRegister.add(stair);
                         break;
                     case "slab":
                         final TCSlab slab = new TCSlab(blockInfo);
                         slab.setRegistryName(
-                                new ResourceLocation(TCUtilityMain.MODID, objectname + "_slab"));
-                        slab.setUnlocalizedName(objectname + "_slab");
+                                new ResourceLocation(TCUtilityMain.MODID, "slab_" + objectname));
+                        slab.setUnlocalizedName("slab_" + objectname);
                         blocksToRegister.add(slab);
                         break;
                     case "fence":
@@ -151,8 +139,8 @@ public final class TCBlocks {
                         break;
                     case "fence_gate":
                         final TCFenceGate fencegate = new TCFenceGate(blockInfo);
-                        fencegate.setRegistryName(
-                                new ResourceLocation(TCUtilityMain.MODID, "fence_gate_" + objectname));
+                        fencegate.setRegistryName(new ResourceLocation(TCUtilityMain.MODID,
+                                "fence_gate_" + objectname));
                         fencegate.setUnlocalizedName("fence_gate_" + objectname);
                         blocksToRegister.add(fencegate);
                         break;
@@ -165,16 +153,16 @@ public final class TCBlocks {
                         break;
                     case "trapdoor":
                         final TCTrapDoor trapdoor = new TCTrapDoor(blockInfo);
-                        trapdoor.setRegistryName(
-                                new ResourceLocation(TCUtilityMain.MODID, "trapdoor_" + objectname));
+                        trapdoor.setRegistryName(new ResourceLocation(TCUtilityMain.MODID,
+                                "trapdoor_" + objectname));
                         trapdoor.setUnlocalizedName("trapdoor_" + objectname);
                         blocksToRegister.add(trapdoor);
                         break;
                     case "window":
                         final TCWindow window = new TCWindow(blockInfo);
                         window.setRegistryName(
-                                new ResourceLocation(TCUtilityMain.MODID, objectname + "_window"));
-                        window.setUnlocalizedName(objectname + "_window");
+                                new ResourceLocation("window_" + TCUtilityMain.MODID, objectname));
+                        window.setUnlocalizedName("window_" + objectname);
                         blocksToRegister.add(window);
                         break;
                     case "ladder":
@@ -186,8 +174,8 @@ public final class TCBlocks {
                         break;
                     case "door":
                         final TCDoor door = new TCDoor(blockInfo);
-                        door.setRegistryName(
-                                new ResourceLocation(TCUtilityMain.MODID, "door_" + objectname + "_block"));
+                        door.setRegistryName(new ResourceLocation(TCUtilityMain.MODID,
+                                "door_" + objectname + "_block"));
                         door.setUnlocalizedName("door_" + objectname + "_block");
                         blocksToRegister.add(door);
                         final TCDoorItem dooritem = new TCDoorItem(door);
@@ -198,8 +186,8 @@ public final class TCBlocks {
                         break;
                     case "bigdoor":
                         final TCBigDoor bigdoor = new TCBigDoor(blockInfo);
-                        bigdoor.setRegistryName(
-                                new ResourceLocation(TCUtilityMain.MODID, "bigdoor_" + objectname + "_block"));
+                        bigdoor.setRegistryName(new ResourceLocation(TCUtilityMain.MODID,
+                                "bigdoor_" + objectname + "_block"));
                         bigdoor.setUnlocalizedName("bigdoor_" + objectname + "_block");
                         blocksToRegister.add(bigdoor);
                         final TCBigDoorItem bigdooritem = new TCBigDoorItem(bigdoor);

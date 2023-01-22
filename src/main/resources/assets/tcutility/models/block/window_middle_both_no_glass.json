@@ -1,0 +1,36 @@
+{
+    "credit": "Made with Blockbench by Mc_Jeronimo",
+    "parent": "tcutility:block/view",
+    "textures": {
+        "particle": "#frame",
+        "0": "#frame"
+    },
+    "elements": [
+        {
+            "name": "frame_1",
+            "from": [ 7.00, 15.50, 7.00 ], 
+            "to": [ 9.00, 16.00, 9.00 ], 
+            "faces": {
+                "north": { "texture": "#0", "uv": [ 0.00, 0.00, 2.00, 0.50 ] },
+                "east": { "texture": "#0", "uv": [ 0.00, 0.00, 2.00, 0.50 ] },
+                "south": { "texture": "#0", "uv": [ 0.00, 0.00, 2.00, 0.50 ] },
+                "west": { "texture": "#0", "uv": [ 0.00, 0.00, 2.00, 0.50 ] },
+                "up": { "texture": "#0", "uv": [ 0.00, 0.00, 2.00, 2.00 ] },
+                "down": { "texture": "#0", "uv": [ 0.00, 0.00, 2.00, 2.00 ] }
+            }
+        },
+        {
+            "name": "frame_2",
+            "from": [ 7.00, 0.00, 7.00 ], 
+            "to": [ 9.00, 0.50, 9.00 ], 
+            "faces": {
+                "north": { "texture": "#0", "uv": [ 0.00, 0.00, 2.00, 0.50 ] },
+                "east": { "texture": "#0", "uv": [ 0.00, 0.00, 2.00, 0.50 ] },
+                "south": { "texture": "#0", "uv": [ 0.00, 0.00, 2.00, 0.50 ] },
+                "west": { "texture": "#0", "uv": [ 0.00, 0.00, 2.00, 0.50 ] },
+                "up": { "texture": "#0", "uv": [ 0.00, 0.00, 2.00, 2.00 ] },
+                "down": { "texture": "#0", "uv": [ 0.00, 0.00, 2.00, 2.00 ] }
+            }
+        }
+    ]
+}

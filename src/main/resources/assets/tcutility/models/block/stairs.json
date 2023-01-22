@@ -1,5 +1,6 @@
 {
 	"credit": "Made with Blockbench by Mc_Jeronimo",
+	"parent": "tcutility:block/view",
 	"textures": {
 		"particle": "#stair",
 		"stair": "#stair"
@@ -37,19 +38,5 @@
 				"down": {"uv": [0, 0, 8, 16], "texture": "#stair", "cullface": "down"}
 			}
 		}
-	],
-	"display": {
-		"thirdperson_lefthand": {
-			"rotation": [75, -135, 0],
-			"translation": [0, 2.5, 0],
-			"scale": [0.375, 0.375, 0.375]
-		},
-		"gui": {
-			"rotation": [30, 135, 0],
-			"scale": [0.625, 0.625, 0.625]
-		},
-		"head": {
-			"rotation": [0, -90, 0]
-		}
-	}
+	]
 }

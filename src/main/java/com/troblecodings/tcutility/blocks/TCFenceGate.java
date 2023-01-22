@@ -47,26 +47,28 @@ public class TCFenceGate extends TCCubeRotation {
 
     public TCFenceGate(final BlockCreateInfo blockInfo) {
         super(blockInfo);
+        setDefaultState(this.blockState.getBaseState().withProperty(OPEN, Boolean.valueOf(false))
+                .withProperty(POWERED, Boolean.valueOf(false))
+                .withProperty(IN_WALL, Boolean.valueOf(false)));
         setCreativeTab(TCTabs.FENCE);
     }
 
     @Override
-    public AxisAlignedBB getBoundingBox(IBlockState state, final IBlockAccess source, final BlockPos pos) {
+    public AxisAlignedBB getBoundingBox(IBlockState state, final IBlockAccess source,
+            final BlockPos pos) {
         state = this.getActualState(state, source, pos);
 
         if (state.getValue(IN_WALL).booleanValue()) {
-            return state.getValue(FACING).getAxis() == EnumFacing.Axis.X
-                    ? AABB_HITBOX_XAXIS_INWALL
+            return state.getValue(FACING).getAxis() == EnumFacing.Axis.X ? AABB_HITBOX_XAXIS_INWALL
                     : AABB_HITBOX_ZAXIS_INWALL;
         } else {
-            return state.getValue(FACING).getAxis() == EnumFacing.Axis.X
-                    ? AABB_HITBOX_XAXIS
+            return state.getValue(FACING).getAxis() == EnumFacing.Axis.X ? AABB_HITBOX_XAXIS
                     : AABB_HITBOX_ZAXIS;
         }
     }
 
     @Override
-    public IBlockState getActualState(IBlockState state, final IBlockAccess worldIn, final BlockPos pos) {
+            final BlockPos pos) {
         final EnumFacing.Axis enumfacing$axis = state.getValue(FACING).getAxis();
 
         if (enumfacing$axis == EnumFacing.Axis.Z
@@ -100,8 +102,8 @@ public class TCFenceGate extends TCCubeRotation {
 
     @Override
     @Nullable
-    public AxisAlignedBB getCollisionBoundingBox(final IBlockState blockState, final IBlockAccess worldIn,
-            final BlockPos pos) {
+    public AxisAlignedBB getCollisionBoundingBox(final IBlockState blockState,
+            final IBlockAccess worldIn, final BlockPos pos) {
         if (blockState.getValue(OPEN).booleanValue()) {
             return NULL_AABB;
         } else {
@@ -117,8 +119,9 @@ public class TCFenceGate extends TCCubeRotation {
     }
 
     @Override
-    public IBlockState getStateForPlacement(final World worldIn, final BlockPos pos, final EnumFacing facing,
-            final float hitX, final float hitY, final float hitZ, final int meta, final EntityLivingBase placer) {
+    public IBlockState getStateForPlacement(final World worldIn, final BlockPos pos,
+            final EnumFacing facing, final float hitX, final float hitY, final float hitZ,
+            final int meta, final EntityLivingBase placer) {
         final boolean flag = worldIn.isBlockPowered(pos);
         return this.getDefaultState().withProperty(FACING, placer.getHorizontalFacing())
                 .withProperty(OPEN, Boolean.valueOf(flag))
@@ -128,8 +131,8 @@ public class TCFenceGate extends TCCubeRotation {
 
     @Override
     public boolean onBlockActivated(final World worldIn, final BlockPos pos, IBlockState state,
-            final EntityPlayer playerIn, final EnumHand hand, final EnumFacing facing, final float hitX, final float hitY,
-            final float hitZ) {
+            final EntityPlayer playerIn, final EnumHand hand, final EnumFacing facing,
+            final float hitX, final float hitY, final float hitZ) {
         if (state.getValue(OPEN).booleanValue()) {
             state = state.withProperty(OPEN, Boolean.valueOf(false));
             worldIn.setBlockState(pos, state, 10);
@@ -144,14 +147,13 @@ public class TCFenceGate extends TCCubeRotation {
             worldIn.setBlockState(pos, state, 10);
         }
 
-        worldIn.playEvent(playerIn, state.getValue(OPEN).booleanValue() ? 1008 : 1014,
-                pos, 0);
+        worldIn.playEvent(playerIn, state.getValue(OPEN).booleanValue() ? 1008 : 1014, pos, 0);
         return true;
     }
 
     @Override
-    public void neighborChanged(final IBlockState state, final World worldIn, final BlockPos pos, final Block blockIn,
-            final BlockPos fromPos) {
+    public void neighborChanged(final IBlockState state, final World worldIn, final BlockPos pos,
+            final Block blockIn, final BlockPos fromPos) {
         if (!worldIn.isRemote) {
             final boolean flag = worldIn.isBlockPowered(pos);
 
@@ -168,8 +170,8 @@ public class TCFenceGate extends TCCubeRotation {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public boolean shouldSideBeRendered(final IBlockState blockState, final IBlockAccess blockAccess,
-            final BlockPos pos, final EnumFacing side) {
+    public boolean shouldSideBeRendered(final IBlockState blockState,
+            final IBlockAccess blockAccess, final BlockPos pos, final EnumFacing side) {
         return true;
     }
 
@@ -204,7 +206,8 @@ public class TCFenceGate extends TCCubeRotation {
     }
 
     @Override
-    public boolean canBeConnectedTo(final IBlockAccess world, final BlockPos pos, final EnumFacing facing) {
+    public boolean canBeConnectedTo(final IBlockAccess world, final BlockPos pos,
+            final EnumFacing facing) {
         final IBlockState state = world.getBlockState(pos);
         if (state.getBlock() instanceof BlockFenceGate
                 && state.getBlockFaceShape(world, pos, facing) == BlockFaceShape.MIDDLE_POLE) {
@@ -215,8 +218,8 @@ public class TCFenceGate extends TCCubeRotation {
     }
 
     @Override
-    public BlockFaceShape getBlockFaceShape(final IBlockAccess worldIn, final IBlockState state, final BlockPos pos,
-            final EnumFacing face) {
+    public BlockFaceShape getBlockFaceShape(final IBlockAccess worldIn, final IBlockState state,
+            final BlockPos pos, final EnumFacing face) {
         if (face != EnumFacing.UP && face != EnumFacing.DOWN) {
             return state.getValue(FACING).getAxis() == face.rotateY().getAxis()
                     ? BlockFaceShape.MIDDLE_POLE

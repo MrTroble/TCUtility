@@ -27,10 +27,8 @@ public class TCSlab extends TCCube {
 
     public TCSlab(final BlockCreateInfo blockInfo) {
         super(blockInfo);
-        IBlockState iblockstate = this.blockState.getBaseState();
-        iblockstate = iblockstate.withProperty(TYPE, TCSlab.SlabType.BOTTOM);
         this.setCreativeTab(TCTabs.SLABS);
-        this.setDefaultState(iblockstate);
+        this.setDefaultState(this.blockState.getBaseState().withProperty(TYPE, SlabType.BOTTOM));
     }
 
     @Override
@@ -64,6 +62,7 @@ public class TCSlab extends TCCube {
             final int meta, final EntityLivingBase placer) {
         final IBlockState state = worldIn.getBlockState(pos);
         final Block block = worldIn.getBlockState(pos).getBlock();
+        System.out.println(pos);
         if (block == this
                 && (state.getValue(TYPE) == SlabType.BOTTOM
                         || state.getValue(TYPE) == SlabType.TOP)) {
@@ -75,17 +74,6 @@ public class TCSlab extends TCCube {
                     ? iblockstate
                     : iblockstate.withProperty(TYPE, TCSlab.SlabType.TOP);
         }
-    }
-    
-    @Override
-    public boolean isReplaceable(final IBlockAccess worldIn, final BlockPos pos) {
-        final IBlockState blockstate = worldIn.getBlockState(pos);
-        final Block block = worldIn.getBlockState(pos).getBlock();
-        final SlabType type = blockstate.getValue(TYPE);
-        if (block == this && type != SlabType.DOUBLE) {
-            return true;
-        }
-        return false;
     }
 
     @Override

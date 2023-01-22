@@ -56,6 +56,11 @@ public class TCWall extends TCFence {
     public TCWall(final BlockCreateInfo blockInfo) {
         super(blockInfo);
         setCreativeTab(TCTabs.FENCE);
+        this.setDefaultState(this.blockState.getBaseState().withProperty(UP, Boolean.valueOf(true))
+                .withProperty(NORTH, Boolean.valueOf(false))
+                .withProperty(EAST, Boolean.valueOf(false))
+                .withProperty(SOUTH, Boolean.valueOf(false))
+                .withProperty(WEST, Boolean.valueOf(false)));
     }
 
     @Override

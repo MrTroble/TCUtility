@@ -1,8 +1,0 @@
-{
-    "variants": {
-        "facing=north": { "model": "tcutility:ladder_roof" },
-        "facing=east":  { "model": "tcutility:ladder_roof", "y": 90 },
-        "facing=south": { "model": "tcutility:ladder_roof", "y": 180 },
-        "facing=west":  { "model": "tcutility:ladder_roof", "y": 270 }
-    }
-}

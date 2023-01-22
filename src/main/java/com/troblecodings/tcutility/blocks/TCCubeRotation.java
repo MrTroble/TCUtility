@@ -17,6 +17,7 @@ public class TCCubeRotation extends TCCube {
 
     public TCCubeRotation(final BlockCreateInfo blockInfo) {
         super(blockInfo);
+        this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
     }
 
     public static final PropertyDirection FACING = BlockHorizontal.FACING;
