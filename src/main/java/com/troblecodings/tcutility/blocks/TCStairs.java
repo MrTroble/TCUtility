@@ -9,6 +9,7 @@ import com.troblecodings.tcutility.init.TCTabs;
 import com.troblecodings.tcutility.utils.BlockCreateInfo;
 
 import net.minecraft.block.BlockHorizontal;
+import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.properties.PropertyEnum;
@@ -17,6 +18,7 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.Mirror;
@@ -27,6 +29,8 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class TCStairs extends TCCube {
 
@@ -79,6 +83,16 @@ public class TCStairs extends TCCube {
                 .withProperty(SHAPE, TCStairs.EnumShape.STRAIGHT));
         setCreativeTab(TCTabs.STAIRS);
         this.useNeighborBrightness = true;
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    @SideOnly(Side.CLIENT)
+    public BlockRenderLayer getBlockLayer() {
+        if (this.getMaterial(getDefaultState()) == Material.GLASS) {
+            return BlockRenderLayer.TRANSLUCENT;
+        }
+        return BlockRenderLayer.CUTOUT;
     }
 
     @Override
@@ -402,56 +416,44 @@ public class TCStairs extends TCCube {
                 FACING, HALF, SHAPE
         });
     }
-    
-    public static enum EnumHalf implements IStringSerializable
-    {
-        TOP("top"),
-        BOTTOM("bottom");
+
+    public static enum EnumHalf implements IStringSerializable {
+        TOP("top"), BOTTOM("bottom");
 
         private final String name;
 
-        private EnumHalf(final String name)
-        {
+        private EnumHalf(final String name) {
             this.name = name;
         }
 
         @Override
-        public String toString()
-        {
+        public String toString() {
             return this.name;
         }
 
         @Override
-        public String getName()
-        {
+        public String getName() {
             return this.name;
         }
     }
 
-    public static enum EnumShape implements IStringSerializable
-    {
-        STRAIGHT("straight"),
-        INNER_LEFT("inner_left"),
-        INNER_RIGHT("inner_right"),
-        OUTER_LEFT("outer_left"),
-        OUTER_RIGHT("outer_right");
+    public static enum EnumShape implements IStringSerializable {
+        STRAIGHT("straight"), INNER_LEFT("inner_left"), INNER_RIGHT("inner_right"),
+        OUTER_LEFT("outer_left"), OUTER_RIGHT("outer_right");
 
         private final String name;
 
-        private EnumShape(final String name)
-        {
+        private EnumShape(final String name) {
             this.name = name;
         }
 
         @Override
-        public String toString()
-        {
+        public String toString() {
             return this.name;
         }
 
         @Override
-        public String getName()
-        {
+        public String getName() {
             return this.name;
         }
     }

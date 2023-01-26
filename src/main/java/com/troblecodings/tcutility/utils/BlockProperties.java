@@ -50,6 +50,7 @@ public class BlockProperties {
         translateTable.put("snow", SoundType.SNOW);
         translateTable.put("ladder", SoundType.LADDER);
         translateTable.put("slime", SoundType.SLIME);
+        translateTable.put("plant", SoundType.PLANT);
         return translateTable;
     }
 

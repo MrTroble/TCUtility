@@ -4,17 +4,21 @@ import com.troblecodings.tcutility.init.TCTabs;
 import com.troblecodings.tcutility.utils.BlockCreateInfo;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class TCSlab extends TCCube {
 
@@ -29,6 +33,16 @@ public class TCSlab extends TCCube {
         super(blockInfo);
         this.setCreativeTab(TCTabs.SLABS);
         this.setDefaultState(this.blockState.getBaseState().withProperty(TYPE, SlabType.BOTTOM));
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    @SideOnly(Side.CLIENT)
+    public BlockRenderLayer getBlockLayer() {
+        if (this.getMaterial(getDefaultState()) == Material.GLASS) {
+            return BlockRenderLayer.TRANSLUCENT;
+        }
+        return BlockRenderLayer.CUTOUT;
     }
 
     @Override
@@ -62,9 +76,8 @@ public class TCSlab extends TCCube {
             final int meta, final EntityLivingBase placer) {
         final IBlockState state = worldIn.getBlockState(pos);
         final Block block = worldIn.getBlockState(pos).getBlock();
-        if (block == this
-                && (state.getValue(TYPE) == SlabType.BOTTOM
-                        || state.getValue(TYPE) == SlabType.TOP)) {
+        if (block == this && (state.getValue(TYPE) == SlabType.BOTTOM
+                || state.getValue(TYPE) == SlabType.TOP)) {
             return state.withProperty(TYPE, SlabType.DOUBLE);
         } else {
             final IBlockState iblockstate = super.getStateForPlacement(worldIn, pos, facing, hitX,
@@ -78,7 +91,7 @@ public class TCSlab extends TCCube {
     @Override
     public IBlockState getStateFromMeta(final int meta) {
         final IBlockState iblockstate = this.getDefaultState();
-        if(meta == 2) {
+        if (meta == 2) {
             return iblockstate.withProperty(TYPE, TCSlab.SlabType.DOUBLE);
         } else if (meta == 1) {
             return iblockstate.withProperty(TYPE, TCSlab.SlabType.TOP);
