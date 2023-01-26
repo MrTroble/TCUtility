@@ -161,7 +161,7 @@ public final class TCBlocks {
                     case "window":
                         final TCWindow window = new TCWindow(blockInfo);
                         window.setRegistryName(
-                                new ResourceLocation("window_" + TCUtilityMain.MODID, objectname));
+                                new ResourceLocation(TCUtilityMain.MODID, "window_" + objectname));
                         window.setUnlocalizedName("window_" + objectname);
                         blocksToRegister.add(window);
                         break;
