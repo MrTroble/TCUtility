@@ -39,7 +39,7 @@ public class TCSlab extends TCCube {
     @Override
     @SideOnly(Side.CLIENT)
     public BlockRenderLayer getBlockLayer() {
-        if (this.getMaterial(getDefaultState()) == Material.GLASS) {
+        if (this.getMaterial(getDefaultState()).equals(Material.GLASS)) {
             return BlockRenderLayer.TRANSLUCENT;
         }
         return BlockRenderLayer.CUTOUT;

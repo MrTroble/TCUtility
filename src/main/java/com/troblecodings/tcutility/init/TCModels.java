@@ -1,7 +1,12 @@
 package com.troblecodings.tcutility.init;
 
+import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.renderer.color.BlockColors;
+import net.minecraft.client.renderer.color.ItemColors;
 import net.minecraft.item.Item;
+import net.minecraft.world.biome.BiomeColorHelper;
+import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -20,6 +25,34 @@ public final class TCModels {
         for (int k = 0; k < TCItems.itemsToRegister.size(); k++) {
             registerModel(TCItems.itemsToRegister.get(k));
         }
+    }
+
+    @SubscribeEvent
+    @SuppressWarnings("deprecation")
+    public static void registerBlockColor(final ColorHandlerEvent.Block event) {
+        final BlockColors colors = event.getBlockColors();
+        TCBlocks.blocksToRegister.forEach(block -> {
+            
+            if (block.getMaterial(block.getDefaultState()).equals(Material.GRASS)) {
+                colors.registerBlockColorHandler((state, worldIn, pos, tintIndex) -> {
+                    if(worldIn == null || pos == null) {
+                        return 0xFF00FF00;
+                    }
+                   return BiomeColorHelper.getGrassColorAtPos(worldIn, pos);}, block);      
+            }
+        });
+    }
+    
+    @SuppressWarnings("deprecation")
+    @SubscribeEvent
+    public static void registerItemColor(final ColorHandlerEvent.Item event) {
+        final ItemColors colors = event.getItemColors();
+        TCBlocks.blocksToRegister.forEach(block -> {
+            
+            if (block.getMaterial(block.getDefaultState()).equals(Material.GRASS)) {
+                colors.registerItemColorHandler((stack, tintIndex) -> 0xFF5E7A39, block);
+            }
+        });
     }
 
     private static void registerModel(final Item item) {

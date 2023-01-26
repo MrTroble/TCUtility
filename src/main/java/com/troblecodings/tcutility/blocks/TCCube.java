@@ -14,4 +14,5 @@ public class TCCube extends Block {
         this.setLightOpacity(blockInfo.opacity);
         this.setCreativeTab(TCTabs.BLOCKS);
     }
+    
 }
