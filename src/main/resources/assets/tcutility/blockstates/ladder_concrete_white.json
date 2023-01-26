@@ -5,9 +5,9 @@
     },
     "variants": {
         "facing=north": [{}],
-        "facing=east":  {"model": "tcutility:ladder", "textures": {"texture": "blocks/concrete_powder_white"}, "y": 90},
-        "facing=south": {"model": "tcutility:ladder", "textures": {"texture": "blocks/concrete_powder_white"}, "y": 180},
-        "facing=west":  {"model": "tcutility:ladder", "textures": {"texture": "blocks/concrete_powder_white"}, "y": 270},
+        "facing=east":  {"y": 90},
+        "facing=south": {"y": 180},
+        "facing=west":  {"y": 270},
         "inventory": [{}]
     }
 }

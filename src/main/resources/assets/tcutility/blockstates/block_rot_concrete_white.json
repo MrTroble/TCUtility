@@ -14,11 +14,9 @@
 	},
 	"variants": {
 		"facing=north": [{}],
-		"facing=east": [{}],
-		"facing=south": [{}],
-		"facing=west": [{}],
-		"facing=up": [{}],
-		"facing=down": [{}],
+		"facing=east": {"y": 90},
+		"facing=south": {"y": 180},
+		"facing=west": {"y": 270},
 		"inventory": [{}]
 	}
 }

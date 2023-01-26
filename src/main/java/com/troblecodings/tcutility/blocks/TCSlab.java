@@ -62,7 +62,6 @@ public class TCSlab extends TCCube {
             final int meta, final EntityLivingBase placer) {
         final IBlockState state = worldIn.getBlockState(pos);
         final Block block = worldIn.getBlockState(pos).getBlock();
-        System.out.println(pos);
         if (block == this
                 && (state.getValue(TYPE) == SlabType.BOTTOM
                         || state.getValue(TYPE) == SlabType.TOP)) {
