@@ -1,0 +1,114 @@
+{
+    "stone": {
+        "hardness": 1,
+        "material": "rock",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": ["stair", "slab", "wall"]
+    },
+    "granite": {
+        "hardness": 1,
+        "material": "rock",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": ["stair", "slab", "wall"]
+    },
+    "granite_polished": {
+        "hardness": 1,
+        "material": "rock",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": ["stair", "slab", "wall"]
+    },
+    "diorite": {
+        "hardness": 1,
+        "material": "rock",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": ["stair", "slab", "wall"]
+    },
+    "diorite_polished": {
+        "hardness": 1,
+        "material": "rock",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": ["stair", "slab", "wall"]
+    },
+    "andesite": {
+        "hardness": 1,
+        "material": "rock",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": ["stair", "slab", "wall"]
+    },
+    "andesite_polished": {
+        "hardness": 1,
+        "material": "rock",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": ["stair", "slab", "wall"]
+    },
+    "cobblestone_mossy": {
+        "hardness": 1,
+        "material": "rock",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": ["stair", "slab"]
+    },
+    "brick":{
+        "hardness": 1,
+        "material": "rock",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": ["wall"]
+    },
+    "stonebrick":{
+        "hardness": 1,
+        "material": "rock",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": ["wall"]
+    },
+    "stonebrick_mossy": {
+        "hardness": 1,
+        "material": "rock",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": ["stair", "slab", "wall"]
+    },
+    "stonebrick_cracked": {
+        "hardness": 1,
+        "material": "rock",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": ["stair", "slab", "wall"]
+    },
+    "stonebrick_chiseled": {
+        "hardness": 1,
+        "material": "rock",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": ["stair", "slab", "wall"]
+    },
+    "nether_brick": {
+        "hardness": 1,
+        "material": "rock",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": ["wall"]
+    },
+    "endstone": {
+        "hardness": 1,
+        "material": "rock",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": ["stair", "slab", "wall"]
+    },
+    "endstone_brick": {
+        "hardness": 1,
+        "material": "rock",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": ["stair", "slab", "wall"]
+    }
+}

@@ -1,0 +1,114 @@
+{
+    "terracotta_white": {
+        "hardness": 1,
+        "material": "rock",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": ["stair", "slab"]
+    },
+    "terracotta_orange": {
+        "hardness": 1,
+        "material": "rock",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": ["stair", "slab"]
+    },
+    "terracotta_magenta": {
+        "hardness": 1,
+        "material": "rock",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": ["stair", "slab"]
+    },
+    "terracotta_lightblue": {
+        "hardness": 1,
+        "material": "rock",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": ["stair", "slab"]
+    },
+    "terracotta_yellow": {
+        "hardness": 1,
+        "material": "rock",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": ["stair", "slab"]
+    },
+    "terracotta_lime": {
+        "hardness": 1,
+        "material": "rock",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": ["stair", "slab"]
+    },
+    "terracotta_pink": {
+        "hardness": 1,
+        "material": "rock",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": ["stair", "slab"]
+    },
+    "terracotta_gray": {
+        "hardness": 1,
+        "material": "rock",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": ["stair", "slab"]
+    },
+    "terracotta_lightgray": {
+        "hardness": 1,
+        "material": "rock",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": ["stair", "slab"]
+    },
+    "terracotta_cyan": {
+        "hardness": 1,
+        "material": "rock",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": ["stair", "slab"]
+    },
+    "terracotta_purple": {
+        "hardness": 1,
+        "material": "rock",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": ["stair", "slab"]
+    },
+    "terracotta_blue": {
+        "hardness": 1,
+        "material": "rock",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": ["stair", "slab"]
+    },
+    "terracotta_brown": {
+        "hardness": 1,
+        "material": "rock",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": ["stair", "slab"]
+    },
+    "terracotta_green": {
+        "hardness": 1,
+        "material": "rock",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": ["stair", "slab"]
+    },
+    "terracotta_red": {
+        "hardness": 1,
+        "material": "rock",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": ["stair", "slab"]
+    },
+    "terracotta_black": {
+        "hardness": 1,
+        "material": "rock",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": ["stair", "slab"]
+    }
+} 

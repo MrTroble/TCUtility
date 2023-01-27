@@ -1,0 +1,82 @@
+{
+    "iron": {
+        "hardness": 1,
+        "material": "iron",
+        "soundtype": "metal",
+        "opacity": 0,
+        "states": ["stair", "slab", "wall", "fence", "fence_gate", "ladder", "door", "bigdoor"]
+    },
+    "gold": {
+        "hardness": 1,
+        "material": "iron",
+        "soundtype": "metal",
+        "opacity": 0,
+        "states": ["stair", "slab", "wall", "fence", "fence_gate"]
+    },
+    "obsidian": {
+        "hardness": 1,
+        "material": "iron",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": ["stair", "slab", "wall", "fence", "fence_gate"]
+    },
+    "diamond": {
+        "hardness": 1,
+        "material": "iron",
+        "soundtype": "metal",
+        "opacity": 0,
+        "states": ["stair", "slab", "wall"]
+    },
+    "emerald": {
+        "hardness": 1,
+        "material": "iron",
+        "soundtype": "metal",
+        "opacity": 0,
+        "states": ["stair", "slab", "wall"]
+    },
+    "rusty": {
+        "hardness": 1,
+        "material": "iron",
+        "soundtype": "metal",
+        "opacity": 0,
+        "states": [
+            "ladder"
+        ]
+    },
+    "roof": {
+        "hardness": 1,
+        "material": "iron",
+        "soundtype": "metal",
+        "opacity": 0,
+        "states": [
+            "ladder"
+        ]
+    },
+    "jail": {
+        "hardness": 1,
+        "material": "iron",
+        "soundtype": "metal",
+        "opacity": 0,
+        "states": [
+            "door"
+        ]
+    },
+    "iron_glass": {
+        "hardness": 1,
+        "material": "iron",
+        "soundtype": "metal",
+        "opacity": 0,
+        "states": [
+            "door"
+        ]
+    },
+    "iron_windowed": {
+        "hardness": 1,
+        "material": "iron",
+        "soundtype": "metal",
+        "opacity": 0,
+        "states": [
+            "door"
+        ]
+    }
+}

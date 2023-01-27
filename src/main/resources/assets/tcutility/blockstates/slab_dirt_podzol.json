@@ -1,0 +1,12 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "model": "tcutility:slab_bottom", "textures": {"texture": "blocks/dirt_podzol_top"}
+    },
+    "variants": {
+        "half=bottom": [{}],
+        "half=top": {"model": "tcutility:slab_top", "textures": {"texture": "blocks/dirt_podzol_top"}},
+        "half=double": {"model": "tcutility:cube", "textures": {"texture": "blocks/dirt_podzol_top"}},
+        "inventory": [{}]
+    }
+}

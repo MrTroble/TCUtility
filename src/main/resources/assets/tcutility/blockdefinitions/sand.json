@@ -1,0 +1,58 @@
+{
+    "sand": {
+        "hardness": 1,
+        "material": "sand",
+        "soundtype": "sand",
+        "opacity": 0,
+        "states": ["stair", "slab"]
+    },
+    "sandstone": {
+        "hardness": 1,
+        "material": "rock",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": ["wall"]
+    },
+    "sandstone_chiseled": {
+        "hardness": 1,
+        "material": "rock",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": ["wall"]
+    },
+    "sandstone_smooth": {
+        "hardness": 1,
+        "material": "rock",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": ["wall"]
+    },
+    "redsand": {
+        "hardness": 1,
+        "material": "sand",
+        "soundtype": "sand",
+        "opacity": 0,
+        "states": ["stair", "slab"]
+    },
+    "redsandstone": {
+        "hardness": 1,
+        "material": "rock",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": ["wall"]
+    },
+    "redsandstone_chiseled": {
+        "hardness": 1,
+        "material": "rock",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": ["wall"]
+    },
+    "redsandstone_smooth": {
+        "hardness": 1,
+        "material": "rock",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": ["wall"]
+    }
+}

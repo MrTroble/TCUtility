@@ -1,0 +1,45 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "model": "tcutility:window", "textures": {"frame": "blocks/concrete_powder_white", "glass": "blocks/glass"}
+    },
+    "variants": {
+        "inventory": {"model": "tcutility:window", "textures": {"frame": "blocks/concrete_powder_white", "glass": "blocks/glass"}},
+        "pane_down": {
+            "true": {
+                "submodel": {"pane1": {"model": "acacia_fence_post"}}
+            },
+            "false": {}
+        },
+        "pane_east": {
+            "true": {
+                "submodel": {"pane1": {"model": "acacia_fence_side"}, "y": 90}
+            },
+            "false": {}
+        },
+        "pane_north": {
+            "true": {
+                "submodel": {"pane1": {"model": "acacia_fence_side"}}
+            },
+            "false": {}
+        },
+        "pane_south": {
+            "true": {
+                "submodel": {"pane1": {"model": "acacia_fence_side"}, "y": 180}
+            },
+            "false": {}
+        },
+        "pane_up": {
+            "true": {
+                "submodel": {"pane1": {"model": "acacia_log"}}
+            },
+            "false": {}
+        },
+        "pane_west": {
+            "true": {
+                "submodel": {"pane1": {"model": "acacia_fence_side"}, "y": 270}
+            },
+            "false": {}
+        }
+        }
+}

@@ -1,0 +1,121 @@
+{
+    "glass": {
+        "hardness": 1,
+        "material": "glass",
+        "soundtype": "glass",
+        "opacity": 0,
+        "states": ["stair", "slab", "trapdoor"]
+    },
+    "glass_white": {
+        "hardness": 1,
+        "material": "glass",
+        "soundtype": "glass",
+        "opacity": 0,
+        "states": ["stair", "slab"]
+    },
+    "glass_orange": {
+        "hardness": 1,
+        "material": "glass",
+        "soundtype": "glass",
+        "opacity": 0,
+        "states": ["stair", "slab"]
+    },
+    "glass_magenta": {
+        "hardness": 1,
+        "material": "glass",
+        "soundtype": "glass",
+        "opacity": 0,
+        "states": ["stair", "slab"]
+    },
+    "glass_lightblue": {
+        "hardness": 1,
+        "material": "glass",
+        "soundtype": "glass",
+        "opacity": 0,
+        "states": ["stair", "slab"]
+    },
+    "glass_yellow": {
+        "hardness": 1,
+        "material": "glass",
+        "soundtype": "glass",
+        "opacity": 0,
+        "states": ["stair", "slab"]
+    },
+    "glass_lime": {
+        "hardness": 1,
+        "material": "glass",
+        "soundtype": "glass",
+        "opacity": 0,
+        "states": ["stair", "slab"]
+    },
+    "glass_pink": {
+        "hardness": 1,
+        "material": "glass",
+        "soundtype": "glass",
+        "opacity": 0,
+        "states": ["stair", "slab"]
+    },
+    "glass_gray": {
+        "hardness": 1,
+        "material": "glass",
+        "soundtype": "glass",
+        "opacity": 0,
+        "states": ["stair", "slab"]
+    },
+    "glass_lightgray": {
+        "hardness": 1,
+        "material": "glass",
+        "soundtype": "glass",
+        "opacity": 0,
+        "states": ["stair", "slab"]
+    },
+    "glass_cyan": {
+        "hardness": 1,
+        "material": "glass",
+        "soundtype": "glass",
+        "opacity": 0,
+        "states": ["stair", "slab"]
+    },
+    "glass_purple": {
+        "hardness": 1,
+        "material": "glass",
+        "soundtype": "glass",
+        "opacity": 0,
+        "states": ["stair", "slab"]
+    },
+    "glass_blue": {
+        "hardness": 1,
+        "material": "glass",
+        "soundtype": "glass",
+        "opacity": 0,
+        "states": ["stair", "slab"]
+    },
+    "glass_brown": {
+        "hardness": 1,
+        "material": "glass",
+        "soundtype": "glass",
+        "opacity": 0,
+        "states": ["stair", "slab"]
+    },
+    "glass_green": {
+        "hardness": 1,
+        "material": "glass",
+        "soundtype": "glass",
+        "opacity": 0,
+        "states": ["stair", "slab"]
+    },
+    "glass_red": {
+        "hardness": 1,
+        "material": "glass",
+        "soundtype": "glass",
+        "opacity": 0,
+        "states": ["stair", "slab"]
+    },
+    "glass_black": {
+        "hardness": 1,
+        "material": "glass",
+        "soundtype": "glass",
+        "opacity": 0,
+        "states": ["stair", "slab"]
+    }
+} 
