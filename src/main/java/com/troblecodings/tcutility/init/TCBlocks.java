@@ -83,8 +83,12 @@ public final class TCBlocks {
     @SubscribeEvent
     public static void registerItem(final RegistryEvent.Register<Item> event) {
         final IForgeRegistry<Item> registry = event.getRegistry();
-        blocksToRegister.forEach(block -> registry
-                .register(new ItemBlock(block).setRegistryName(block.getRegistryName())));
+        blocksToRegister.forEach(block -> {
+            if (!block.toString().contains("door")) {
+                registry.register(new ItemBlock(block).setRegistryName(block.getRegistryName())); 
+                System.out.println(block.getRegistryName());
+            }
+        });
     }
 
     public static void initJsonFiles() {

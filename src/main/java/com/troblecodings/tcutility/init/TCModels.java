@@ -19,7 +19,9 @@ public final class TCModels {
     @SubscribeEvent
     public static void register(final ModelRegistryEvent event) {
         for (int i = 0; i < TCBlocks.blocksToRegister.size(); i++) {
-            registerModel(Item.getItemFromBlock(TCBlocks.blocksToRegister.get(i)));
+            if (!TCBlocks.blocksToRegister.get(i).toString().contains("door")) {
+                registerModel(Item.getItemFromBlock(TCBlocks.blocksToRegister.get(i)));
+            }
         }
 
         for (int k = 0; k < TCItems.itemsToRegister.size(); k++) {
