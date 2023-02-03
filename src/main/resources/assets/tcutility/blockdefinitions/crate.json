@@ -52,5 +52,12 @@
         "states": [
             "cube"
         ]
+    },
+    "wooden_barrel": {
+        "hardness": 1,
+        "material": "wood",
+        "soundtype": "wood",
+        "opacity": 0,
+        "states": ["cube_rot"]
     }
 } 

@@ -40,5 +40,12 @@
         "soundtype": "ground",
         "opacity": 0,
         "states": ["stair", "slab"]
+    },
+    "hay": {
+        "hardness": 1,
+        "material": "ground",
+        "soundtype": "ground",
+        "opacity": 0,
+        "states": ["stair", "slab"]
     }
 }

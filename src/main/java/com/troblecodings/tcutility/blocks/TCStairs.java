@@ -84,7 +84,7 @@ public class TCStairs extends TCCube {
         setCreativeTab(TCTabs.STAIRS);
         this.useNeighborBrightness = true;
     }
-
+    
     @SuppressWarnings("deprecation")
     @Override
     @SideOnly(Side.CLIENT)

@@ -4,6 +4,10 @@ import com.troblecodings.tcutility.init.TCTabs;
 import com.troblecodings.tcutility.utils.BlockCreateInfo;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
+import net.minecraft.util.BlockRenderLayer;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class TCCube extends Block {
 
@@ -13,6 +17,16 @@ public class TCCube extends Block {
         this.setSoundType(blockInfo.soundtype);
         this.setLightOpacity(blockInfo.opacity);
         this.setCreativeTab(TCTabs.BLOCKS);
+    }
+    
+    @SuppressWarnings("deprecation")
+    @Override
+    @SideOnly(Side.CLIENT)
+    public BlockRenderLayer getBlockLayer() {
+        if (this.getMaterial(getDefaultState()).equals(Material.GLASS)) {
+            return BlockRenderLayer.TRANSLUCENT;
+        }
+        return BlockRenderLayer.SOLID;
     }
     
 }

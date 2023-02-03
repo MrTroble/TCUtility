@@ -3,12 +3,12 @@
 	"defaults": {
 		"model": "tcutility:cube_faces",
 		"textures": {
-			"north": "blocks/concrete_powder_white",
-			"east": "blocks/concrete_powder_white",
-			"south": "blocks/concrete_powder_white",
-			"west": "blocks/concrete_powder_white",
-			"up": "blocks/concrete_powder_white",
-			"down": "blocks/concrete_powder_white"
+			"south": "tcutility:blocks/barrel_top",
+			"east": "tcutility:blocks/barrel_side",
+			"north": "tcutility:blocks/barrel_bottom",
+			"west": "tcutility:blocks/barrel_side",
+			"up": "tcutility:blocks/barrel_side",
+			"down": "tcutility:blocks/barrel_side"
 		},
 		"uvlock": true
 	},

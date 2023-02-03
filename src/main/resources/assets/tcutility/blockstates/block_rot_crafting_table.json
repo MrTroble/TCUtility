@@ -1,0 +1,21 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"model": "tcutility:cube_faces",
+		"textures": {
+			"down": "blocks/planks_oak",
+			"up": "blocks/crafting_table_top",
+			"north": "blocks/crafting_table_front",
+			"east": "blocks/crafting_table_side",
+			"south": "blocks/crafting_table_side",
+			"west": "blocks/crafting_table_front"
+		}
+	},
+	"variants": {
+		"facing=north": [{}],
+		"facing=east": {"y": 90},
+		"facing=south": {"y": 180},
+		"facing=west": {"y": 270},
+		"inventory": [{}]
+	}
+}

@@ -110,5 +110,47 @@
         "soundtype": "wood",
         "opacity": 0,
         "states": ["door"]
+    },
+    "oak_stripped": {
+        "hardness": 1,
+        "material": "wood",
+        "soundtype": "wood",
+        "opacity": 0,
+        "states": ["cube"]
+    },
+    "spruce_stripped": {
+        "hardness": 1,
+        "material": "wood",
+        "soundtype": "wood",
+        "opacity": 0,
+        "states": ["cube"]
+    },
+    "birch_stripped": {
+        "hardness": 1,
+        "material": "wood",
+        "soundtype": "wood",
+        "opacity": 0,
+        "states": ["cube"]
+    },
+    "jungle_stripped": {
+        "hardness": 1,
+        "material": "wood",
+        "soundtype": "wood",
+        "opacity": 0,
+        "states": ["cube"]
+    },
+    "acacia_stripped": {
+        "hardness": 1,
+        "material": "wood",
+        "soundtype": "wood",
+        "opacity": 0,
+        "states": ["cube"]
+    },
+    "dark_oak_stripped": {
+        "hardness": 1,
+        "material": "wood",
+        "soundtype": "wood",
+        "opacity": 0,
+        "states": ["cube"]
     }
 } 
