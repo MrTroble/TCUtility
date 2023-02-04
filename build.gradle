@@ -29,7 +29,7 @@ if(key == null)
 curseforge {
   apiKey = key
   project {
-    id = 'placeholder'
+    id = '821776'
     changelog = file('changelog.md')
     releaseType = 'release'
     changelogType = 'markdown'
