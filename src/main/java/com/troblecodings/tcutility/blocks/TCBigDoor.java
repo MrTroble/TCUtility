@@ -34,8 +34,8 @@ public class TCBigDoor extends TCCube {
 
     public static final PropertyDirection FACING = BlockHorizontal.FACING;
     public static final PropertyBool OPEN = PropertyBool.create("open");
-    public static final PropertyEnum<TCBigDoor.EnumHingePosition> HINGE = PropertyEnum.<TCBigDoor.EnumHingePosition>create(
-            "hinge", TCBigDoor.EnumHingePosition.class);
+    public static final PropertyEnum<EnumHingePosition> HINGE = PropertyEnum
+            .<EnumHingePosition>create("hinge", TCBigDoor.EnumHingePosition.class);
     public static final PropertyBool POWERED = PropertyBool.create("powered");
     public static final PropertyEnum<TCBigDoor.EnumDoorThird> THIRD = PropertyEnum.<TCBigDoor.EnumDoorThird>create(
             "third", TCBigDoor.EnumDoorThird.class);
