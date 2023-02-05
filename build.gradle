@@ -29,7 +29,7 @@ if(key == null)
 curseforge {
   apiKey = key
   project {
-    id = 'placeholder'
+    id = '821776'
     changelog = file('changelog.md')
     releaseType = 'release'
     changelogType = 'markdown'
@@ -60,7 +60,7 @@ minecraft {
 
 dependencies {   
     minecraft 'net.minecraftforge:forge:1.12.2-14.23.5.2860'
-    testImplementation("org.junit.jupiter:junit-jupiter:5.9.1")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.9.2")
 }
 
 test {
