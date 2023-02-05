@@ -71,18 +71,17 @@ public class TCFenceGate extends TCCubeRotation {
     public IBlockState getActualState(final IBlockState finalstate, final IBlockAccess worldIn,
             final BlockPos pos) {
         final EnumFacing.Axis facingAxis = finalstate.getValue(FACING).getAxis();
-        IBlockState state = finalstate;
-
-        if (facingAxis == EnumFacing.Axis.Z
-                && (worldIn.getBlockState(pos.west()).getBlock() instanceof BlockWall
-                        || worldIn.getBlockState(pos.east()).getBlock() instanceof BlockWall)
-                || facingAxis == EnumFacing.Axis.X && (worldIn.getBlockState(pos.north())
-                        .getBlock() instanceof BlockWall
-                        || worldIn.getBlockState(pos.south()).getBlock() instanceof BlockWall)) {
-            state = state.withProperty(IN_WALL, Boolean.valueOf(true));
+        
+        if (facingAxis == EnumFacing.Axis.Z) {
+            if (worldIn.getBlockState(pos.west()).getBlock() instanceof BlockWall
+                    || worldIn.getBlockState(pos.east()).getBlock() instanceof BlockWall)
+                return finalstate.withProperty(IN_WALL, Boolean.valueOf(true));
+        } else if (facingAxis == EnumFacing.Axis.X) {
+            if ((worldIn.getBlockState(pos.north()).getBlock() instanceof BlockWall
+                    || worldIn.getBlockState(pos.south()).getBlock() instanceof BlockWall))
+                return finalstate.withProperty(IN_WALL, Boolean.valueOf(true));
         }
-
-        return state;
+        return finalstate;
     }
 
     @Override
@@ -132,9 +131,10 @@ public class TCFenceGate extends TCCubeRotation {
     }
 
     @Override
-    public boolean onBlockActivated(final World worldIn, final BlockPos pos, IBlockState state,
-            final EntityPlayer playerIn, final EnumHand hand, final EnumFacing facing,
-            final float hitX, final float hitY, final float hitZ) {
+    public boolean onBlockActivated(final World worldIn, final BlockPos pos,
+            final IBlockState finalstate, final EntityPlayer playerIn, final EnumHand hand,
+            final EnumFacing facing, final float hitX, final float hitY, final float hitZ) {
+        IBlockState state = finalstate;
         if (state.getValue(OPEN).booleanValue()) {
             state = state.withProperty(OPEN, Boolean.valueOf(false));
             worldIn.setBlockState(pos, state, 10);

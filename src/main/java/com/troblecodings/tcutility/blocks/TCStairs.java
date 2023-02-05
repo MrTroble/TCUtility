@@ -357,13 +357,13 @@ public class TCStairs extends TCCube {
     })
     public IBlockState withMirror(final IBlockState state, final Mirror mirrorIn) {
         final EnumFacing enumfacing = state.getValue(FACING);
-        final TCStairs.EnumShape blockstairs$enumshape = state.getValue(SHAPE);
+        final TCStairs.EnumShape enumShape = state.getValue(SHAPE);
 
         switch (mirrorIn) {
             case LEFT_RIGHT:
 
                 if (enumfacing.getAxis() == EnumFacing.Axis.Z) {
-                    switch (blockstairs$enumshape) {
+                    switch (enumShape) {
                         case OUTER_LEFT:
                             return state.withRotation(Rotation.CLOCKWISE_180).withProperty(SHAPE,
                                     TCStairs.EnumShape.OUTER_RIGHT);
@@ -385,7 +385,7 @@ public class TCStairs extends TCCube {
             case FRONT_BACK:
 
                 if (enumfacing.getAxis() == EnumFacing.Axis.X) {
-                    switch (blockstairs$enumshape) {
+                    switch (enumShape) {
                         case OUTER_LEFT:
                             return state.withRotation(Rotation.CLOCKWISE_180).withProperty(SHAPE,
                                     TCStairs.EnumShape.OUTER_RIGHT);
