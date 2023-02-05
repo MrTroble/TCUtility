@@ -116,41 +116,62 @@
         "material": "wood",
         "soundtype": "wood",
         "opacity": 0,
-        "states": ["cube"]
+        "states": ["cube", "stair", "slab"]
     },
     "spruce_stripped": {
         "hardness": 1,
         "material": "wood",
         "soundtype": "wood",
         "opacity": 0,
-        "states": ["cube"]
+        "states": ["cube", "stair", "slab"]
     },
     "birch_stripped": {
         "hardness": 1,
         "material": "wood",
         "soundtype": "wood",
         "opacity": 0,
-        "states": ["cube"]
+        "states": ["cube", "stair", "slab"]
     },
     "jungle_stripped": {
         "hardness": 1,
         "material": "wood",
         "soundtype": "wood",
         "opacity": 0,
-        "states": ["cube"]
+        "states": ["cube", "stair", "slab"]
     },
     "acacia_stripped": {
         "hardness": 1,
         "material": "wood",
         "soundtype": "wood",
         "opacity": 0,
-        "states": ["cube"]
+        "states": ["cube", "stair", "slab"]
     },
     "dark_oak_stripped": {
         "hardness": 1,
         "material": "wood",
         "soundtype": "wood",
         "opacity": 0,
-        "states": ["cube"]
+        "states": ["cube", "stair", "slab"]
+    },
+    "treated_wood_planks": {
+        "hardness": 1,
+        "material": "wood",
+        "soundtype": "wood",
+        "opacity": 0,
+        "states": ["cube", "stair", "slab"]
+    },
+    "treated_wood_packed": {
+        "hardness": 1,
+        "material": "wood",
+        "soundtype": "wood",
+        "opacity": 0,
+        "states": ["cube", "stair", "slab"]
+    },
+    "treated_wood_vertical": {
+        "hardness": 1,
+        "material": "wood",
+        "soundtype": "wood",
+        "opacity": 0,
+        "states": ["cube", "stair", "slab"]
     }
 } 

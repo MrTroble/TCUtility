@@ -110,5 +110,19 @@
         "soundtype": "stone",
         "opacity": 0,
         "states": ["stair", "slab", "wall"]
+    },
+    "coke_brick": {
+        "hardness": 1,
+        "material": "rock",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": ["cube", "stair", "slab", "wall"]
+    },
+    "blast_brick": {
+        "hardness": 1,
+        "material": "rock",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": ["cube", "stair", "slab", "wall"]
     }
 }

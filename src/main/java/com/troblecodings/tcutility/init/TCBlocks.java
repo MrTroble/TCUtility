@@ -78,6 +78,7 @@ public final class TCBlocks {
     public static void registerBlock(final RegistryEvent.Register<Block> event) {
         final IForgeRegistry<Block> registry = event.getRegistry();
         blocksToRegister.forEach(registry::register);
+        System.out.println(blocksToRegister);
     }
 
     @SubscribeEvent

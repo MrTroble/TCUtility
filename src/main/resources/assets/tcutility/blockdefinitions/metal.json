@@ -78,5 +78,131 @@
         "states": [
             "door"
         ]
+    },
+    "steel": {
+        "hardness": 1,
+        "material": "iron",
+        "soundtype": "metal",
+        "opacity": 0,
+        "states": ["cube", "stair", "slab", "fence", "fence_gate"]
+    },
+    "steel_scaffolding": {
+        "hardness": 1,
+        "material": "glass",
+        "soundtype": "metal",
+        "opacity": 0,
+        "states": ["cube", "stair", "slab"]
+    },
+    "aluminium_scaffolding": {
+        "hardness": 1,
+        "material": "glass",
+        "soundtype": "metal",
+        "opacity": 0,
+        "states": ["cube", "stair", "slab"]
+    },
+    "gold_sheet": {
+        "hardness": 1,
+        "material": "iron",
+        "soundtype": "metal",
+        "opacity": 0,
+        "states": ["cube", "stair", "slab"]
+    },
+    "iron_sheet": {
+        "hardness": 1,
+        "material": "iron",
+        "soundtype": "metal",
+        "opacity": 0,
+        "states": ["cube", "stair", "slab"]
+    },
+    "copper_sheet": {
+        "hardness": 1,
+        "material": "iron",
+        "soundtype": "metal",
+        "opacity": 0,
+        "states": ["cube", "stair", "slab"]
+    },
+    "aluminium_sheet": {
+        "hardness": 1,
+        "material": "iron",
+        "soundtype": "metal",
+        "opacity": 0,
+        "states": ["cube", "stair", "slab"]
+    },
+    "lead_sheet": {
+        "hardness": 1,
+        "material": "iron",
+        "soundtype": "metal",
+        "opacity": 0,
+        "states": ["cube", "stair", "slab"]
+    },
+    "silver_sheet": {
+        "hardness": 1,
+        "material": "iron",
+        "soundtype": "metal",
+        "opacity": 0,
+        "states": ["cube", "stair", "slab"]
+    },
+    "nickel_sheet": {
+        "hardness": 1,
+        "material": "iron",
+        "soundtype": "metal",
+        "opacity": 0,
+        "states": ["cube", "stair", "slab"]
+    },
+    "uranium_sheet": {
+        "hardness": 1,
+        "material": "iron",
+        "soundtype": "metal",
+        "opacity": 0,
+        "states": ["cube", "stair", "slab"]
+    },
+    "constantan_sheet": {
+        "hardness": 1,
+        "material": "iron",
+        "soundtype": "metal",
+        "opacity": 0,
+        "states": ["cube", "stair", "slab"]
+    },
+    "electrum_sheet": {
+        "hardness": 1,
+        "material": "iron",
+        "soundtype": "metal",
+        "opacity": 0,
+        "states": ["cube", "stair", "slab"]
+    },
+    "steel_sheet": {
+        "hardness": 1,
+        "material": "iron",
+        "soundtype": "metal",
+        "opacity": 0,
+        "states": ["cube", "stair", "slab"]
+    },
+    "aluminium_grid": {
+        "hardness": 1,
+        "material": "glass",
+        "soundtype": "metal",
+        "opacity": 0,
+        "states": ["cube", "stair", "slab"]
+    },
+    "steel_grid": {
+        "hardness": 1,
+        "material": "glass",
+        "soundtype": "metal",
+        "opacity": 0,
+        "states": ["cube", "stair", "slab"]
+    },
+    "aluminium_wood": {
+        "hardness": 1,
+        "material": "glass",
+        "soundtype": "metal",
+        "opacity": 0,
+        "states": ["cube", "stair", "slab"]
+    },
+    "steel_wood": {
+        "hardness": 1,
+        "material": "glass",
+        "soundtype": "metal",
+        "opacity": 0,
+        "states": ["cube", "stair", "slab"]
     }
 }

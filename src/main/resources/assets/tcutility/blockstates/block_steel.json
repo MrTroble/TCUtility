@@ -1,0 +1,10 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"model": "tcutility:cube", "textures": {"texture": "tcutility:blocks/steel_block"}, "uvlock": true
+	},
+	"variants": {
+		"normal": [{}],
+		"inventory": [{}]
+	}
+}

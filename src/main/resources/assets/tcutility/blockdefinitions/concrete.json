@@ -110,5 +110,12 @@
         "soundtype": "stone",
         "opacity": 0,
         "states": ["stair", "slab"]
+    },
+    "concrete": {
+        "hardness": 1,
+        "material": "rock",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": ["cube", "stair", "slab"]
     }
 } 
