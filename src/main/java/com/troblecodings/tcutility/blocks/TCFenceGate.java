@@ -54,9 +54,9 @@ public class TCFenceGate extends TCCubeRotation {
     }
 
     @Override
-    public AxisAlignedBB getBoundingBox(IBlockState state, final IBlockAccess source,
+    public AxisAlignedBB getBoundingBox(final IBlockState finalstate, final IBlockAccess source,
             final BlockPos pos) {
-        state = this.getActualState(state, source, pos);
+        final IBlockState state = this.getActualState(finalstate, source, pos);
 
         if (state.getValue(IN_WALL).booleanValue()) {
             return state.getValue(FACING).getAxis() == EnumFacing.Axis.X ? AABB_HITBOX_XAXIS_INWALL
@@ -68,14 +68,15 @@ public class TCFenceGate extends TCCubeRotation {
     }
 
     @Override
-    public IBlockState getActualState(IBlockState state, final IBlockAccess worldIn,
+    public IBlockState getActualState(final IBlockState finalstate, final IBlockAccess worldIn,
             final BlockPos pos) {
-        final EnumFacing.Axis enumfacing$axis = state.getValue(FACING).getAxis();
+        final EnumFacing.Axis facingAxis = finalstate.getValue(FACING).getAxis();
+        IBlockState state = finalstate;
 
-        if (enumfacing$axis == EnumFacing.Axis.Z
+        if (facingAxis == EnumFacing.Axis.Z
                 && (worldIn.getBlockState(pos.west()).getBlock() instanceof BlockWall
                         || worldIn.getBlockState(pos.east()).getBlock() instanceof BlockWall)
-                || enumfacing$axis == EnumFacing.Axis.X && (worldIn.getBlockState(pos.north())
+                || facingAxis == EnumFacing.Axis.X && (worldIn.getBlockState(pos.north())
                         .getBlock() instanceof BlockWall
                         || worldIn.getBlockState(pos.south()).getBlock() instanceof BlockWall)) {
             state = state.withProperty(IN_WALL, Boolean.valueOf(true));

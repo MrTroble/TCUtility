@@ -80,12 +80,12 @@ public class TCLadder extends TCCube {
         }
     }
 
-    private boolean canAttachTo(final World p_193392_1_, final BlockPos p_193392_2_,
-            final EnumFacing p_193392_3_) {
-        final IBlockState iblockstate = p_193392_1_.getBlockState(p_193392_2_);
+    private boolean canAttachTo(final World worldIn, final BlockPos blockPos,
+            final EnumFacing facing) {
+        final IBlockState iblockstate = worldIn.getBlockState(blockPos);
         final boolean flag = isExceptBlockForAttachWithPiston(iblockstate.getBlock());
-        return !flag && iblockstate.getBlockFaceShape(p_193392_1_, p_193392_2_,
-                p_193392_3_) == BlockFaceShape.SOLID && !iblockstate.canProvidePower();
+        return !flag && iblockstate.getBlockFaceShape(worldIn, blockPos,
+                facing) == BlockFaceShape.SOLID && !iblockstate.canProvidePower();
     }
 
     @Override

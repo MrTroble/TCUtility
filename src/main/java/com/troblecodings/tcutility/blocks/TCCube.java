@@ -19,7 +19,7 @@ public class TCCube extends Block {
         this.setLightOpacity(blockInfo.opacity);
         this.setCreativeTab(TCTabs.BLOCKS);
     }
-    
+
     @SuppressWarnings("deprecation")
     @Override
     @SideOnly(Side.CLIENT)
@@ -29,14 +29,14 @@ public class TCCube extends Block {
         }
         return BlockRenderLayer.SOLID;
     }
-    
+
     @SuppressWarnings("deprecation")
     @Override
     public boolean isOpaqueCube(final IBlockState state) {
         if (this.getMaterial(getDefaultState()).equals(Material.GLASS)) {
             return false;
         } else
-        return true;
+            return true;
     }
 
     @SuppressWarnings("deprecation")
@@ -45,7 +45,7 @@ public class TCCube extends Block {
         if (this.getMaterial(getDefaultState()).equals(Material.GLASS)) {
             return false;
         } else
-        return true;
+            return true;
     }
-    
+
 }
