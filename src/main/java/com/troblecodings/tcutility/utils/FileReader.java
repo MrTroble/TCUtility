@@ -21,7 +21,7 @@ import com.google.gson.reflect.TypeToken;
 import com.troblecodings.tcutility.TCUtilityMain;
 import com.troblecodings.tcutility.init.TCBlocks;
 
-public class FileReader {
+public final class FileReader {
 
     private FileReader() {
     }
