@@ -34,23 +34,24 @@ public final class TCModels {
     public static void registerBlockColor(final ColorHandlerEvent.Block event) {
         final BlockColors colors = event.getBlockColors();
         TCBlocks.blocksToRegister.forEach(block -> {
-            
+
             if (block.getMaterial(block.getDefaultState()).equals(Material.GRASS)) {
                 colors.registerBlockColorHandler((state, worldIn, pos, tintIndex) -> {
-                    if(worldIn == null || pos == null) {
+                    if (worldIn == null || pos == null) {
                         return 0xFF00FF00;
                     }
-                   return BiomeColorHelper.getGrassColorAtPos(worldIn, pos);}, block);      
+                    return BiomeColorHelper.getGrassColorAtPos(worldIn, pos);
+                }, block);
             }
         });
     }
-    
+
     @SuppressWarnings("deprecation")
     @SubscribeEvent
     public static void registerItemColor(final ColorHandlerEvent.Item event) {
         final ItemColors colors = event.getItemColors();
         TCBlocks.blocksToRegister.forEach(block -> {
-            
+
             if (block.getMaterial(block.getDefaultState()).equals(Material.GRASS)) {
                 colors.registerItemColorHandler((stack, tintIndex) -> 0xFF5E7A39, block);
             }

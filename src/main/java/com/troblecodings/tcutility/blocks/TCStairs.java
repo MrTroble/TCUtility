@@ -84,7 +84,7 @@ public class TCStairs extends TCCube {
         setCreativeTab(TCTabs.STAIRS);
         this.useNeighborBrightness = true;
     }
-    
+
     @SuppressWarnings("deprecation")
     @Override
     @SideOnly(Side.CLIENT)
@@ -96,11 +96,12 @@ public class TCStairs extends TCCube {
     }
 
     @Override
-    public void addCollisionBoxToList(IBlockState state, final World worldIn, final BlockPos pos,
+    public void addCollisionBoxToList(final IBlockState state, final World worldIn, final BlockPos pos,
             final AxisAlignedBB entityBox, final List<AxisAlignedBB> collidingBoxes,
             @Nullable final Entity entityIn, final boolean isActualState) {
         if (!isActualState) {
-            state = this.getActualState(state, worldIn, pos);
+            IBlockState state2 = state;
+            state2 = this.getActualState(state2, worldIn, pos);
         }
 
         for (final AxisAlignedBB axisalignedbb : getCollisionBoxList(state)) {
@@ -112,15 +113,15 @@ public class TCStairs extends TCCube {
         final List<AxisAlignedBB> list = Lists.<AxisAlignedBB>newArrayList();
         final boolean flag = bstate.getValue(HALF) == TCStairs.EnumHalf.TOP;
         list.add(flag ? AABB_SLAB_TOP : AABB_SLAB_BOTTOM);
-        final TCStairs.EnumShape blockstairs$enumshape = bstate.getValue(SHAPE);
+        final TCStairs.EnumShape blockShape = bstate.getValue(SHAPE);
 
-        if (blockstairs$enumshape == TCStairs.EnumShape.STRAIGHT
-                || blockstairs$enumshape == TCStairs.EnumShape.INNER_LEFT
-                || blockstairs$enumshape == TCStairs.EnumShape.INNER_RIGHT) {
+        if (blockShape == TCStairs.EnumShape.STRAIGHT
+                || blockShape == TCStairs.EnumShape.INNER_LEFT
+                || blockShape == TCStairs.EnumShape.INNER_RIGHT) {
             list.add(getCollQuarterBlock(bstate));
         }
 
-        if (blockstairs$enumshape != TCStairs.EnumShape.STRAIGHT) {
+        if (blockShape != TCStairs.EnumShape.STRAIGHT) {
             list.add(getCollEighthBlock(bstate));
         }
 
@@ -178,22 +179,23 @@ public class TCStairs extends TCCube {
     }
 
     @Override
-    public BlockFaceShape getBlockFaceShape(final IBlockAccess worldIn, IBlockState state,
+    public BlockFaceShape getBlockFaceShape(final IBlockAccess worldIn, final IBlockState state,
             final BlockPos pos, final EnumFacing face) {
-        state = this.getActualState(state, worldIn, pos);
+        IBlockState state2 = state;
+        state2 = this.getActualState(state2, worldIn, pos);
 
         if (face.getAxis() == EnumFacing.Axis.Y) {
-            return face == EnumFacing.UP == (state.getValue(HALF) == TCStairs.EnumHalf.TOP)
+            return face == EnumFacing.UP == (state2.getValue(HALF) == TCStairs.EnumHalf.TOP)
                     ? BlockFaceShape.SOLID
                     : BlockFaceShape.UNDEFINED;
         } else {
-            final TCStairs.EnumShape blockstairs$enumshape = state.getValue(SHAPE);
+            final TCStairs.EnumShape stairShape = state2.getValue(SHAPE);
 
-            if (blockstairs$enumshape != TCStairs.EnumShape.OUTER_LEFT
-                    && blockstairs$enumshape != TCStairs.EnumShape.OUTER_RIGHT) {
-                final EnumFacing enumfacing = state.getValue(FACING);
+            if (stairShape != TCStairs.EnumShape.OUTER_LEFT
+                    && stairShape != TCStairs.EnumShape.OUTER_RIGHT) {
+                final EnumFacing enumfacing = state2.getValue(FACING);
 
-                switch (blockstairs$enumshape) {
+                switch (stairShape) {
                     case INNER_RIGHT:
                         return enumfacing != face && enumfacing != face.rotateYCCW()
                                 ? BlockFaceShape.UNDEFINED
@@ -296,18 +298,16 @@ public class TCStairs extends TCCube {
         return state.withProperty(SHAPE, getStairsShape(state, worldIn, pos));
     }
 
-    private static TCStairs.EnumShape getStairsShape(final IBlockState p_185706_0_,
-            final IBlockAccess p_185706_1_, final BlockPos p_185706_2_) {
-        final EnumFacing enumfacing = p_185706_0_.getValue(FACING);
-        final IBlockState iblockstate = p_185706_1_.getBlockState(p_185706_2_.offset(enumfacing));
+    private static TCStairs.EnumShape getStairsShape(final IBlockState state,
+            final IBlockAccess worldIn, final BlockPos blockPos) {
+        final EnumFacing enumfacing = state.getValue(FACING);
+        final IBlockState iblockstate = worldIn.getBlockState(blockPos.offset(enumfacing));
 
-        if (isBlockStairs(iblockstate)
-                && p_185706_0_.getValue(HALF) == iblockstate.getValue(HALF)) {
+        if (isBlockStairs(iblockstate) && state.getValue(HALF) == iblockstate.getValue(HALF)) {
             final EnumFacing enumfacing1 = iblockstate.getValue(FACING);
 
-            if (enumfacing1.getAxis() != p_185706_0_.getValue(FACING).getAxis()
-                    && isDifferentStairs(p_185706_0_, p_185706_1_, p_185706_2_,
-                            enumfacing1.getOpposite())) {
+            if (enumfacing1.getAxis() != state.getValue(FACING).getAxis()
+                    && isDifferentStairs(state, worldIn, blockPos, enumfacing1.getOpposite())) {
                 if (enumfacing1 == enumfacing.rotateYCCW()) {
                     return TCStairs.EnumShape.OUTER_LEFT;
                 }
@@ -316,15 +316,14 @@ public class TCStairs extends TCCube {
             }
         }
 
-        final IBlockState iblockstate1 = p_185706_1_
-                .getBlockState(p_185706_2_.offset(enumfacing.getOpposite()));
+        final IBlockState iblockstate1 = worldIn
+                .getBlockState(blockPos.offset(enumfacing.getOpposite()));
 
-        if (isBlockStairs(iblockstate1)
-                && p_185706_0_.getValue(HALF) == iblockstate1.getValue(HALF)) {
+        if (isBlockStairs(iblockstate1) && state.getValue(HALF) == iblockstate1.getValue(HALF)) {
             final EnumFacing enumfacing2 = iblockstate1.getValue(FACING);
 
-            if (enumfacing2.getAxis() != p_185706_0_.getValue(FACING).getAxis()
-                    && isDifferentStairs(p_185706_0_, p_185706_1_, p_185706_2_, enumfacing2)) {
+            if (enumfacing2.getAxis() != state.getValue(FACING).getAxis()
+                    && isDifferentStairs(state, worldIn, blockPos, enumfacing2)) {
                 if (enumfacing2 == enumfacing.rotateYCCW()) {
                     return TCStairs.EnumShape.INNER_LEFT;
                 }
@@ -336,13 +335,11 @@ public class TCStairs extends TCCube {
         return TCStairs.EnumShape.STRAIGHT;
     }
 
-    private static boolean isDifferentStairs(final IBlockState p_185704_0_,
-            final IBlockAccess p_185704_1_, final BlockPos p_185704_2_,
-            final EnumFacing p_185704_3_) {
-        final IBlockState iblockstate = p_185704_1_.getBlockState(p_185704_2_.offset(p_185704_3_));
-        return !isBlockStairs(iblockstate)
-                || iblockstate.getValue(FACING) != p_185704_0_.getValue(FACING)
-                || iblockstate.getValue(HALF) != p_185704_0_.getValue(HALF);
+    private static boolean isDifferentStairs(final IBlockState state, final IBlockAccess worldIn,
+            final BlockPos blockPos, final EnumFacing facing) {
+        final IBlockState iblockstate = worldIn.getBlockState(blockPos.offset(facing));
+        return !isBlockStairs(iblockstate) || iblockstate.getValue(FACING) != state.getValue(FACING)
+                || iblockstate.getValue(HALF) != state.getValue(HALF);
     }
 
     public static boolean isBlockStairs(final IBlockState state) {

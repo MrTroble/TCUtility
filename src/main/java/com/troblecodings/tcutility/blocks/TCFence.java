@@ -16,7 +16,6 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemLead;
 import net.minecraft.item.ItemStack;
@@ -77,11 +76,12 @@ public class TCFence extends TCCube {
     }
 
     @Override
-    public void addCollisionBoxToList(IBlockState state, final World worldIn, final BlockPos pos,
+    public void addCollisionBoxToList(final IBlockState state, final World worldIn, final BlockPos pos,
             final AxisAlignedBB entityBox, final List<AxisAlignedBB> collidingBoxes,
             @Nullable final Entity entityIn, final boolean isActualState) {
         if (!isActualState) {
-            state = state.getActualState(worldIn, pos);
+            IBlockState state2 = state;
+            state2 = state2.getActualState(worldIn, pos);
         }
 
         addCollisionBoxToList(pos, entityBox, collidingBoxes, PILLAR_AABB);
@@ -104,10 +104,11 @@ public class TCFence extends TCCube {
     }
 
     @Override
-    public AxisAlignedBB getBoundingBox(IBlockState state, final IBlockAccess source,
+    public AxisAlignedBB getBoundingBox(final IBlockState state, final IBlockAccess source,
             final BlockPos pos) {
-        state = this.getActualState(state, source, pos);
-        return BOUNDING_BOXES[getBoundingBoxIdx(state)];
+        IBlockState state2 = state;
+        state2 = this.getActualState(state2, source, pos);
+        return BOUNDING_BOXES[getBoundingBoxIdx(state2)];
     }
 
     private static int getBoundingBoxIdx(final IBlockState state) {
@@ -155,14 +156,7 @@ public class TCFence extends TCCube {
         final boolean flag = blockfaceshape == BlockFaceShape.MIDDLE_POLE
                 && (iblockstate.getMaterial() == this.blockMaterial
                         || block instanceof BlockFenceGate);
-        return !isExcepBlockForAttachWithPiston(block) && blockfaceshape == BlockFaceShape.SOLID
-                || flag;
-    }
-
-    protected static boolean isExcepBlockForAttachWithPiston(final Block p_194142_0_) {
-        return Block.isExceptBlockForAttachWithPiston(p_194142_0_) || p_194142_0_ == Blocks.BARRIER
-                || p_194142_0_ == Blocks.MELON_BLOCK || p_194142_0_ == Blocks.PUMPKIN
-                || p_194142_0_ == Blocks.LIT_PUMPKIN;
+        return blockfaceshape == BlockFaceShape.SOLID || flag;
     }
 
     @Override

@@ -61,11 +61,12 @@ public class TCWindow extends TCCube {
     }
 
     @Override
-    public void addCollisionBoxToList(IBlockState state, final World worldIn, final BlockPos pos,
+    public void addCollisionBoxToList(final IBlockState state, final World worldIn, final BlockPos pos,
             final AxisAlignedBB entityBox, final List<AxisAlignedBB> collidingBoxes,
             @Nullable final Entity entityIn, final boolean isActualState) {
         if (!isActualState) {
-            state = this.getActualState(state, worldIn, pos);
+            IBlockState state2 = state;
+            state2 = this.getActualState(state2, worldIn, pos);
         }
 
         addCollisionBoxToList(pos, entityBox, collidingBoxes, AABB_BY_INDEX[0]);
@@ -96,10 +97,11 @@ public class TCWindow extends TCCube {
     }
 
     @Override
-    public AxisAlignedBB getBoundingBox(IBlockState state, final IBlockAccess source,
+    public AxisAlignedBB getBoundingBox(final IBlockState state, final IBlockAccess source,
             final BlockPos pos) {
-        state = this.getActualState(state, source, pos);
-        return AABB_BY_INDEX[getBoundingBoxIndex(state)];
+        IBlockState state2 = state;
+        state2 = this.getActualState(state2, source, pos);
+        return AABB_BY_INDEX[getBoundingBoxIndex(state2)];
     }
 
     private static int getBoundingBoxIndex(final IBlockState state) {
@@ -146,15 +148,16 @@ public class TCWindow extends TCCube {
     }
 
     @Override
-    public IBlockState getActualState(IBlockState state, final IBlockAccess worldIn,
+    public IBlockState getActualState(final IBlockState state, final IBlockAccess worldIn,
             final BlockPos pos) {
-        state = state.withProperty(PANE_NORTH, this.attachesToBlock(worldIn, pos.north()));
-        state = state.withProperty(PANE_EAST, this.attachesToBlock(worldIn, pos.east()));
-        state = state.withProperty(PANE_SOUTH, this.attachesToBlock(worldIn, pos.south()));
-        state = state.withProperty(PANE_WEST, this.attachesToBlock(worldIn, pos.west()));
-        state = state.withProperty(PANE_UP, this.attachesToBlock(worldIn, pos.up()));
-        state = state.withProperty(PANE_DOWN, this.attachesToBlock(worldIn, pos.down()));
-        return state;
+        IBlockState state2 = state;
+        state2 = state2.withProperty(PANE_NORTH, this.attachesToBlock(worldIn, pos.north()));
+        state2 = state2.withProperty(PANE_EAST, this.attachesToBlock(worldIn, pos.east()));
+        state2 = state2.withProperty(PANE_SOUTH, this.attachesToBlock(worldIn, pos.south()));
+        state2 = state2.withProperty(PANE_WEST, this.attachesToBlock(worldIn, pos.west()));
+        state2 = state2.withProperty(PANE_UP, this.attachesToBlock(worldIn, pos.up()));
+        state2 = state2.withProperty(PANE_DOWN, this.attachesToBlock(worldIn, pos.down()));
+        return state2;
     }
 
     @Override

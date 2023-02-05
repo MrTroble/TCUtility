@@ -64,33 +64,36 @@ public class TCWall extends TCFence {
     }
 
     @Override
-    public AxisAlignedBB getBoundingBox(IBlockState state, final IBlockAccess source,
+    public AxisAlignedBB getBoundingBox(final IBlockState state, final IBlockAccess source,
             final BlockPos pos) {
-        state = this.getActualState(state, source, pos);
-        return AABB_BY_INDEX[getAABBIndex(state)];
+        IBlockState state2 = state;
+        state2 = this.getActualState(state2, source, pos);
+        return AABB_BY_INDEX[getAABBindex(state2)];
     }
 
     @Override
-    public void addCollisionBoxToList(IBlockState state, final World worldIn, final BlockPos pos,
+    public void addCollisionBoxToList(final IBlockState state, final World worldIn, final BlockPos pos,
             final AxisAlignedBB entityBox, final List<AxisAlignedBB> collidingBoxes,
             @Nullable final Entity entityIn, final boolean isActualState) {
         if (!isActualState) {
-            state = this.getActualState(state, worldIn, pos);
+            IBlockState state2 = state;
+            state2 = this.getActualState(state2, worldIn, pos);
         }
 
         addCollisionBoxToList(pos, entityBox, collidingBoxes,
-                CLIP_AABB_BY_INDEX[getAABBIndex(state)]);
+                CLIP_AABB_BY_INDEX[getAABBindex(state)]);
     }
 
     @Override
     @Nullable
-    public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, final IBlockAccess worldIn,
+    public AxisAlignedBB getCollisionBoundingBox(final IBlockState blockState, final IBlockAccess worldIn,
             final BlockPos pos) {
-        blockState = this.getActualState(blockState, worldIn, pos);
-        return CLIP_AABB_BY_INDEX[getAABBIndex(blockState)];
+        IBlockState state = blockState;
+        state = this.getActualState(state, worldIn, pos);
+        return CLIP_AABB_BY_INDEX[getAABBindex(state)];
     }
 
-    private static int getAABBIndex(final IBlockState state) {
+    private static int getAABBindex(final IBlockState state) {
         int i = 0;
 
         if (state.getValue(NORTH).booleanValue()) {
@@ -114,15 +117,13 @@ public class TCWall extends TCFence {
 
     @Override
     public boolean canConnectTo(final IBlockAccess worldIn, final BlockPos pos,
-            final EnumFacing p_176253_3_) {
+            final EnumFacing facing) {
         final IBlockState iblockstate = worldIn.getBlockState(pos);
         final Block block = iblockstate.getBlock();
-        final BlockFaceShape blockfaceshape = iblockstate.getBlockFaceShape(worldIn, pos,
-                p_176253_3_);
+        final BlockFaceShape blockfaceshape = iblockstate.getBlockFaceShape(worldIn, pos, facing);
         final boolean flag = blockfaceshape == BlockFaceShape.MIDDLE_POLE_THICK
                 || blockfaceshape == BlockFaceShape.MIDDLE_POLE && block instanceof BlockFenceGate;
-        return !isExcepBlockForAttachWithPiston(block) && blockfaceshape == BlockFaceShape.SOLID
-                || flag;
+        return blockfaceshape == BlockFaceShape.SOLID || flag;
     }
 
     @Override
@@ -132,8 +133,9 @@ public class TCWall extends TCFence {
         final boolean flag1 = canWallConnectTo(worldIn, pos, EnumFacing.EAST);
         final boolean flag2 = canWallConnectTo(worldIn, pos, EnumFacing.SOUTH);
         final boolean flag3 = canWallConnectTo(worldIn, pos, EnumFacing.WEST);
-        final boolean flag4 = flag && !flag1 && flag2 && !flag3
-                || !flag && flag1 && !flag2 && flag3;
+        final boolean flag02 = flag && flag2;
+        final boolean flag13 = flag1 && flag3;
+        final boolean flag4 = flag02 && !flag13 || !flag02 && flag13;
         return state.withProperty(UP, Boolean.valueOf(!flag4 || !worldIn.isAirBlock(pos.up())))
                 .withProperty(NORTH, Boolean.valueOf(flag))
                 .withProperty(EAST, Boolean.valueOf(flag1))

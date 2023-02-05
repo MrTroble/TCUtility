@@ -23,20 +23,24 @@ import com.troblecodings.tcutility.init.TCBlocks;
 
 public class FileReader {
 
+    private FileReader() {
+    }
+
     private static FileSystem fileSystemCache = null;
 
-    public static Optional<Path> getRessourceLocation(String location) {
+    public static Optional<Path> getRessourceLocation(final String location) {
 
         final URL url = TCBlocks.class.getResource(location);
         try {
             if (url != null) {
                 final URI uri = url.toURI();
-
+                
+                String newLocation = location;
                 if ("file".equals(uri.getScheme())) {
                     if (!location.startsWith("/")) {
-                        location = "/" + location;
+                        newLocation = "/" + location;
                     }
-                    final URL resource = TCBlocks.class.getResource(location);
+                    final URL resource = TCBlocks.class.getResource(newLocation);
                     if (resource == null) {
                         return Optional.empty();
                     }
@@ -48,12 +52,12 @@ public class FileReader {
                     if (fileSystemCache == null) {
                         fileSystemCache = FileSystems.newFileSystem(uri, Collections.emptyMap());
                     }
-                    return Optional.of(fileSystemCache.getPath(location));
+                    return Optional.of(fileSystemCache.getPath(newLocation));
 
                 }
             }
-        } catch (IOException | URISyntaxException e1) {
-            e1.printStackTrace();
+        } catch (final IOException | URISyntaxException ex) {
+            ex.printStackTrace();
         }
         return Optional.empty();
     }

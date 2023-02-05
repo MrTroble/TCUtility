@@ -35,8 +35,9 @@ public class TCDoor extends TCCube {
 
     public static final PropertyDirection FACING = BlockHorizontal.FACING;
     public static final PropertyBool OPEN = PropertyBool.create("open");
-    public static final PropertyEnum<BlockDoor.EnumHingePosition> HINGE = PropertyEnum.<BlockDoor.EnumHingePosition>create(
-            "hinge", BlockDoor.EnumHingePosition.class);
+    public static final PropertyEnum<BlockDoor.EnumHingePosition> HINGE = PropertyEnum.
+            <BlockDoor.EnumHingePosition>create(
+                    "hinge", BlockDoor.EnumHingePosition.class);
     public static final PropertyBool POWERED = PropertyBool.create("powered");
     public static final PropertyEnum<BlockDoor.EnumDoorHalf> HALF = PropertyEnum.<BlockDoor.EnumDoorHalf>create(
             "half", BlockDoor.EnumDoorHalf.class);
@@ -60,12 +61,12 @@ public class TCDoor extends TCCube {
     }
 
     @Override
-    public AxisAlignedBB getBoundingBox(IBlockState state, final IBlockAccess source,
+    public AxisAlignedBB getBoundingBox(final IBlockState state, final IBlockAccess source,
             final BlockPos pos) {
-        state = state.getActualState(source, pos);
-        final EnumFacing enumfacing = state.getValue(FACING);
-        final boolean flag = !state.getValue(OPEN).booleanValue();
-        final boolean flag1 = state.getValue(HINGE) == BlockDoor.EnumHingePosition.RIGHT;
+        final IBlockState states = state.getActualState(source, pos);
+        final EnumFacing enumfacing = states.getValue(FACING);
+        final boolean flag = !states.getValue(OPEN).booleanValue();
+        final boolean flag1 = states.getValue(HINGE) == BlockDoor.EnumHingePosition.RIGHT;
 
         switch (enumfacing) {
             case EAST:
@@ -104,7 +105,7 @@ public class TCDoor extends TCCube {
     }
 
     @Override
-    public boolean onBlockActivated(final World worldIn, final BlockPos pos, IBlockState state,
+    public boolean onBlockActivated(final World worldIn, final BlockPos pos, final IBlockState state,
             final EntityPlayer playerIn, final EnumHand hand, final EnumFacing facing,
             final float hitX, final float hitY, final float hitZ) {
         if (this.blockMaterial == Material.IRON) {
@@ -118,11 +119,11 @@ public class TCDoor extends TCCube {
             if (iblockstate.getBlock() != this) {
                 return false;
             } else {
-                state = iblockstate.cycleProperty(OPEN);
-                worldIn.setBlockState(blockpos, state, 10);
+                final IBlockState state2 = iblockstate.cycleProperty(OPEN);
+                worldIn.setBlockState(blockpos, state2, 10);
                 worldIn.markBlockRangeForRenderUpdate(blockpos, pos);
                 worldIn.playEvent(playerIn,
-                        state.getValue(OPEN).booleanValue() ? this.getOpenSound()
+                        state2.getValue(OPEN).booleanValue() ? this.getOpenSound()
                                 : this.getCloseSound(),
                         pos, 0);
                 return true;
@@ -262,25 +263,26 @@ public class TCDoor extends TCCube {
     }
 
     @Override
-    public IBlockState getActualState(IBlockState state, final IBlockAccess worldIn,
+    public IBlockState getActualState(final IBlockState state, final IBlockAccess worldIn,
             final BlockPos pos) {
+        IBlockState state2 = state;
         if (state.getValue(HALF) == BlockDoor.EnumDoorHalf.LOWER) {
             final IBlockState iblockstate = worldIn.getBlockState(pos.up());
 
             if (iblockstate.getBlock() == this) {
-                state = state.withProperty(HINGE, iblockstate.getValue(HINGE)).withProperty(POWERED,
+                state2 = state.withProperty(HINGE, iblockstate.getValue(HINGE)).withProperty(POWERED,
                         iblockstate.getValue(POWERED));
             }
         } else {
             final IBlockState iblockstate1 = worldIn.getBlockState(pos.down());
 
             if (iblockstate1.getBlock() == this) {
-                state = state.withProperty(FACING, iblockstate1.getValue(FACING)).withProperty(OPEN,
+                state2 = state.withProperty(FACING, iblockstate1.getValue(FACING)).withProperty(OPEN,
                         iblockstate1.getValue(OPEN));
             }
         }
 
-        return state;
+        return state2;
     }
 
     @Override
