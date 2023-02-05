@@ -87,7 +87,6 @@ public final class TCBlocks {
         blocksToRegister.forEach(block -> {
             if (!block.toString().contains("door")) {
                 registry.register(new ItemBlock(block).setRegistryName(block.getRegistryName())); 
-                System.out.println(block.getRegistryName());
             }
         });
     }

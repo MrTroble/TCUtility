@@ -13,6 +13,13 @@
         "opacity": 0,
         "states": ["cube_rot"]
     },
+    "steel_pipe": {
+        "hardness": 1,
+        "material": "iron",
+        "soundtype": "metal",
+        "opacity": 0,
+        "states": ["cube_rot"]
+    },
     "chain": {
         "hardness": 1,
         "material": "iron",
