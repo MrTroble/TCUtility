@@ -6,7 +6,7 @@
 ![Curseforge Versions](http://cf.way2muchnoise.eu/versions/821776.svg?badge_style=for_the_badge)
 ](https://www.curseforge.com/minecraft/mc-mods/tcutility)
 [
-![Discord](https://img.shields.io/discord/690967067855421470?logo=discord&style=for-the-badge)
+![Discord](https://img.shields.io/discord/166953995951276032?logo=discord&style=for-the-badge)
 ](https://discord.gg/Um97SHnrYp/)
 [
 ![Sponsor](https://img.shields.io/github/sponsors/MrTroble?logo=github&style=for-the-badge)
