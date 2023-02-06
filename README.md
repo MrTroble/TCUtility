@@ -1,23 +1,24 @@
-# GIRUtilities
+# TC Utility
 
 [
-![Curseforge](https://cf.way2muchnoise.eu/title/{modname}.svg?badge_style=for_the_badge)
-![Curseforge Downloads](https://cf.way2muchnoise.eu/short_{modname}.svg?badge_style=for_the_badge)
-![Curseforge Versions](http://cf.way2muchnoise.eu/versions/{modname}.svg?badge_style=for_the_badge)
-](https://www.curseforge.com/minecraft/mc-mods/{modname})
+![Curseforge](https://cf.way2muchnoise.eu/title/821776.svg?badge_style=for_the_badge)
+![Curseforge Downloads](https://cf.way2muchnoise.eu/short_821776.svg?badge_style=for_the_badge)
+![Curseforge Versions](http://cf.way2muchnoise.eu/versions/821776.svg?badge_style=for_the_badge)
+](https://www.curseforge.com/minecraft/mc-mods/tcutility)
 [
 ![Discord](https://img.shields.io/discord/690967067855421470?logo=discord&style=for-the-badge)
-](https://discord.gg/UdxeFgG)
-[
-![GitHub Workflow Status (branch)](https://img.shields.io/github/workflow/status/German-Immersive-Railroading-Community/GIRUtility/Java%20CI%20with%20Gradle/master?style=for-the-badge)
-](https://github.com/German-Immersive-Railroading-Community/GIRUtility/actions/workflows/gradle.yml)
+](https://discord.gg/Um97SHnrYp/)
 [
 ![Sponsor](https://img.shields.io/github/sponsors/MrTroble?logo=github&style=for-the-badge)
 ](https://github.com/sponsors/MrTroble)
 
-## This mod adds blocks which we need on our server.
+## Description
 
-- Find more information on our [website](https://girc.eu/).
+TC Utility is a Minecraft mod that adds over 450 building and decorating blocks to your game. Currently, everything can only be used in creative mode. The mod was originally developed for a server project to add various building blocks like slabs, stairs and doors. As well as replace blocks with tileentity with normal blocks.
+The mod uses a Json-based registration system, so new blocks can be added easily without changing anything in the program code.
+
+- Find more information on our [Discord](https://discord.gg/Um97SHnrYp/).
+- Download on [curseforge](https://www.curseforge.com/minecraft/mc-mods/tcutility).
 - Updates can be found in the [changelog](changelog.md).
 
 ## How to build this mod
