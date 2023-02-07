@@ -31,7 +31,7 @@ curseforge {
   project {
     id = '821776'
     changelog = file('changelog.md')
-    releaseType = 'release'
+    releaseType = 'beta'
     changelogType = 'markdown'
   }
 }
