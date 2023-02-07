@@ -1,0 +1,12 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "model": "tcutility:slab_bottom", "textures": {"texture": "blocks/iron_block"}
+    },
+    "variants": {
+        "half=bottom": [{}],
+        "half=top": {"model": "tcutility:slab_top", "textures": {"texture": "blocks/iron_block"}},
+        "half=double": {"model": "tcutility:cube", "textures": {"texture": "blocks/iron_block"}},
+        "inventory": [{}]
+    }
+}

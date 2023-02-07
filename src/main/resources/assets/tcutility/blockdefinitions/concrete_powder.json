@@ -1,0 +1,114 @@
+{
+    "concrete_powder_white": {
+        "hardness": 1,
+        "material": "rock",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": ["cube", "stair", "slab", "wall"]
+    },
+    "concrete_powder_orange": {
+        "hardness": 1,
+        "material": "rock",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": ["cube", "stair", "slab", "wall"]
+    },
+    "concrete_powder_magenta": {
+        "hardness": 1,
+        "material": "rock",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": ["cube", "stair", "slab", "wall"]
+    },
+    "concrete_powder_lightblue": {
+        "hardness": 1,
+        "material": "rock",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": ["cube", "stair", "slab", "wall"]
+    },
+    "concrete_powder_yellow": {
+        "hardness": 1,
+        "material": "rock",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": ["cube", "stair", "slab", "wall"]
+    },
+    "concrete_powder_lime": {
+        "hardness": 1,
+        "material": "rock",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": ["cube", "stair", "slab", "wall"]
+    },
+    "concrete_powder_pink": {
+        "hardness": 1,
+        "material": "rock",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": ["cube", "stair", "slab", "wall"]
+    },
+    "concrete_powder_gray": {
+        "hardness": 1,
+        "material": "rock",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": ["cube", "stair", "slab", "wall"]
+    },
+    "concrete_powder_lightgray": {
+        "hardness": 1,
+        "material": "rock",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": ["cube", "stair", "slab", "wall"]
+    },
+    "concrete_powder_cyan": {
+        "hardness": 1,
+        "material": "rock",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": ["cube", "stair", "slab", "wall"]
+    },
+    "concrete_powder_purple": {
+        "hardness": 1,
+        "material": "rock",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": ["cube", "stair", "slab", "wall"]
+    },
+    "concrete_powder_blue": {
+        "hardness": 1,
+        "material": "rock",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": ["cube", "stair", "slab", "wall"]
+    },
+    "concrete_powder_brown": {
+        "hardness": 1,
+        "material": "rock",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": ["cube", "stair", "slab", "wall"]
+    },
+    "concrete_powder_green": {
+        "hardness": 1,
+        "material": "rock",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": ["cube", "stair", "slab", "wall"]
+    },
+    "concrete_powder_red": {
+        "hardness": 1,
+        "material": "rock",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": ["cube", "stair", "slab", "wall"]
+    },
+    "concrete_powder_black": {
+        "hardness": 1,
+        "material": "rock",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": ["cube", "stair", "slab", "wall"]
+    }
+} 

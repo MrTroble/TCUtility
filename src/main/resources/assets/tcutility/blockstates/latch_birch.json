@@ -1,0 +1,25 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "model": "tcutility:trapdoor_bottom", "textures": {"texture": "tcutility:blocks/trapdoor_birch"}
+    },
+    "variants": {
+		"inventory": [{}],
+        "facing=north,half=bottom,open=false": [{}],
+        "facing=south,half=bottom,open=false": [{}],
+        "facing=east,half=bottom,open=false": [{}],
+        "facing=west,half=bottom,open=false": [{}],
+        "facing=north,half=top,open=false": {"model": "tcutility:trapdoor_top", "textures": {"texture": "tcutility:blocks/trapdoor_birch"}},
+        "facing=south,half=top,open=false": {"model": "tcutility:trapdoor_top", "textures": {"texture": "tcutility:blocks/trapdoor_birch"}},
+        "facing=east,half=top,open=false": {"model": "tcutility:trapdoor_top", "textures": {"texture": "tcutility:blocks/trapdoor_birch"}},
+        "facing=west,half=top,open=false": {"model": "tcutility:trapdoor_top", "textures": {"texture": "tcutility:blocks/trapdoor_birch"}},
+        "facing=north,half=bottom,open=true": {"model": "tcutility:trapdoor_open", "textures": {"texture": "tcutility:blocks/trapdoor_birch"}},
+        "facing=south,half=bottom,open=true": {"model": "tcutility:trapdoor_open", "y": 180, "textures": {"texture": "tcutility:blocks/trapdoor_birch"}},
+        "facing=east,half=bottom,open=true": {"model": "tcutility:trapdoor_open", "y": 90, "textures": {"texture": "tcutility:blocks/trapdoor_birch"}},
+        "facing=west,half=bottom,open=true": {"model": "tcutility:trapdoor_open", "y": 270, "textures": {"texture": "tcutility:blocks/trapdoor_birch"}},
+        "facing=north,half=top,open=true": {"model": "tcutility:trapdoor_open", "textures": {"texture": "tcutility:blocks/trapdoor_birch"}},
+        "facing=south,half=top,open=true": {"model": "tcutility:trapdoor_open", "y": 180, "textures": {"texture": "tcutility:blocks/trapdoor_birch"}},
+        "facing=east,half=top,open=true": {"model": "tcutility:trapdoor_open", "y": 90, "textures": {"texture": "tcutility:blocks/trapdoor_birch"}},
+        "facing=west,half=top,open=true": {"model": "tcutility:trapdoor_open", "y": 270, "textures": {"texture": "tcutility:blocks/trapdoor_birch"}}
+    }
+}

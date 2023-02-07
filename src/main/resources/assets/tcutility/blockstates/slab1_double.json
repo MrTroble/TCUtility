@@ -1,6 +1,0 @@
-{
-    "variants":
-    {
-        "variant=default": { "model": "tcutility:slab_double" }
-    }
-}

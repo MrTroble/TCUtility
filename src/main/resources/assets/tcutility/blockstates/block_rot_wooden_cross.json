@@ -1,0 +1,17 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"model": "tcutility:cross",
+		"textures": {
+			"texture": "blocks/planks_spruce"
+		},
+		"uvlock": true
+	},
+	"variants": {
+		"facing=north": [{}],
+		"facing=east": {"y": 90},
+		"facing=south": {"y": 180},
+		"facing=west": {"y": 270},
+		"inventory": [{}]
+	}
+}

@@ -1,0 +1,51 @@
+{
+    "dirt": {
+        "hardness": 1,
+        "material": "ground",
+        "soundtype": "ground",
+        "opacity": 0,
+        "states": ["stair", "slab"]
+    },
+    "dirt_coarsed": {
+        "hardness": 1,
+        "material": "ground",
+        "soundtype": "ground",
+        "opacity": 0,
+        "states": ["stair", "slab"]
+    },
+    "dirt_podzol": {
+        "hardness": 1,
+        "material": "ground",
+        "soundtype": "ground",
+        "opacity": 0,
+        "states": ["stair", "slab"]
+    },
+    "dirt_path": {
+        "hardness": 1,
+        "material": "ground",
+        "soundtype": "ground",
+        "opacity": 0,
+        "states": ["stair", "slab"]
+    },
+    "grass": {
+        "hardness": 1,
+        "material": "grass",
+        "soundtype": "plant",
+        "opacity": 0,
+        "states": ["stair", "slab"]
+    },
+    "gravel": {
+        "hardness": 1,
+        "material": "ground",
+        "soundtype": "ground",
+        "opacity": 0,
+        "states": ["stair", "slab"]
+    },
+    "hay": {
+        "hardness": 1,
+        "material": "ground",
+        "soundtype": "ground",
+        "opacity": 0,
+        "states": ["stair", "slab"]
+    }
+}

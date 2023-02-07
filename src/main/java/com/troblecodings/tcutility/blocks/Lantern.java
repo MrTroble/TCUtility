@@ -27,7 +27,7 @@ public class Lantern extends Block {
 
     public Lantern() {
         super(Material.IRON);
-        setCreativeTab(TCTabs.TAB);
+        setCreativeTab(TCTabs.SPECIAL);
         setLightLevel(1.0f);
         this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.UP));
     }

@@ -1,0 +1,25 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "model": "tcutility:fence_post", "textures": {"texture": "blocks/obsidian", "post": "blocks/obsidian"}
+    },
+    "variants": {
+        "inventory": { "model": "tcutility:fence_inventory", "textures": {"texture": "blocks/obsidian", "post": "blocks/obsidian"}},
+        "east=false,north=false,south=false,west=false": [{}],
+        "east=true,north=false,south=false,west=false": {"model": "tcutility:fence_post", "textures": {"texture": "blocks/obsidian", "post": "blocks/obsidian"}, "submodel": {"east": {"model": "tcutility:fence_side", "uvlock": true, "y": 90}}},
+        "east=true,north=true,south=false,west=false": {"model": "tcutility:fence_post", "textures": {"texture": "blocks/obsidian", "post": "blocks/obsidian"}, "submodel": {"east": {"model": "tcutility:fence_side", "uvlock": true, "y": 90}, "north": {"model": "tcutility:fence_side", "uvlock": true}}},
+        "east=true,north=true,south=true,west=false": {"model": "tcutility:fence_post", "textures": {"texture": "blocks/obsidian", "post": "blocks/obsidian"}, "submodel": {"east": {"model": "tcutility:fence_side", "uvlock": true, "y": 90}, "north": {"model": "tcutility:fence_side", "uvlock": true}, "south": {"model": "tcutility:fence_side", "uvlock": true, "y": 180}}},
+        "east=true,north=true,south=true,west=true": {"model": "tcutility:fence_post", "textures": {"texture": "blocks/obsidian", "post": "blocks/obsidian"}, "submodel": {"east": {"model": "tcutility:fence_side", "uvlock": true, "y": 90}, "north": {"model": "tcutility:fence_side", "uvlock": true}, "south": {"model": "tcutility:fence_side", "uvlock": true, "y": 180}, "west": {"model": "tcutility:fence_side", "uvlock": true, "y": 270}}},
+        "east=false,north=true,south=false,west=false": {"model": "tcutility:fence_post", "textures": {"texture": "blocks/obsidian", "post": "blocks/obsidian"}, "submodel": {"north": {"model": "tcutility:fence_side", "uvlock": true}}},
+        "east=false,north=true,south=true,west=false": {"model": "tcutility:fence_post", "textures": {"texture": "blocks/obsidian", "post": "blocks/obsidian"}, "submodel": {"north": {"model": "tcutility:fence_side", "uvlock": true}, "south": {"model": "tcutility:fence_side", "uvlock": true, "y": 180}}},
+        "east=false,north=true,south=true,west=true": {"model": "tcutility:fence_post", "textures": {"texture": "blocks/obsidian", "post": "blocks/obsidian"}, "submodel": {"north": {"model": "tcutility:fence_side", "uvlock": true}, "south": {"model": "tcutility:fence_side", "uvlock": true, "y": 180}, "west": {"model": "tcutility:fence_side", "uvlock": true, "y": 270}}},
+        "east=false,north=false,south=true,west=false": {"model": "tcutility:fence_post", "textures": {"texture": "blocks/obsidian", "post": "blocks/obsidian"}, "submodel": {"south": {"model": "tcutility:fence_side", "uvlock": true, "y": 180}}},
+        "east=false,north=false,south=true,west=true": {"model": "tcutility:fence_post", "textures": {"texture": "blocks/obsidian", "post": "blocks/obsidian"}, "submodel": {"south": {"model": "tcutility:fence_side", "uvlock": true, "y": 180}, "west": {"model": "tcutility:fence_side", "uvlock": true, "y": 270}}},
+        "east=false,north=false,south=false,west=true": {"model": "tcutility:fence_post", "textures": {"texture": "blocks/obsidian", "post": "blocks/obsidian"}, "submodel": {"west": {"model": "tcutility:fence_side", "uvlock": true, "y": 270}}},
+        "east=true,north=false,south=false,west=true": {"model": "tcutility:fence_post", "textures": {"texture": "blocks/obsidian", "post": "blocks/obsidian"}, "submodel": {"east": {"model": "tcutility:fence_side", "uvlock": true, "y": 90}, "west": {"model": "tcutility:fence_side", "uvlock": true, "y": 270}}},
+        "east=false,north=true,south=false,west=true": {"model": "tcutility:fence_post", "textures": {"texture": "blocks/obsidian", "post": "blocks/obsidian"}, "submodel": {"north": {"model": "tcutility:fence_side", "uvlock": true}, "west": {"model": "tcutility:fence_side", "uvlock": true, "y": 270}}},
+        "east=true,north=false,south=true,west=false": {"model": "tcutility:fence_post", "textures": {"texture": "blocks/obsidian", "post": "blocks/obsidian"}, "submodel": {"east": {"model": "tcutility:fence_side", "uvlock": true, "y": 90}, "south": {"model": "tcutility:fence_side", "uvlock": true, "y": 180}}},
+        "east=true,north=false,south=true,west=true": {"model": "tcutility:fence_post", "textures": {"texture": "blocks/obsidian", "post": "blocks/obsidian"}, "submodel": {"east": {"model": "tcutility:fence_side", "uvlock": true, "y": 90}, "south": {"model": "tcutility:fence_side", "uvlock": true, "y": 180}, "west": {"model": "tcutility:fence_side", "uvlock": true, "y": 270}}},
+        "east=true,north=true,south=false,west=true": {"model": "tcutility:fence_post", "textures": {"texture": "blocks/obsidian", "post": "blocks/obsidian"}, "submodel": {"east": {"model": "tcutility:fence_side", "uvlock": true, "y": 90}, "north": {"model": "tcutility:fence_side", "uvlock": true}, "west": {"model": "tcutility:fence_side", "uvlock": true, "y": 270}}}
+    }
+}

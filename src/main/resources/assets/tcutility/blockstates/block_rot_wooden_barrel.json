@@ -1,0 +1,22 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"model": "tcutility:cube_faces",
+		"textures": {
+			"south": "tcutility:blocks/barrel_top",
+			"east": "tcutility:blocks/barrel_side",
+			"north": "tcutility:blocks/barrel_bottom",
+			"west": "tcutility:blocks/barrel_side",
+			"up": "tcutility:blocks/barrel_side",
+			"down": "tcutility:blocks/barrel_side"
+		},
+		"uvlock": true
+	},
+	"variants": {
+		"facing=north": [{}],
+		"facing=east": {"y": 90},
+		"facing=south": {"y": 180},
+		"facing=west": {"y": 270},
+		"inventory": [{}]
+	}
+}

@@ -1,46 +1,33 @@
 package com.troblecodings.tcutility.init;
 
-import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.file.FileSystem;
-import java.nio.file.FileSystems;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
-import java.util.stream.Stream;
+import java.util.Map.Entry;
 
-import com.google.gson.Gson;
-import com.troblecodings.tcutility.BlockDefinitons;
 import com.troblecodings.tcutility.TCUtilityMain;
-import com.troblecodings.tcutility.blocks.BigDoor;
-import com.troblecodings.tcutility.blocks.Bin;
-import com.troblecodings.tcutility.blocks.Concrete;
-import com.troblecodings.tcutility.blocks.Crate;
-import com.troblecodings.tcutility.blocks.Door;
-import com.troblecodings.tcutility.blocks.Fence;
-import com.troblecodings.tcutility.blocks.FenceGate;
-import com.troblecodings.tcutility.blocks.Ladder;
-import com.troblecodings.tcutility.blocks.Lantern;
-import com.troblecodings.tcutility.blocks.PlatformEdge;
-import com.troblecodings.tcutility.blocks.TrafficCone;
-import com.troblecodings.tcutility.blocks.TrapDoor;
-import com.troblecodings.tcutility.blocks.WoodenWindow;
+import com.troblecodings.tcutility.blocks.TCBigDoor;
+import com.troblecodings.tcutility.blocks.TCCube;
+import com.troblecodings.tcutility.blocks.TCCubeRotation;
+import com.troblecodings.tcutility.blocks.TCDoor;
+import com.troblecodings.tcutility.blocks.TCFence;
+import com.troblecodings.tcutility.blocks.TCFenceGate;
+import com.troblecodings.tcutility.blocks.TCLadder;
+import com.troblecodings.tcutility.blocks.TCSlab;
+import com.troblecodings.tcutility.blocks.TCStairs;
+import com.troblecodings.tcutility.blocks.TCTrapDoor;
+import com.troblecodings.tcutility.blocks.TCWall;
+import com.troblecodings.tcutility.blocks.TCWindow;
+import com.troblecodings.tcutility.items.TCBigDoorItem;
+import com.troblecodings.tcutility.items.TCDoorItem;
+import com.troblecodings.tcutility.utils.BlockCreateInfo;
+import com.troblecodings.tcutility.utils.BlockProperties;
+import com.troblecodings.tcutility.utils.FileReader;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockPlanks.EnumType;
 import net.minecraft.block.ITileEntityProvider;
-import net.minecraft.block.material.MapColor;
-import net.minecraft.block.material.Material;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.tileentity.TileEntity;
@@ -50,137 +37,9 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.registries.IForgeRegistry;
 
 public final class TCBlocks {
-    
+
     private TCBlocks() {
     }
-    
-    public static final TrafficCone TRAFFIC_CONE = new TrafficCone();
-    public static final Crate CRATE = new Crate();
-    public static final Crate CRATE_SPRUCE = new Crate();
-    public static final Crate CRATE_BIRCH = new Crate();
-    public static final Crate CRATE_JUNGLE = new Crate();
-    public static final Crate CRATE_ACACIA = new Crate();
-    public static final Crate CRATE_DARK_OAK = new Crate();
-    public static final Bin BIN = new Bin();
-    public static final WoodenWindow WOODEN_WINDOW = new WoodenWindow();
-    public static final TrapDoor TRAPDOOR_OAK = new TrapDoor();
-    public static final TrapDoor TRAPDOOR_SPRUCE = new TrapDoor();
-    public static final TrapDoor TRAPDOOR_BIRCH = new TrapDoor();
-    public static final TrapDoor TRAPDOOR_JUNGLE = new TrapDoor();
-    public static final TrapDoor TRAPDOOR_ACACIA = new TrapDoor();
-    public static final TrapDoor TRAPDOOR_DARK_OAK = new TrapDoor();
-    public static final TrapDoor TRAPDOOR_GLASS = new TrapDoor();
-    public static final PlatformEdge PLATFORM_EDGE_1_ASPHALT_1 = new PlatformEdge();
-    public static final PlatformEdge PLATFORM_EDGE_1_CONCRETE_1 = new PlatformEdge();
-    public static final PlatformEdge PLATFORM_EDGE_1_STONE_1 = new PlatformEdge();
-    public static final PlatformEdge PLATFORM_EDGE_1_BRICK_1 = new PlatformEdge();
-    public static final PlatformEdge PLATFORM_EDGE_1_ASPHALT_2 = new PlatformEdge();
-    public static final PlatformEdge PLATFORM_EDGE_1_CONCRETE_2 = new PlatformEdge();
-    public static final PlatformEdge PLATFORM_EDGE_1_STONE_2 = new PlatformEdge();
-    public static final PlatformEdge PLATFORM_EDGE_1_BRICK_2 = new PlatformEdge();
-    public static final PlatformEdge PLATFORM_EDGE_1_ASPHALT_3 = new PlatformEdge();
-    public static final PlatformEdge PLATFORM_EDGE_1_CONCRETE_3 = new PlatformEdge();
-    public static final PlatformEdge PLATFORM_EDGE_1_STONE_3 = new PlatformEdge();
-    public static final PlatformEdge PLATFORM_EDGE_1_BRICK_3 = new PlatformEdge();
-    public static final PlatformEdge PLATFORM_EDGE_2_ASPHALT_1 = new PlatformEdge();
-    public static final PlatformEdge PLATFORM_EDGE_2_CONCRETE_1 = new PlatformEdge();
-    public static final PlatformEdge PLATFORM_EDGE_2_STONE_1 = new PlatformEdge();
-    public static final PlatformEdge PLATFORM_EDGE_2_BRICK_1 = new PlatformEdge();
-    public static final PlatformEdge PLATFORM_EDGE_2_ASPHALT_2 = new PlatformEdge();
-    public static final PlatformEdge PLATFORM_EDGE_2_CONCRETE_2 = new PlatformEdge();
-    public static final PlatformEdge PLATFORM_EDGE_2_STONE_2 = new PlatformEdge();
-    public static final PlatformEdge PLATFORM_EDGE_2_BRICK_2 = new PlatformEdge();
-    public static final PlatformEdge PLATFORM_EDGE_2_ASPHALT_3 = new PlatformEdge();
-    public static final PlatformEdge PLATFORM_EDGE_2_CONCRETE_3 = new PlatformEdge();
-    public static final PlatformEdge PLATFORM_EDGE_2_STONE_3 = new PlatformEdge();
-    public static final PlatformEdge PLATFORM_EDGE_2_BRICK_3 = new PlatformEdge();
-    public static final Lantern LANTERN = new Lantern();
-    public static final Door DOOR_JAIL_BLOCK = new Door(Material.IRON);
-    public static final Door DOOR_IRON_GLASS_BLOCK = new Door(Material.IRON);
-    public static final Door DOOR_OAK_GLASS_BLOCK = new Door(Material.WOOD);
-    public static final Door DOOR_OAK_WINDOWED_BLOCK = new Door(Material.WOOD);
-    public static final Door DOOR_SPRUCE_WINDOWED_BLOCK = new Door(Material.WOOD);
-    public static final Door DOOR_BIRCH_WINDOWED_BLOCK = new Door(Material.WOOD);
-    public static final Door DOOR_JUNGLE_WINDOWED_BLOCK = new Door(Material.WOOD);
-    public static final Door DOOR_ACACIA_WINDOWED_BLOCK = new Door(Material.WOOD);
-    public static final Door DOOR_DARK_OAK_WINDOWED_BLOCK = new Door(Material.WOOD);
-    public static final Door DOOR_IRON_WINDOWED_BLOCK = new Door(Material.IRON);
-    public static final Door DOOR_WHITE_WINDOWED_BLOCK = new Door(Material.WOOD);
-    public static final Door DOOR_OAK_BLOCK = new Door(Material.WOOD);
-    public static final Door DOOR_SPRUCE_BLOCK = new Door(Material.WOOD);
-    public static final Door DOOR_BIRCH_BLOCK = new Door(Material.WOOD);
-    public static final Door DOOR_JUNGLE_BLOCK = new Door(Material.WOOD);
-    public static final Door DOOR_ACACIA_BLOCK = new Door(Material.WOOD);
-    public static final Door DOOR_DARK_OAK_BLOCK = new Door(Material.WOOD);
-    public static final Door DOOR_IRON_BLOCK = new Door(Material.IRON);
-    public static final Door DOOR_WHITE_BLOCK = new Door(Material.WOOD);
-    public static final Door DOOR_OLD_BLOCK = new Door(Material.WOOD);
-    public static final Door DOOR_RUSTY_BLOCK = new Door(Material.IRON);
-    public static final BigDoor BIGDOOR_OAK_BLOCK = new BigDoor(Material.WOOD);
-    public static final BigDoor BIGDOOR_SPRUCE_BLOCK = new BigDoor(Material.WOOD);
-    public static final BigDoor BIGDOOR_BIRCH_BLOCK = new BigDoor(Material.WOOD);
-    public static final BigDoor BIGDOOR_JUNGLE_BLOCK = new BigDoor(Material.WOOD);
-    public static final BigDoor BIGDOOR_ACACIA_BLOCK = new BigDoor(Material.WOOD);
-    public static final BigDoor BIGDOOR_DARK_OAK_BLOCK = new BigDoor(Material.WOOD);
-    public static final BigDoor BIGDOOR_IRON_BLOCK = new BigDoor(Material.IRON);
-    public static final BigDoor BIGDOOR_WHITE_BLOCK = new BigDoor(Material.WOOD);
-    public static final Ladder LADDER_IRON = new Ladder(Material.IRON);
-    public static final Ladder LADDER_RUSTY = new Ladder(Material.IRON);
-    public static final Ladder LADDER_ROOF = new Ladder(Material.IRON);
-    public static final Fence FENCE_PICKET_OAK = new Fence(Material.WOOD, MapColor.WOOD);
-    public static final Fence FENCE_PICKET_BIRCH = new Fence(Material.WOOD, MapColor.WOOD);
-    public static final Fence FENCE_PICKET_ACACIA = new Fence(Material.WOOD, MapColor.WOOD);
-    public static final Fence FENCE_PICKET_WHITE = new Fence(Material.WOOD, MapColor.WOOD);
-    public static final Fence FENCE_CROSS_OAK = new Fence(Material.WOOD, MapColor.WOOD);
-    public static final Fence FENCE_CROSS_BIRCH = new Fence(Material.WOOD, MapColor.WOOD);
-    public static final Fence FENCE_CROSS_ACACIA = new Fence(Material.WOOD, MapColor.WOOD);
-    public static final Fence FENCE_CROSS_WHITE = new Fence(Material.WOOD, MapColor.WOOD);
-    public static final Fence FENCE_BOLLARD_OAK = new Fence(Material.WOOD, MapColor.WOOD);
-    public static final Fence FENCE_BOLLARD_BIRCH = new Fence(Material.WOOD, MapColor.WOOD);
-    public static final Fence FENCE_BOLLARD_ACACIA = new Fence(Material.WOOD, MapColor.WOOD);
-    public static final Fence FENCE_BOLLARD_WHITE = new Fence(Material.WOOD, MapColor.WOOD);
-    public static final Fence FENCE_STICK_OAK = new Fence(Material.WOOD, MapColor.WOOD);
-    public static final Fence FENCE_STICK_BIRCH = new Fence(Material.WOOD, MapColor.WOOD);
-    public static final Fence FENCE_STICK_ACACIA = new Fence(Material.WOOD, MapColor.WOOD);
-    public static final Fence FENCE_STICK_WHITE = new Fence(Material.WOOD, MapColor.WOOD);
-    public static final FenceGate FENCE_PICKET_GATE_OAK = new FenceGate(EnumType.OAK);
-    public static final FenceGate FENCE_PICKET_GATE_BIRCH = new FenceGate(EnumType.OAK);
-    public static final FenceGate FENCE_PICKET_GATE_ACACIA = new FenceGate(EnumType.OAK);
-    public static final FenceGate FENCE_PICKET_GATE_WHITE = new FenceGate(EnumType.OAK);
-    public static final FenceGate FENCE_CROSS_GATE_OAK = new FenceGate(EnumType.OAK);
-    public static final FenceGate FENCE_CROSS_GATE_BIRCH = new FenceGate(EnumType.OAK);
-    public static final FenceGate FENCE_CROSS_GATE_ACACIA = new FenceGate(EnumType.OAK);
-    public static final FenceGate FENCE_CROSS_GATE_WHITE = new FenceGate(EnumType.OAK);
-    public static final FenceGate FENCE_BOLLARD_GATE_OAK = new FenceGate(EnumType.OAK);
-    public static final FenceGate FENCE_BOLLARD_GATE_BIRCH = new FenceGate(EnumType.OAK);
-    public static final FenceGate FENCE_BOLLARD_GATE_ACACIA = new FenceGate(EnumType.OAK);
-    public static final FenceGate FENCE_BOLLARD_GATE_WHITE = new FenceGate(EnumType.OAK);
-    public static final FenceGate FENCE_STICK_GATE_OAK = new FenceGate(EnumType.OAK);
-    public static final FenceGate FENCE_STICK_GATE_BIRCH = new FenceGate(EnumType.OAK);
-    public static final FenceGate FENCE_STICK_GATE_ACACIA = new FenceGate(EnumType.OAK);
-    public static final FenceGate FENCE_STICK_GATE_WHITE = new FenceGate(EnumType.OAK);
-    public static final Concrete CONCRETE_WHITE = new Concrete(Material.ROCK);
-    public static final Concrete CONCRETE_ORANGE = new Concrete(Material.ROCK);
-    public static final Concrete CONCRETE_MAGENTA = new Concrete(Material.ROCK);
-    public static final Concrete CONCRETE_LIGHT_BLUE = new Concrete(Material.ROCK);
-    public static final Concrete CONCRETE_YELLOW = new Concrete(Material.ROCK);
-    public static final Concrete CONCRETE_LIME = new Concrete(Material.ROCK);
-    public static final Concrete CONCRETE_PINK = new Concrete(Material.ROCK);
-    public static final Concrete CONCRETE_GRAY = new Concrete(Material.ROCK);
-    public static final Concrete CONCRETE_SILVER = new Concrete(Material.ROCK);
-    public static final Concrete CONCRETE_CYAN = new Concrete(Material.ROCK);
-    public static final Concrete CONCRETE_PURPLE = new Concrete(Material.ROCK);
-    public static final Concrete CONCRETE_BLUE = new Concrete(Material.ROCK);
-    public static final Concrete CONCRETE_BROWN = new Concrete(Material.ROCK);
-    public static final Concrete CONCRETE_GREEN = new Concrete(Material.ROCK);
-    public static final Concrete CONCRETE_RED = new Concrete(Material.ROCK);
-    public static final Concrete CONCRETE_BLACK = new Concrete(Material.ROCK);
-
-    // public static final Fence TEST_FENCE = new Fence(Material.WOOD,
-    // MapColor.WOOD);
-    // public static final FenceGate TEST_FENCEGATE = new
-    // FenceGate(BlockPlanks.EnumType.OAK);
-    // public static final Slab TEST_SLAB = new Slab(Material.ROCK);
 
     public static ArrayList<Block> blocksToRegister = new ArrayList<>();
 
@@ -224,94 +83,128 @@ public final class TCBlocks {
     @SubscribeEvent
     public static void registerItem(final RegistryEvent.Register<Item> event) {
         final IForgeRegistry<Item> registry = event.getRegistry();
-        blocksToRegister.forEach(block -> registry
-                .register(new ItemBlock(block).setRegistryName(block.getRegistryName())));
-    }
-
-    private static String toString(final List<String> text) {
-        final StringBuilder stringbuilder = new StringBuilder();
-        text.forEach(string -> {
-            stringbuilder.append(string);
-            stringbuilder.append("\n");
+        blocksToRegister.forEach(block -> {
+            if (!block.toString().contains("door")) {
+                registry.register(new ItemBlock(block).setRegistryName(block.getRegistryName()));
+                System.out.println(block);
+            }
         });
-        return stringbuilder.toString();
     }
 
-    public static Optional<Path> getRessourceLocation(String location) {
-        final URL url = TCBlocks.class.getResource(location);
-        try {
-            if (url != null) {
-                final URI uri = url.toURI();
+    public static void initJsonFiles() {
+        final Map<String, BlockProperties> blocks = FileReader
+                .getFromJson("/assets/tcutility/blockdefinitions");
 
-                if ("file".equals(uri.getScheme())) {
-                    if (!location.startsWith("/")) {
-                        location = "/" + location;
-                    }
-                    final URL resource = TCBlocks.class.getResource(location);
-                    if (resource == null) {
-                        return Optional.empty();
-                    }
-                    return Optional.of(Paths.get(resource.toURI()));
-                } else {
-                    if (!"jar".equals(uri.getScheme())) {
-                        return Optional.empty();
-                    }
-                    try (final FileSystem filesystem = FileSystems.newFileSystem(uri,
-                            Collections.emptyMap())) {
-                        return Optional.of(filesystem.getPath(location));
-                    }
+        for (final Entry<String, BlockProperties> blocksEntry : blocks.entrySet()) {
+            final String objectname = blocksEntry.getKey();
+
+            final BlockProperties property = blocksEntry.getValue();
+
+            final BlockCreateInfo blockInfo = property.getBlockInfo();
+
+            final List<String> states = property.getStates();
+
+            for (final String state : states) {
+                switch (state) {
+                    case "cube":
+                        final TCCube cube = new TCCube(blockInfo);
+                        cube.setRegistryName(
+                                new ResourceLocation(TCUtilityMain.MODID, "block_" + objectname));
+                        cube.setUnlocalizedName("block_" + objectname);
+                        blocksToRegister.add(cube);
+                        break;
+                    case "cube_rot":
+                        final TCCubeRotation cuberot = new TCCubeRotation(blockInfo);
+                        cuberot.setRegistryName(new ResourceLocation(
+                                 TCUtilityMain.MODID, "block_rot_" + objectname));
+                        cuberot.setUnlocalizedName("block_rot_" + objectname);
+                        blocksToRegister.add(cuberot);
+                        break;
+                    case "stair":
+                        final TCStairs stair = new TCStairs(blockInfo);
+                        stair.setRegistryName(
+                                new ResourceLocation(TCUtilityMain.MODID, "stair_" + objectname));
+                        stair.setUnlocalizedName("stair_" + objectname);
+                        blocksToRegister.add(stair);
+                        break;
+                    case "slab":
+                        final TCSlab slab = new TCSlab(blockInfo);
+                        slab.setRegistryName(
+                                new ResourceLocation(TCUtilityMain.MODID, "slab_" + objectname));
+                        slab.setUnlocalizedName("slab_" + objectname);
+                        blocksToRegister.add(slab);
+                        break;
+                    case "fence":
+                        final TCFence fence = new TCFence(blockInfo);
+                        fence.setRegistryName(
+                                new ResourceLocation(TCUtilityMain.MODID, "fence_" + objectname));
+                        fence.setUnlocalizedName("fence_" + objectname);
+                        blocksToRegister.add(fence);
+                        break;
+                    case "fence_gate":
+                        final TCFenceGate fencegate = new TCFenceGate(blockInfo);
+                        fencegate.setRegistryName(new ResourceLocation(TCUtilityMain.MODID,
+                                "fence_gate_" + objectname));
+                        fencegate.setUnlocalizedName("fence_gate_" + objectname);
+                        blocksToRegister.add(fencegate);
+                        break;
+                    case "wall":
+                        final TCWall wall = new TCWall(blockInfo);
+                        wall.setRegistryName(
+                                new ResourceLocation(TCUtilityMain.MODID, "wall_" + objectname));
+                        wall.setUnlocalizedName("wall_" + objectname);
+                        blocksToRegister.add(wall);
+                        break;
+                    case "trapdoor":
+                        final TCTrapDoor trapdoor = new TCTrapDoor(blockInfo);
+                        trapdoor.setRegistryName(new ResourceLocation(TCUtilityMain.MODID,
+                                "latch_" + objectname));
+                        trapdoor.setUnlocalizedName("latch_" + objectname);
+                        blocksToRegister.add(trapdoor);
+                        break;
+                    case "window":
+                        final TCWindow window = new TCWindow(blockInfo);
+                        window.setRegistryName(
+                                new ResourceLocation(TCUtilityMain.MODID, "window_" + objectname));
+                        window.setUnlocalizedName("window_" + objectname);
+                        blocksToRegister.add(window);
+                        break;
+                    case "ladder":
+                        final TCLadder ladder = new TCLadder(blockInfo);
+                        ladder.setRegistryName(
+                                new ResourceLocation(TCUtilityMain.MODID, "ladder_" + objectname));
+                        ladder.setUnlocalizedName("ladder_" + objectname);
+                        blocksToRegister.add(ladder);
+                        break;
+                    case "door":
+                        final TCDoor door = new TCDoor(blockInfo);
+                        door.setRegistryName(new ResourceLocation(TCUtilityMain.MODID,
+                                "door_" + objectname + "_block"));
+                        door.setUnlocalizedName("door_" + objectname + "_block");
+                        blocksToRegister.add(door);
+                        final TCDoorItem dooritem = new TCDoorItem(door);
+                        dooritem.setRegistryName(
+                                new ResourceLocation(TCUtilityMain.MODID, "door_" + objectname));
+                        dooritem.setUnlocalizedName("door_" + objectname);
+                        TCItems.itemsToRegister.add(dooritem);
+                        break;
+                    case "bigdoor":
+                        final TCBigDoor bigdoor = new TCBigDoor(blockInfo);
+                        bigdoor.setRegistryName(new ResourceLocation(TCUtilityMain.MODID,
+                                "bigdoor_" + objectname + "_block"));
+                        bigdoor.setUnlocalizedName("bigdoor_" + objectname + "_block");
+                        blocksToRegister.add(bigdoor);
+                        final TCBigDoorItem bigdooritem = new TCBigDoorItem(bigdoor);
+                        bigdooritem.setRegistryName(
+                                new ResourceLocation(TCUtilityMain.MODID, "bigdoor_" + objectname));
+                        bigdooritem.setUnlocalizedName("bigdoor_" + objectname);
+                        TCItems.itemsToRegister.add(bigdooritem);
+                        break;
+                    default:
+                        TCUtilityMain.LOG.error("The given state " + state + " is not valid.");
+                        break;
                 }
             }
-        } catch (IOException | URISyntaxException e1) {
-            e1.printStackTrace();
         }
-        return Optional.empty();
     }
-
-    public static Map<String, String> readFiles(final String location) {
-        final Optional<Path> loc = getRessourceLocation(location);
-        if (loc.isPresent()) {
-            final Path path = loc.get();
-            try {
-                final Stream<Path> inputs = Files.list(path);
-                final Map<String, String> files = new HashMap<>();
-                inputs.forEach(file -> {
-                    try {
-                        final List<String> text = Files.readAllLines(file);
-                        final String content = toString(text);
-                        final String name = file.getFileName().toString();
-                        files.put(name, content);
-                    } catch (final IOException e) {
-                        e.printStackTrace();
-                    }
-                });
-                inputs.close();
-                return files;
-            } catch (final IOException e) {
-                e.printStackTrace();
-            }
-        }
-        return null;
-    }
-
-    public static Map<String, BlockDefinitons> getFromJson(final String directory) {
-        final Gson gson = new Gson();
-        final Map<String, String> entrySet = readFiles(directory);
-        final Map<String, BlockDefinitons> content = new HashMap<>();
-        if (entrySet != null) {
-            entrySet.forEach((filename, file) -> {
-                final BlockDefinitons json = gson.fromJson(file, BlockDefinitons.class);
-                content.put(filename, json);
-            });
-        }
-        return content;
-    }
-
-    /*
-     * public static void register() { final Map<String, BlockDefinitons>
-     * fromJsonMap = getFromJson("/assets/" + GirutilityMain.MODID +
-     * "/blockdefinitions"); fromJsonMap.forEach((filename, content) -> { content ->
-     * { content.getName().forEach(name, property) -> { } } }); }
-     */
-
 }

@@ -1,0 +1,121 @@
+{
+    "concrete_white": {
+        "hardness": 1,
+        "material": "rock",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": ["stair", "slab"]
+    },
+    "concrete_orange": {
+        "hardness": 1,
+        "material": "rock",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": ["stair", "slab"]
+    },
+    "concrete_magenta": {
+        "hardness": 1,
+        "material": "rock",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": ["stair", "slab"]
+    },
+    "concrete_lightblue": {
+        "hardness": 1,
+        "material": "rock",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": ["stair", "slab"]
+    },
+    "concrete_yellow": {
+        "hardness": 1,
+        "material": "rock",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": ["stair", "slab"]
+    },
+    "concrete_lime": {
+        "hardness": 1,
+        "material": "rock",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": ["stair", "slab"]
+    },
+    "concrete_pink": {
+        "hardness": 1,
+        "material": "rock",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": ["stair", "slab"]
+    },
+    "concrete_gray": {
+        "hardness": 1,
+        "material": "rock",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": ["stair", "slab"]
+    },
+    "concrete_lightgray": {
+        "hardness": 1,
+        "material": "rock",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": ["stair", "slab"]
+    },
+    "concrete_cyan": {
+        "hardness": 1,
+        "material": "rock",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": ["stair", "slab"]
+    },
+    "concrete_purple": {
+        "hardness": 1,
+        "material": "rock",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": ["stair", "slab"]
+    },
+    "concrete_blue": {
+        "hardness": 1,
+        "material": "rock",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": ["stair", "slab"]
+    },
+    "concrete_brown": {
+        "hardness": 1,
+        "material": "rock",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": ["stair", "slab"]
+    },
+    "concrete_green": {
+        "hardness": 1,
+        "material": "rock",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": ["stair", "slab"]
+    },
+    "concrete_red": {
+        "hardness": 1,
+        "material": "rock",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": ["stair", "slab"]
+    },
+    "concrete_black": {
+        "hardness": 1,
+        "material": "rock",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": ["stair", "slab"]
+    },
+    "concrete": {
+        "hardness": 1,
+        "material": "rock",
+        "soundtype": "stone",
+        "opacity": 0,
+        "states": ["cube", "stair", "slab"]
+    }
+} 

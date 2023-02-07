@@ -1,0 +1,12 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "model": "tcutility:slab_bottom", "textures": {"texture": "blocks/stone_diorite_smooth"}
+    },
+    "variants": {
+        "half=bottom": [{}],
+        "half=top": {"model": "tcutility:slab_top", "textures": {"texture": "blocks/stone_diorite_smooth"}},
+        "half=double": {"model": "tcutility:cube", "textures": {"texture": "blocks/stone_diorite_smooth"}},
+        "inventory": [{}]
+    }
+}

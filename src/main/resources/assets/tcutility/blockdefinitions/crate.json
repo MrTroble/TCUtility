@@ -1,0 +1,63 @@
+{
+    "crate": {
+        "hardness": 1,
+        "material": "wood",
+        "soundtype": "wood",
+        "opacity": 0,
+        "states": [
+            "cube"
+        ]
+    },
+    "crate_spruce": {
+        "hardness": 1,
+        "material": "wood",
+        "soundtype": "wood",
+        "opacity": 0,
+        "states": [
+            "cube"
+        ]
+    },
+    "crate_birch": {
+        "hardness": 1,
+        "material": "wood",
+        "soundtype": "wood",
+        "opacity": 0,
+        "states": [
+            "cube"
+        ]
+    },
+    "crate_jungle": {
+        "hardness": 1,
+        "material": "wood",
+        "soundtype": "wood",
+        "opacity": 0,
+        "states": [
+            "cube"
+        ]
+    },
+    "crate_acacia": {
+        "hardness": 1,
+        "material": "wood",
+        "soundtype": "wood",
+        "opacity": 0,
+        "states": [
+            "cube"
+        ]
+    },
+    "crate_dark_oak": {
+        "hardness": 1,
+        "material": "wood",
+        "soundtype": "wood",
+        "opacity": 0,
+        "states": [
+            "cube"
+        ]
+    },
+    "wooden_barrel": {
+        "hardness": 1,
+        "material": "wood",
+        "soundtype": "wood",
+        "opacity": 0,
+        "states": ["cube_rot"]
+    }
+} 

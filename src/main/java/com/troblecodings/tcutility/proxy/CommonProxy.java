@@ -13,6 +13,7 @@ public class CommonProxy {
     public void preinit(final FMLPreInitializationEvent event) {
         TCItems.init();
         TCBlocks.init();
+        TCBlocks.initJsonFiles();
 
         MinecraftForge.EVENT_BUS.register(TCItems.class);
         MinecraftForge.EVENT_BUS.register(TCBlocks.class);

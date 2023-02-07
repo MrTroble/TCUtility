@@ -1,0 +1,12 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "model": "tcutility:slab_bottom_up", "textures": {"texture": "tcutility:blocks/aluminium_scaffolding", "up": "tcutility:blocks/aluminium_wood"}
+    },
+    "variants": {
+        "half=bottom": [{}],
+        "half=top": {"model": "tcutility:slab_top_up", "textures": {"texture": "tcutility:blocks/aluminium_scaffolding", "up": "tcutility:blocks/aluminium_wood"}},
+        "half=double": {"model": "tcutility:cube_up", "textures": {"texture": "tcutility:blocks/aluminium_scaffolding", "up": "tcutility:blocks/aluminium_wood"}},
+        "inventory": [{}]
+    }
+}

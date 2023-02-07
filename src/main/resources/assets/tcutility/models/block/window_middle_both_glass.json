@@ -1,0 +1,18 @@
+{
+    "credit": "Made with Blockbench by Mc_Jeronimo",
+    "parent": "tcutility:block/view",
+    "textures": {
+        "particle": "#frame",
+        "0": "#glass"
+    },
+    "elements": [
+        {
+            "name": "glass",
+            "from": [ 7.00, 0.50, 7.00 ], 
+            "to": [ 9.00, 15.50, 9.00 ], 
+            "faces": {
+                "west": { "texture": "#0", "uv": [ 1.00, 1.00, 3.00, 15.00 ] }
+            }
+        }
+    ]
+}

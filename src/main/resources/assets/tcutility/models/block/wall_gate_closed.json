@@ -1,4 +1,5 @@
 {
+    "parent": "tcutility:block/view",
     "ambientocclusion": false,
     "textures": {
         "particle" : "#texture",

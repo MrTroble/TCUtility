@@ -1,8 +1,13 @@
 {
+    "forge_marker": 1,
+    "defaults": {
+        "model": "tcutility:ladder_roof", "textures": {"texture": "blocks/concrete_powder_white"}
+    },
     "variants": {
-        "facing=north": { "model": "tcutility:ladder_roof" },
-        "facing=east":  { "model": "tcutility:ladder_roof", "y": 90 },
-        "facing=south": { "model": "tcutility:ladder_roof", "y": 180 },
-        "facing=west":  { "model": "tcutility:ladder_roof", "y": 270 }
+        "facing=north": [{}],
+        "facing=east":  {"y": 90},
+        "facing=south": {"y": 180},
+        "facing=west":  {"y": 270},
+        "inventory": [{}]
     }
 }

@@ -1,0 +1,41 @@
+{
+	"forge_marker": 1,
+    "defaults": {
+        "model": "tcutility:fence_gate_close", "textures": {"texture": "blocks/iron_block"}
+    },
+    "variants": {
+		"inventory": [{}],
+        "facing=south,in_wall=false,open=false,powered=false": { "model": "tcutility:fence_gate_close", "uvlock": true },
+        "facing=west,in_wall=false,open=false,powered=false":  { "model": "tcutility:fence_gate_close", "uvlock": true, "y": 90 },
+        "facing=north,in_wall=false,open=false,powered=false": { "model": "tcutility:fence_gate_close", "uvlock": true, "y": 180 },
+        "facing=east,in_wall=false,open=false,powered=false":  { "model": "tcutility:fence_gate_close", "uvlock": true, "y": 270 },
+        "facing=south,in_wall=false,open=true,powered=false": { "model": "tcutility:fence_gate_open", "uvlock": true },
+        "facing=west,in_wall=false,open=true,powered=false":  { "model": "tcutility:fence_gate_open", "uvlock": true, "y": 90 },
+        "facing=north,in_wall=false,open=true,powered=false": { "model": "tcutility:fence_gate_open", "uvlock": true, "y": 180 },
+        "facing=east,in_wall=false,open=true,powered=false":  { "model": "tcutility:fence_gate_open", "uvlock": true, "y": 270 },
+        "facing=south,in_wall=true,open=false,powered=false": { "model": "tcutility:fence_gate_close", "uvlock": true },
+        "facing=west,in_wall=true,open=false,powered=false":  { "model": "tcutility:fence_gate_close", "uvlock": true, "y": 90 },
+        "facing=north,in_wall=true,open=false,powered=false": { "model": "tcutility:fence_gate_close", "uvlock": true, "y": 180 },
+        "facing=east,in_wall=true,open=false,powered=false":  { "model": "tcutility:fence_gate_close", "uvlock": true, "y": 270 },
+        "facing=south,in_wall=true,open=true,powered=false": { "model": "tcutility:fence_gate_open", "uvlock": true },
+        "facing=west,in_wall=true,open=true,powered=false":  { "model": "tcutility:fence_gate_open", "uvlock": true, "y": 90 },
+        "facing=north,in_wall=true,open=true,powered=false": { "model": "tcutility:fence_gate_open", "uvlock": true, "y": 180 },
+        "facing=east,in_wall=true,open=true,powered=false":  { "model": "tcutility:fence_gate_open", "uvlock": true, "y": 270 },
+		"facing=south,in_wall=false,open=false,powered=true": { "model": "tcutility:fence_gate_close", "uvlock": true },
+        "facing=west,in_wall=false,open=false,powered=true":  { "model": "tcutility:fence_gate_close", "uvlock": true, "y": 90 },
+        "facing=north,in_wall=false,open=false,powered=true": { "model": "tcutility:fence_gate_close", "uvlock": true, "y": 180 },
+        "facing=east,in_wall=false,open=false,powered=true":  { "model": "tcutility:fence_gate_close", "uvlock": true, "y": 270 },
+        "facing=south,in_wall=false,open=true,powered=true": { "model": "tcutility:fence_gate_open", "uvlock": true },
+        "facing=west,in_wall=false,open=true,powered=true":  { "model": "tcutility:fence_gate_open", "uvlock": true, "y": 90 },
+        "facing=north,in_wall=false,open=true,powered=true": { "model": "tcutility:fence_gate_open", "uvlock": true, "y": 180 },
+        "facing=east,in_wall=false,open=true,powered=true":  { "model": "tcutility:fence_gate_open", "uvlock": true, "y": 270 },
+        "facing=south,in_wall=true,open=false,powered=true": { "model": "tcutility:fence_gate_close", "uvlock": true },
+        "facing=west,in_wall=true,open=false,powered=true":  { "model": "tcutility:fence_gate_close", "uvlock": true, "y": 90 },
+        "facing=north,in_wall=true,open=false,powered=true": { "model": "tcutility:fence_gate_close", "uvlock": true, "y": 180 },
+        "facing=east,in_wall=true,open=false,powered=true":  { "model": "tcutility:fence_gate_close", "uvlock": true, "y": 270 },
+        "facing=south,in_wall=true,open=true,powered=true": { "model": "tcutility:fence_gate_open", "uvlock": true },
+        "facing=west,in_wall=true,open=true,powered=true":  { "model": "tcutility:fence_gate_open", "uvlock": true, "y": 90 },
+        "facing=north,in_wall=true,open=true,powered=true": { "model": "tcutility:fence_gate_open", "uvlock": true, "y": 180 },
+        "facing=east,in_wall=true,open=true,powered=true":  { "model": "tcutility:fence_gate_open", "uvlock": true, "y": 270 }
+    }
+}
