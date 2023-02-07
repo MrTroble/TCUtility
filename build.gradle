@@ -37,8 +37,8 @@ curseforge {
 }
 
 version = ver
-group = 'net.gir.girsignals'
-archivesBaseName = 'GIRUtility'
+group = 'com.troblecodings'
+archivesBaseName = 'TCUtility'
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
 
@@ -80,12 +80,12 @@ processResources {
 jar {
     manifest {
         attributes([
-            "Specification-Title": "GIRUtility",
-            "Specification-Vendor": "German Immersive Railroading Community",
+            "Specification-Title": "TCUtility",
+            "Specification-Vendor": "Troblecodings",
             "Specification-Version": ver,
             "Implementation-Title": project.name,
             "Implementation-Version": ver,
-            "Implementation-Vendor" :"German Immersive Railroading Community",
+            "Implementation-Vendor" :"Troblecodings",
             "Implementation-Timestamp": new Date().format("dd-MM-yyyy'T'HH:mm:ssZ")
         ])
     }
