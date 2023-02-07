@@ -78,7 +78,6 @@ public final class TCBlocks {
     public static void registerBlock(final RegistryEvent.Register<Block> event) {
         final IForgeRegistry<Block> registry = event.getRegistry();
         blocksToRegister.forEach(registry::register);
-        System.out.println(blocksToRegister);
     }
 
     @SubscribeEvent
@@ -86,7 +85,8 @@ public final class TCBlocks {
         final IForgeRegistry<Item> registry = event.getRegistry();
         blocksToRegister.forEach(block -> {
             if (!block.toString().contains("door")) {
-                registry.register(new ItemBlock(block).setRegistryName(block.getRegistryName())); 
+                registry.register(new ItemBlock(block).setRegistryName(block.getRegistryName()));
+                System.out.println(block);
             }
         });
     }
@@ -158,8 +158,8 @@ public final class TCBlocks {
                     case "trapdoor":
                         final TCTrapDoor trapdoor = new TCTrapDoor(blockInfo);
                         trapdoor.setRegistryName(new ResourceLocation(TCUtilityMain.MODID,
-                                "trapdoor_" + objectname));
-                        trapdoor.setUnlocalizedName("trapdoor_" + objectname);
+                                "latch_" + objectname));
+                        trapdoor.setUnlocalizedName("latch_" + objectname);
                         blocksToRegister.add(trapdoor);
                         break;
                     case "window":

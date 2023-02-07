@@ -133,9 +133,11 @@ public class TCWall extends TCFence {
         final boolean flag1 = canWallConnectTo(worldIn, pos, EnumFacing.EAST);
         final boolean flag2 = canWallConnectTo(worldIn, pos, EnumFacing.SOUTH);
         final boolean flag3 = canWallConnectTo(worldIn, pos, EnumFacing.WEST);
-        final boolean flag02 = flag && flag2;
-        final boolean flag13 = flag1 && flag3;
-        final boolean flag4 = flag02 && !flag13 || !flag02 && flag13;
+        final boolean flagNS = flag && flag2;
+        final boolean flagNNS = !flag && flag2;
+        final boolean flagEW = flag1 && flag3;
+        final boolean flagNEW = !flag1 && !flag3;
+        final boolean flag4 = flagNS && flagNEW || flagNNS && flagEW;
         return state.withProperty(UP, Boolean.valueOf(!flag4 || !worldIn.isAirBlock(pos.up())))
                 .withProperty(NORTH, Boolean.valueOf(flag))
                 .withProperty(EAST, Boolean.valueOf(flag1))
