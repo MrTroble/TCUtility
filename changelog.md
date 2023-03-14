@@ -1,5 +1,11 @@
 # Changelog
 
+## [Fix]
+
+* fix: walking through fences
+* fix: walls with wrong states
+* fix: translucent blocks
+
 ## [Feat]
 
 * mod rework
