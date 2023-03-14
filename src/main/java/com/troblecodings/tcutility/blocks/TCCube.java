@@ -26,6 +26,8 @@ public class TCCube extends Block {
     public BlockRenderLayer getBlockLayer() {
         if (this.getMaterial(getDefaultState()).equals(Material.GLASS)) {
             return BlockRenderLayer.TRANSLUCENT;
+        } else if (this.getMaterial(getDefaultState()).equals(Material.ANVIL)) {
+            return BlockRenderLayer.CUTOUT_MIPPED;
         }
         return BlockRenderLayer.SOLID;
     }
@@ -33,7 +35,8 @@ public class TCCube extends Block {
     @SuppressWarnings("deprecation")
     @Override
     public boolean isOpaqueCube(final IBlockState state) {
-        if (this.getMaterial(getDefaultState()).equals(Material.GLASS)) {
+        if (this.getMaterial(getDefaultState()).equals(Material.GLASS)
+                || this.getMaterial(getDefaultState()).equals(Material.ANVIL)) {
             return false;
         } else
             return true;
@@ -42,7 +45,8 @@ public class TCCube extends Block {
     @SuppressWarnings("deprecation")
     @Override
     public boolean isFullCube(final IBlockState state) {
-        if (this.getMaterial(getDefaultState()).equals(Material.GLASS)) {
+        if (this.getMaterial(getDefaultState()).equals(Material.GLASS)
+                || this.getMaterial(getDefaultState()).equals(Material.ANVIL)) {
             return false;
         } else
             return true;

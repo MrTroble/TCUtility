@@ -35,6 +35,7 @@ public class BlockProperties {
         translateTable.put("packed_ice", Material.PACKED_ICE);
         translateTable.put("snow", Material.SNOW);
         translateTable.put("clay", Material.CLAY);
+        translateTable.put("anvil", Material.ANVIL);
         return translateTable;
     }
 

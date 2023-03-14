@@ -91,6 +91,8 @@ public class TCStairs extends TCCube {
     public BlockRenderLayer getBlockLayer() {
         if (this.getMaterial(getDefaultState()).equals(Material.GLASS)) {
             return BlockRenderLayer.TRANSLUCENT;
+        } else if (this.getMaterial(getDefaultState()).equals(Material.ANVIL)) {
+            return BlockRenderLayer.CUTOUT_MIPPED;
         }
         return BlockRenderLayer.CUTOUT;
     }
