@@ -76,12 +76,12 @@ public class TCFence extends TCCube {
     }
 
     @Override
-    public void addCollisionBoxToList(final IBlockState state, final World worldIn, final BlockPos pos,
+    public void addCollisionBoxToList(final IBlockState finalstate, final World worldIn, final BlockPos pos,
             final AxisAlignedBB entityBox, final List<AxisAlignedBB> collidingBoxes,
             @Nullable final Entity entityIn, final boolean isActualState) {
-        if (!isActualState) {
-            IBlockState state2 = state;
-            state2 = state2.getActualState(worldIn, pos);
+        IBlockState state = finalstate;
+        if (!isActualState) { 
+            state = state.getActualState(worldIn, pos);
         }
 
         addCollisionBoxToList(pos, entityBox, collidingBoxes, PILLAR_AABB);
@@ -104,11 +104,11 @@ public class TCFence extends TCCube {
     }
 
     @Override
-    public AxisAlignedBB getBoundingBox(final IBlockState state, final IBlockAccess source,
+    public AxisAlignedBB getBoundingBox(final IBlockState finalstate, final IBlockAccess source,
             final BlockPos pos) {
-        IBlockState state2 = state;
-        state2 = this.getActualState(state2, source, pos);
-        return BOUNDING_BOXES[getBoundingBoxIdx(state2)];
+        IBlockState state = finalstate;
+        state = this.getActualState(state, source, pos);
+        return BOUNDING_BOXES[getBoundingBoxIdx(state)];
     }
 
     private static int getBoundingBoxIdx(final IBlockState state) {

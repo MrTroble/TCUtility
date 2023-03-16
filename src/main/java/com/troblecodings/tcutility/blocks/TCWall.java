@@ -134,7 +134,7 @@ public class TCWall extends TCFence {
         final boolean flag2 = canWallConnectTo(worldIn, pos, EnumFacing.SOUTH);
         final boolean flag3 = canWallConnectTo(worldIn, pos, EnumFacing.WEST);
         final boolean flagNS = flag && flag2;
-        final boolean flagNNS = !flag && flag2;
+        final boolean flagNNS = !flag && !flag2;
         final boolean flagEW = flag1 && flag3;
         final boolean flagNEW = !flag1 && !flag3;
         final boolean flag4 = flagNS && flagNEW || flagNNS && flagEW;
