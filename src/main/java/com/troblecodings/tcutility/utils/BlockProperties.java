@@ -14,6 +14,7 @@ public class BlockProperties {
     private String material;
     private String soundtype;
     private int opacity;
+    private int lightValue;
     private List<String> states;
 
     public static final HashMap<String, Material> materialTable = translateTableMaterial();
@@ -66,7 +67,7 @@ public class BlockProperties {
             TCUtilityMain.LOG.error("The given sound type " + soundtype + " is not valid.");
             return null;
         }
-        return new BlockCreateInfo(mat, hardness, sound, opacity);
+        return new BlockCreateInfo(mat, hardness, sound, opacity, lightValue);
     }
     
     public List<String> getStates() {

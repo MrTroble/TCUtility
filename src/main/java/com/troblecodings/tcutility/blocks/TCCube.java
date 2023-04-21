@@ -18,6 +18,7 @@ public class TCCube extends Block {
         this.setSoundType(blockInfo.soundtype);
         this.setLightOpacity(blockInfo.opacity);
         this.setCreativeTab(TCTabs.BLOCKS);
+        this.lightValue = blockInfo.getLightValue();
     }
 
     @SuppressWarnings("deprecation")
@@ -50,6 +51,11 @@ public class TCCube extends Block {
             return false;
         } else
             return true;
+    }
+    
+    @Override
+    public Block setLightLevel(final float value) {
+        return super.setLightLevel(lightValue);
     }
 
 }
