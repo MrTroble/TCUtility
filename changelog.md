@@ -2,6 +2,12 @@
 
 ## [Fix]
 
+* feat: rewrite window block
+* feat: setting light value
+* fix: Cullfaces
+
+## [Fix]
+
 * fix: walking through fences
 * fix: walls with wrong states
 * fix: translucent blocks

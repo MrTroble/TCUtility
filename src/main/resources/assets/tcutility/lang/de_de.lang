@@ -462,3 +462,7 @@ tile.wall_granite.name=Granit Mauer
 tile.stair_dirt_podzol.name=Podzol Stufe Treppe
 tile.slab_dirt_podzol.name=Podzol Stufe Stufe
 tile.block_rot_steel_pipe.name=Stahlrohrblock
+tile.block_grass_light.name=Leuchtender Grasblock
+tile.block_street_lantern.name=Runde Straßenlaterne
+tile.block_rot_street_lantern.name=Straßenlaterne
+tile.block_lantern_blue.name=Laterne

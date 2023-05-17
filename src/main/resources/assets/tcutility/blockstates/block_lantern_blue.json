@@ -1,0 +1,10 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"model": "tcutility:lantern_blue", "uvlock": true
+	},
+	"variants": {
+		"normal": [{}],
+		"inventory": [{}]
+	}
+}
