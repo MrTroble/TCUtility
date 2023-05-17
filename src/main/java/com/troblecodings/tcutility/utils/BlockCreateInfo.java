@@ -9,13 +9,19 @@ public class BlockCreateInfo {
     public float hardness;
     public SoundType soundtype;
     public int opacity;
+    public int lightValue;
 
     public BlockCreateInfo(final Material material, final float hardness, final SoundType soundtype,
-            final int opacity) {
+            final int opacity, final int lightValue) {
         this.material = material;
         this.hardness = hardness;
         this.soundtype = soundtype;
         this.opacity = opacity;
+        this.lightValue = lightValue;
+    }
+    
+    public int getLightValue() {
+        return lightValue;
     }
 
 }

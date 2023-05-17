@@ -462,3 +462,7 @@ tile.wall_granite.name=Granite Wall
 tile.stair_dirt_podzol.name=Podzol Dirt Stairs
 tile.slab_dirt_podzol.name=Podzol Dirt Slab
 tile.block_rot_steel_pipe.name=Steel Pipe Block
+tile.block_grass_light.name=Shining Grass Block
+tile.block_street_lantern.name=Round Street Lantern
+tile.block_rot_street_lantern.name=Street Lantern
+tile.block_lantern_blue.name=Lantern

@@ -1,0 +1,27 @@
+{
+    "grass_light": {
+        "hardness": 1,
+        "material": "grass",
+        "soundtype": "plant",
+        "opacity": 0,
+        "lightValue": 15,
+        "states": ["cube"]
+    },
+    "street_lantern": {
+        "hardness": 1,
+        "material": "iron",
+        "soundtype": "metal",
+        "opacity": 0,
+        "lightValue": 15,
+        "states": ["cube", "cube_rot"]
+    },
+    "lantern_blue": {
+        "hardness": 1,
+        "material": "iron",
+        "soundtype": "metal",
+        "opacity": 0,
+        "lightValue": 15,
+        "states": ["cube"]
+    }
+
+}

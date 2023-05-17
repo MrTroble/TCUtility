@@ -52,7 +52,7 @@
 			"faces": {
 				"north": {"uv": [8, 8, 16, 16], "texture": "#1", "cullface": "north", "tintindex": 0},
 				"west": {"uv": [0, 8, 8, 16], "texture": "#1", "tintindex": 0},
-				"up": {"uv": [0, 0, 8, 8], "texture": "#up", "cullface": "up", "tintindex": 0},
+				"up": {"uv": [0, 0, 8, 8], "texture": "#up", "tintindex": 0},
 				"down": {"uv": [0, 8, 8, 16], "texture": "#1", "cullface": "down", "tintindex": 0}
 			}
 		},
