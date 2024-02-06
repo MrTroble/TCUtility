@@ -19,6 +19,14 @@ apply plugin: 'maven-publish'
 
 apply plugin: "com.matthewprenger.cursegradle"
 
+sourceSets{
+    main {
+        java {
+            srcDirs("contentPackLib/src")
+        }
+    }
+}
+
 def ver = System.getenv("APPVEYOR_BUILD_VERSION")
 if(ver == null)
 	ver = 'dev'

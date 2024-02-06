@@ -18,7 +18,7 @@ public class TCCube extends Block {
         this.setSoundType(blockInfo.soundtype);
         this.setLightOpacity(blockInfo.opacity);
         this.setCreativeTab(TCTabs.BLOCKS);
-        this.lightValue = blockInfo.getLightValue();
+        this.lightValue = blockInfo.lightValue;
     }
 
     @SuppressWarnings("deprecation")

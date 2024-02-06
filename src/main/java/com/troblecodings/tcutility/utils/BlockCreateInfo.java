@@ -19,9 +19,4 @@ public class BlockCreateInfo {
         this.opacity = opacity;
         this.lightValue = lightValue;
     }
-    
-    public int getLightValue() {
-        return lightValue;
-    }
-
 }

@@ -3,22 +3,20 @@ package com.troblecodings.tcutility.utils;
 import java.util.HashMap;
 import java.util.List;
 
-import com.troblecodings.tcutility.TCUtilityMain;
-
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 
 public class BlockProperties {
 
     private float hardness;
-    private String material;
-    private String soundtype;
+    private String material = "";
+    private String soundtype = "";
     private int opacity;
     private int lightValue;
     private List<String> states;
 
-    public static final HashMap<String, Material> materialTable = translateTableMaterial();
-    public static final HashMap<String, SoundType> soundTable = translateTableSoundType();
+    private static final HashMap<String, Material> materialTable = translateTableMaterial();
+    private static final HashMap<String, SoundType> soundTable = translateTableSoundType();
 
     
 
@@ -57,15 +55,13 @@ public class BlockProperties {
     }
 
     public BlockCreateInfo getBlockInfo() {
-        final Material mat = materialTable.get(material);
-        final SoundType sound = soundTable.get(soundtype);
+        final Material mat = materialTable.get(material.toLowerCase());
+        final SoundType sound = soundTable.get(soundtype.toLowerCase());
         if (mat == null) {
-            TCUtilityMain.LOG.error("The given material " + material + " is not valid.");
-            return null;
+            throw new IllegalStateException("The given material " + material + " is not valid.");
         }
         if (sound == null) {
-            TCUtilityMain.LOG.error("The given sound type " + soundtype + " is not valid.");
-            return null;
+        	throw new IllegalStateException("The given sound type " + soundtype + " is not valid.");
         }
         return new BlockCreateInfo(mat, hardness, sound, opacity, lightValue);
     }
