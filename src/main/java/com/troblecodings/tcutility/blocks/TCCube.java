@@ -15,17 +15,19 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class TCCube extends Block {
-	
-	private List<Integer> box;
-    
+
+    private List<Integer> box;
+
     public TCCube(final BlockCreateInfo blockInfo) {
         super(blockInfo.material);
         this.setHardness(blockInfo.hardness);
         this.setSoundType(blockInfo.soundtype);
         this.setLightOpacity(blockInfo.opacity);
         this.setCreativeTab(TCTabs.BLOCKS);
-        this.lightValue = blockInfo.lightValue;
+        this.setLightLevel(blockInfo.lightValue / 15.0F);
         this.box = blockInfo.box;
+        this.fullBlock = blockInfo.fullblock;
+        this.setDefaultSlipperiness(blockInfo.slipperness);
     }
 
     @SuppressWarnings("deprecation")
@@ -59,19 +61,15 @@ public class TCCube extends Block {
         } else
             return true;
     }
-    
-    @Override
-    public Block setLightLevel(final float value) {
-        return super.setLightLevel(lightValue);
-    }
-    
+
     public int getIndexBox(int index) {
-		return box.get(index);
+        return box.get(index);
     }
-    
+
     @Override
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
-    	return new AxisAlignedBB(getIndexBox(0) * 0.0625, getIndexBox(1) * 0.0625, getIndexBox(2) * 0.0625,
-        		getIndexBox(3) * 0.0625, getIndexBox(4) * 0.0625, getIndexBox(5) * 0.0625);
+        return new AxisAlignedBB(getIndexBox(0) * 0.0625, getIndexBox(1) * 0.0625,
+                getIndexBox(2) * 0.0625, getIndexBox(3) * 0.0625, getIndexBox(4) * 0.0625,
+                getIndexBox(5) * 0.0625);
     }
 }
