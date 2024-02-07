@@ -1,5 +1,6 @@
 package com.troblecodings.tcutility.utils;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -14,6 +15,7 @@ public class BlockProperties {
     private int opacity;
     private int lightValue;
     private List<String> states;
+    private List<Integer> box = Arrays.asList(0,0,0,16,16,16);
 
     private static final HashMap<String, Material> materialTable = translateTableMaterial();
     private static final HashMap<String, SoundType> soundTable = translateTableSoundType();
@@ -63,7 +65,7 @@ public class BlockProperties {
         if (sound == null) {
         	throw new IllegalStateException("The given sound type " + soundtype + " is not valid.");
         }
-        return new BlockCreateInfo(mat, hardness, sound, opacity, lightValue);
+        return new BlockCreateInfo(mat, hardness, sound, opacity, lightValue, box);
     }
     
     public List<String> getStates() {
