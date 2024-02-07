@@ -15,9 +15,11 @@ import com.troblecodings.tcutility.TCUtilityMain;
 import com.troblecodings.tcutility.blocks.TCBigDoor;
 import com.troblecodings.tcutility.blocks.TCCube;
 import com.troblecodings.tcutility.blocks.TCCubeRotation;
+import com.troblecodings.tcutility.blocks.TCCubeRotationAll;
 import com.troblecodings.tcutility.blocks.TCDoor;
 import com.troblecodings.tcutility.blocks.TCFence;
 import com.troblecodings.tcutility.blocks.TCFenceGate;
+import com.troblecodings.tcutility.blocks.TCHanging;
 import com.troblecodings.tcutility.blocks.TCLadder;
 import com.troblecodings.tcutility.blocks.TCSlab;
 import com.troblecodings.tcutility.blocks.TCStairs;
@@ -189,6 +191,18 @@ public final class TCBlocks {
 					bigdooritem.setUnlocalizedName("bigdoor_" + objectname);
 					TCItems.itemsToRegister.add(bigdooritem);
 					break;
+				case HANGING:
+				    final TCHanging hanging = new TCHanging(blockInfo);
+				    hanging.setRegistryName(new ResourceLocation(TCUtilityMain.MODID, registryName));
+				    hanging.setUnlocalizedName(registryName);
+				    blocksToRegister.add(hanging);
+				    break;
+				case CUBE_ROT_ALL:
+				    final TCCubeRotationAll rotationAll = new TCCubeRotationAll(blockInfo);
+				    rotationAll.setRegistryName(new ResourceLocation(TCUtilityMain.MODID, registryName));
+				    rotationAll.setUnlocalizedName(registryName);
+				    blocksToRegister.add(rotationAll);
+				    break;
 				default:
 					throw new IllegalStateException("The given state " + state + " is not valid.");
 				}
