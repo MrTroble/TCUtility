@@ -19,6 +19,8 @@ import com.troblecodings.tcutility.blocks.TCCubeRotationAll;
 import com.troblecodings.tcutility.blocks.TCDoor;
 import com.troblecodings.tcutility.blocks.TCFence;
 import com.troblecodings.tcutility.blocks.TCFenceGate;
+import com.troblecodings.tcutility.blocks.TCGarageDoor;
+import com.troblecodings.tcutility.blocks.TCGarageGate;
 import com.troblecodings.tcutility.blocks.TCHanging;
 import com.troblecodings.tcutility.blocks.TCLadder;
 import com.troblecodings.tcutility.blocks.TCSlab;
@@ -202,6 +204,18 @@ public final class TCBlocks {
 				    rotationAll.setRegistryName(new ResourceLocation(TCUtilityMain.MODID, registryName));
 				    rotationAll.setUnlocalizedName(registryName);
 				    blocksToRegister.add(rotationAll);
+				    break;
+				case GARAGE:
+				    final TCGarageDoor garageDoor = new TCGarageDoor(blockInfo);
+				    garageDoor.setRegistryName(new ResourceLocation(TCUtilityMain.MODID, registryName));
+				    garageDoor.setUnlocalizedName(registryName);
+				    System.out.println(registryName);
+				    blocksToRegister.add(garageDoor);
+				    final TCGarageGate garageGate = new TCGarageGate(blockInfo);
+				    garageGate.setRegistryName(new ResourceLocation(TCUtilityMain.MODID, registryName + "_gate"));
+				    garageGate.setUnlocalizedName(registryName + "_gate");
+				    System.out.println(registryName + "_gate");
+				    blocksToRegister.add(garageGate);
 				    break;
 				default:
 					throw new IllegalStateException("The given state " + state + " is not valid.");
