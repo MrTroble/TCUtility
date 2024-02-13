@@ -15,16 +15,25 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import scala.tools.nsc.settings.Final;
 
 public class TCGarageGate extends TCCube {
 
     public static final PropertyDirection FACING = PropertyDirection.create("facing",
             EnumFacing.Plane.HORIZONTAL);
 
-    protected static final AxisAlignedBB NORTH = new AxisAlignedBB(0, 0, 0, 1, 1, 1);
-    protected static final AxisAlignedBB EAST = new AxisAlignedBB(0, 0, 0, 1, 1, 1);
-    protected static final AxisAlignedBB SOUTH = new AxisAlignedBB(0, 0, 0, 1, 1, 1);
-    protected static final AxisAlignedBB WEST = new AxisAlignedBB(0, 0, 0, 1, 1, 1);
+    private final AxisAlignedBB northBB = new AxisAlignedBB(getIndexBox(0) * 0.0625,
+            getIndexBox(1) * 0.0625, getIndexBox(2) * 0.0625, getIndexBox(3) * 0.0625,
+            getIndexBox(4) * 0.0625, getIndexBox(5) * 0.0625);
+    private final AxisAlignedBB eastBB = new AxisAlignedBB(1 - getIndexBox(2) * 0.0625,
+            getIndexBox(1) * 0.0625, getIndexBox(0) * 0.0625, 1 - getIndexBox(5) * 0.0625,
+            getIndexBox(4) * 0.0625, getIndexBox(3) * 0.0625);
+    private final AxisAlignedBB southBB = new AxisAlignedBB(getIndexBox(0) * 0.0625,
+            getIndexBox(1) * 0.0625, 1 - getIndexBox(2) * 0.0625, getIndexBox(3) * 0.0625,
+            getIndexBox(4) * 0.0625, 1 - getIndexBox(5) * 0.0625);
+    private final AxisAlignedBB westBB = new AxisAlignedBB(getIndexBox(2) * 0.0625,
+            getIndexBox(1) * 0.0625, getIndexBox(0) * 0.0625, getIndexBox(5) * 0.0625,
+            getIndexBox(4) * 0.0625, getIndexBox(3) * 0.0625);
 
     public TCGarageGate(BlockCreateInfo blockInfo) {
         super(blockInfo);
@@ -32,20 +41,22 @@ public class TCGarageGate extends TCCube {
         this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
     }
 
+    @SuppressWarnings("deprecation")
     @Override
-    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
-        state = state.getActualState(source, pos);
+    public AxisAlignedBB getBoundingBox(final IBlockState finalstate, final IBlockAccess source,
+            final BlockPos pos) {
+        IBlockState state = this.getActualState(finalstate, source, pos);
         final EnumFacing enumFacing = state.getValue(FACING);
         switch (enumFacing) {
             case EAST:
             default:
-                return EAST;
+                return eastBB;
             case SOUTH:
-                return SOUTH;
+                return southBB;
             case WEST:
-                return WEST;
+                return westBB;
             case NORTH:
-                return NORTH;
+                return northBB;
         }
     }
 

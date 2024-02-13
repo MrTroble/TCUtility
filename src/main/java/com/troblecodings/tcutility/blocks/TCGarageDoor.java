@@ -28,11 +28,6 @@ public class TCGarageDoor extends TCCube {
             EnumFacing.Plane.HORIZONTAL);
     public static final PropertyBool OPEN = PropertyBool.create("open");
 
-    protected static final AxisAlignedBB NORTH_CLOSE = new AxisAlignedBB(0, 0, 0, 1, 1, 1);
-    protected static final AxisAlignedBB EAST_CLOSE = new AxisAlignedBB(0, 0, 0, 1, 1, 1);
-    protected static final AxisAlignedBB SOUTH_CLOSE = new AxisAlignedBB(0, 0, 0, 1, 1, 1);
-    protected static final AxisAlignedBB WEST_CLOSE = new AxisAlignedBB(0, 0, 0, 1, 1, 1);
-
     public TCGarageDoor(BlockCreateInfo blockInfo) {
         super(blockInfo);
         this.setCreativeTab(TCTabs.DOORS);
@@ -42,37 +37,7 @@ public class TCGarageDoor extends TCCube {
 
     @Override
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
-        state = state.getActualState(source, pos);
-        final EnumFacing enumFacing = state.getValue(FACING);
-        final boolean open = !state.getValue(OPEN).booleanValue();
-
-        switch (enumFacing) {
-            case EAST:
-            default:
-                if (open) {
-                    return FULL_BLOCK_AABB;
-                } else {
-                    return EAST_CLOSE;
-                }
-            case SOUTH:
-                if (open) {
-                    return FULL_BLOCK_AABB;
-                } else {
-                    return SOUTH_CLOSE;
-                }
-            case WEST:
-                if (open) {
-                    return FULL_BLOCK_AABB;
-                } else {
-                    return WEST_CLOSE;
-                }
-            case NORTH:
-                if (open) {
-                    return FULL_BLOCK_AABB;
-                } else {
-                    return NORTH_CLOSE;
-                }
-        }
+        return FULL_BLOCK_AABB;
     }
 
     @Override
@@ -217,6 +182,10 @@ public class TCGarageDoor extends TCCube {
                     worldIn.setBlockState(pos, blockState, 2);
                     changeState(worldIn, pos, blockState);
                     changeNeighbor(worldIn, pos, blockState);
+                    worldIn.markBlockRangeForRenderUpdate(pos, pos);
+                    worldIn.playEvent((EntityPlayer) null,
+                            state.getValue(OPEN).booleanValue() ? this.getOpenSound() : this.getCloseSound(),
+                            pos, 0);
                 }
             }
         }
