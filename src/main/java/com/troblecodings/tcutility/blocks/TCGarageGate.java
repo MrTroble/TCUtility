@@ -69,30 +69,6 @@ public class TCGarageGate extends TCCube {
                 .contains(blockState.getBlock().getRegistryName().toString());
     }
 
-    public void changeState(World worldIn, BlockPos pos, IBlockState state) {
-        if (state.getValue(TCGarageDoor.OPEN).booleanValue()) {
-            for (int i = 1; i < 10; i++) {
-                final BlockPos posDown = pos.down(i);
-                final IBlockState blockState = worldIn.getBlockState(posDown);
-
-                if (!blockState.getBlock().equals(state.getBlock()))
-                    break;
-                worldIn.setBlockToAir(posDown);
-            }
-        } else {
-            for (int i = 1; i < 10; i++) {
-                final BlockPos posDown = pos.down(i);
-                final IBlockState blockState = worldIn.getBlockState(posDown);
-
-                if (!isAir(blockState, worldIn, posDown))
-                    break;
-
-                worldIn.setBlockState(posDown,
-                        this.getDefaultState().withProperty(FACING, state.getValue(FACING)));
-            }
-        }
-    }
-
     @Override
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state,
             EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY,
@@ -106,7 +82,7 @@ public class TCGarageGate extends TCCube {
                 TCGarageDoor tcGarageDoor = (TCGarageDoor) stateUp.getBlock();
                 tcGarageDoor.changeState(worldIn, posUp, stateUp);
                 tcGarageDoor.changeNeighbor(worldIn, posUp, stateUp);
-                
+
                 worldIn.setBlockState(posUp, stateUp, 10);
                 worldIn.markBlockRangeForRenderUpdate(pos, posUp);
                 worldIn.playEvent(playerIn,
@@ -128,9 +104,11 @@ public class TCGarageGate extends TCCube {
             final IBlockState stateDown = worldIn.getBlockState(posDown);
             final IBlockState stateUp = worldIn.getBlockState(posUp);
 
-            if (stateDown.getBlock().equals(this) || stateUp.getBlock().equals(this)
-                    || isGarageBlock(stateUp)) {
+            if (stateUp.getBlock().equals(this) || isGarageBlock(stateUp)) {
                 worldIn.setBlockToAir(posUp);
+            }
+
+            if (stateDown.getBlock().equals(this)) {
                 worldIn.setBlockToAir(posDown);
             }
         }
