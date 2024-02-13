@@ -140,8 +140,7 @@ public class TCGarageDoor extends TCCube {
     }
 
     private boolean isGateBlock(IBlockState blockState) {
-        return blockState.getBlock().getRegistryName().toString()
-                .contains(this.getRegistryName().toString() + "_gate");
+            return blockState.getBlock() instanceof TCGarageGate;
     }
 
     @Override
