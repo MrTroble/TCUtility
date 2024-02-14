@@ -34,7 +34,7 @@ public class TCGarageGate extends TCCube {
             getIndexBox(1) * 0.0625, getIndexBox(0) * 0.0625, getIndexBox(5) * 0.0625,
             getIndexBox(4) * 0.0625, getIndexBox(3) * 0.0625);
 
-    public TCGarageGate(BlockCreateInfo blockInfo) {
+    public TCGarageGate(final BlockCreateInfo blockInfo) {
         super(blockInfo);
         this.setCreativeTab(null);
         this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
@@ -60,12 +60,12 @@ public class TCGarageGate extends TCCube {
     }
 
     @Override
-    public boolean isOpaqueCube(IBlockState state) {
+    public boolean isOpaqueCube(final IBlockState state) {
         return false;
     }
 
     @Override
-    public boolean isFullCube(IBlockState state) {
+    public boolean isFullCube(final IBlockState state) {
         return false;
     }
 
@@ -74,15 +74,15 @@ public class TCGarageGate extends TCCube {
         return BlockRenderLayer.CUTOUT;
     }
 
-    private boolean isGarageBlock(IBlockState blockState) {
+    private boolean isGarageBlock(final IBlockState blockState) {
         return this.getRegistryName().toString()
                 .contains(blockState.getBlock().getRegistryName().toString());
     }
 
     @Override
-    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state,
-            EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY,
-            float hitZ) {
+    public boolean onBlockActivated(final World worldIn, final BlockPos pos,
+            final IBlockState state, final EntityPlayer playerIn, final EnumHand hand,
+            final EnumFacing facing, final float hitX, final float hitY, final float hitZ) {
         for (int i = 1; i < 10; i++) {
             final BlockPos posUp = pos.up(i);
             IBlockState stateUp = worldIn.getBlockState(posUp);
@@ -106,8 +106,8 @@ public class TCGarageGate extends TCCube {
     }
 
     @Override
-    public void onBlockHarvested(World worldIn, BlockPos pos, IBlockState state,
-            EntityPlayer player) {
+    public void onBlockHarvested(final World worldIn, final BlockPos pos, final IBlockState state,
+            final EntityPlayer player) {
         for (int i = 1; i < 10; i++) {
             final BlockPos posDown = pos.down(i);
             final BlockPos posUp = pos.up(i);
@@ -125,7 +125,7 @@ public class TCGarageGate extends TCCube {
     }
 
     @Override
-    public IBlockState withRotation(IBlockState state, Rotation rot) {
+    public IBlockState withRotation(final IBlockState state, final Rotation rot) {
         return state.withProperty(FACING, rot.rotate(state.getValue(FACING)));
     }
 
@@ -145,8 +145,8 @@ public class TCGarageGate extends TCCube {
     }
 
     @Override
-    public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos,
-            EnumFacing face) {
+    public BlockFaceShape getBlockFaceShape(final IBlockAccess worldIn, final IBlockState state,
+            final BlockPos pos, final EnumFacing face) {
         return BlockFaceShape.UNDEFINED;
     }
 

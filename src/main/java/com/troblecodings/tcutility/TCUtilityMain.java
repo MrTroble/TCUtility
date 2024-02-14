@@ -32,7 +32,7 @@ public class TCUtilityMain {
     @Instance
     private static TCUtilityMain instance;
     public static final String MODID = "tcutility";
-    
+
     public TCUtilityMain() {
         instance = this;
         fileHandler = new ContentPackHandler(MODID, "assets/" + MODID, LOG,
@@ -43,8 +43,7 @@ public class TCUtilityMain {
         return instance;
     }
 
-    @SidedProxy(serverSide = "com.troblecodings.tcutility.proxy.CommonProxy",
-            clientSide = "com.troblecodings.tcutility.proxy.ClientProxy")
+    @SidedProxy(serverSide = "com.troblecodings.tcutility.proxy.CommonProxy", clientSide = "com.troblecodings.tcutility.proxy.ClientProxy")
     public static CommonProxy PROXY;
     public static Logger LOG;
     public static ContentPackHandler fileHandler;
@@ -64,7 +63,7 @@ public class TCUtilityMain {
     public void postinit(final FMLPostInitializationEvent event) {
         PROXY.postinit(event);
     }
-    
+
     private static FileSystem fileSystemCache = null;
 
     private static Optional<Path> getRessourceLocation(final String location) {

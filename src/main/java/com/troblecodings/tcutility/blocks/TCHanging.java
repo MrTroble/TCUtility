@@ -19,7 +19,7 @@ public class TCHanging extends TCCube {
 
     public static final PropertyDirection FACING = PropertyDirection.create("facing");
 
-    public TCHanging(BlockCreateInfo blockinfo) {
+    public TCHanging(final BlockCreateInfo blockinfo) {
         super(blockinfo);
         setCreativeTab(TCTabs.SPECIAL);
         this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.UP));

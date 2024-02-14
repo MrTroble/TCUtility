@@ -28,7 +28,7 @@ public class TCGarageDoor extends TCCube {
             EnumFacing.Plane.HORIZONTAL);
     public static final PropertyBool OPEN = PropertyBool.create("open");
 
-    public TCGarageDoor(BlockCreateInfo blockInfo) {
+    public TCGarageDoor(final BlockCreateInfo blockInfo) {
         super(blockInfo);
         this.setCreativeTab(TCTabs.DOORS);
         this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH)
@@ -36,17 +36,18 @@ public class TCGarageDoor extends TCCube {
     }
 
     @Override
-    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
+    public AxisAlignedBB getBoundingBox(final IBlockState state, final IBlockAccess source,
+            final BlockPos pos) {
         return FULL_BLOCK_AABB;
     }
 
     @Override
-    public boolean isOpaqueCube(IBlockState state) {
+    public boolean isOpaqueCube(final IBlockState state) {
         return false;
     }
 
     @Override
-    public boolean isFullCube(IBlockState state) {
+    public boolean isFullCube(final IBlockState state) {
         return false;
     }
 
@@ -58,7 +59,7 @@ public class TCGarageDoor extends TCCube {
         return this.blockMaterial == Material.IRON ? 1005 : 1006;
     }
 
-    public void changeState(World worldIn, BlockPos pos, IBlockState state) {
+    public void changeState(final World worldIn, final BlockPos pos, final IBlockState state) {
         if (state.getValue(OPEN).booleanValue()) {
             for (int i = 1; i < 10; i++) {
                 final BlockPos posDown = pos.down(i);
@@ -77,15 +78,15 @@ public class TCGarageDoor extends TCCube {
                     break;
 
                 worldIn.setBlockState(posDown,
-                        TCGarageGate.getBlockFromName(this.getRegistryName().toString() + "_gate")
+                        Block.getBlockFromName(this.getRegistryName().toString() + "_gate")
                                 .getDefaultState().withProperty(FACING, state.getValue(FACING)));
             }
         }
     }
 
-    public void changeNeighbor(World worldIn, BlockPos pos, IBlockState state) {
-        if (state.getValue(FACING).equals(EnumFacing.NORTH)
-                || state.getValue(FACING).equals(EnumFacing.SOUTH)) {
+    public void changeNeighbor(final World worldIn, final BlockPos pos, final IBlockState state) {
+        final EnumFacing facing = state.getValue(FACING);
+        if (facing.equals(EnumFacing.NORTH) || facing.equals(EnumFacing.SOUTH)) {
             for (int i = 1; i < 10; i++) {
                 final BlockPos posEast = pos.east(i);
                 IBlockState stateEast = worldIn.getBlockState(posEast);
@@ -110,8 +111,7 @@ public class TCGarageDoor extends TCCube {
                     break;
                 }
             }
-        } else if (state.getValue(FACING).equals(EnumFacing.WEST)
-                || state.getValue(FACING).equals(EnumFacing.EAST)) {
+        } else if (facing.equals(EnumFacing.WEST) || facing.equals(EnumFacing.EAST)) {
             for (int i = 1; i < 10; i++) {
                 final BlockPos posNorth = pos.north(i);
                 IBlockState stateNorth = worldIn.getBlockState(posNorth);
@@ -139,20 +139,19 @@ public class TCGarageDoor extends TCCube {
         }
     }
 
-    private boolean isGateBlock(IBlockState blockState) {
-            return blockState.getBlock() instanceof TCGarageGate;
+    private boolean isGateBlock(final IBlockState blockState) {
+        return blockState.getBlock() instanceof TCGarageGate;
     }
 
     @Override
-    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state,
-            EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY,
-            float hitZ) {
+    public boolean onBlockActivated(final World worldIn, final BlockPos pos, IBlockState state,
+            final EntityPlayer playerIn, final EnumHand hand, final EnumFacing facing,
+            final float hitX, final float hitY, final float hitZ) {
         if (this.blockMaterial.equals(Material.IRON)) {
             return false;
         }
         final BlockPos blockPos = pos;
-        final IBlockState iBlockState = pos.equals(blockPos) ? state
-                : worldIn.getBlockState(blockPos);
+        final IBlockState iBlockState = state;
         if (iBlockState.getBlock().equals(this)) {
             state = iBlockState.cycleProperty(OPEN);
             changeState(worldIn, blockPos, state);
@@ -168,31 +167,32 @@ public class TCGarageDoor extends TCCube {
     }
 
     @Override
-    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn,
-            BlockPos fromPos) {
-        if (!worldIn.isRemote) {
-            boolean flag = worldIn.isBlockPowered(pos);
+    public void neighborChanged(final IBlockState state, final World worldIn, final BlockPos pos,
+            final Block blockIn, final BlockPos fromPos) {
+        if (worldIn.isRemote)
+            return;
+        boolean flag = worldIn.isBlockPowered(pos);
 
-            if (flag || blockIn.getDefaultState().canProvidePower()) {
-                boolean flag1 = state.getValue(OPEN).booleanValue();
+        if (flag || blockIn.getDefaultState().canProvidePower()) {
+            boolean flag1 = state.getValue(OPEN).booleanValue();
 
-                if (flag1 != flag) {
-                    IBlockState blockState = state.withProperty(OPEN, Boolean.valueOf(flag));
-                    worldIn.setBlockState(pos, blockState, 2);
-                    changeState(worldIn, pos, blockState);
-                    changeNeighbor(worldIn, pos, blockState);
-                    worldIn.markBlockRangeForRenderUpdate(pos, pos);
-                    worldIn.playEvent((EntityPlayer) null,
-                            state.getValue(OPEN).booleanValue() ? this.getOpenSound() : this.getCloseSound(),
-                            pos, 0);
-                }
+            if (flag1 != flag) {
+                IBlockState blockState = state.withProperty(OPEN, Boolean.valueOf(flag));
+                worldIn.setBlockState(pos, blockState, 2);
+                changeState(worldIn, pos, blockState);
+                changeNeighbor(worldIn, pos, blockState);
+                worldIn.markBlockRangeForRenderUpdate(pos, pos);
+                worldIn.playEvent((EntityPlayer) null,
+                        state.getValue(OPEN).booleanValue() ? this.getOpenSound()
+                                : this.getCloseSound(),
+                        pos, 0);
             }
         }
     }
 
     @Override
-    public void onBlockHarvested(World worldIn, BlockPos pos, IBlockState state,
-            EntityPlayer player) {
+    public void onBlockHarvested(final World worldIn, final BlockPos pos, final IBlockState state,
+            final EntityPlayer player) {
         for (int i = 1; i < 10; i++) {
             final BlockPos posDown = pos.down(i);
             final IBlockState blockState = worldIn.getBlockState(posDown);
@@ -209,26 +209,27 @@ public class TCGarageDoor extends TCCube {
     }
 
     @Override
-    public IBlockState withRotation(IBlockState state, Rotation rot) {
+    public IBlockState withRotation(final IBlockState state, final Rotation rot) {
         return state.withProperty(FACING, rot.rotate(state.getValue(FACING)));
     }
 
     @Override
-    public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing,
-            float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand) {
+    public IBlockState getStateForPlacement(final World world, final BlockPos pos,
+            final EnumFacing facing, final float hitX, final float hitY, final float hitZ,
+            final int meta, final EntityLivingBase placer, final EnumHand hand) {
         return this.getDefaultState().withProperty(FACING, placer.getHorizontalFacing())
                 .withProperty(OPEN, Boolean.valueOf(true));
     }
 
     @Override
-    public IBlockState getStateFromMeta(int meta) {
+    public IBlockState getStateFromMeta(final int meta) {
         return this.getDefaultState()
                 .withProperty(FACING, EnumFacing.getHorizontal(meta & 3).rotateYCCW())
                 .withProperty(OPEN, Boolean.valueOf((meta & 4) > 0));
     }
 
     @Override
-    public int getMetaFromState(IBlockState state) {
+    public int getMetaFromState(final IBlockState state) {
         int i = 0;
         i = i | state.getValue(FACING).rotateY().getHorizontalIndex();
         if (state.getValue(OPEN).booleanValue()) {
@@ -245,8 +246,8 @@ public class TCGarageDoor extends TCCube {
     }
 
     @Override
-    public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos,
-            EnumFacing face) {
+    public BlockFaceShape getBlockFaceShape(final IBlockAccess worldIn, final IBlockState state,
+            final BlockPos pos, final EnumFacing face) {
         return BlockFaceShape.UNDEFINED;
     }
 

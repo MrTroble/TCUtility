@@ -15,14 +15,12 @@ public class BlockProperties {
     private int opacity;
     private int lightValue;
     private List<String> states;
-    private List<Integer> hitbox = Arrays.asList(0,0,0,16,16,16);
+    private List<Integer> hitbox = Arrays.asList(0, 0, 0, 16, 16, 16);
     private boolean fullblock = true;
     private float slipperness = 0.0F;
 
     private static final HashMap<String, Material> materialTable = translateTableMaterial();
     private static final HashMap<String, SoundType> soundTable = translateTableSoundType();
-
-    
 
     public static HashMap<String, Material> translateTableMaterial() {
         final HashMap<String, Material> translateTable = new HashMap<>();
@@ -65,11 +63,12 @@ public class BlockProperties {
             throw new IllegalStateException("The given material " + material + " is not valid.");
         }
         if (sound == null) {
-        	throw new IllegalStateException("The given sound type " + soundtype + " is not valid.");
+            throw new IllegalStateException("The given sound type " + soundtype + " is not valid.");
         }
-        return new BlockCreateInfo(mat, hardness, sound, opacity, lightValue, hitbox, fullblock, slipperness);
+        return new BlockCreateInfo(mat, hardness, sound, opacity, lightValue, hitbox, fullblock,
+                slipperness);
     }
-    
+
     public List<String> getStates() {
         return states;
     }

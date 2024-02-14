@@ -35,7 +35,7 @@ public class TCCubeRotationAll extends TCCube {
         }
         return false;
     }
-    
+
     @SuppressWarnings("deprecation")
     @Override
     public AxisAlignedBB getBoundingBox(final IBlockState finalstate, final IBlockAccess source,
@@ -44,16 +44,16 @@ public class TCCubeRotationAll extends TCCube {
         AxisAlignedBB bb = FULL_BLOCK_AABB;
         if (state.getValue(AXIS).equals(EnumFacing.Axis.X)) {
             bb = new AxisAlignedBB(getIndexBox(2) * 0.0625, getIndexBox(1) * 0.0625,
-                    getIndexBox(0) * 0.0625, getIndexBox(5) * 0.0625,
-                    getIndexBox(4) * 0.0625, getIndexBox(3) * 0.0625);
+                    getIndexBox(0) * 0.0625, getIndexBox(5) * 0.0625, getIndexBox(4) * 0.0625,
+                    getIndexBox(3) * 0.0625);
         } else if (state.getValue(AXIS).equals(EnumFacing.Axis.Z)) {
             bb = new AxisAlignedBB(getIndexBox(0) * 0.0625, getIndexBox(1) * 0.0625,
-                    getIndexBox(2) * 0.0625, getIndexBox(3) * 0.0625,
-                    getIndexBox(4) * 0.0625, getIndexBox(5) * 0.0625);
+                    getIndexBox(2) * 0.0625, getIndexBox(3) * 0.0625, getIndexBox(4) * 0.0625,
+                    getIndexBox(5) * 0.0625);
         } else if (state.getValue(AXIS).equals(EnumFacing.Axis.Y)) {
             bb = new AxisAlignedBB(getIndexBox(1) * 0.0625, getIndexBox(0) * 0.0625,
-                    getIndexBox(2) * 0.0625, getIndexBox(4) * 0.0625,
-                    getIndexBox(3) * 0.0625, getIndexBox(5) * 0.0625);
+                    getIndexBox(2) * 0.0625, getIndexBox(4) * 0.0625, getIndexBox(3) * 0.0625,
+                    getIndexBox(5) * 0.0625);
         }
         return bb;
     }

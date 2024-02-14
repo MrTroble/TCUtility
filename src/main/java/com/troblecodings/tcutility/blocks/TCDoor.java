@@ -35,9 +35,8 @@ public class TCDoor extends TCCube {
 
     public static final PropertyDirection FACING = BlockHorizontal.FACING;
     public static final PropertyBool OPEN = PropertyBool.create("open");
-    public static final PropertyEnum<BlockDoor.EnumHingePosition> HINGE = PropertyEnum.
-            <BlockDoor.EnumHingePosition>create(
-                    "hinge", BlockDoor.EnumHingePosition.class);
+    public static final PropertyEnum<BlockDoor.EnumHingePosition> HINGE = PropertyEnum.<BlockDoor.EnumHingePosition>create(
+            "hinge", BlockDoor.EnumHingePosition.class);
     public static final PropertyBool POWERED = PropertyBool.create("powered");
     public static final PropertyEnum<BlockDoor.EnumDoorHalf> HALF = PropertyEnum.<BlockDoor.EnumDoorHalf>create(
             "half", BlockDoor.EnumDoorHalf.class);
@@ -105,9 +104,9 @@ public class TCDoor extends TCCube {
     }
 
     @Override
-    public boolean onBlockActivated(final World worldIn, final BlockPos pos, final IBlockState state,
-            final EntityPlayer playerIn, final EnumHand hand, final EnumFacing facing,
-            final float hitX, final float hitY, final float hitZ) {
+    public boolean onBlockActivated(final World worldIn, final BlockPos pos,
+            final IBlockState state, final EntityPlayer playerIn, final EnumHand hand,
+            final EnumFacing facing, final float hitX, final float hitY, final float hitZ) {
         if (this.blockMaterial == Material.IRON) {
             return false;
         } else {
@@ -270,15 +269,15 @@ public class TCDoor extends TCCube {
             final IBlockState iblockstate = worldIn.getBlockState(pos.up());
 
             if (iblockstate.getBlock() == this) {
-                state2 = state.withProperty(HINGE, iblockstate.getValue(HINGE)).withProperty(POWERED,
-                        iblockstate.getValue(POWERED));
+                state2 = state.withProperty(HINGE, iblockstate.getValue(HINGE))
+                        .withProperty(POWERED, iblockstate.getValue(POWERED));
             }
         } else {
             final IBlockState iblockstate1 = worldIn.getBlockState(pos.down());
 
             if (iblockstate1.getBlock() == this) {
-                state2 = state.withProperty(FACING, iblockstate1.getValue(FACING)).withProperty(OPEN,
-                        iblockstate1.getValue(OPEN));
+                state2 = state.withProperty(FACING, iblockstate1.getValue(FACING))
+                        .withProperty(OPEN, iblockstate1.getValue(OPEN));
             }
         }
 

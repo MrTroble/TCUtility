@@ -76,11 +76,12 @@ public class TCFence extends TCCube {
     }
 
     @Override
-    public void addCollisionBoxToList(final IBlockState finalstate, final World worldIn, final BlockPos pos,
-            final AxisAlignedBB entityBox, final List<AxisAlignedBB> collidingBoxes,
-            @Nullable final Entity entityIn, final boolean isActualState) {
+    public void addCollisionBoxToList(final IBlockState finalstate, final World worldIn,
+            final BlockPos pos, final AxisAlignedBB entityBox,
+            final List<AxisAlignedBB> collidingBoxes, @Nullable final Entity entityIn,
+            final boolean isActualState) {
         IBlockState state = finalstate;
-        if (!isActualState) { 
+        if (!isActualState) {
             state = state.getActualState(worldIn, pos);
         }
 
