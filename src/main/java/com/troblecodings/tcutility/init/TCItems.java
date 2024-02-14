@@ -64,7 +64,6 @@ public final class TCItems {
         item.setRegistryName(new ResourceLocation(TCUtilityMain.MODID, name));
         item.setUnlocalizedName(name);
         itemsToRegister.add(item);
-        System.out.println(item.getRegistryName());
     }
 
     private static Map<String, ArmorProperties> getFromJson(final String directory) {

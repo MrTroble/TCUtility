@@ -214,7 +214,6 @@ public final class TCBlocks {
 				    final TCGarageGate garageGate = new TCGarageGate(blockInfo);
 				    garageGate.setRegistryName(new ResourceLocation(TCUtilityMain.MODID, registryName + "_gate"));
 				    garageGate.setUnlocalizedName(registryName + "_gate");
-				    System.out.println(registryName + "_gate");
 				    blocksToRegister.add(garageGate);
 				    break;
 				default:
