@@ -46,7 +46,7 @@ curseforge {
 
 version = ver
 group = 'com.troblecodings'
-archivesBaseName = 'TCUtility'
+archivesBaseName = 'TCUtility-1.12.2'
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
 

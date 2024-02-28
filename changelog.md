@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.1.0-Feature]
+
+* feat: added contentpack system
+* feat: added custom bounding boxes
+* feat: added more block properties: fullblock and slipperness
+* feat: new block types: rotationAll, hanging and garage doors
+* feat: added custom armor registration
+* fix: street lantern
+* ref: better code performance
+* rem: unused code
+* rem: debug outputs
+
 ## [Fix]
 
 * feat: rewrite window block
