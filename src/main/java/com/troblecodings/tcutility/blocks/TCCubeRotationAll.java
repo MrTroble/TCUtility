@@ -17,8 +17,8 @@ import net.minecraft.world.World;
 
 public class TCCubeRotationAll extends TCCube {
 
-    public static final PropertyEnum<EnumFacing.Axis> AXIS = PropertyEnum.<EnumFacing.Axis>create(
-            "axis", EnumFacing.Axis.class);
+    public static final PropertyEnum<EnumFacing.Axis> AXIS =
+            PropertyEnum.<EnumFacing.Axis>create("axis", EnumFacing.Axis.class);
 
     public TCCubeRotationAll(final BlockCreateInfo blockInfo) {
         super(blockInfo);
@@ -28,7 +28,7 @@ public class TCCubeRotationAll extends TCCube {
     public boolean rotateBlock(final World world, final BlockPos pos, final EnumFacing axis) {
         IBlockState state = world.getBlockState(pos);
         for (final IProperty<?> prop : state.getProperties().keySet()) {
-            if (prop.getName().equals("axis")) {
+            if (prop.equals(AXIS)) {
                 world.setBlockState(pos, state.cycleProperty(prop));
                 return true;
             }
@@ -41,16 +41,17 @@ public class TCCubeRotationAll extends TCCube {
     public AxisAlignedBB getBoundingBox(final IBlockState finalstate, final IBlockAccess source,
             final BlockPos pos) {
         final IBlockState state = this.getActualState(finalstate, source, pos);
+        final EnumFacing.Axis axis = state.getValue(AXIS);
         AxisAlignedBB bb = FULL_BLOCK_AABB;
-        if (state.getValue(AXIS).equals(EnumFacing.Axis.X)) {
+        if (axis.equals(EnumFacing.Axis.X)) {
             bb = new AxisAlignedBB(getIndexBox(2) * 0.0625, getIndexBox(1) * 0.0625,
                     getIndexBox(0) * 0.0625, getIndexBox(5) * 0.0625, getIndexBox(4) * 0.0625,
                     getIndexBox(3) * 0.0625);
-        } else if (state.getValue(AXIS).equals(EnumFacing.Axis.Z)) {
+        } else if (axis.equals(EnumFacing.Axis.Z)) {
             bb = new AxisAlignedBB(getIndexBox(0) * 0.0625, getIndexBox(1) * 0.0625,
                     getIndexBox(2) * 0.0625, getIndexBox(3) * 0.0625, getIndexBox(4) * 0.0625,
                     getIndexBox(5) * 0.0625);
-        } else if (state.getValue(AXIS).equals(EnumFacing.Axis.Y)) {
+        } else if (axis.equals(EnumFacing.Axis.Y)) {
             bb = new AxisAlignedBB(getIndexBox(1) * 0.0625, getIndexBox(0) * 0.0625,
                     getIndexBox(2) * 0.0625, getIndexBox(4) * 0.0625, getIndexBox(3) * 0.0625,
                     getIndexBox(5) * 0.0625);

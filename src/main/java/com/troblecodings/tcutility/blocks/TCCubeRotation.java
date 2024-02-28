@@ -56,7 +56,7 @@ public class TCCubeRotation extends TCCube {
     @Override
     public AxisAlignedBB getBoundingBox(final IBlockState finalstate, final IBlockAccess source,
             final BlockPos pos) {
-        IBlockState state = this.getActualState(finalstate, source, pos);
+        final IBlockState state = this.getActualState(finalstate, source, pos);
         final EnumFacing enumFacing = state.getValue(FACING);
 
         switch (enumFacing) {

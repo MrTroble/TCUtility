@@ -18,8 +18,8 @@ import net.minecraft.world.World;
 
 public class TCGarageGate extends TCCube {
 
-    public static final PropertyDirection FACING = PropertyDirection.create("facing",
-            EnumFacing.Plane.HORIZONTAL);
+    public static final PropertyDirection FACING =
+            PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
 
     private final AxisAlignedBB northBB = new AxisAlignedBB(getIndexBox(0) * 0.0625,
             getIndexBox(1) * 0.0625, getIndexBox(2) * 0.0625, getIndexBox(3) * 0.0625,
@@ -44,7 +44,7 @@ public class TCGarageGate extends TCCube {
     @Override
     public AxisAlignedBB getBoundingBox(final IBlockState finalstate, final IBlockAccess source,
             final BlockPos pos) {
-        IBlockState state = this.getActualState(finalstate, source, pos);
+        final IBlockState state = this.getActualState(finalstate, source, pos);
         final EnumFacing enumFacing = state.getValue(FACING);
         switch (enumFacing) {
             case EAST:
@@ -75,8 +75,7 @@ public class TCGarageGate extends TCCube {
     }
 
     private boolean isGarageBlock(final IBlockState blockState) {
-        return this.getRegistryName().toString()
-                .contains(blockState.getBlock().getRegistryName().toString());
+        return blockState.getBlock() instanceof TCGarageGate;
     }
 
     @Override
