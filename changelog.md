@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.1.1-Fix]
+
+* fix: garage door not opening
+
 ## [1.1.0-Feature]
 
 * feat: added contentpack system
