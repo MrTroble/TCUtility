@@ -75,7 +75,7 @@ public class TCGarageGate extends TCCube {
     }
 
     private boolean isGarageBlock(final IBlockState blockState) {
-        return blockState.getBlock() instanceof TCGarageGate;
+        return blockState.getBlock() instanceof TCGarageDoor;
     }
 
     @Override
