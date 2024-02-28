@@ -85,7 +85,8 @@ public class TCBigDoorItem extends Item {
         final BlockPos blockpos3 = pos.up();
         final BlockPos blockpos4 = pos.up(2);
         final boolean flag3 = worldIn.isBlockPowered(pos) || worldIn.isBlockPowered(blockpos3);
-        final IBlockState iblockstate = door.getDefaultState().withProperty(TCBigDoor.FACING, facing)
+        final IBlockState iblockstate = door.getDefaultState()
+                .withProperty(TCBigDoor.FACING, facing)
                 .withProperty(TCBigDoor.HINGE,
                         isRightHinge ? TCBigDoor.EnumHingePosition.RIGHT
                                 : TCBigDoor.EnumHingePosition.LEFT)

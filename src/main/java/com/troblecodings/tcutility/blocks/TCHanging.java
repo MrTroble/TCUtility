@@ -1,9 +1,8 @@
 package com.troblecodings.tcutility.blocks;
 
 import com.troblecodings.tcutility.init.TCTabs;
+import com.troblecodings.tcutility.utils.BlockCreateInfo;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockStateContainer;
@@ -13,44 +12,17 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.Mirror;
 import net.minecraft.util.Rotation;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class Lantern extends Block {
+public class TCHanging extends TCCube {
 
     public static final PropertyDirection FACING = PropertyDirection.create("facing");
 
-    private static final AxisAlignedBB BOUNDING_BOX = new AxisAlignedBB(0.25, 0.0, 0.25, 0.75, 0.75,
-            0.75);
-
-    public Lantern() {
-        super(Material.IRON);
+    public TCHanging(final BlockCreateInfo blockinfo) {
+        super(blockinfo);
         setCreativeTab(TCTabs.SPECIAL);
-        setLightLevel(1.0f);
         this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.UP));
-    }
-
-    @Override
-    public AxisAlignedBB getBoundingBox(final IBlockState state, final IBlockAccess source,
-            final BlockPos pos) {
-        return BOUNDING_BOX;
-    }
-
-    public AxisAlignedBB getCollissionBoundingBox(final IBlockState blockState,
-            final IBlockAccess worldIn, final BlockPos pos) {
-        return BOUNDING_BOX;
-    }
-
-    @Override
-    public boolean isOpaqueCube(final IBlockState state) {
-        return false;
-    }
-
-    @Override
-    public boolean isFullCube(final IBlockState state) {
-        return false;
     }
 
     @Override

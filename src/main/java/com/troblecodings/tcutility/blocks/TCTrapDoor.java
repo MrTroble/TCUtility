@@ -257,8 +257,9 @@ public class TCTrapDoor extends TCCube {
             final EntityLivingBase entity) {
         if (state.getValue(OPEN)) {
             final IBlockState down = world.getBlockState(pos.down());
-            if (down.getBlock() == net.minecraft.init.Blocks.LADDER)
+            if (down.getBlock() == net.minecraft.init.Blocks.LADDER) {
                 return down.getValue(BlockLadder.FACING) == state.getValue(FACING);
+            }
         }
         return false;
     }

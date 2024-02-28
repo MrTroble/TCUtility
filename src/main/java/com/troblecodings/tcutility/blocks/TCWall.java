@@ -72,9 +72,10 @@ public class TCWall extends TCFence {
     }
 
     @Override
-    public void addCollisionBoxToList(final IBlockState state, final World worldIn, final BlockPos pos,
-            final AxisAlignedBB entityBox, final List<AxisAlignedBB> collidingBoxes,
-            @Nullable final Entity entityIn, final boolean isActualState) {
+    public void addCollisionBoxToList(final IBlockState state, final World worldIn,
+            final BlockPos pos, final AxisAlignedBB entityBox,
+            final List<AxisAlignedBB> collidingBoxes, @Nullable final Entity entityIn,
+            final boolean isActualState) {
         if (!isActualState) {
             IBlockState state2 = state;
             state2 = this.getActualState(state2, worldIn, pos);
@@ -86,8 +87,8 @@ public class TCWall extends TCFence {
 
     @Override
     @Nullable
-    public AxisAlignedBB getCollisionBoundingBox(final IBlockState blockState, final IBlockAccess worldIn,
-            final BlockPos pos) {
+    public AxisAlignedBB getCollisionBoundingBox(final IBlockState blockState,
+            final IBlockAccess worldIn, final BlockPos pos) {
         IBlockState state = blockState;
         state = this.getActualState(state, worldIn, pos);
         return CLIP_AABB_BY_INDEX[getAABBindex(state)];

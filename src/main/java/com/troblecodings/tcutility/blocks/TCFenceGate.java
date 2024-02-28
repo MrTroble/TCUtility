@@ -71,15 +71,17 @@ public class TCFenceGate extends TCCubeRotation {
     public IBlockState getActualState(final IBlockState finalstate, final IBlockAccess worldIn,
             final BlockPos pos) {
         final EnumFacing.Axis facingAxis = finalstate.getValue(FACING).getAxis();
-        
+
         if (facingAxis == EnumFacing.Axis.Z) {
             if (worldIn.getBlockState(pos.west()).getBlock() instanceof BlockWall
-                    || worldIn.getBlockState(pos.east()).getBlock() instanceof BlockWall)
+                    || worldIn.getBlockState(pos.east()).getBlock() instanceof BlockWall) {
                 return finalstate.withProperty(IN_WALL, Boolean.valueOf(true));
+            }
         } else if (facingAxis == EnumFacing.Axis.X) {
             if ((worldIn.getBlockState(pos.north()).getBlock() instanceof BlockWall
-                    || worldIn.getBlockState(pos.south()).getBlock() instanceof BlockWall))
+                    || worldIn.getBlockState(pos.south()).getBlock() instanceof BlockWall)) {
                 return finalstate.withProperty(IN_WALL, Boolean.valueOf(true));
+            }
         }
         return finalstate;
     }

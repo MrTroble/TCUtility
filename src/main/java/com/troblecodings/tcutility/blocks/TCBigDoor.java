@@ -146,14 +146,11 @@ public class TCBigDoor extends TCCube {
             return false;
         } else {
             if (state.getValue(THIRD) == TCBigDoor.EnumDoorThird.LOWER) {
-                final BlockPos blockpos = pos;
-                final IBlockState iblockstate = pos.equals(blockpos) ? state
-                        : worldIn.getBlockState(blockpos);
-                if (iblockstate.getBlock() == this) {
-                    state = iblockstate.cycleProperty(OPEN);
+                if (state.getBlock() == this) {
+                    state = state.cycleProperty(OPEN);
                 }
-                worldIn.setBlockState(blockpos, state, 10);
-                worldIn.markBlockRangeForRenderUpdate(blockpos, pos);
+                worldIn.setBlockState(pos, state, 10);
+                worldIn.markBlockRangeForRenderUpdate(pos, pos);
                 worldIn.playEvent(playerIn,
                         state.getValue(OPEN).booleanValue() ? this.getOpenSound()
                                 : this.getCloseSound(),
@@ -161,8 +158,7 @@ public class TCBigDoor extends TCCube {
                 return true;
             } else if (state.getValue(THIRD) == TCBigDoor.EnumDoorThird.MIDDLE) {
                 final BlockPos blockpos = pos.down();
-                final IBlockState iblockstate = pos.equals(blockpos) ? state
-                        : worldIn.getBlockState(blockpos);
+                final IBlockState iblockstate = worldIn.getBlockState(blockpos);
                 if (iblockstate.getBlock() == this) {
                     state = iblockstate.cycleProperty(OPEN);
                 }
@@ -175,8 +171,7 @@ public class TCBigDoor extends TCCube {
                 return true;
             } else {
                 final BlockPos blockpos = pos.down(2);
-                final IBlockState iblockstate = pos.equals(blockpos) ? state
-                        : worldIn.getBlockState(blockpos);
+                final IBlockState iblockstate = worldIn.getBlockState(blockpos);
                 if (iblockstate.getBlock() == this) {
                     state = iblockstate.cycleProperty(OPEN);
                 }
@@ -252,10 +247,10 @@ public class TCBigDoor extends TCCube {
             } else {
                 final boolean flag = worldIn.isBlockPowered(pos)
                         || worldIn.isBlockPowered(blockpos1) || worldIn.isBlockPowered(blockpos2);
+                final boolean powerd = iblockstate1.getValue(POWERED);
 
                 if (blockIn != this && (flag || blockIn.getDefaultState().canProvidePower())
-                        && (flag != iblockstate1.getValue(POWERED).booleanValue()
-                                || flag != iblockstate2.getValue(POWERED).booleanValue())) {
+                        && (flag != powerd || flag != powerd)) {
                     worldIn.setBlockState(blockpos1,
                             iblockstate1.withProperty(POWERED, Boolean.valueOf(flag)), 2);
                     worldIn.setBlockState(blockpos2,

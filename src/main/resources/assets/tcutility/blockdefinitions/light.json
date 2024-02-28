@@ -9,7 +9,7 @@
     },
     "street_lantern": {
         "hardness": 1,
-        "material": "iron",
+        "material": "glass",
         "soundtype": "metal",
         "opacity": 0,
         "lightValue": 15,

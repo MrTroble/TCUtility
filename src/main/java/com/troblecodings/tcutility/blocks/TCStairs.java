@@ -98,9 +98,10 @@ public class TCStairs extends TCCube {
     }
 
     @Override
-    public void addCollisionBoxToList(final IBlockState state, final World worldIn, final BlockPos pos,
-            final AxisAlignedBB entityBox, final List<AxisAlignedBB> collidingBoxes,
-            @Nullable final Entity entityIn, final boolean isActualState) {
+    public void addCollisionBoxToList(final IBlockState state, final World worldIn,
+            final BlockPos pos, final AxisAlignedBB entityBox,
+            final List<AxisAlignedBB> collidingBoxes, @Nullable final Entity entityIn,
+            final boolean isActualState) {
         if (!isActualState) {
             IBlockState state2 = state;
             state2 = this.getActualState(state2, worldIn, pos);
@@ -117,8 +118,7 @@ public class TCStairs extends TCCube {
         list.add(flag ? AABB_SLAB_TOP : AABB_SLAB_BOTTOM);
         final TCStairs.EnumShape blockShape = bstate.getValue(SHAPE);
 
-        if (blockShape == TCStairs.EnumShape.STRAIGHT
-                || blockShape == TCStairs.EnumShape.INNER_LEFT
+        if (blockShape == TCStairs.EnumShape.STRAIGHT || blockShape == TCStairs.EnumShape.INNER_LEFT
                 || blockShape == TCStairs.EnumShape.INNER_RIGHT) {
             list.add(getCollQuarterBlock(bstate));
         }

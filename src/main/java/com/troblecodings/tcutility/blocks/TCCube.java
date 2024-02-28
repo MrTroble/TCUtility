@@ -1,5 +1,7 @@
 package com.troblecodings.tcutility.blocks;
 
+import java.util.List;
+
 import com.troblecodings.tcutility.init.TCTabs;
 import com.troblecodings.tcutility.utils.BlockCreateInfo;
 
@@ -7,10 +9,15 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.BlockRenderLayer;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class TCCube extends Block {
+
+    private final List<Integer> box;
 
     public TCCube(final BlockCreateInfo blockInfo) {
         super(blockInfo.material);
@@ -18,7 +25,10 @@ public class TCCube extends Block {
         this.setSoundType(blockInfo.soundtype);
         this.setLightOpacity(blockInfo.opacity);
         this.setCreativeTab(TCTabs.BLOCKS);
-        this.lightValue = blockInfo.getLightValue();
+        this.setLightLevel(blockInfo.lightValue / 15.0F);
+        this.box = blockInfo.box;
+        this.fullBlock = blockInfo.fullblock;
+        this.setDefaultSlipperiness(blockInfo.slipperness);
     }
 
     @SuppressWarnings("deprecation")
@@ -39,8 +49,9 @@ public class TCCube extends Block {
         if (this.getMaterial(getDefaultState()).equals(Material.GLASS)
                 || this.getMaterial(getDefaultState()).equals(Material.ANVIL)) {
             return false;
-        } else
+        } else {
             return true;
+        }
     }
 
     @SuppressWarnings("deprecation")
@@ -49,13 +60,20 @@ public class TCCube extends Block {
         if (this.getMaterial(getDefaultState()).equals(Material.GLASS)
                 || this.getMaterial(getDefaultState()).equals(Material.ANVIL)) {
             return false;
-        } else
+        } else {
             return true;
-    }
-    
-    @Override
-    public Block setLightLevel(final float value) {
-        return super.setLightLevel(lightValue);
+        }
     }
 
+    public int getIndexBox(final int index) {
+        return box.get(index);
+    }
+
+    @Override
+    public AxisAlignedBB getBoundingBox(final IBlockState state, final IBlockAccess source,
+            final BlockPos pos) {
+        return new AxisAlignedBB(getIndexBox(0) * 0.0625, getIndexBox(1) * 0.0625,
+                getIndexBox(2) * 0.0625, getIndexBox(3) * 0.0625, getIndexBox(4) * 0.0625,
+                getIndexBox(5) * 0.0625);
+    }
 }

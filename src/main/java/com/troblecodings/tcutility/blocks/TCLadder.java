@@ -84,8 +84,9 @@ public class TCLadder extends TCCube {
             final EnumFacing facing) {
         final IBlockState iblockstate = worldIn.getBlockState(blockPos);
         final boolean flag = isExceptBlockForAttachWithPiston(iblockstate.getBlock());
-        return !flag && iblockstate.getBlockFaceShape(worldIn, blockPos,
-                facing) == BlockFaceShape.SOLID && !iblockstate.canProvidePower();
+        return !flag
+                && iblockstate.getBlockFaceShape(worldIn, blockPos, facing) == BlockFaceShape.SOLID
+                && !iblockstate.canProvidePower();
     }
 
     @Override

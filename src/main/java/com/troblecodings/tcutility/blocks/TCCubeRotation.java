@@ -10,17 +10,32 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class TCCubeRotation extends TCCube {
+
+    public static final PropertyDirection FACING = BlockHorizontal.FACING;
+
+    private final AxisAlignedBB northBB = new AxisAlignedBB(getIndexBox(0) * 0.0625,
+            getIndexBox(1) * 0.0625, getIndexBox(2) * 0.0625, getIndexBox(3) * 0.0625,
+            getIndexBox(4) * 0.0625, getIndexBox(5) * 0.0625);
+    private final AxisAlignedBB eastBB = new AxisAlignedBB(1 - getIndexBox(2) * 0.0625,
+            getIndexBox(1) * 0.0625, getIndexBox(0) * 0.0625, 1 - getIndexBox(5) * 0.0625,
+            getIndexBox(4) * 0.0625, getIndexBox(3) * 0.0625);
+    private final AxisAlignedBB southBB = new AxisAlignedBB(getIndexBox(0) * 0.0625,
+            getIndexBox(1) * 0.0625, 1 - getIndexBox(2) * 0.0625, getIndexBox(3) * 0.0625,
+            getIndexBox(4) * 0.0625, 1 - getIndexBox(5) * 0.0625);
+    private final AxisAlignedBB westBB = new AxisAlignedBB(getIndexBox(2) * 0.0625,
+            getIndexBox(1) * 0.0625, getIndexBox(0) * 0.0625, getIndexBox(5) * 0.0625,
+            getIndexBox(4) * 0.0625, getIndexBox(3) * 0.0625);
 
     public TCCubeRotation(final BlockCreateInfo blockInfo) {
         super(blockInfo);
         this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
     }
-
-    public static final PropertyDirection FACING = BlockHorizontal.FACING;
 
     @Override
     public boolean canRenderInLayer(final IBlockState state, final BlockRenderLayer layer) {
@@ -35,6 +50,26 @@ public class TCCubeRotation extends TCCube {
     @Override
     public boolean isFullCube(final IBlockState state) {
         return false;
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    public AxisAlignedBB getBoundingBox(final IBlockState finalstate, final IBlockAccess source,
+            final BlockPos pos) {
+        final IBlockState state = this.getActualState(finalstate, source, pos);
+        final EnumFacing enumFacing = state.getValue(FACING);
+
+        switch (enumFacing) {
+            case NORTH:
+            default:
+                return northBB;
+            case EAST:
+                return eastBB;
+            case SOUTH:
+                return southBB;
+            case WEST:
+                return westBB;
+        }
     }
 
     @Override
