@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.troblecodings.tcutility.init.TCTabs;
 import com.troblecodings.tcutility.utils.BlockCreateInfo;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -16,7 +17,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class TCCube extends Block {
 
-    private List<Integer> box;
+    private final List<Integer> box;
 
     public TCCube(final BlockCreateInfo blockInfo) {
         super(blockInfo.material);
@@ -48,8 +49,9 @@ public class TCCube extends Block {
         if (this.getMaterial(getDefaultState()).equals(Material.GLASS)
                 || this.getMaterial(getDefaultState()).equals(Material.ANVIL)) {
             return false;
-        } else
+        } else {
             return true;
+        }
     }
 
     @SuppressWarnings("deprecation")
@@ -58,16 +60,18 @@ public class TCCube extends Block {
         if (this.getMaterial(getDefaultState()).equals(Material.GLASS)
                 || this.getMaterial(getDefaultState()).equals(Material.ANVIL)) {
             return false;
-        } else
+        } else {
             return true;
+        }
     }
 
-    public int getIndexBox(int index) {
+    public int getIndexBox(final int index) {
         return box.get(index);
     }
 
     @Override
-    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
+    public AxisAlignedBB getBoundingBox(final IBlockState state, final IBlockAccess source,
+            final BlockPos pos) {
         return new AxisAlignedBB(getIndexBox(0) * 0.0625, getIndexBox(1) * 0.0625,
                 getIndexBox(2) * 0.0625, getIndexBox(3) * 0.0625, getIndexBox(4) * 0.0625,
                 getIndexBox(5) * 0.0625);

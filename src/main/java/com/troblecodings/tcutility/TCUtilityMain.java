@@ -73,11 +73,13 @@ public class TCUtilityMain {
             if (url != null) {
                 final URI uri = url.toURI();
                 if ("file".equals(uri.getScheme())) {
-                    if (!location.startsWith("/"))
+                    if (!location.startsWith("/")) {
                         filelocation = "/" + filelocation;
+                    }
                     final URL resource = TCBlocks.class.getResource(filelocation);
-                    if (resource == null)
+                    if (resource == null) {
                         return Optional.empty();
+                    }
                     return Optional.of(Paths.get(resource.toURI()));
                 } else {
                     if (!"jar".equals(uri.getScheme())) {

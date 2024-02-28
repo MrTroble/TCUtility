@@ -65,8 +65,9 @@ public class TCGarageDoor extends TCCube {
                 final BlockPos posDown = pos.down(i);
                 final IBlockState blockState = worldIn.getBlockState(posDown);
 
-                if (!isGateBlock(blockState))
+                if (!isGateBlock(blockState)) {
                     break;
+                }
                 worldIn.setBlockToAir(posDown);
             }
         } else {
@@ -74,8 +75,9 @@ public class TCGarageDoor extends TCCube {
                 final BlockPos posDown = pos.down(i);
                 final IBlockState blockState = worldIn.getBlockState(posDown);
 
-                if (!isAir(blockState, worldIn, posDown))
+                if (!isAir(blockState, worldIn, posDown)) {
                     break;
+                }
 
                 worldIn.setBlockState(posDown,
                         Block.getBlockFromName(this.getRegistryName().toString() + "_gate")
@@ -169,8 +171,9 @@ public class TCGarageDoor extends TCCube {
     @Override
     public void neighborChanged(final IBlockState state, final World worldIn, final BlockPos pos,
             final Block blockIn, final BlockPos fromPos) {
-        if (worldIn.isRemote)
+        if (worldIn.isRemote) {
             return;
+        }
         boolean flag = worldIn.isBlockPowered(pos);
 
         if (flag || blockIn.getDefaultState().canProvidePower()) {
@@ -197,8 +200,9 @@ public class TCGarageDoor extends TCCube {
             final BlockPos posDown = pos.down(i);
             final IBlockState blockState = worldIn.getBlockState(posDown);
 
-            if (!isGateBlock(blockState))
+            if (!isGateBlock(blockState)) {
                 break;
+            }
             worldIn.setBlockToAir(posDown);
         }
     }

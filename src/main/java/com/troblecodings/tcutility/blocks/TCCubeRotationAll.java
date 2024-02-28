@@ -20,12 +20,12 @@ public class TCCubeRotationAll extends TCCube {
     public static final PropertyEnum<EnumFacing.Axis> AXIS = PropertyEnum.<EnumFacing.Axis>create(
             "axis", EnumFacing.Axis.class);
 
-    public TCCubeRotationAll(BlockCreateInfo blockInfo) {
+    public TCCubeRotationAll(final BlockCreateInfo blockInfo) {
         super(blockInfo);
     }
 
     @Override
-    public boolean rotateBlock(World world, BlockPos pos, EnumFacing axis) {
+    public boolean rotateBlock(final World world, final BlockPos pos, final EnumFacing axis) {
         IBlockState state = world.getBlockState(pos);
         for (IProperty<?> prop : state.getProperties().keySet()) {
             if (prop.getName().equals("axis")) {
@@ -59,11 +59,11 @@ public class TCCubeRotationAll extends TCCube {
     }
 
     @Override
-    public IBlockState withRotation(IBlockState state, Rotation rot) {
+    public IBlockState withRotation(final IBlockState state, final Rotation rot) {
         switch (rot) {
             case CLOCKWISE_90:
             case COUNTERCLOCKWISE_90:
-                switch ((EnumFacing.Axis) state.getValue(AXIS)) {
+                switch (state.getValue(AXIS)) {
                     case X:
                         return state.withProperty(AXIS, EnumFacing.Axis.Z);
                     case Z:
@@ -77,7 +77,7 @@ public class TCCubeRotationAll extends TCCube {
     }
 
     @Override
-    public IBlockState getStateFromMeta(int meta) {
+    public IBlockState getStateFromMeta(final int meta) {
         EnumFacing.Axis facingAxis = EnumFacing.Axis.Y;
         int i = meta & 12;
 
@@ -90,9 +90,9 @@ public class TCCubeRotationAll extends TCCube {
     }
 
     @Override
-    public int getMetaFromState(IBlockState state) {
+    public int getMetaFromState(final IBlockState state) {
         int i = 0;
-        EnumFacing.Axis facingAxis = (EnumFacing.Axis) state.getValue(AXIS);
+        EnumFacing.Axis facingAxis = state.getValue(AXIS);
 
         if (facingAxis == EnumFacing.Axis.X) {
             i |= 4;
@@ -110,8 +110,9 @@ public class TCCubeRotationAll extends TCCube {
     }
 
     @Override
-    public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing,
-            float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand) {
+    public IBlockState getStateForPlacement(final World world, final BlockPos pos,
+            final EnumFacing facing, final float hitX, final float hitY, final float hitZ,
+            final int meta, final EntityLivingBase placer, final EnumHand hand) {
         return super.getStateForPlacement(world, pos, facing, hitX, hitY, hitZ, meta, placer, hand)
                 .withProperty(AXIS, facing.getAxis());
     }
