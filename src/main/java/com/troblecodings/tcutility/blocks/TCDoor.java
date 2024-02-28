@@ -35,19 +35,20 @@ public class TCDoor extends TCCube {
 
     public static final PropertyDirection FACING = BlockHorizontal.FACING;
     public static final PropertyBool OPEN = PropertyBool.create("open");
-    public static final PropertyEnum<BlockDoor.EnumHingePosition> HINGE = PropertyEnum.<BlockDoor.EnumHingePosition>create(
-            "hinge", BlockDoor.EnumHingePosition.class);
+    public static final PropertyEnum<BlockDoor.EnumHingePosition> HINGE =
+            PropertyEnum.<BlockDoor.EnumHingePosition>create("hinge",
+                    BlockDoor.EnumHingePosition.class);
     public static final PropertyBool POWERED = PropertyBool.create("powered");
-    public static final PropertyEnum<BlockDoor.EnumDoorHalf> HALF = PropertyEnum.<BlockDoor.EnumDoorHalf>create(
-            "half", BlockDoor.EnumDoorHalf.class);
-    protected static final AxisAlignedBB SOUTH_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D,
-            1.0D, 0.1875D);
-    protected static final AxisAlignedBB NORTH_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.8125D, 1.0D,
-            1.0D, 1.0D);
-    protected static final AxisAlignedBB WEST_AABB = new AxisAlignedBB(0.8125D, 0.0D, 0.0D, 1.0D,
-            1.0D, 1.0D);
-    protected static final AxisAlignedBB EAST_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 0.1875D,
-            1.0D, 1.0D);
+    public static final PropertyEnum<BlockDoor.EnumDoorHalf> HALF =
+            PropertyEnum.<BlockDoor.EnumDoorHalf>create("half", BlockDoor.EnumDoorHalf.class);
+    protected static final AxisAlignedBB SOUTH_AABB =
+            new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 1.0D, 0.1875D);
+    protected static final AxisAlignedBB NORTH_AABB =
+            new AxisAlignedBB(0.0D, 0.0D, 0.8125D, 1.0D, 1.0D, 1.0D);
+    protected static final AxisAlignedBB WEST_AABB =
+            new AxisAlignedBB(0.8125D, 0.0D, 0.0D, 1.0D, 1.0D, 1.0D);
+    protected static final AxisAlignedBB EAST_AABB =
+            new AxisAlignedBB(0.0D, 0.0D, 0.0D, 0.1875D, 1.0D, 1.0D);
 
     public TCDoor(final BlockCreateInfo blockInfo) {
         super(blockInfo);
@@ -110,10 +111,10 @@ public class TCDoor extends TCCube {
         if (this.blockMaterial == Material.IRON) {
             return false;
         } else {
-            final BlockPos blockpos = state.getValue(HALF) == BlockDoor.EnumDoorHalf.LOWER ? pos
-                    : pos.down();
-            final IBlockState iblockstate = pos.equals(blockpos) ? state
-                    : worldIn.getBlockState(blockpos);
+            final BlockPos blockpos =
+                    state.getValue(HALF) == BlockDoor.EnumDoorHalf.LOWER ? pos : pos.down();
+            final IBlockState iblockstate =
+                    pos.equals(blockpos) ? state : worldIn.getBlockState(blockpos);
 
             if (iblockstate.getBlock() != this) {
                 return false;
@@ -134,11 +135,10 @@ public class TCDoor extends TCCube {
         final IBlockState iblockstate = worldIn.getBlockState(pos);
 
         if (iblockstate.getBlock() == this) {
-            final BlockPos blockpos = iblockstate.getValue(HALF) == BlockDoor.EnumDoorHalf.LOWER
-                    ? pos
-                    : pos.down();
-            final IBlockState iblockstate1 = pos == blockpos ? iblockstate
-                    : worldIn.getBlockState(blockpos);
+            final BlockPos blockpos =
+                    iblockstate.getValue(HALF) == BlockDoor.EnumDoorHalf.LOWER ? pos : pos.down();
+            final IBlockState iblockstate1 =
+                    pos == blockpos ? iblockstate : worldIn.getBlockState(blockpos);
 
             if (iblockstate1.getBlock() == this
                     && iblockstate1.getValue(OPEN).booleanValue() != open) {
@@ -188,8 +188,8 @@ public class TCDoor extends TCCube {
                     this.dropBlockAsItem(worldIn, pos, state, 0);
                 }
             } else {
-                final boolean flag = worldIn.isBlockPowered(pos)
-                        || worldIn.isBlockPowered(blockpos1);
+                final boolean flag =
+                        worldIn.isBlockPowered(pos) || worldIn.isBlockPowered(blockpos1);
 
                 if (blockIn != this && (flag || blockIn.getDefaultState().canProvidePower())
                         && flag != iblockstate1.getValue(POWERED).booleanValue()) {

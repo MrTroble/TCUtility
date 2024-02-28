@@ -19,8 +19,8 @@ public class BlockProperties {
     private boolean fullblock = true;
     private float slipperness = 0.0F;
 
-    private static final HashMap<String, Material> materialTable = translateTableMaterial();
-    private static final HashMap<String, SoundType> soundTable = translateTableSoundType();
+    private static final HashMap<String, Material> MATERIAL_TABLE = translateTableMaterial();
+    private static final HashMap<String, SoundType> SOUND_TABLE = translateTableSoundType();
 
     public static HashMap<String, Material> translateTableMaterial() {
         final HashMap<String, Material> translateTable = new HashMap<>();
@@ -57,8 +57,8 @@ public class BlockProperties {
     }
 
     public BlockCreateInfo getBlockInfo() {
-        final Material mat = materialTable.get(material.toLowerCase());
-        final SoundType sound = soundTable.get(soundtype.toLowerCase());
+        final Material mat = MATERIAL_TABLE.get(material.toLowerCase());
+        final SoundType sound = SOUND_TABLE.get(soundtype.toLowerCase());
         if (mat == null) {
             throw new IllegalStateException("The given material " + material + " is not valid.");
         }

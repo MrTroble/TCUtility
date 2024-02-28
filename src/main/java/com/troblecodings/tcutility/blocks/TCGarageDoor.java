@@ -24,8 +24,8 @@ import net.minecraft.world.World;
 
 public class TCGarageDoor extends TCCube {
 
-    public static final PropertyDirection FACING = PropertyDirection.create("facing",
-            EnumFacing.Plane.HORIZONTAL);
+    public static final PropertyDirection FACING =
+            PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
     public static final PropertyBool OPEN = PropertyBool.create("open");
 
     public TCGarageDoor(final BlockCreateInfo blockInfo) {
@@ -146,25 +146,24 @@ public class TCGarageDoor extends TCCube {
     }
 
     @Override
-    public boolean onBlockActivated(final World worldIn, final BlockPos pos, IBlockState state,
-            final EntityPlayer playerIn, final EnumHand hand, final EnumFacing facing,
-            final float hitX, final float hitY, final float hitZ) {
+    public boolean onBlockActivated(final World worldIn, final BlockPos pos,
+            final IBlockState state, final EntityPlayer playerIn, final EnumHand hand,
+            final EnumFacing facing, final float hitX, final float hitY, final float hitZ) {
         if (this.blockMaterial.equals(Material.IRON)) {
             return false;
         }
         final BlockPos blockPos = pos;
-        final IBlockState iBlockState = state;
+        IBlockState iBlockState = state;
         if (iBlockState.getBlock().equals(this)) {
-            state = iBlockState.cycleProperty(OPEN);
-            changeState(worldIn, blockPos, state);
-            changeNeighbor(worldIn, pos, state);
+            iBlockState = iBlockState.cycleProperty(OPEN);
+            changeState(worldIn, blockPos, iBlockState);
+            changeNeighbor(worldIn, pos, iBlockState);
         }
 
-        worldIn.setBlockState(blockPos, state, 10);
+        worldIn.setBlockState(blockPos, iBlockState, 10);
         worldIn.markBlockRangeForRenderUpdate(pos, pos);
-        worldIn.playEvent(playerIn,
-                state.getValue(OPEN).booleanValue() ? this.getOpenSound() : this.getCloseSound(),
-                pos, 0);
+        worldIn.playEvent(playerIn, iBlockState.getValue(OPEN).booleanValue() ? this.getOpenSound()
+                : this.getCloseSound(), pos, 0);
         return true;
     }
 

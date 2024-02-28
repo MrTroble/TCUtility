@@ -27,7 +27,7 @@ public class TCCubeRotationAll extends TCCube {
     @Override
     public boolean rotateBlock(final World world, final BlockPos pos, final EnumFacing axis) {
         IBlockState state = world.getBlockState(pos);
-        for (IProperty<?> prop : state.getProperties().keySet()) {
+        for (final IProperty<?> prop : state.getProperties().keySet()) {
             if (prop.getName().equals("axis")) {
                 world.setBlockState(pos, state.cycleProperty(prop));
                 return true;
