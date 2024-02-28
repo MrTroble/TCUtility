@@ -1,0 +1,51 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "tcutility:platform_edge_2",
+    "textures": {
+      "overlay": "tcutility:blocks/platform_edge_3",
+      "base": "blocks/concrete_powder_silver"
+    }
+  },
+  "variants": {
+    "inventory": {
+      "model": "tcutility:platform_edge_2",
+      "textures": {
+        "overlay": "tcutility:blocks/platform_edge_3",
+        "base": "blocks/concrete_powder_silver"
+      },
+      "y": 180
+    },
+    "facing=north": {
+      "model": "tcutility:platform_edge_2",
+      "textures": {
+        "overlay": "tcutility:blocks/platform_edge_3",
+        "base": "blocks/concrete_powder_silver"
+      },
+      "y": 180
+    },
+    "facing=south": {
+      "model": "tcutility:platform_edge_2",
+      "textures": {
+        "overlay": "tcutility:blocks/platform_edge_3",
+        "base": "blocks/concrete_powder_silver"
+      }
+    },
+    "facing=east": {
+      "model": "tcutility:platform_edge_2",
+      "textures": {
+        "overlay": "tcutility:blocks/platform_edge_3",
+        "base": "blocks/concrete_powder_silver"
+      },
+      "y": 270
+    },
+    "facing=west": {
+      "model": "tcutility:platform_edge_2",
+      "textures": {
+        "overlay": "tcutility:blocks/platform_edge_3",
+        "base": "blocks/concrete_powder_silver"
+      },
+      "y": 90
+    }
+  }
+}
