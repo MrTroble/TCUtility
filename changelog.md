@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.1.2-Fix]
+
+* fix: issue with network channel and OpenSignals compatibility
+
 ## [1.1.1-Fix]
 
 * fix: garage door not opening
