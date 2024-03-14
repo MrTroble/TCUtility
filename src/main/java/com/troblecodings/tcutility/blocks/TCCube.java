@@ -28,7 +28,7 @@ public class TCCube extends Block {
         this.setLightLevel(blockInfo.lightValue / 15.0F);
         this.box = blockInfo.box;
         this.fullBlock = blockInfo.fullblock;
-        this.setDefaultSlipperiness(blockInfo.slipperness);
+        // this.setDefaultSlipperiness(blockInfo.slipperness);
     }
 
     @SuppressWarnings("deprecation")

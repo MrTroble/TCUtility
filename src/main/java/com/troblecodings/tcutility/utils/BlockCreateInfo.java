@@ -14,11 +14,10 @@ public class BlockCreateInfo {
     public final int lightValue;
     public final List<Integer> box;
     public final boolean fullblock;
-    public final float slipperness;
 
     public BlockCreateInfo(final Material material, final float hardness, final SoundType soundtype,
             final int opacity, final int lightValue, final List<Integer> box,
-            final boolean fullblock, final float slipperness) {
+            final boolean fullblock) {
         this.material = material;
         this.hardness = hardness;
         this.soundtype = soundtype;
@@ -26,6 +25,5 @@ public class BlockCreateInfo {
         this.lightValue = lightValue;
         this.box = box;
         this.fullblock = fullblock;
-        this.slipperness = slipperness;
     }
 }
