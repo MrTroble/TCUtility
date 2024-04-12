@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.1.3-Fix]
+
+*fix: issues with OpenSignals and comtability with RPs
+
 ## [1.1.2-Fix]
 
 * fix: issue with network channel and OpenSignals compatibility
