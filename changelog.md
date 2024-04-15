@@ -7,6 +7,8 @@
 ## [1.1.2-Fix]
 
 * fix: issue with network channel and OpenSignals compatibility
+* fix: issue with loading of other ResourePacks
+* fix: issue with shifting/slideing in blocks
 
 ## [1.1.1-Fix]
 
