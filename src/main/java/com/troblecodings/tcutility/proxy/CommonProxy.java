@@ -1,6 +1,7 @@
 package com.troblecodings.tcutility.proxy;
 
 import com.troblecodings.tcutility.init.TCBlocks;
+import com.troblecodings.tcutility.init.TCFluidsInit;
 import com.troblecodings.tcutility.init.TCItems;
 
 import net.minecraftforge.common.MinecraftForge;
@@ -11,6 +12,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 public class CommonProxy {
 
     public void preinit(final FMLPreInitializationEvent event) {
+    	TCFluidsInit.initJsonFiles();
         TCItems.init();
         TCBlocks.init();
         TCBlocks.initJsonFiles();

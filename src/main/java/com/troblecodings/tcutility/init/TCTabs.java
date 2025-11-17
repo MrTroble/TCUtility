@@ -51,5 +51,13 @@ public final class TCTabs {
             return new ItemStack(Items.OAK_DOOR);
         }
     };
+    
+    public static final CreativeTabs FLUIDS = new CreativeTabs("tcfluids") {
+    	@Override
+    	public ItemStack getTabIconItem() {
+    		return new ItemStack(Items.WATER_BUCKET);
+    	}
+
+};
 
 }
