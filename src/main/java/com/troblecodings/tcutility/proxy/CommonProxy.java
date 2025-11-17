@@ -12,7 +12,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 public class CommonProxy {
 
     public void preinit(final FMLPreInitializationEvent event) {
-    	TCFluidsInit.initJsonFiles();
+        TCFluidsInit.initJsonFiles();
         TCItems.init();
         TCBlocks.init();
         TCBlocks.initJsonFiles();
@@ -20,6 +20,7 @@ public class CommonProxy {
 
         MinecraftForge.EVENT_BUS.register(TCItems.class);
         MinecraftForge.EVENT_BUS.register(TCBlocks.class);
+        MinecraftForge.EVENT_BUS.register(TCFluidsInit.class);
     }
 
     public void init(final FMLInitializationEvent event) {

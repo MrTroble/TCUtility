@@ -10,11 +10,13 @@ import java.util.Map.Entry;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.troblecodings.tcutility.TCUtilityMain;
+import com.troblecodings.tcutility.fluids.TCFluidBlock;
 import com.troblecodings.tcutility.fluids.TCFluids;
 import com.troblecodings.tcutility.utils.FluidCreateInfo;
 import com.troblecodings.tcutility.utils.FluidProperties;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.util.ResourceLocation;
@@ -25,60 +27,66 @@ import net.minecraftforge.registries.IForgeRegistry;
 
 public class TCFluidsInit {
 
-	private TCFluidsInit() {
-	}
+    private TCFluidsInit() {
+    }
 
-	public static ArrayList<Block> blocksToRegister = new ArrayList<>();
+    public static ArrayList<Block> blocksToRegister = new ArrayList<>();
 
-	@SubscribeEvent
-	public static void registerBlock(final RegistryEvent.Register<Block> event) {
-		final IForgeRegistry<Block> registry = event.getRegistry();
-		blocksToRegister.forEach(registry::register);
-	}
+    @SubscribeEvent
+    public static void registerBlock(final RegistryEvent.Register<Block> event) {
+        final IForgeRegistry<Block> registry = event.getRegistry();
+        blocksToRegister.forEach(registry::register);
+    }
 
-	@SubscribeEvent
-	public static void registerItem(final RegistryEvent.Register<Item> event) {
-		final IForgeRegistry<Item> registry = event.getRegistry();
-		blocksToRegister.forEach(block -> {
-			if (!block.toString().contains("door")) {
-				registry.register(new ItemBlock(block).setRegistryName(block.getRegistryName()));
-			}
-		});
-	}
+    @SubscribeEvent
+    public static void registerItem(final RegistryEvent.Register<Item> event) {
+        final IForgeRegistry<Item> registry = event.getRegistry();
+        blocksToRegister.forEach(block -> {
+            if (!block.toString().contains("door")) {
+                registry.register(new ItemBlock(block).setRegistryName(block.getRegistryName()));
+            }
+        });
+    }
 
-	public static void initJsonFiles() {
-		final Map<String, FluidProperties> fluids = getFromJson("fluiddefinitions");
+    public static void initJsonFiles() {
+        final Map<String, FluidProperties> fluids = getFromJson("fluiddefinitions");
 
-		for (final Entry<String, FluidProperties> fluidsEntry : fluids.entrySet()) {
-			final String objectname = fluidsEntry.getKey();
+        for (final Entry<String, FluidProperties> fluidsEntry : fluids.entrySet()) {
+            final String objectname = fluidsEntry.getKey();
 
-			final FluidProperties property = fluidsEntry.getValue();
+            final FluidProperties property = fluidsEntry.getValue();
 
-			final FluidCreateInfo fluidInfo = property.getFluidInfo();
+            final FluidCreateInfo fluidInfo = property.getFluidInfo();
 
-			final TCFluids fluid = new TCFluids(objectname,
-					new ResourceLocation(TCUtilityMain.MODID, ":blocks/" + objectname + "_still"),
-					new ResourceLocation(TCUtilityMain.MODID, ":blocks/" + objectname + "_flow"), fluidInfo);
+            final TCFluids fluid = new TCFluids(objectname,
+                    new ResourceLocation(TCUtilityMain.MODID, "blocks/" + objectname + "_still"),
+                    new ResourceLocation(TCUtilityMain.MODID, "blocks/" + objectname + "_flow"),
+                    fluidInfo);
 
-			FluidRegistry.registerFluid(fluid);
-			FluidRegistry.addBucketForFluid(fluid);
+            FluidRegistry.registerFluid(fluid);
+            FluidRegistry.addBucketForFluid(fluid);
 
-		}
-	}
+            TCFluidBlock block = new TCFluidBlock(fluid, Material.WATER);
+            block.setRegistryName(new ResourceLocation(TCUtilityMain.MODID, objectname));
+            block.setUnlocalizedName(objectname);
+            blocksToRegister.add(block);
+        }
+    }
 
-	private static Map<String, FluidProperties> getFromJson(final String directory) {
-		final Gson gson = new Gson();
-		final List<Entry<String, String>> entrySet = TCUtilityMain.fileHandler.getFiles(directory);
-		final Map<String, FluidProperties> properties = new HashMap<>();
-		final Type typeOfHashMap = new TypeToken<Map<String, FluidProperties>>() {
-		}.getType();
-		if (entrySet != null) {
-			entrySet.forEach(entry -> {
-				final Map<String, FluidProperties> json = gson.fromJson(entry.getValue(), typeOfHashMap);
-				properties.putAll(json);
-			});
-		}
-		return properties;
-	}
+    private static Map<String, FluidProperties> getFromJson(final String directory) {
+        final Gson gson = new Gson();
+        final List<Entry<String, String>> entrySet = TCUtilityMain.fileHandler.getFiles(directory);
+        final Map<String, FluidProperties> properties = new HashMap<>();
+        final Type typeOfHashMap = new TypeToken<Map<String, FluidProperties>>() {
+        }.getType();
+        if (entrySet != null) {
+            entrySet.forEach(entry -> {
+                final Map<String, FluidProperties> json =
+                        gson.fromJson(entry.getValue(), typeOfHashMap);
+                properties.putAll(json);
+            });
+        }
+        return properties;
+    }
 
 }

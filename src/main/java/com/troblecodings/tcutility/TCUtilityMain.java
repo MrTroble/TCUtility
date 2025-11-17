@@ -17,6 +17,7 @@ import com.troblecodings.contentpacklib.ContentPackHandler;
 import com.troblecodings.tcutility.init.TCBlocks;
 import com.troblecodings.tcutility.proxy.CommonProxy;
 
+import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -32,6 +33,10 @@ public class TCUtilityMain {
     @Instance
     private static TCUtilityMain instance;
     public static final String MODID = "tcutility";
+
+    static {
+        FluidRegistry.enableUniversalBucket();
+    }
 
     public TCUtilityMain() {
         instance = this;
@@ -78,14 +83,12 @@ public class TCUtilityMain {
                         filelocation = "/" + filelocation;
                     }
                     final URL resource = TCBlocks.class.getResource(filelocation);
-                    if (resource == null) {
+                    if (resource == null)
                         return Optional.empty();
-                    }
                     return Optional.of(Paths.get(resource.toURI()));
                 } else {
-                    if (!"jar".equals(uri.getScheme())) {
+                    if (!"jar".equals(uri.getScheme()))
                         return Optional.empty();
-                    }
                     if (fileSystemCache == null) {
                         fileSystemCache = FileSystems.newFileSystem(uri, Collections.emptyMap());
                     }

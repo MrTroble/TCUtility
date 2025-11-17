@@ -6,5 +6,13 @@
         "viscosity": 1000,
         "color": 16777215,
         "isGaseous": false
+    },
+    "test": {
+        "luminosity": 0,
+        "density": 1200,
+        "temperature": 300,
+        "viscosity": 1000,
+        "color": 16777215,
+        "isGaseous": false
     }
 }
