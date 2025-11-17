@@ -10,8 +10,8 @@ import net.minecraftforge.fluids.Fluid;
 
 public class TCFluidBlock extends BlockFluidClassic {
 
-    public TCFluidBlock(final Fluid fluid, final Material material) {
-        super(fluid, material);
+    public TCFluidBlock(final Fluid fluid) {
+        super(fluid, Material.WATER);
 
         setCreativeTab(TCTabs.FLUIDS);
     }
@@ -20,5 +20,4 @@ public class TCFluidBlock extends BlockFluidClassic {
     public EnumBlockRenderType getRenderType(final IBlockState state) {
         return EnumBlockRenderType.MODEL;
     }
-
 }

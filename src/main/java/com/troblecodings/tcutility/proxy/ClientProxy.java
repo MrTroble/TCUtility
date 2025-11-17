@@ -1,5 +1,6 @@
 package com.troblecodings.tcutility.proxy;
 
+import com.troblecodings.tcutility.init.TCFluidsInit;
 import com.troblecodings.tcutility.init.TCModels;
 
 import net.minecraftforge.common.MinecraftForge;
@@ -13,6 +14,7 @@ public class ClientProxy extends CommonProxy {
     public void preinit(final FMLPreInitializationEvent event) {
         super.preinit(event);
         MinecraftForge.EVENT_BUS.register(TCModels.class);
+        TCFluidsInit.registerCustomMeshesAndStates();
     }
 
     @Override
