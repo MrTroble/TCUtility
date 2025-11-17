@@ -6,12 +6,6 @@
       "custom": {
         "fluid": "test"
       }
-    },
-    "inventory": {
-      "model": "forge:fluid",
-      "custom": {
-        "fluid": "test"
-      }
     }
   }
 }

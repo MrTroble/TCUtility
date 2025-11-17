@@ -1,6 +1,9 @@
 package com.troblecodings.tcutility.init;
 
+import com.troblecodings.tcutility.fluids.FluidStateMapper;
+
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.block.model.ModelBakery;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.color.BlockColors;
 import net.minecraft.client.renderer.color.ItemColors;
@@ -37,9 +40,8 @@ public final class TCModels {
 
             if (block.getMaterial(block.getDefaultState()).equals(Material.GRASS)) {
                 colors.registerBlockColorHandler((state, worldIn, pos, tintIndex) -> {
-                    if (worldIn == null || pos == null) {
+                    if (worldIn == null || pos == null)
                         return 0xFF00FF00;
-                    }
                     return BiomeColorHelper.getGrassColorAtPos(worldIn, pos);
                 }, block);
             }
@@ -63,4 +65,17 @@ public final class TCModels {
                 new ModelResourceLocation(item.getRegistryName(), "inventory"));
     }
 
+    @SubscribeEvent
+    public static void registerFluidModel(final ModelRegistryEvent event) {
+        TCFluidsInit.blocksToRegister.forEach(block -> {
+            String name = block.getUnlocalizedName().substring(5);
+
+            FluidStateMapper mapper = new FluidStateMapper(name);
+
+            Item item = Item.getItemFromBlock(block);
+            ModelBakery.registerItemVariants(item);
+            ModelLoader.setCustomMeshDefinition(item, mapper);
+            ModelLoader.setCustomStateMapper(block, mapper);
+        });
+    }
 }
