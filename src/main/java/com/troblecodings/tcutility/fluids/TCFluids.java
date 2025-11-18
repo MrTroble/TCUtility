@@ -8,6 +8,7 @@ import net.minecraftforge.fluids.Fluid;
 public class TCFluids extends Fluid {
 
     public int flowLength;
+    public boolean canCreateSource;
 
     public TCFluids(final String fluidName, final ResourceLocation still,
             final ResourceLocation flowing, final ResourceLocation overlay,
@@ -21,5 +22,6 @@ public class TCFluids extends Fluid {
         this.isGaseous = fluidInfo.density >= 0 ? false : true;
         this.luminosity = fluidInfo.luminosity;
         this.flowLength = fluidInfo.flowLength;
+        this.canCreateSource = fluidInfo.canCreateSource;
     }
 }
