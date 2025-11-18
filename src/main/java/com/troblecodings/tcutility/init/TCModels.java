@@ -12,6 +12,7 @@ import net.minecraft.world.biome.BiomeColorHelper;
 import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.fluids.BlockFluidBase;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public final class TCModels {
@@ -68,8 +69,7 @@ public final class TCModels {
     @SubscribeEvent
     public static void registerFluidModel(final ModelRegistryEvent event) {
         TCFluidsInit.blocksToRegister.forEach(block -> {
-            String name = block.getUnlocalizedName().substring(5);
-
+            String name = ((BlockFluidBase) block).getFluid().getName();
             FluidStateMapper mapper = new FluidStateMapper(name);
 
             Item item = Item.getItemFromBlock(block);
