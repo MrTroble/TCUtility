@@ -4,20 +4,14 @@
         "density": 1200,
         "temperature": 300,
         "viscosity": 1000,
-        "color": 16777215
+        "flowLength": 16
     },
     "test": {
-        "luminosity": 0,
-        "density": 1200,
-        "temperature": 300,
-        "viscosity": 1000,
-        "color": 16777215
     },
     "test_steam": {
         "luminosity": 0,
         "density": -1200,
         "temperature": 300,
-        "viscosity": 1000,
-        "color": 0
+        "viscosity": 1000
     }
 }
