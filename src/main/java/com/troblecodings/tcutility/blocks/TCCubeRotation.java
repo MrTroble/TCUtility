@@ -10,6 +10,8 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.Mirror;
+import net.minecraft.util.Rotation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
@@ -87,6 +89,16 @@ public class TCCubeRotation extends TCCube {
     @Override
     public IBlockState getStateFromMeta(final int meta) {
         return getDefaultState().withProperty(FACING, EnumFacing.getFront(meta));
+    }
+
+    @Override
+    public IBlockState withRotation(final IBlockState state, final Rotation rot) {
+        return state.withProperty(FACING, EnumFacing.NORTH);
+    }
+
+    @Override
+    public IBlockState withMirror(final IBlockState state, final Mirror mirror) {
+        return state.withRotation(mirror.toRotation(state.getValue(FACING)));
     }
 
     @Override

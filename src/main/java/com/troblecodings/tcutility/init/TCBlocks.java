@@ -66,8 +66,8 @@ public final class TCBlocks {
                     if (block instanceof ITileEntityProvider) {
                         final ITileEntityProvider provider = (ITileEntityProvider) block;
                         try {
-                            final Class<? extends TileEntity> tileclass = provider
-                                    .createNewTileEntity(null, 0).getClass();
+                            final Class<? extends TileEntity> tileclass =
+                                    provider.createNewTileEntity(null, 0).getClass();
                             TileEntity.register(tileclass.getSimpleName().toLowerCase(), tileclass);
                         } catch (final NullPointerException ex) {
                             TCUtilityMain.LOG.trace(
@@ -252,8 +252,8 @@ public final class TCBlocks {
         }.getType();
         if (entrySet != null) {
             entrySet.forEach(entry -> {
-                final Map<String, BlockProperties> json = gson.fromJson(entry.getValue(),
-                        typeOfHashMap);
+                final Map<String, BlockProperties> json =
+                        gson.fromJson(entry.getValue(), typeOfHashMap);
                 properties.putAll(json);
             });
         }
