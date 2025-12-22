@@ -14,7 +14,7 @@ public class FluidProperties {
     private int flowLength = 8;
     private boolean canCreateSource = false;
     private String effect = "";
-    private int effectDuration = 0;
+    private int effectDuration = 1;
     private int effectAmplifier = 1;
 
     private static final HashMap<String, Potion> POTION_TABLE = translateTablePotion();
@@ -47,7 +47,7 @@ public class FluidProperties {
         translateTable.put("poison", MobEffects.POISON);
         translateTable.put("regeneration", MobEffects.REGENERATION);
         translateTable.put("resistance", MobEffects.RESISTANCE);
-        translateTable.put("saturaion", MobEffects.SATURATION);
+        translateTable.put("saturation", MobEffects.SATURATION);
         translateTable.put("slowness", MobEffects.SLOWNESS);
         translateTable.put("speed", MobEffects.SPEED);
         translateTable.put("strength", MobEffects.STRENGTH);
