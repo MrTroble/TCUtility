@@ -63,7 +63,10 @@ public class TCFluidsInit {
                     new ResourceLocation(TCUtilityMain.MODID, "blocks/" + objectname + "_overlay"),
                     fluidInfo);
 
-            FluidRegistry.registerFluid(fluid);
+            if (!FluidRegistry.registerFluid(fluid)) {
+                FluidRegistry.registerFluid(fluid);
+            }
+
             FluidRegistry.addBucketForFluid(fluid);
 
             TCFluidBlock block = new TCFluidBlock(fluid);
