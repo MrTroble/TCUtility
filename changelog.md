@@ -5,6 +5,7 @@
 * fix: door drops+pickBlock items, fix: build double slabs 
 * ref: update contentpackLib
 * ref: added cubeRot withRotation, withMirror
+* ref: code cleanup
 
 ## [1.1.3-Fix]
 

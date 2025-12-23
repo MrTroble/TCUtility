@@ -24,10 +24,10 @@ public class TCWindow extends TCCube {
     public static final PropertyBool LEFT = PropertyBool.create("left");
     public static final PropertyBool RIGHT = PropertyBool.create("right");
 
-    protected static final AxisAlignedBB AABB_X = new AxisAlignedBB(0.0D, 0.0D, 0.4375D, 1.0D, 1.0D,
-            0.5625D);
-    protected static final AxisAlignedBB AABB_Z = new AxisAlignedBB(0.4375D, 0.0D, 0.0D, 0.5625D,
-            1.0D, 1.0D);
+    protected static final AxisAlignedBB AABB_X =
+            new AxisAlignedBB(0.0D, 0.0D, 0.4375D, 1.0D, 1.0D, 0.5625D);
+    protected static final AxisAlignedBB AABB_Z =
+            new AxisAlignedBB(0.4375D, 0.0D, 0.0D, 0.5625D, 1.0D, 1.0D);
 
     public TCWindow(final BlockCreateInfo blockInfo) {
         super(blockInfo);

@@ -52,11 +52,11 @@ public class TCGarageDoor extends TCCube {
     }
 
     public int getCloseSound() {
-        return this.blockMaterial == Material.IRON ? 1011 : 1012;
+        return this.blockMaterial.equals(Material.IRON) ? 1011 : 1012;
     }
 
     public int getOpenSound() {
-        return this.blockMaterial == Material.IRON ? 1005 : 1006;
+        return this.blockMaterial.equals(Material.IRON) ? 1005 : 1006;
     }
 
     public void changeState(final World worldIn, final BlockPos pos, final IBlockState state) {
@@ -93,7 +93,7 @@ public class TCGarageDoor extends TCCube {
                 final BlockPos posEast = pos.east(i);
                 IBlockState stateEast = worldIn.getBlockState(posEast);
 
-                if (stateEast.getBlock().equals(this)) {
+                if (stateEast.getBlock() instanceof TCGarageDoor) {
                     stateEast = stateEast.cycleProperty(OPEN);
                     changeState(worldIn, posEast, stateEast);
                     worldIn.setBlockState(posEast, stateEast, 10);
@@ -105,7 +105,7 @@ public class TCGarageDoor extends TCCube {
                 final BlockPos posWest = pos.west(i);
                 IBlockState stateWest = worldIn.getBlockState(posWest);
 
-                if (stateWest.getBlock().equals(this)) {
+                if (stateWest.getBlock() instanceof TCGarageDoor) {
                     stateWest = stateWest.cycleProperty(OPEN);
                     changeState(worldIn, posWest, stateWest);
                     worldIn.setBlockState(posWest, stateWest, 10);
@@ -118,7 +118,7 @@ public class TCGarageDoor extends TCCube {
                 final BlockPos posNorth = pos.north(i);
                 IBlockState stateNorth = worldIn.getBlockState(posNorth);
 
-                if (stateNorth.getBlock().equals(this)) {
+                if (stateNorth.getBlock() instanceof TCGarageDoor) {
                     stateNorth = stateNorth.cycleProperty(OPEN);
                     changeState(worldIn, posNorth, stateNorth);
                     worldIn.setBlockState(posNorth, stateNorth, 10);
@@ -130,7 +130,7 @@ public class TCGarageDoor extends TCCube {
                 final BlockPos posSouth = pos.south(i);
                 IBlockState stateSouth = worldIn.getBlockState(posSouth);
 
-                if (stateSouth.getBlock().equals(this)) {
+                if (stateSouth.getBlock() instanceof TCGarageDoor) {
                     stateSouth = stateSouth.cycleProperty(OPEN);
                     changeState(worldIn, posSouth, stateSouth);
                     worldIn.setBlockState(posSouth, stateSouth, 10);
@@ -149,12 +149,11 @@ public class TCGarageDoor extends TCCube {
     public boolean onBlockActivated(final World worldIn, final BlockPos pos,
             final IBlockState state, final EntityPlayer playerIn, final EnumHand hand,
             final EnumFacing facing, final float hitX, final float hitY, final float hitZ) {
-        if (this.blockMaterial.equals(Material.IRON)) {
+        if (this.blockMaterial.equals(Material.IRON))
             return false;
-        }
         final BlockPos blockPos = pos;
         IBlockState iBlockState = state;
-        if (iBlockState.getBlock().equals(this)) {
+        if (iBlockState.getBlock() instanceof TCGarageDoor) {
             iBlockState = iBlockState.cycleProperty(OPEN);
             changeState(worldIn, blockPos, iBlockState);
             changeNeighbor(worldIn, pos, iBlockState);
@@ -170,9 +169,8 @@ public class TCGarageDoor extends TCCube {
     @Override
     public void neighborChanged(final IBlockState state, final World worldIn, final BlockPos pos,
             final Block blockIn, final BlockPos fromPos) {
-        if (worldIn.isRemote) {
+        if (worldIn.isRemote)
             return;
-        }
         boolean flag = worldIn.isBlockPowered(pos);
 
         if (flag || blockIn.getDefaultState().canProvidePower()) {
@@ -212,6 +210,12 @@ public class TCGarageDoor extends TCCube {
     }
 
     @Override
+    public BlockFaceShape getBlockFaceShape(final IBlockAccess worldIn, final IBlockState state,
+            final BlockPos pos, final EnumFacing face) {
+        return BlockFaceShape.UNDEFINED;
+    }
+
+    @Override
     public IBlockState withRotation(final IBlockState state, final Rotation rot) {
         return state.withProperty(FACING, rot.rotate(state.getValue(FACING)));
     }
@@ -246,12 +250,6 @@ public class TCGarageDoor extends TCCube {
         return new BlockStateContainer(this, new IProperty[] {
                 FACING, OPEN
         });
-    }
-
-    @Override
-    public BlockFaceShape getBlockFaceShape(final IBlockAccess worldIn, final IBlockState state,
-            final BlockPos pos, final EnumFacing face) {
-        return BlockFaceShape.UNDEFINED;
     }
 
 }

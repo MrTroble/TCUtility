@@ -8,7 +8,6 @@ import com.troblecodings.tcutility.utils.BlockCreateInfo;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.BlockLadder;
-import net.minecraft.block.BlockTrapDoor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
@@ -19,6 +18,7 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
@@ -33,28 +33,28 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class TCTrapDoor extends TCCube {
-    public static final PropertyDirection FACING = BlockHorizontal.FACING;
+    public static final PropertyEnum<DoorHalf> HALF =
+            PropertyEnum.<DoorHalf>create("half", DoorHalf.class);
     public static final PropertyBool OPEN = PropertyBool.create("open");
-    public static final PropertyEnum<BlockTrapDoor.DoorHalf> HALF = PropertyEnum.<BlockTrapDoor.DoorHalf>create(
-            "half", BlockTrapDoor.DoorHalf.class);
-    protected static final AxisAlignedBB EAST_OPEN_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D,
-            0.1875D, 1.0D, 1.0D);
-    protected static final AxisAlignedBB WEST_OPEN_AABB = new AxisAlignedBB(0.8125D, 0.0D, 0.0D,
-            1.0D, 1.0D, 1.0D);
-    protected static final AxisAlignedBB SOUTH_OPEN_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D,
-            1.0D, 0.1875D);
-    protected static final AxisAlignedBB NORTH_OPEN_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.8125D,
-            1.0D, 1.0D, 1.0D);
-    protected static final AxisAlignedBB BOTTOM_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D,
-            0.1875D, 1.0D);
-    protected static final AxisAlignedBB TOP_AABB = new AxisAlignedBB(0.0D, 0.8125D, 0.0D, 1.0D,
-            1.0D, 1.0D);
+    public static final PropertyDirection FACING = BlockHorizontal.FACING;
+
+    protected static final AxisAlignedBB EAST_OPEN_AABB =
+            new AxisAlignedBB(0.0D, 0.0D, 0.0D, 0.1875D, 1.0D, 1.0D);
+    protected static final AxisAlignedBB WEST_OPEN_AABB =
+            new AxisAlignedBB(0.8125D, 0.0D, 0.0D, 1.0D, 1.0D, 1.0D);
+    protected static final AxisAlignedBB SOUTH_OPEN_AABB =
+            new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 1.0D, 0.1875D);
+    protected static final AxisAlignedBB NORTH_OPEN_AABB =
+            new AxisAlignedBB(0.0D, 0.0D, 0.8125D, 1.0D, 1.0D, 1.0D);
+    protected static final AxisAlignedBB BOTTOM_AABB =
+            new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.1875D, 1.0D);
+    protected static final AxisAlignedBB TOP_AABB =
+            new AxisAlignedBB(0.0D, 0.8125D, 0.0D, 1.0D, 1.0D, 1.0D);
 
     public TCTrapDoor(final BlockCreateInfo blockInfo) {
         super(blockInfo);
         this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH)
-                .withProperty(OPEN, Boolean.valueOf(false))
-                .withProperty(HALF, BlockTrapDoor.DoorHalf.BOTTOM));
+                .withProperty(OPEN, Boolean.valueOf(false)).withProperty(HALF, DoorHalf.BOTTOM));
         this.setCreativeTab(TCTabs.DOORS);
     }
 
@@ -78,7 +78,7 @@ public class TCTrapDoor extends TCCube {
                 case EAST:
                     axisalignedbb = EAST_OPEN_AABB;
             }
-        } else if (state.getValue(HALF) == BlockTrapDoor.DoorHalf.TOP) {
+        } else if (state.getValue(HALF).equals(DoorHalf.TOP)) {
             axisalignedbb = TOP_AABB;
         } else {
             axisalignedbb = BOTTOM_AABB;
@@ -103,6 +103,12 @@ public class TCTrapDoor extends TCCube {
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
+    public BlockRenderLayer getBlockLayer() {
+        return BlockRenderLayer.CUTOUT;
+    }
+
+    @Override
     public boolean onBlockActivated(final World worldIn, final BlockPos pos, IBlockState state,
             final EntityPlayer playerIn, final EnumHand hand, final EnumFacing facing,
             final float hitX, final float hitY, final float hitZ) {
@@ -114,7 +120,7 @@ public class TCTrapDoor extends TCCube {
 
     protected void playSound(@Nullable final EntityPlayer player, final World worldIn,
             final BlockPos pos, final boolean p_185731_4_) {
-        final int j = this.blockMaterial == Material.IRON ? 1036 : 1013;
+        final int j = this.blockMaterial.equals(Material.IRON) ? 1036 : 1013;
         worldIn.playEvent(player, j, pos, 0);
     }
 
@@ -144,15 +150,14 @@ public class TCTrapDoor extends TCCube {
         if (facing.getAxis().isHorizontal()) {
             iblockstate = iblockstate.withProperty(FACING, facing).withProperty(OPEN,
                     Boolean.valueOf(false));
-            iblockstate = iblockstate.withProperty(HALF,
-                    hitY > 0.5F ? BlockTrapDoor.DoorHalf.TOP : BlockTrapDoor.DoorHalf.BOTTOM);
+            iblockstate =
+                    iblockstate.withProperty(HALF, hitY > 0.5F ? DoorHalf.TOP : DoorHalf.BOTTOM);
         } else {
-            iblockstate = iblockstate
-                    .withProperty(FACING, placer.getHorizontalFacing().getOpposite())
-                    .withProperty(OPEN, Boolean.valueOf(false));
+            iblockstate =
+                    iblockstate.withProperty(FACING, placer.getHorizontalFacing().getOpposite())
+                            .withProperty(OPEN, Boolean.valueOf(false));
             iblockstate = iblockstate.withProperty(HALF,
-                    facing == EnumFacing.UP ? BlockTrapDoor.DoorHalf.BOTTOM
-                            : BlockTrapDoor.DoorHalf.TOP);
+                    facing.equals(EnumFacing.UP) ? DoorHalf.BOTTOM : DoorHalf.TOP);
         }
 
         if (worldIn.isBlockPowered(pos)) {
@@ -200,14 +205,7 @@ public class TCTrapDoor extends TCCube {
     public IBlockState getStateFromMeta(final int meta) {
         return this.getDefaultState().withProperty(FACING, getFacing(meta))
                 .withProperty(OPEN, Boolean.valueOf((meta & 4) != 0))
-                .withProperty(HALF, (meta & 8) == 0 ? BlockTrapDoor.DoorHalf.BOTTOM
-                        : BlockTrapDoor.DoorHalf.TOP);
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public BlockRenderLayer getBlockLayer() {
-        return BlockRenderLayer.CUTOUT;
+                .withProperty(HALF, (meta & 8) == 0 ? DoorHalf.BOTTOM : DoorHalf.TOP);
     }
 
     @Override
@@ -219,7 +217,7 @@ public class TCTrapDoor extends TCCube {
             i |= 4;
         }
 
-        if (state.getValue(HALF) == BlockTrapDoor.DoorHalf.TOP) {
+        if (state.getValue(HALF).equals(DoorHalf.TOP)) {
             i |= 8;
         }
 
@@ -246,8 +244,8 @@ public class TCTrapDoor extends TCCube {
     @Override
     public BlockFaceShape getBlockFaceShape(final IBlockAccess worldIn, final IBlockState state,
             final BlockPos pos, final EnumFacing face) {
-        return (face == EnumFacing.UP && state.getValue(HALF) == BlockTrapDoor.DoorHalf.TOP
-                || face == EnumFacing.DOWN && state.getValue(HALF) == BlockTrapDoor.DoorHalf.BOTTOM)
+        return (face.equals(EnumFacing.UP) && state.getValue(HALF).equals(DoorHalf.TOP)
+                || face.equals(EnumFacing.DOWN) && state.getValue(HALF).equals(DoorHalf.BOTTOM))
                 && !state.getValue(OPEN).booleanValue() ? BlockFaceShape.SOLID
                         : BlockFaceShape.UNDEFINED;
     }
@@ -257,9 +255,10 @@ public class TCTrapDoor extends TCCube {
             final EntityLivingBase entity) {
         if (state.getValue(OPEN)) {
             final IBlockState down = world.getBlockState(pos.down());
-            if (down.getBlock() == net.minecraft.init.Blocks.LADDER) {
-                return down.getValue(BlockLadder.FACING) == state.getValue(FACING);
-            }
+            if (down.getBlock().equals(Blocks.LADDER))
+                return down.getValue(BlockLadder.FACING).equals(state.getValue(FACING));
+            if (down.getBlock() instanceof TCLadder)
+                return down.getValue(TCLadder.FACING).equals(state.getValue(FACING));
         }
         return false;
     }

@@ -24,6 +24,7 @@ import net.minecraft.world.World;
 public class TCWall extends TCFence {
 
     public static final PropertyBool UP = PropertyBool.create("up");
+
     protected static final AxisAlignedBB[] AABB_BY_INDEX = new AxisAlignedBB[] {
             new AxisAlignedBB(0.25D, 0.0D, 0.25D, 0.75D, 1.0D, 0.75D),
             new AxisAlignedBB(0.25D, 0.0D, 0.25D, 0.75D, 1.0D, 1.0D),
@@ -122,7 +123,7 @@ public class TCWall extends TCFence {
         final IBlockState iblockstate = worldIn.getBlockState(pos);
         final Block block = iblockstate.getBlock();
         final BlockFaceShape blockfaceshape = iblockstate.getBlockFaceShape(worldIn, pos, facing);
-        final boolean flag = blockfaceshape == BlockFaceShape.MIDDLE_POLE_THICK
+        final boolean flag = blockfaceshape.equals(BlockFaceShape.MIDDLE_POLE_THICK)
                 || blockfaceshape == BlockFaceShape.MIDDLE_POLE && block instanceof BlockFenceGate;
         return blockfaceshape == BlockFaceShape.SOLID || flag;
     }
@@ -156,7 +157,8 @@ public class TCWall extends TCFence {
     @Override
     public BlockFaceShape getBlockFaceShape(final IBlockAccess worldIn, final IBlockState state,
             final BlockPos pos, final EnumFacing face) {
-        return face != EnumFacing.UP && face != EnumFacing.DOWN ? BlockFaceShape.MIDDLE_POLE_THICK
+        return !(face.equals(EnumFacing.UP) || face.equals(EnumFacing.DOWN))
+                ? BlockFaceShape.MIDDLE_POLE_THICK
                 : BlockFaceShape.CENTER_BIG;
     }
 

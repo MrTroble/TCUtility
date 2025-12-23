@@ -32,18 +32,19 @@ public class TCFenceGate extends TCCubeRotation {
     public static final PropertyBool OPEN = PropertyBool.create("open");
     public static final PropertyBool POWERED = PropertyBool.create("powered");
     public static final PropertyBool IN_WALL = PropertyBool.create("in_wall");
-    protected static final AxisAlignedBB AABB_HITBOX_ZAXIS = new AxisAlignedBB(0.0D, 0.0D, 0.375D,
-            1.0D, 1.0D, 0.625D);
-    protected static final AxisAlignedBB AABB_HITBOX_XAXIS = new AxisAlignedBB(0.375D, 0.0D, 0.0D,
-            0.625D, 1.0D, 1.0D);
-    protected static final AxisAlignedBB AABB_HITBOX_ZAXIS_INWALL = new AxisAlignedBB(0.0D, 0.0D,
-            0.375D, 1.0D, 0.8125D, 0.625D);
-    protected static final AxisAlignedBB AABB_HITBOX_XAXIS_INWALL = new AxisAlignedBB(0.375D, 0.0D,
-            0.0D, 0.625D, 0.8125D, 1.0D);
-    protected static final AxisAlignedBB AABB_COLLISION_BOX_ZAXIS = new AxisAlignedBB(0.0D, 0.0D,
-            0.375D, 1.0D, 1.5D, 0.625D);
-    protected static final AxisAlignedBB AABB_COLLISION_BOX_XAXIS = new AxisAlignedBB(0.375D, 0.0D,
-            0.0D, 0.625D, 1.5D, 1.0D);
+
+    protected static final AxisAlignedBB AABB_HITBOX_ZAXIS =
+            new AxisAlignedBB(0.0D, 0.0D, 0.375D, 1.0D, 1.0D, 0.625D);
+    protected static final AxisAlignedBB AABB_HITBOX_XAXIS =
+            new AxisAlignedBB(0.375D, 0.0D, 0.0D, 0.625D, 1.0D, 1.0D);
+    protected static final AxisAlignedBB AABB_HITBOX_ZAXIS_INWALL =
+            new AxisAlignedBB(0.0D, 0.0D, 0.375D, 1.0D, 0.8125D, 0.625D);
+    protected static final AxisAlignedBB AABB_HITBOX_XAXIS_INWALL =
+            new AxisAlignedBB(0.375D, 0.0D, 0.0D, 0.625D, 0.8125D, 1.0D);
+    protected static final AxisAlignedBB AABB_COLLISION_BOX_ZAXIS =
+            new AxisAlignedBB(0.0D, 0.0D, 0.375D, 1.0D, 1.5D, 0.625D);
+    protected static final AxisAlignedBB AABB_COLLISION_BOX_XAXIS =
+            new AxisAlignedBB(0.375D, 0.0D, 0.0D, 0.625D, 1.5D, 1.0D);
 
     public TCFenceGate(final BlockCreateInfo blockInfo) {
         super(blockInfo);
@@ -58,13 +59,13 @@ public class TCFenceGate extends TCCubeRotation {
             final BlockPos pos) {
         final IBlockState state = this.getActualState(finalstate, source, pos);
 
-        if (state.getValue(IN_WALL).booleanValue()) {
-            return state.getValue(FACING).getAxis() == EnumFacing.Axis.X ? AABB_HITBOX_XAXIS_INWALL
+        if (state.getValue(IN_WALL).booleanValue())
+            return state.getValue(FACING).getAxis().equals(EnumFacing.Axis.X)
+                    ? AABB_HITBOX_XAXIS_INWALL
                     : AABB_HITBOX_ZAXIS_INWALL;
-        } else {
-            return state.getValue(FACING).getAxis() == EnumFacing.Axis.X ? AABB_HITBOX_XAXIS
+        else
+            return state.getValue(FACING).getAxis().equals(EnumFacing.Axis.X) ? AABB_HITBOX_XAXIS
                     : AABB_HITBOX_ZAXIS;
-        }
     }
 
     @Override
@@ -72,16 +73,14 @@ public class TCFenceGate extends TCCubeRotation {
             final BlockPos pos) {
         final EnumFacing.Axis facingAxis = finalstate.getValue(FACING).getAxis();
 
-        if (facingAxis == EnumFacing.Axis.Z) {
+        if (facingAxis.equals(EnumFacing.Axis.Z)) {
             if (worldIn.getBlockState(pos.west()).getBlock() instanceof BlockWall
-                    || worldIn.getBlockState(pos.east()).getBlock() instanceof BlockWall) {
+                    || worldIn.getBlockState(pos.east()).getBlock() instanceof BlockWall)
                 return finalstate.withProperty(IN_WALL, Boolean.valueOf(true));
-            }
-        } else if (facingAxis == EnumFacing.Axis.X) {
+        } else if (facingAxis.equals(EnumFacing.Axis.X)) {
             if ((worldIn.getBlockState(pos.north()).getBlock() instanceof BlockWall
-                    || worldIn.getBlockState(pos.south()).getBlock() instanceof BlockWall)) {
+                    || worldIn.getBlockState(pos.south()).getBlock() instanceof BlockWall))
                 return finalstate.withProperty(IN_WALL, Boolean.valueOf(true));
-            }
         }
         return finalstate;
     }
@@ -107,13 +106,12 @@ public class TCFenceGate extends TCCubeRotation {
     @Nullable
     public AxisAlignedBB getCollisionBoundingBox(final IBlockState blockState,
             final IBlockAccess worldIn, final BlockPos pos) {
-        if (blockState.getValue(OPEN).booleanValue()) {
+        if (blockState.getValue(OPEN).booleanValue())
             return NULL_AABB;
-        } else {
-            return blockState.getValue(FACING).getAxis() == EnumFacing.Axis.Z
+        else
+            return blockState.getValue(FACING).getAxis().equals(EnumFacing.Axis.Z)
                     ? AABB_COLLISION_BOX_ZAXIS
                     : AABB_COLLISION_BOX_XAXIS;
-        }
     }
 
     @Override
@@ -143,7 +141,7 @@ public class TCFenceGate extends TCCubeRotation {
         } else {
             final EnumFacing enumfacing = EnumFacing.fromAngle(playerIn.rotationYaw);
 
-            if (state.getValue(FACING) == enumfacing.getOpposite()) {
+            if (state.getValue(FACING).equals(enumfacing.getOpposite())) {
                 state = state.withProperty(FACING, enumfacing);
             }
 
@@ -224,12 +222,11 @@ public class TCFenceGate extends TCCubeRotation {
     @Override
     public BlockFaceShape getBlockFaceShape(final IBlockAccess worldIn, final IBlockState state,
             final BlockPos pos, final EnumFacing face) {
-        if (face != EnumFacing.UP && face != EnumFacing.DOWN) {
-            return state.getValue(FACING).getAxis() == face.rotateY().getAxis()
+        if (!(face.equals(EnumFacing.UP) || face.equals(EnumFacing.DOWN)))
+            return state.getValue(FACING).getAxis().equals(face.rotateY().getAxis())
                     ? BlockFaceShape.MIDDLE_POLE
                     : BlockFaceShape.UNDEFINED;
-        } else {
+        else
             return BlockFaceShape.UNDEFINED;
-        }
     }
 }

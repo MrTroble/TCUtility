@@ -4,17 +4,11 @@ import com.troblecodings.tcutility.init.TCTabs;
 import com.troblecodings.tcutility.utils.BlockCreateInfo;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockHorizontal;
-import net.minecraft.block.properties.IProperty;
-import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockFaceShape;
-import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.Mirror;
-import net.minecraft.util.Rotation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
@@ -22,17 +16,16 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class TCLadder extends TCCube {
+public class TCLadder extends TCCubeRotation {
 
-    public static final PropertyDirection FACING = BlockHorizontal.FACING;
-    protected static final AxisAlignedBB LADDER_EAST_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D,
-            0.1875D, 1.0D, 1.0D);
-    protected static final AxisAlignedBB LADDER_WEST_AABB = new AxisAlignedBB(0.8125D, 0.0D, 0.0D,
-            1.0D, 1.0D, 1.0D);
-    protected static final AxisAlignedBB LADDER_SOUTH_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D,
-            1.0D, 1.0D, 0.1875D);
-    protected static final AxisAlignedBB LADDER_NORTH_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.8125D,
-            1.0D, 1.0D, 1.0D);
+    protected static final AxisAlignedBB LADDER_EAST_AABB =
+            new AxisAlignedBB(0.0D, 0.0D, 0.0D, 0.1875D, 1.0D, 1.0D);
+    protected static final AxisAlignedBB LADDER_WEST_AABB =
+            new AxisAlignedBB(0.8125D, 0.0D, 0.0D, 1.0D, 1.0D, 1.0D);
+    protected static final AxisAlignedBB LADDER_SOUTH_AABB =
+            new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 1.0D, 0.1875D);
+    protected static final AxisAlignedBB LADDER_NORTH_AABB =
+            new AxisAlignedBB(0.0D, 0.0D, 0.8125D, 1.0D, 1.0D, 1.0D);
 
     public TCLadder(final BlockCreateInfo blockInfo) {
         super(blockInfo);
@@ -57,27 +50,16 @@ public class TCLadder extends TCCube {
     }
 
     @Override
-    public boolean isOpaqueCube(final IBlockState state) {
-        return false;
-    }
-
-    @Override
-    public boolean isFullCube(final IBlockState state) {
-        return false;
-    }
-
-    @Override
     public boolean canPlaceBlockOnSide(final World worldIn, final BlockPos pos,
             final EnumFacing side) {
-        if (this.canAttachTo(worldIn, pos.west(), side)) {
+        if (this.canAttachTo(worldIn, pos.west(), side))
             return true;
-        } else if (this.canAttachTo(worldIn, pos.east(), side)) {
+        else if (this.canAttachTo(worldIn, pos.east(), side))
             return true;
-        } else if (this.canAttachTo(worldIn, pos.north(), side)) {
+        else if (this.canAttachTo(worldIn, pos.north(), side))
             return true;
-        } else {
+        else
             return this.canAttachTo(worldIn, pos.south(), side);
-        }
     }
 
     private boolean canAttachTo(final World worldIn, final BlockPos blockPos,
@@ -94,13 +76,12 @@ public class TCLadder extends TCCube {
             final EnumFacing facing, final float hitX, final float hitY, final float hitZ,
             final int meta, final EntityLivingBase placer) {
         if (facing.getAxis().isHorizontal()
-                && this.canAttachTo(worldIn, pos.offset(facing.getOpposite()), facing)) {
+                && this.canAttachTo(worldIn, pos.offset(facing.getOpposite()), facing))
             return this.getDefaultState().withProperty(FACING, facing);
-        } else {
+        else {
             for (final EnumFacing enumfacing : EnumFacing.Plane.HORIZONTAL) {
-                if (this.canAttachTo(worldIn, pos.offset(enumfacing.getOpposite()), enumfacing)) {
+                if (this.canAttachTo(worldIn, pos.offset(enumfacing.getOpposite()), enumfacing))
                     return this.getDefaultState().withProperty(FACING, enumfacing);
-                }
             }
 
             return this.getDefaultState();
@@ -122,42 +103,9 @@ public class TCLadder extends TCCube {
     }
 
     @Override
-    public IBlockState getStateFromMeta(final int meta) {
-        EnumFacing enumfacing = EnumFacing.getFront(meta);
-
-        if (enumfacing.getAxis() == EnumFacing.Axis.Y) {
-            enumfacing = EnumFacing.NORTH;
-        }
-
-        return this.getDefaultState().withProperty(FACING, enumfacing);
-    }
-
-    @Override
     @SideOnly(Side.CLIENT)
     public BlockRenderLayer getBlockLayer() {
         return BlockRenderLayer.CUTOUT;
-    }
-
-    @Override
-    public int getMetaFromState(final IBlockState state) {
-        return state.getValue(FACING).getIndex();
-    }
-
-    @Override
-    public IBlockState withRotation(final IBlockState state, final Rotation rot) {
-        return state.withProperty(FACING, rot.rotate(state.getValue(FACING)));
-    }
-
-    @Override
-    public IBlockState withMirror(final IBlockState state, final Mirror mirrorIn) {
-        return state.withRotation(mirrorIn.toRotation(state.getValue(FACING)));
-    }
-
-    @Override
-    protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, new IProperty[] {
-                FACING
-        });
     }
 
     @Override

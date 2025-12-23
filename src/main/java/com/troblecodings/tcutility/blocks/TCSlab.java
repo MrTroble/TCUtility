@@ -31,8 +31,8 @@ public class TCSlab extends TCCube {
 
     private Item item;
 
-    public static final PropertyEnum<TCSlab.SlabType> TYPE =
-            PropertyEnum.<TCSlab.SlabType>create("half", TCSlab.SlabType.class);
+    public static final PropertyEnum<SlabType> TYPE =
+            PropertyEnum.<SlabType>create("half", SlabType.class);
     protected static final AxisAlignedBB AABB_BOTTOM_HALF =
             new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.5D, 1.0D);
     protected static final AxisAlignedBB AABB_TOP_HALF =
@@ -123,12 +123,12 @@ public class TCSlab extends TCCube {
 
     @Override
     public boolean isOpaqueCube(final IBlockState state) {
-        return state.getValue(TYPE) == SlabType.DOUBLE;
+        return state.getValue(TYPE).equals(SlabType.DOUBLE);
     }
 
     @Override
     public boolean isFullCube(final IBlockState state) {
-        return state.getValue(TYPE) == SlabType.DOUBLE;
+        return state.getValue(TYPE).equals(SlabType.DOUBLE);
     }
 
     @SuppressWarnings("deprecation")
@@ -138,41 +138,44 @@ public class TCSlab extends TCCube {
             final int meta, final EntityLivingBase placer) {
         final IBlockState state = worldIn.getBlockState(pos);
         final Block block = worldIn.getBlockState(pos).getBlock();
-        if (block == this && (state.getValue(TYPE) == SlabType.BOTTOM
-                || state.getValue(TYPE) == SlabType.TOP))
+        if (block instanceof TCSlab && (state.getValue(TYPE).equals(SlabType.BOTTOM)
+                || state.getValue(TYPE).equals(SlabType.TOP)))
             return state.withProperty(TYPE, SlabType.DOUBLE);
         else {
             final IBlockState iblockstate =
                     super.getStateForPlacement(worldIn, pos, facing, hitX, hitY, hitZ, meta, placer)
-                            .withProperty(TYPE, TCSlab.SlabType.BOTTOM);
-            return facing != EnumFacing.DOWN && (facing == EnumFacing.UP || hitY <= 0.5D)
+                            .withProperty(TYPE, SlabType.BOTTOM);
+            return !facing.equals(EnumFacing.DOWN) && (facing.equals(EnumFacing.UP) || hitY <= 0.5D)
                     ? iblockstate
-                    : iblockstate.withProperty(TYPE, TCSlab.SlabType.TOP);
+                    : iblockstate.withProperty(TYPE, SlabType.TOP);
         }
     }
 
     @Override
     public IBlockState getStateFromMeta(final int meta) {
         final IBlockState iblockstate = this.getDefaultState();
-        if (meta == 2)
-            return iblockstate.withProperty(TYPE, TCSlab.SlabType.DOUBLE);
-        else if (meta == 1)
-            return iblockstate.withProperty(TYPE, TCSlab.SlabType.TOP);
-        else
-            return iblockstate.withProperty(TYPE, TCSlab.SlabType.BOTTOM);
+        switch (meta) {
+            case 2:
+                return iblockstate.withProperty(TYPE, SlabType.DOUBLE);
+            case 1:
+                return iblockstate.withProperty(TYPE, SlabType.TOP);
+            case 0:
+            default:
+                return iblockstate.withProperty(TYPE, SlabType.BOTTOM);
+        }
     }
 
     @Override
     public int getMetaFromState(final IBlockState state) {
-        int i;
-        if (state.getValue(TYPE) == TCSlab.SlabType.DOUBLE) {
-            i = 2;
-        } else if (state.getValue(TYPE) == TCSlab.SlabType.TOP) {
-            i = 1;
-        } else {
-            i = 0;
+        switch (state.getValue(TYPE)) {
+            case DOUBLE:
+                return 2;
+            case TOP:
+                return 1;
+            case BOTTOM:
+            default:
+                return 0;
         }
-        return i;
     }
 
     @Override
