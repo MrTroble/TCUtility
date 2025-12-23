@@ -74,11 +74,11 @@ public class TCSlabItem extends ItemBlock {
         if (type.equals(SlabType.DOUBLE))
             return false;
 
-        boolean combine = (type.equals(SlabType.BOTTOM)
-                && (facing.equals(EnumFacing.UP) || hitY > 0.5F))
-                || (type.equals(SlabType.TOP) && (facing.equals(EnumFacing.DOWN) || hitY < 0.5F));
-
-        if (!combine)
+        boolean combineDown =
+                (type.equals(SlabType.BOTTOM) && (facing.equals(EnumFacing.UP) || hitY > 0.5F));
+        boolean combineUp =
+                (type.equals(SlabType.TOP) && (facing.equals(EnumFacing.DOWN) || hitY < 0.5F));
+        if (!(combineDown || combineUp))
             return false;
 
         if (!world.isRemote) {
