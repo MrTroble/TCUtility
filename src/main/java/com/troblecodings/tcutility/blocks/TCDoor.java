@@ -18,6 +18,7 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
@@ -26,12 +27,15 @@ import net.minecraft.util.Mirror;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class TCDoor extends TCCube {
+
+    private Item item;
 
     public static final PropertyDirection FACING = BlockHorizontal.FACING;
     public static final PropertyBool OPEN = PropertyBool.create("open");
@@ -58,6 +62,10 @@ public class TCDoor extends TCCube {
                 .withProperty(POWERED, Boolean.valueOf(false))
                 .withProperty(HALF, BlockDoor.EnumDoorHalf.LOWER));
         setCreativeTab(null);
+    }
+
+    public void setItem(final Item item) {
+        this.item = item;
     }
 
     @Override
@@ -108,17 +116,17 @@ public class TCDoor extends TCCube {
     public boolean onBlockActivated(final World worldIn, final BlockPos pos,
             final IBlockState state, final EntityPlayer playerIn, final EnumHand hand,
             final EnumFacing facing, final float hitX, final float hitY, final float hitZ) {
-        if (this.blockMaterial == Material.IRON) {
+        if (this.blockMaterial == Material.IRON)
             return false;
-        } else {
+        else {
             final BlockPos blockpos =
                     state.getValue(HALF) == BlockDoor.EnumDoorHalf.LOWER ? pos : pos.down();
             final IBlockState iblockstate =
                     pos.equals(blockpos) ? state : worldIn.getBlockState(blockpos);
 
-            if (iblockstate.getBlock() != this) {
+            if (iblockstate.getBlock() != this)
                 return false;
-            } else {
+            else {
                 final IBlockState state2 = iblockstate.cycleProperty(OPEN);
                 worldIn.setBlockState(blockpos, state2, 10);
                 worldIn.markBlockRangeForRenderUpdate(blockpos, pos);
@@ -209,8 +217,19 @@ public class TCDoor extends TCCube {
     }
 
     @Override
+    public ItemStack getItem(final World worldIn, final BlockPos pos, final IBlockState state) {
+        return new ItemStack(item);
+    }
+
+    @Override
     public Item getItemDropped(final IBlockState state, final Random rand, final int fortune) {
-        return null;
+        return item;
+    }
+
+    @Override
+    public ItemStack getPickBlock(final IBlockState state, final RayTraceResult target,
+            final World world, final BlockPos pos, final EntityPlayer player) {
+        return getItem(world, pos, state);
     }
 
     @Override

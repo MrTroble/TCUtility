@@ -30,6 +30,8 @@ import com.troblecodings.tcutility.blocks.TCWall;
 import com.troblecodings.tcutility.blocks.TCWindow;
 import com.troblecodings.tcutility.enums.BlockTypes;
 import com.troblecodings.tcutility.items.TCBigDoorItem;
+import com.troblecodings.tcutility.items.TCDoorItem;
+import com.troblecodings.tcutility.items.TCSlabItem;
 import com.troblecodings.tcutility.utils.BlockCreateInfo;
 import com.troblecodings.tcutility.utils.BlockProperties;
 
@@ -37,7 +39,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
-import net.minecraft.item.ItemDoor;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
@@ -92,9 +93,11 @@ public final class TCBlocks {
     public static void registerItem(final RegistryEvent.Register<Item> event) {
         final IForgeRegistry<Item> registry = event.getRegistry();
         blocksToRegister.forEach(block -> {
-            if (!block.toString().contains("door")) {
-                registry.register(new ItemBlock(block).setRegistryName(block.getRegistryName()));
-            }
+            if (block instanceof TCDoor || block instanceof TCBigDoor)
+                return;
+            if (block instanceof TCSlab)
+                return;
+            registry.register(new ItemBlock(block).setRegistryName(block.getRegistryName()));
         });
     }
 
@@ -141,6 +144,11 @@ public final class TCBlocks {
                                 new ResourceLocation(TCUtilityMain.MODID, registryName));
                         slab.setUnlocalizedName(registryName);
                         blocksToRegister.add(slab);
+                        TCSlabItem slabitem = new TCSlabItem(slab);
+                        slabitem.setRegistryName(
+                                new ResourceLocation(TCUtilityMain.MODID, "slab_" + objectname));
+                        slabitem.setUnlocalizedName("slab_" + objectname);
+                        TCItems.itemsToRegister.add(slabitem);
                         break;
                     case FENCE:
                         final TCFence fence = new TCFence(blockInfo);
@@ -190,8 +198,7 @@ public final class TCBlocks {
                                 new ResourceLocation(TCUtilityMain.MODID, registryName));
                         door.setUnlocalizedName(registryName);
                         blocksToRegister.add(door);
-                        final ItemDoor dooritem = new ItemDoor(door);
-                        dooritem.setCreativeTab(TCTabs.DOORS);
+                        final TCDoorItem dooritem = new TCDoorItem(door);
                         dooritem.setRegistryName(
                                 new ResourceLocation(TCUtilityMain.MODID, "door_" + objectname));
                         dooritem.setUnlocalizedName("door_" + objectname);
