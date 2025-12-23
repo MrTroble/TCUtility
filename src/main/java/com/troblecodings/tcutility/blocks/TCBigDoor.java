@@ -262,7 +262,7 @@ public class TCBigDoor extends TCCube {
 
                     if (!(blockIn instanceof TCBigDoor)
                             && (flag || blockIn.getDefaultState().canProvidePower())
-                            && (flag != powerd || flag != powerd)) {
+                            && flag != powerd) {
                         worldIn.setBlockState(blockposDown,
                                 iblockstateDown.withProperty(POWERED, Boolean.valueOf(flag)), 2);
                         worldIn.setBlockState(blockposDown1,

@@ -244,10 +244,10 @@ public class TCTrapDoor extends TCCube {
     @Override
     public BlockFaceShape getBlockFaceShape(final IBlockAccess worldIn, final IBlockState state,
             final BlockPos pos, final EnumFacing face) {
-        return (face.equals(EnumFacing.UP) && state.getValue(HALF).equals(DoorHalf.TOP)
-                || face.equals(EnumFacing.DOWN) && state.getValue(HALF).equals(DoorHalf.BOTTOM))
-                && !state.getValue(OPEN).booleanValue() ? BlockFaceShape.SOLID
-                        : BlockFaceShape.UNDEFINED;
+        boolean facing = face.equals(EnumFacing.UP) && state.getValue(HALF).equals(DoorHalf.TOP)
+                || face.equals(EnumFacing.DOWN) && state.getValue(HALF).equals(DoorHalf.BOTTOM);
+        return facing && !state.getValue(OPEN).booleanValue() ? BlockFaceShape.SOLID
+                : BlockFaceShape.UNDEFINED;
     }
 
     @Override
