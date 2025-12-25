@@ -4,11 +4,17 @@ import com.troblecodings.tcutility.init.TCTabs;
 import com.troblecodings.tcutility.utils.BlockCreateInfo;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockHorizontal;
+import net.minecraft.block.properties.IProperty;
+import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockFaceShape;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Mirror;
+import net.minecraft.util.Rotation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
@@ -16,7 +22,9 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class TCLadder extends TCCubeRotation {
+public class TCLadder extends TCCube {
+
+    public static final PropertyDirection FACING = BlockHorizontal.FACING;
 
     protected static final AxisAlignedBB LADDER_EAST_AABB =
             new AxisAlignedBB(0.0D, 0.0D, 0.0D, 0.1875D, 1.0D, 1.0D);
@@ -47,6 +55,16 @@ public class TCLadder extends TCCubeRotation {
             default:
                 return LADDER_EAST_AABB;
         }
+    }
+
+    @Override
+    public boolean isOpaqueCube(final IBlockState state) {
+        return false;
+    }
+
+    @Override
+    public boolean isFullCube(final IBlockState state) {
+        return false;
     }
 
     @Override
@@ -88,6 +106,32 @@ public class TCLadder extends TCCubeRotation {
         }
     }
 
+    @Override
+    public IBlockState getStateFromMeta(final int meta) {
+        EnumFacing enumfacing = EnumFacing.getFront(meta);
+
+        if (enumfacing.getAxis() == EnumFacing.Axis.Y) {
+            enumfacing = EnumFacing.NORTH;
+        }
+
+        return this.getDefaultState().withProperty(FACING, enumfacing);
+    }
+
+    @Override
+    public int getMetaFromState(final IBlockState state) {
+        return state.getValue(FACING).getIndex();
+    }
+
+    @Override
+    public IBlockState withRotation(final IBlockState state, final Rotation rot) {
+        return state.withProperty(FACING, rot.rotate(state.getValue(FACING)));
+    }
+
+    @Override
+    public IBlockState withMirror(final IBlockState state, final Mirror mirrorIn) {
+        return state.withRotation(mirrorIn.toRotation(state.getValue(FACING)));
+    }
+
     @SuppressWarnings("deprecation")
     @Override
     public void neighborChanged(final IBlockState state, final World worldIn, final BlockPos pos,
@@ -118,5 +162,12 @@ public class TCLadder extends TCCubeRotation {
     public BlockFaceShape getBlockFaceShape(final IBlockAccess worldIn, final IBlockState state,
             final BlockPos pos, final EnumFacing face) {
         return BlockFaceShape.UNDEFINED;
+    }
+
+    @Override
+    protected BlockStateContainer createBlockState() {
+        return new BlockStateContainer(this, new IProperty[] {
+                FACING
+        });
     }
 }
