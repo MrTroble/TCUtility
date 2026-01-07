@@ -5,6 +5,7 @@ itemGroup.tcslabs= TC Stufen
 itemGroup.tcstairs=TC Treppen
 itemGroup.tcfence=TC Zäune
 itemGroup.tcdoors=TC Türen
+itemGroup.tcitems=TC Items
 
 #Items
 item.door_jail.name=Gefängnistür
@@ -36,6 +37,7 @@ item.bigdoor_acacia.name=Große Akazienholztür
 item.bigdoor_dark_oak.name=Große Schwarzeichenholztür
 item.bigdoor_iron.name=Große Eisentür
 item.bigdoor_white.name=Große Weiße Tür
+item.testitem.name=Test Item
 
 #Blocks
 tile.block_crate.name=Eichenkiste
