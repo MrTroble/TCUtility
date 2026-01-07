@@ -93,9 +93,7 @@ public final class TCBlocks {
     public static void registerItem(final RegistryEvent.Register<Item> event) {
         final IForgeRegistry<Item> registry = event.getRegistry();
         blocksToRegister.forEach(block -> {
-            if (block instanceof TCDoor || block instanceof TCBigDoor)
-                return;
-            if (block instanceof TCSlab)
+            if (block instanceof TCDoor || block instanceof TCBigDoor || block instanceof TCSlab)
                 return;
             registry.register(new ItemBlock(block).setRegistryName(block.getRegistryName()));
         });
