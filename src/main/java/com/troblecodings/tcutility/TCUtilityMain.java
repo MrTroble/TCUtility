@@ -78,14 +78,12 @@ public class TCUtilityMain {
                         filelocation = "/" + filelocation;
                     }
                     final URL resource = TCBlocks.class.getResource(filelocation);
-                    if (resource == null) {
+                    if (resource == null)
                         return Optional.empty();
-                    }
                     return Optional.of(Paths.get(resource.toURI()));
                 } else {
-                    if (!"jar".equals(uri.getScheme())) {
+                    if (!"jar".equals(uri.getScheme()))
                         return Optional.empty();
-                    }
                     if (fileSystemCache == null) {
                         fileSystemCache = FileSystems.newFileSystem(uri, Collections.emptyMap());
                     }

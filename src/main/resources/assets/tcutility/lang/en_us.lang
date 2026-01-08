@@ -5,6 +5,7 @@ itemGroup.tcslabs= TC Slabs
 itemGroup.tcstairs=TC Stairs
 itemGroup.tcfence=TC Fences
 itemGroup.tcdoors=TC Doors
+itemGroup.tcitems=TC Items
 
 #Items
 item.door_jail.name=Jail Door
@@ -36,6 +37,7 @@ item.bigdoor_acacia.name=Big Acacia Door
 item.bigdoor_dark_oak.name=Big Dark Oak Door
 item.bigdoor_iron.name=Big Iron Door
 item.bigdoor_white.name=Big White Door
+item.testitem.name=Test Item
 
 #Blocks
 tile.block_crate.name=Oak Crate

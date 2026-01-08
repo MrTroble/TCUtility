@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.2-Feature]
+
+* feat: added block cube tintindex
+* feat: added custom item registration
+* fix: door drops+pickBlock items, fix: building double slabs 
+* ref: update contentpackLib
+* ref: added cubeRot withRotation, withMirror
+* ref: code cleanup
+
 ## [1.1.3-Fix]
 
 *fix: issues with OpenSignals and comtability with RPs

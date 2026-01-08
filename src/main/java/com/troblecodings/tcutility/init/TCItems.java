@@ -15,6 +15,7 @@ import com.troblecodings.tcutility.TCUtilityMain;
 import com.troblecodings.tcutility.enums.ArmorTypes;
 import com.troblecodings.tcutility.utils.ArmorCreateInfo;
 import com.troblecodings.tcutility.utils.ArmorProperties;
+import com.troblecodings.tcutility.utils.ItemProperties;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.SoundEvents;
@@ -66,7 +67,7 @@ public final class TCItems {
         itemsToRegister.add(item);
     }
 
-    private static Map<String, ArmorProperties> getFromJson(final String directory) {
+    private static Map<String, ArmorProperties> getArmorFromJson(final String directory) {
         final Gson gson = new Gson();
         final List<Entry<String, String>> entrySet = TCUtilityMain.fileHandler.getFiles(directory);
         final Map<String, ArmorProperties> properties = new HashMap<>();
@@ -74,8 +75,24 @@ public final class TCItems {
         }.getType();
         if (entrySet != null) {
             entrySet.forEach(entry -> {
-                final Map<String, ArmorProperties> json = gson.fromJson(entry.getValue(),
-                        typeOfHashMap);
+                final Map<String, ArmorProperties> json =
+                        gson.fromJson(entry.getValue(), typeOfHashMap);
+                properties.putAll(json);
+            });
+        }
+        return properties;
+    }
+
+    private static Map<String, ItemProperties> getItemFromJson(final String directory) {
+        final Gson gson = new Gson();
+        final List<Entry<String, String>> entrySet = TCUtilityMain.fileHandler.getFiles(directory);
+        final Map<String, ItemProperties> properties = new HashMap<>();
+        final Type typeOfHashMap = new TypeToken<Map<String, ItemProperties>>() {
+        }.getType();
+        if (entrySet != null) {
+            entrySet.forEach(entry -> {
+                final Map<String, ItemProperties> json =
+                        gson.fromJson(entry.getValue(), typeOfHashMap);
                 properties.putAll(json);
             });
         }
@@ -83,7 +100,7 @@ public final class TCItems {
     }
 
     public static void initJsonFiles() {
-        final Map<String, ArmorProperties> armor = getFromJson("armordefinitions");
+        final Map<String, ArmorProperties> armor = getArmorFromJson("armordefinitions");
 
         for (final Entry<String, ArmorProperties> armorEntry : armor.entrySet()) {
             final String armorName = armorEntry.getKey();
@@ -103,8 +120,8 @@ public final class TCItems {
                                         1, 1, 1, 1
                                 }, armorInfo.enchantability, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC,
                                 armorInfo.toughness);
-                        final ItemArmor armorHead = new ItemArmor(materialHead, 1,
-                                EntityEquipmentSlot.HEAD);
+                        final ItemArmor armorHead =
+                                new ItemArmor(materialHead, 1, EntityEquipmentSlot.HEAD);
                         armorHead.setRegistryName(
                                 new ResourceLocation(TCUtilityMain.MODID, registryName));
                         armorHead.setUnlocalizedName(registryName);
@@ -118,8 +135,8 @@ public final class TCItems {
                                         1, 1, 1, 1
                                 }, armorInfo.enchantability, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC,
                                 armorInfo.toughness);
-                        final ItemArmor armorChest = new ItemArmor(materialChest, 1,
-                                EntityEquipmentSlot.CHEST);
+                        final ItemArmor armorChest =
+                                new ItemArmor(materialChest, 1, EntityEquipmentSlot.CHEST);
                         armorChest.setRegistryName(
                                 new ResourceLocation(TCUtilityMain.MODID, registryName));
                         armorChest.setUnlocalizedName(registryName);
@@ -133,8 +150,8 @@ public final class TCItems {
                                         1, 1, 1, 1
                                 }, armorInfo.enchantability, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC,
                                 armorInfo.toughness);
-                        final ItemArmor armorLegs = new ItemArmor(materialLegs, 1,
-                                EntityEquipmentSlot.LEGS);
+                        final ItemArmor armorLegs =
+                                new ItemArmor(materialLegs, 1, EntityEquipmentSlot.LEGS);
                         armorLegs.setRegistryName(
                                 new ResourceLocation(TCUtilityMain.MODID, registryName));
                         armorLegs.setUnlocalizedName(registryName);
@@ -148,8 +165,8 @@ public final class TCItems {
                                         1, 1, 1, 1
                                 }, armorInfo.enchantability, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC,
                                 armorInfo.toughness);
-                        final ItemArmor armorFeet = new ItemArmor(materialFeet, 1,
-                                EntityEquipmentSlot.FEET);
+                        final ItemArmor armorFeet =
+                                new ItemArmor(materialFeet, 1, EntityEquipmentSlot.FEET);
                         armorFeet.setRegistryName(
                                 new ResourceLocation(TCUtilityMain.MODID, registryName));
                         armorFeet.setUnlocalizedName(registryName);
@@ -161,6 +178,17 @@ public final class TCItems {
                                 "The given state " + slot + " is not valid.");
                 }
             }
+        }
+
+        final Map<String, ItemProperties> items = getItemFromJson("itemdefinitions");
+
+        for (final Entry<String, ItemProperties> itemEntry : items.entrySet()) {
+            final String itemName = itemEntry.getKey();
+            Item item = new Item();
+            item.setRegistryName(new ResourceLocation(TCUtilityMain.MODID, itemName));
+            item.setUnlocalizedName(itemName);
+            item.setCreativeTab(TCTabs.ITEMS);
+            itemsToRegister.add(item);
         }
     }
 }
