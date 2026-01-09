@@ -1,17 +1,15 @@
 {
-    "milk": {
-        "luminosity": 0,
-        "density": 1200,
-        "temperature": 300,
-        "viscosity": 1000,
-        "flowLength": 16
-    },
-    "test": {
-    },
     "test_steam": {
         "luminosity": 0,
         "density": -1200,
         "temperature": 300,
         "viscosity": 1000
-    }
+    },
+	"tc_milk": {
+	        "luminosity": 0,
+	        "density": 1000,
+	        "temperature": 300,
+	        "viscosity": 1000
+	    }
+	
 }

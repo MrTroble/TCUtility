@@ -468,3 +468,6 @@ tile.block_grass_light.name=Shining Grass Block
 tile.block_street_lantern.name=Round Street Lantern
 tile.block_rot_street_lantern.name=Street Lantern
 tile.block_lantern_blue.name=Lantern
+
+fluid.test_steam=TC Steam
+fluid.tc_milk=TC Milk
