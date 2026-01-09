@@ -8,11 +8,11 @@ import net.minecraftforge.fluids.Fluid;
 
 public class TCFluids extends Fluid {
 
-    public int flowLength;
-    public boolean canCreateSource;
-    public Potion effectPotion;
-    public int effectDuration;
-    public int effectAmplifier;
+    public final int flowLength;
+    public final boolean canCreateSource;
+    public final Potion effectPotion;
+    public final int effectDuration;
+    public final int effectAmplifier;
 
     public TCFluids(final String fluidName, final ResourceLocation still,
             final ResourceLocation flowing,

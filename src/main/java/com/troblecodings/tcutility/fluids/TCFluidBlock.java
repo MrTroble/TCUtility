@@ -16,9 +16,9 @@ public class TCFluidBlock extends BlockFluidClassic {
 
     private final TCFluids fluid;
 
-    public TCFluidBlock(final Fluid fluid) {
+    public TCFluidBlock(final TCFluids fluid) {
         super(fluid, Material.WATER);
-        this.fluid = (TCFluids) fluid;
+        this.fluid = fluid;
         this.canCreateSources = this.fluid.canCreateSource;
     }
 
