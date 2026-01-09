@@ -62,9 +62,9 @@ public final class TCFluidsInit {
                     new ResourceLocation(TCUtilityMain.MODID, "blocks/" + objectname + "_flow"),
                     fluidInfo);
 
-            if (!FluidRegistry.registerFluid(fluid)) {
-                FluidRegistry.registerFluid(fluid);
-            }
+            
+            FluidRegistry.registerFluid(fluid);
+            
 
             FluidRegistry.addBucketForFluid(fluid);
 
