@@ -60,4 +60,11 @@ public final class TCTabs {
 
 };
 
+    public static final CreativeTabs ITEMS = new CreativeTabs("tcitems") {
+        @Override
+        public ItemStack getTabIconItem() {
+            return new ItemStack(Items.PAPER);
+        }
+    };
+
 }

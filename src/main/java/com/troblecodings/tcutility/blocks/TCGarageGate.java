@@ -113,11 +113,11 @@ public class TCGarageGate extends TCCube {
             final IBlockState stateDown = worldIn.getBlockState(posDown);
             final IBlockState stateUp = worldIn.getBlockState(posUp);
 
-            if (stateUp.getBlock().equals(this) || isGarageBlock(stateUp)) {
+            if (stateUp.getBlock() instanceof TCGarageGate || isGarageBlock(stateUp)) {
                 worldIn.setBlockToAir(posUp);
             }
 
-            if (stateDown.getBlock().equals(this)) {
+            if (stateDown.getBlock() instanceof TCGarageGate) {
                 worldIn.setBlockToAir(posDown);
             }
         }
@@ -139,14 +139,14 @@ public class TCGarageGate extends TCCube {
     }
 
     @Override
-    protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, FACING);
-    }
-
-    @Override
     public BlockFaceShape getBlockFaceShape(final IBlockAccess worldIn, final IBlockState state,
             final BlockPos pos, final EnumFacing face) {
         return BlockFaceShape.UNDEFINED;
+    }
+
+    @Override
+    protected BlockStateContainer createBlockState() {
+        return new BlockStateContainer(this, FACING);
     }
 
 }

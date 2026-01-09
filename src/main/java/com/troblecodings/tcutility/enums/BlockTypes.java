@@ -14,15 +14,14 @@ public enum BlockTypes {
     }
 
     public String getRegistryName(final String objectName) {
-        if (isDoor()) {
+        if (isDoor())
             return name + "_" + objectName + "_block";
-        } else {
+        else
             return name + "_" + objectName;
-        }
     }
 
     public boolean isDoor() {
-        return this == DOOR || this == BIGDOOR;
+        return this.equals(DOOR) || this.equals(BIGDOOR);
     }
 
 }

@@ -95,9 +95,9 @@ public class TCCubeRotationAll extends TCCube {
         int i = 0;
         EnumFacing.Axis facingAxis = state.getValue(AXIS);
 
-        if (facingAxis == EnumFacing.Axis.X) {
+        if (facingAxis.equals(EnumFacing.Axis.X)) {
             i |= 4;
-        } else if (facingAxis == EnumFacing.Axis.Z) {
+        } else if (facingAxis.equals(EnumFacing.Axis.Z)) {
             i |= 8;
         }
         return i;

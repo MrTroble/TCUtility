@@ -36,6 +36,7 @@ public class TCFence extends TCCube {
     public static final PropertyBool EAST = PropertyBool.create("east");
     public static final PropertyBool SOUTH = PropertyBool.create("south");
     public static final PropertyBool WEST = PropertyBool.create("west");
+
     protected static final AxisAlignedBB[] BOUNDING_BOXES = new AxisAlignedBB[] {
             new AxisAlignedBB(0.375D, 0.0D, 0.375D, 0.625D, 1.0D, 0.625D),
             new AxisAlignedBB(0.375D, 0.0D, 0.375D, 0.625D, 1.0D, 1.0D),
@@ -54,16 +55,16 @@ public class TCFence extends TCCube {
             new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 1.0D, 0.625D),
             new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 1.0D, 1.0D)
     };
-    public static final AxisAlignedBB PILLAR_AABB = new AxisAlignedBB(0.375D, 0.0D, 0.375D, 0.625D,
-            1.5D, 0.625D);
-    public static final AxisAlignedBB SOUTH_AABB = new AxisAlignedBB(0.375D, 0.0D, 0.625D, 0.625D,
-            1.5D, 1.0D);
-    public static final AxisAlignedBB WEST_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.375D, 0.375D,
-            1.5D, 0.625D);
-    public static final AxisAlignedBB NORTH_AABB = new AxisAlignedBB(0.375D, 0.0D, 0.0D, 0.625D,
-            1.5D, 0.375D);
-    public static final AxisAlignedBB EAST_AABB = new AxisAlignedBB(0.625D, 0.0D, 0.375D, 1.0D,
-            1.5D, 0.625D);
+    public static final AxisAlignedBB PILLAR_AABB =
+            new AxisAlignedBB(0.375D, 0.0D, 0.375D, 0.625D, 1.5D, 0.625D);
+    public static final AxisAlignedBB SOUTH_AABB =
+            new AxisAlignedBB(0.375D, 0.0D, 0.625D, 0.625D, 1.5D, 1.0D);
+    public static final AxisAlignedBB WEST_AABB =
+            new AxisAlignedBB(0.0D, 0.0D, 0.375D, 0.375D, 1.5D, 0.625D);
+    public static final AxisAlignedBB NORTH_AABB =
+            new AxisAlignedBB(0.375D, 0.0D, 0.0D, 0.625D, 1.5D, 0.375D);
+    public static final AxisAlignedBB EAST_AABB =
+            new AxisAlignedBB(0.625D, 0.0D, 0.375D, 1.0D, 1.5D, 0.625D);
 
     public TCFence(final BlockCreateInfo blockInfo) {
         super(blockInfo);
@@ -154,10 +155,10 @@ public class TCFence extends TCCube {
         final IBlockState iblockstate = worldIn.getBlockState(pos);
         final BlockFaceShape blockfaceshape = iblockstate.getBlockFaceShape(worldIn, pos, facing);
         final Block block = iblockstate.getBlock();
-        final boolean flag = blockfaceshape == BlockFaceShape.MIDDLE_POLE
-                && (iblockstate.getMaterial() == this.blockMaterial
+        final boolean flag = blockfaceshape.equals(BlockFaceShape.MIDDLE_POLE)
+                && (iblockstate.getMaterial().equals(this.blockMaterial)
                         || block instanceof BlockFenceGate);
-        return blockfaceshape == BlockFaceShape.SOLID || flag;
+        return blockfaceshape.equals(BlockFaceShape.SOLID) || flag;
     }
 
     @Override
@@ -171,11 +172,11 @@ public class TCFence extends TCCube {
     public boolean onBlockActivated(final World worldIn, final BlockPos pos,
             final IBlockState state, final EntityPlayer playerIn, final EnumHand hand,
             final EnumFacing facing, final float hitX, final float hitY, final float hitZ) {
-        if (!worldIn.isRemote) {
+        if (!worldIn.isRemote)
             return ItemLead.attachToFence(playerIn, worldIn, pos);
-        } else {
+        else {
             final ItemStack itemstack = playerIn.getHeldItem(hand);
-            return itemstack.getItem() == Items.LEAD || itemstack.isEmpty();
+            return itemstack.getItem().equals(Items.LEAD) || itemstack.isEmpty();
         }
     }
 
@@ -255,7 +256,8 @@ public class TCFence extends TCCube {
     @Override
     public BlockFaceShape getBlockFaceShape(final IBlockAccess worldIn, final IBlockState state,
             final BlockPos pos, final EnumFacing face) {
-        return face != EnumFacing.UP && face != EnumFacing.DOWN ? BlockFaceShape.MIDDLE_POLE
+        return !(face.equals(EnumFacing.UP) || face.equals(EnumFacing.DOWN))
+                ? BlockFaceShape.MIDDLE_POLE
                 : BlockFaceShape.CENTER;
     }
 

@@ -5,7 +5,8 @@ import java.util.Random;
 import com.troblecodings.tcutility.utils.BlockCreateInfo;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockDoor;
+import net.minecraft.block.BlockDoor.EnumDoorHalf;
+import net.minecraft.block.BlockDoor.EnumHingePosition;
 import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.material.EnumPushReaction;
 import net.minecraft.block.material.Material;
@@ -18,14 +19,15 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.Mirror;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -33,14 +35,16 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class TCDoor extends TCCube {
 
+    protected Item item;
+
     public static final PropertyDirection FACING = BlockHorizontal.FACING;
     public static final PropertyBool OPEN = PropertyBool.create("open");
-    public static final PropertyEnum<BlockDoor.EnumHingePosition> HINGE =
-            PropertyEnum.<BlockDoor.EnumHingePosition>create("hinge",
-                    BlockDoor.EnumHingePosition.class);
+    public static final PropertyEnum<EnumHingePosition> HINGE =
+            PropertyEnum.<EnumHingePosition>create("hinge", EnumHingePosition.class);
     public static final PropertyBool POWERED = PropertyBool.create("powered");
-    public static final PropertyEnum<BlockDoor.EnumDoorHalf> HALF =
-            PropertyEnum.<BlockDoor.EnumDoorHalf>create("half", BlockDoor.EnumDoorHalf.class);
+    public static final PropertyEnum<EnumDoorHalf> HALF =
+            PropertyEnum.<EnumDoorHalf>create("half", EnumDoorHalf.class);
+
     protected static final AxisAlignedBB SOUTH_AABB =
             new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 1.0D, 0.1875D);
     protected static final AxisAlignedBB NORTH_AABB =
@@ -54,10 +58,14 @@ public class TCDoor extends TCCube {
         super(blockInfo);
         this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH)
                 .withProperty(OPEN, Boolean.valueOf(false))
-                .withProperty(HINGE, BlockDoor.EnumHingePosition.LEFT)
+                .withProperty(HINGE, EnumHingePosition.LEFT)
                 .withProperty(POWERED, Boolean.valueOf(false))
-                .withProperty(HALF, BlockDoor.EnumDoorHalf.LOWER));
+                .withProperty(HALF, EnumDoorHalf.LOWER));
         setCreativeTab(null);
+    }
+
+    public void setItem(final Item item) {
+        this.item = item;
     }
 
     @Override
@@ -66,7 +74,7 @@ public class TCDoor extends TCCube {
         final IBlockState states = state.getActualState(source, pos);
         final EnumFacing enumfacing = states.getValue(FACING);
         final boolean flag = !states.getValue(OPEN).booleanValue();
-        final boolean flag1 = states.getValue(HINGE) == BlockDoor.EnumHingePosition.RIGHT;
+        final boolean flag1 = states.getValue(HINGE).equals(EnumHingePosition.RIGHT);
 
         switch (enumfacing) {
             case EAST:
@@ -96,29 +104,29 @@ public class TCDoor extends TCCube {
         return false;
     }
 
-    private int getCloseSound() {
-        return this.blockMaterial == Material.IRON ? 1011 : 1012;
+    protected int getCloseSound() {
+        return this.blockMaterial.equals(Material.IRON) ? 1011 : 1012;
     }
 
-    private int getOpenSound() {
-        return this.blockMaterial == Material.IRON ? 1005 : 1006;
+    protected int getOpenSound() {
+        return this.blockMaterial.equals(Material.IRON) ? 1005 : 1006;
     }
 
     @Override
     public boolean onBlockActivated(final World worldIn, final BlockPos pos,
             final IBlockState state, final EntityPlayer playerIn, final EnumHand hand,
             final EnumFacing facing, final float hitX, final float hitY, final float hitZ) {
-        if (this.blockMaterial == Material.IRON) {
+        if (this.blockMaterial.equals(Material.IRON))
             return false;
-        } else {
+        else {
             final BlockPos blockpos =
-                    state.getValue(HALF) == BlockDoor.EnumDoorHalf.LOWER ? pos : pos.down();
+                    state.getValue(HALF).equals(EnumDoorHalf.LOWER) ? pos : pos.down();
             final IBlockState iblockstate =
                     pos.equals(blockpos) ? state : worldIn.getBlockState(blockpos);
 
-            if (iblockstate.getBlock() != this) {
+            if (!(iblockstate.getBlock() instanceof TCDoor))
                 return false;
-            } else {
+            else {
                 final IBlockState state2 = iblockstate.cycleProperty(OPEN);
                 worldIn.setBlockState(blockpos, state2, 10);
                 worldIn.markBlockRangeForRenderUpdate(blockpos, pos);
@@ -134,13 +142,13 @@ public class TCDoor extends TCCube {
     public void toggleDoor(final World worldIn, final BlockPos pos, final boolean open) {
         final IBlockState iblockstate = worldIn.getBlockState(pos);
 
-        if (iblockstate.getBlock() == this) {
+        if (iblockstate.getBlock() instanceof TCDoor) {
             final BlockPos blockpos =
-                    iblockstate.getValue(HALF) == BlockDoor.EnumDoorHalf.LOWER ? pos : pos.down();
+                    iblockstate.getValue(HALF).equals(EnumDoorHalf.LOWER) ? pos : pos.down();
             final IBlockState iblockstate1 =
-                    pos == blockpos ? iblockstate : worldIn.getBlockState(blockpos);
+                    pos.equals(blockpos) ? iblockstate : worldIn.getBlockState(blockpos);
 
-            if (iblockstate1.getBlock() == this
+            if (iblockstate1.getBlock() instanceof TCDoor
                     && iblockstate1.getValue(OPEN).booleanValue() != open) {
                 worldIn.setBlockState(blockpos,
                         iblockstate1.withProperty(OPEN, Boolean.valueOf(open)), 10);
@@ -154,13 +162,13 @@ public class TCDoor extends TCCube {
     @Override
     public void neighborChanged(final IBlockState state, final World worldIn, final BlockPos pos,
             final Block blockIn, final BlockPos fromPos) {
-        if (state.getValue(HALF) == BlockDoor.EnumDoorHalf.UPPER) {
+        if (state.getValue(HALF).equals(EnumDoorHalf.UPPER)) {
             final BlockPos blockpos = pos.down();
             final IBlockState iblockstate = worldIn.getBlockState(blockpos);
 
-            if (iblockstate.getBlock() != this) {
+            if (!(iblockstate.getBlock() instanceof TCDoor)) {
                 worldIn.setBlockToAir(pos);
-            } else if (blockIn != this) {
+            } else if (!(blockIn instanceof TCDoor)) {
                 iblockstate.neighborChanged(worldIn, blockpos, blockIn, fromPos);
             }
         } else {
@@ -168,7 +176,7 @@ public class TCDoor extends TCCube {
             final BlockPos blockpos1 = pos.up();
             final IBlockState iblockstate1 = worldIn.getBlockState(blockpos1);
 
-            if (iblockstate1.getBlock() != this) {
+            if (!(iblockstate1.getBlock() instanceof TCDoor)) {
                 worldIn.setBlockToAir(pos);
                 flag1 = true;
             }
@@ -178,7 +186,7 @@ public class TCDoor extends TCCube {
                 worldIn.setBlockToAir(pos);
                 flag1 = true;
 
-                if (iblockstate1.getBlock() == this) {
+                if (iblockstate1.getBlock() instanceof TCDoor) {
                     worldIn.setBlockToAir(blockpos1);
                 }
             }
@@ -191,7 +199,8 @@ public class TCDoor extends TCCube {
                 final boolean flag =
                         worldIn.isBlockPowered(pos) || worldIn.isBlockPowered(blockpos1);
 
-                if (blockIn != this && (flag || blockIn.getDefaultState().canProvidePower())
+                if (!(blockIn instanceof TCDoor)
+                        && (flag || blockIn.getDefaultState().canProvidePower())
                         && flag != iblockstate1.getValue(POWERED).booleanValue()) {
                     worldIn.setBlockState(blockpos1,
                             iblockstate1.withProperty(POWERED, Boolean.valueOf(flag)), 2);
@@ -209,8 +218,19 @@ public class TCDoor extends TCCube {
     }
 
     @Override
+    public ItemStack getItem(final World worldIn, final BlockPos pos, final IBlockState state) {
+        return new ItemStack(item);
+    }
+
+    @Override
     public Item getItemDropped(final IBlockState state, final Random rand, final int fortune) {
-        return null;
+        return item;
+    }
+
+    @Override
+    public ItemStack getPickBlock(final IBlockState state, final RayTraceResult target,
+            final World world, final BlockPos pos, final EntityPlayer player) {
+        return getItem(world, pos, state);
     }
 
     @Override
@@ -239,14 +259,13 @@ public class TCDoor extends TCCube {
         final BlockPos blockpos = pos.down();
         final BlockPos blockpos1 = pos.up();
 
-        if (player.capabilities.isCreativeMode
-                && state.getValue(HALF) == BlockDoor.EnumDoorHalf.UPPER
-                && worldIn.getBlockState(blockpos).getBlock() == this) {
+        if (player.capabilities.isCreativeMode && state.getValue(HALF).equals(EnumDoorHalf.UPPER)
+                && worldIn.getBlockState(blockpos).getBlock() instanceof TCDoor) {
             worldIn.setBlockToAir(blockpos);
         }
 
-        if (state.getValue(HALF) == BlockDoor.EnumDoorHalf.LOWER
-                && worldIn.getBlockState(blockpos1).getBlock() == this) {
+        if (state.getValue(HALF).equals(EnumDoorHalf.LOWER)
+                && worldIn.getBlockState(blockpos1).getBlock() instanceof TCDoor) {
             if (player.capabilities.isCreativeMode) {
                 worldIn.setBlockToAir(pos);
             }
@@ -265,17 +284,17 @@ public class TCDoor extends TCCube {
     public IBlockState getActualState(final IBlockState state, final IBlockAccess worldIn,
             final BlockPos pos) {
         IBlockState state2 = state;
-        if (state.getValue(HALF) == BlockDoor.EnumDoorHalf.LOWER) {
+        if (state.getValue(HALF).equals(EnumDoorHalf.LOWER)) {
             final IBlockState iblockstate = worldIn.getBlockState(pos.up());
 
-            if (iblockstate.getBlock() == this) {
+            if (iblockstate.getBlock() instanceof TCDoor) {
                 state2 = state.withProperty(HINGE, iblockstate.getValue(HINGE))
                         .withProperty(POWERED, iblockstate.getValue(POWERED));
             }
         } else {
             final IBlockState iblockstate1 = worldIn.getBlockState(pos.down());
 
-            if (iblockstate1.getBlock() == this) {
+            if (iblockstate1.getBlock() instanceof TCDoor) {
                 state2 = state.withProperty(FACING, iblockstate1.getValue(FACING))
                         .withProperty(OPEN, iblockstate1.getValue(OPEN));
             }
@@ -286,13 +305,13 @@ public class TCDoor extends TCCube {
 
     @Override
     public IBlockState withRotation(final IBlockState state, final Rotation rot) {
-        return state.getValue(HALF) != BlockDoor.EnumDoorHalf.LOWER ? state
+        return !state.getValue(HALF).equals(EnumDoorHalf.LOWER) ? state
                 : state.withProperty(FACING, rot.rotate(state.getValue(FACING)));
     }
 
     @Override
     public IBlockState withMirror(final IBlockState state, final Mirror mirrorIn) {
-        return mirrorIn == Mirror.NONE ? state
+        return mirrorIn.equals(Mirror.NONE) ? state
                 : state.withRotation(mirrorIn.toRotation(state.getValue(FACING)))
                         .cycleProperty(HINGE);
     }
@@ -300,12 +319,11 @@ public class TCDoor extends TCCube {
     @Override
     public IBlockState getStateFromMeta(final int meta) {
         return (meta & 8) > 0
-                ? this.getDefaultState().withProperty(HALF, BlockDoor.EnumDoorHalf.UPPER)
+                ? this.getDefaultState().withProperty(HALF, EnumDoorHalf.UPPER)
                         .withProperty(HINGE,
-                                (meta & 1) > 0 ? BlockDoor.EnumHingePosition.RIGHT
-                                        : BlockDoor.EnumHingePosition.LEFT)
+                                (meta & 1) > 0 ? EnumHingePosition.RIGHT : EnumHingePosition.LEFT)
                         .withProperty(POWERED, Boolean.valueOf((meta & 2) > 0))
-                : this.getDefaultState().withProperty(HALF, BlockDoor.EnumDoorHalf.LOWER)
+                : this.getDefaultState().withProperty(HALF, EnumDoorHalf.LOWER)
                         .withProperty(FACING, EnumFacing.getHorizontal(meta & 3).rotateYCCW())
                         .withProperty(OPEN, Boolean.valueOf((meta & 4) > 0));
     }
@@ -314,10 +332,10 @@ public class TCDoor extends TCCube {
     public int getMetaFromState(final IBlockState state) {
         int i = 0;
 
-        if (state.getValue(HALF) == BlockDoor.EnumDoorHalf.UPPER) {
+        if (state.getValue(HALF).equals(EnumDoorHalf.UPPER)) {
             i = i | 8;
 
-            if (state.getValue(HINGE) == BlockDoor.EnumHingePosition.RIGHT) {
+            if (state.getValue(HINGE).equals(EnumHingePosition.RIGHT)) {
                 i |= 1;
             }
 
@@ -339,18 +357,6 @@ public class TCDoor extends TCCube {
         return meta & 7;
     }
 
-    public static boolean isOpen(final IBlockAccess worldIn, final BlockPos pos) {
-        return isOpen(combineMetadata(worldIn, pos));
-    }
-
-    public static EnumFacing getFacing(final IBlockAccess worldIn, final BlockPos pos) {
-        return getFacing(combineMetadata(worldIn, pos));
-    }
-
-    public static EnumFacing getFacing(final int combinedMeta) {
-        return EnumFacing.getHorizontal(combinedMeta & 3).rotateYCCW();
-    }
-
     protected static boolean isOpen(final int combinedMeta) {
         return (combinedMeta & 4) != 0;
     }
@@ -370,33 +376,5 @@ public class TCDoor extends TCCube {
     public BlockFaceShape getBlockFaceShape(final IBlockAccess worldIn, final IBlockState state,
             final BlockPos pos, final EnumFacing face) {
         return BlockFaceShape.UNDEFINED;
-    }
-
-    public static enum EnumDoorHalf implements IStringSerializable {
-        UPPER, LOWER;
-
-        @Override
-        public String toString() {
-            return this.getName();
-        }
-
-        @Override
-        public String getName() {
-            return this == UPPER ? "upper" : "lower";
-        }
-    }
-
-    public static enum EnumHingePosition implements IStringSerializable {
-        LEFT, RIGHT;
-
-        @Override
-        public String toString() {
-            return this.getName();
-        }
-
-        @Override
-        public String getName() {
-            return this == LEFT ? "left" : "right";
-        }
     }
 }

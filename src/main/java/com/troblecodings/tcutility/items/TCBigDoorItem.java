@@ -1,9 +1,11 @@
 package com.troblecodings.tcutility.items;
 
 import com.troblecodings.tcutility.blocks.TCBigDoor;
+import com.troblecodings.tcutility.blocks.TCBigDoor.EnumDoorThird;
 import com.troblecodings.tcutility.init.TCTabs;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockDoor.EnumHingePosition;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -23,15 +25,20 @@ public class TCBigDoorItem extends Item {
     public TCBigDoorItem(final Block block) {
         this.block = block;
         setCreativeTab(TCTabs.DOORS);
+        ((TCBigDoor) block).setItem(this);
+    }
+
+    public Block getBlock() {
+        return block;
     }
 
     @Override
     public EnumActionResult onItemUse(final EntityPlayer player, final World worldIn, BlockPos pos,
             final EnumHand hand, final EnumFacing facing, final float hitX, final float hitY,
             final float hitZ) {
-        if (facing != EnumFacing.UP) {
+        if (!facing.equals(EnumFacing.UP))
             return EnumActionResult.FAIL;
-        } else {
+        else {
             final IBlockState iblockstate = worldIn.getBlockState(pos);
             final Block block = iblockstate.getBlock();
 
@@ -55,9 +62,8 @@ public class TCBigDoorItem extends Item {
                         (soundtype.getVolume() + 1.0F) / 2.0F, soundtype.getPitch() * 0.8F);
                 itemstack.shrink(1);
                 return EnumActionResult.SUCCESS;
-            } else {
+            } else
                 return EnumActionResult.FAIL;
-            }
         }
     }
 
@@ -85,19 +91,18 @@ public class TCBigDoorItem extends Item {
         final BlockPos blockpos3 = pos.up();
         final BlockPos blockpos4 = pos.up(2);
         final boolean flag3 = worldIn.isBlockPowered(pos) || worldIn.isBlockPowered(blockpos3);
-        final IBlockState iblockstate = door.getDefaultState()
-                .withProperty(TCBigDoor.FACING, facing)
-                .withProperty(TCBigDoor.HINGE,
-                        isRightHinge ? TCBigDoor.EnumHingePosition.RIGHT
-                                : TCBigDoor.EnumHingePosition.LEFT)
-                .withProperty(TCBigDoor.POWERED, Boolean.valueOf(flag3))
-                .withProperty(TCBigDoor.OPEN, Boolean.valueOf(flag3));
-        worldIn.setBlockState(pos,
-                iblockstate.withProperty(TCBigDoor.THIRD, TCBigDoor.EnumDoorThird.LOWER), 2);
+        final IBlockState iblockstate =
+                door.getDefaultState().withProperty(TCBigDoor.FACING, facing)
+                        .withProperty(TCBigDoor.HINGE,
+                                isRightHinge ? EnumHingePosition.RIGHT : EnumHingePosition.LEFT)
+                        .withProperty(TCBigDoor.POWERED, Boolean.valueOf(flag3))
+                        .withProperty(TCBigDoor.OPEN, Boolean.valueOf(flag3));
+        worldIn.setBlockState(pos, iblockstate.withProperty(TCBigDoor.THIRD, EnumDoorThird.LOWER),
+                2);
         worldIn.setBlockState(blockpos3,
-                iblockstate.withProperty(TCBigDoor.THIRD, TCBigDoor.EnumDoorThird.MIDDLE), 2);
+                iblockstate.withProperty(TCBigDoor.THIRD, EnumDoorThird.MIDDLE), 2);
         worldIn.setBlockState(blockpos4,
-                iblockstate.withProperty(TCBigDoor.THIRD, TCBigDoor.EnumDoorThird.UPPER), 2);
+                iblockstate.withProperty(TCBigDoor.THIRD, EnumDoorThird.UPPER), 2);
         worldIn.notifyNeighborsOfStateChange(pos, door, false);
         worldIn.notifyNeighborsOfStateChange(blockpos3, door, false);
         worldIn.notifyNeighborsOfStateChange(blockpos4, door, false);
