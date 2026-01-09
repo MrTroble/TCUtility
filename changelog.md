@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.3.0-Feature]
+
+* feat: added custom fluids
+
 ## [1.2-Feature]
 
 * feat: added block cube tintindex
