@@ -15,9 +15,9 @@ public class TCFluids extends Fluid {
     public int effectAmplifier;
 
     public TCFluids(final String fluidName, final ResourceLocation still,
-            final ResourceLocation flowing, final ResourceLocation overlay,
+            final ResourceLocation flowing,
             final FluidCreateInfo fluidInfo) {
-        super(fluidName, still, flowing, overlay);
+        super(fluidName, still, flowing);
 
         this.setUnlocalizedName(fluidName);
         this.density = fluidInfo.density;

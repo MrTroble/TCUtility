@@ -60,7 +60,6 @@ public class TCFluidsInit {
             final TCFluids fluid = new TCFluids(objectname,
                     new ResourceLocation(TCUtilityMain.MODID, "blocks/" + objectname + "_still"),
                     new ResourceLocation(TCUtilityMain.MODID, "blocks/" + objectname + "_flow"),
-                    new ResourceLocation(TCUtilityMain.MODID, "blocks/" + objectname + "_overlay"),
                     fluidInfo);
 
             if (!FluidRegistry.registerFluid(fluid)) {
