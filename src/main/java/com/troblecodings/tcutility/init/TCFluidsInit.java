@@ -24,7 +24,7 @@ import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.registries.IForgeRegistry;
 
-public class TCFluidsInit {
+public final class TCFluidsInit {
 
     private TCFluidsInit() {
     }
