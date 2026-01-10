@@ -10,7 +10,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.BlockFluidClassic;
-import net.minecraftforge.fluids.Fluid;
 
 public class TCFluidBlock extends BlockFluidClassic {
 
@@ -29,8 +28,9 @@ public class TCFluidBlock extends BlockFluidClassic {
 
     @Override
     public int getQuantaValue(final IBlockAccess world, final BlockPos pos) {
-        if (isSourceBlock(world, pos))
+        if (isSourceBlock(world, pos)) {
             return Math.max(2, Math.min(8, fluid.flowLength));
+        }
         return super.getQuantaValue(world, pos);
     }
 
