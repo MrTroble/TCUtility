@@ -3,6 +3,7 @@
 ## [1.3.0-Feature]
 
 * feat: added custom fluids
+* ref: image optimization
 
 ## [1.2-Feature]
 
