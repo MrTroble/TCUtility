@@ -1,0 +1,28 @@
+modLoader="javafml"
+loaderVersion="[49,)"
+license="All rights reserved"
+issueTrackerURL="https://github.com/vanlueckn/TCUtility/issues"
+
+[[mods]]
+modId="tcutility"
+version="${version}"
+displayName="TC Utility"
+displayURL="https://discord.gg/Um97SHnrYp"
+authors="Jeronimo"
+description='''
+TC Utility provides JSON-driven block, item, fluid and armor registration.
+'''
+
+[[dependencies.tcutility]]
+    modId="forge"
+    mandatory=true
+    versionRange="[49,)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.tcutility]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.20.4,1.21)"
+    ordering="NONE"
+    side="BOTH"

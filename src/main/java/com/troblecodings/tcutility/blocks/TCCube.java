@@ -2,77 +2,48 @@ package com.troblecodings.tcutility.blocks;
 
 import java.util.List;
 
-import com.troblecodings.tcutility.init.TCTabs;
 import com.troblecodings.tcutility.utils.BlockCreateInfo;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.util.BlockRenderLayer;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.level.BlockGetter;
 
+/**
+ * Basis-Cube. Render-Layer wird ab 1.15 nicht mehr im Block selbst, sondern
+ * client-seitig in {@code TCRenderTypes} pro Material gesetzt.
+ */
 public class TCCube extends Block {
 
-    private final List<Integer> box;
+    private final VoxelShape shape;
 
     public TCCube(final BlockCreateInfo blockInfo) {
-        super(blockInfo.material);
-        this.setHardness(blockInfo.hardness);
-        this.setSoundType(blockInfo.soundtype);
-        this.setLightOpacity(blockInfo.opacity);
-        this.setCreativeTab(TCTabs.BLOCKS);
-        this.setLightLevel(blockInfo.lightValue / 15.0F);
-        this.box = blockInfo.box;
-        this.fullBlock = blockInfo.fullblock;
+        super(blockInfo.toProperties());
+        this.shape = boxToShape(blockInfo.box);
     }
 
-    @SuppressWarnings("deprecation")
     @Override
-    @SideOnly(Side.CLIENT)
-    public BlockRenderLayer getBlockLayer() {
-        if (this.getMaterial(getDefaultState()).equals(Material.GLASS)) {
-            return BlockRenderLayer.TRANSLUCENT;
-        } else if (this.getMaterial(getDefaultState()).equals(Material.ANVIL)) {
-            return BlockRenderLayer.CUTOUT_MIPPED;
+    public VoxelShape getShape(final BlockState state, final BlockGetter world, final BlockPos pos,
+            final CollisionContext context) {
+        return this.shape;
+    }
+
+    static VoxelShape boxToShape(final List<Integer> box) {
+        if (box != null && box.size() >= 6) {
+            return Block.box(box.get(0), box.get(1), box.get(2),
+                    box.get(3), box.get(4), box.get(5));
         }
-        return BlockRenderLayer.SOLID;
+        return Shapes.block();
     }
 
-    @SuppressWarnings("deprecation")
-    @Override
-    public boolean isOpaqueCube(final IBlockState state) {
-        if (this.getMaterial(getDefaultState()).equals(Material.GLASS)
-                || this.getMaterial(getDefaultState()).equals(Material.ANVIL)) {
-            return false;
-        } else {
-            return true;
+    static int[] boxArr(final List<Integer> box) {
+        if (box != null && box.size() >= 6) {
+            return new int[] { box.get(0), box.get(1), box.get(2),
+                    box.get(3), box.get(4), box.get(5) };
         }
-    }
-
-    @SuppressWarnings("deprecation")
-    @Override
-    public boolean isFullCube(final IBlockState state) {
-        if (this.getMaterial(getDefaultState()).equals(Material.GLASS)
-                || this.getMaterial(getDefaultState()).equals(Material.ANVIL)) {
-            return false;
-        } else {
-            return true;
-        }
-    }
-
-    public int getIndexBox(final int index) {
-        return box.get(index);
-    }
-
-    @Override
-    public AxisAlignedBB getBoundingBox(final IBlockState state, final IBlockAccess source,
-            final BlockPos pos) {
-        return new AxisAlignedBB(getIndexBox(0) * 0.0625, getIndexBox(1) * 0.0625,
-                getIndexBox(2) * 0.0625, getIndexBox(3) * 0.0625, getIndexBox(4) * 0.0625,
-                getIndexBox(5) * 0.0625);
+        return new int[] { 0, 0, 0, 16, 16, 16 };
     }
 }
