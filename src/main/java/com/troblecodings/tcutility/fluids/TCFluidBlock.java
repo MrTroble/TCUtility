@@ -1,45 +1,50 @@
 package com.troblecodings.tcutility.fluids;
 
-import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.EnumBlockRenderType;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
-import net.minecraftforge.fluids.BlockFluidClassic;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.InsideBlockEffectApplier;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.LiquidBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.FlowingFluid;
 
-public class TCFluidBlock extends BlockFluidClassic {
+/**
+ * Mod-Fluid-Block. Erbt das gesamte Verhalten von {@link LiquidBlock} (Quell-/Flowstates,
+ * Slope-Find, Tickrate, Bucket-Pickup) und ergaenzt nur den Status-MobEffect, der den
+ * ehemaligen 1.12.2-{@code onEntityCollidedWithBlock}-Override ersetzt.
+ *
+ * <p>1.21: {@link LiquidBlock}-Ctor nimmt jetzt direkt die {@link FlowingFluid}-Instanz statt
+ * eines Suppliers; {@link MobEffectInstance}-Ctor erwartet einen {@link Holder}-Wrapper um
+ * den Effekt.
+ */
+public class TCFluidBlock extends LiquidBlock {
 
-    private final TCFluids fluid;
+    private final Holder<MobEffect> effect;
+    private final int durationSeconds;
+    private final int amplifier;
 
-    public TCFluidBlock(final TCFluids fluid) {
-        super(fluid, Material.WATER);
-        this.fluid = fluid;
-        this.canCreateSources = this.fluid.canCreateSource;
+    public TCFluidBlock(final FlowingFluid fluid, final Block.Properties properties,
+            final Holder<MobEffect> effect, final int durationSeconds, final int amplifier) {
+        super(fluid, properties);
+        this.effect = effect;
+        this.durationSeconds = durationSeconds;
+        this.amplifier = amplifier;
     }
 
     @Override
-    public EnumBlockRenderType getRenderType(final IBlockState state) {
-        return EnumBlockRenderType.MODEL;
-    }
-
-    @Override
-    public int getQuantaValue(final IBlockAccess world, final BlockPos pos) {
-        if (isSourceBlock(world, pos)) {
-            return Math.max(2, Math.min(8, fluid.flowLength));
-        }
-        return super.getQuantaValue(world, pos);
-    }
-
-    @Override
-    public void onEntityCollidedWithBlock(final World worldIn, final BlockPos pos,
-            final IBlockState state, final Entity entity) {
-        if (entity instanceof EntityLivingBase && this.fluid.effectPotion != null) {
-            ((EntityLivingBase) entity).addPotionEffect(new PotionEffect(this.fluid.effectPotion,
-                    this.fluid.effectDuration * 20, this.fluid.effectAmplifier - 1));
+    protected void entityInside(final BlockState state, final Level world, final BlockPos pos,
+            final Entity entity, final InsideBlockEffectApplier effectApplier) {
+        // 1.21.8: entityInside ist protected und nimmt zusaetzlich einen
+        // InsideBlockEffectApplier-Parameter (vanilla-managed Particle/Effect-Pipeline).
+        super.entityInside(state, world, pos, entity, effectApplier);
+        if (effect != null && entity instanceof LivingEntity) {
+            ((LivingEntity) entity).addEffect(new MobEffectInstance(effect,
+                    Math.max(1, durationSeconds) * 20, Math.max(0, amplifier - 1)));
         }
     }
 }

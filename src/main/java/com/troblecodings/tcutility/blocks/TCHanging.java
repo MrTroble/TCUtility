@@ -1,105 +1,91 @@
 package com.troblecodings.tcutility.blocks;
 
-import com.troblecodings.tcutility.init.TCTabs;
+import javax.annotation.Nullable;
+
 import com.troblecodings.tcutility.utils.BlockCreateInfo;
 
-import net.minecraft.block.properties.IProperty;
-import net.minecraft.block.properties.PropertyDirection;
-import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.Mirror;
-import net.minecraft.util.Rotation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.core.Direction;
+import net.minecraft.world.level.block.Mirror;
+import net.minecraft.world.level.block.Rotation;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraft.world.level.BlockGetter;
 
-public class TCHanging extends TCCube {
+/**
+ * Block, der an jeder Seite (inkl. Decke / Boden) angebracht werden kann; die
+ * Hitbox aus {@link BlockCreateInfo#box} wird passend zur Orientierung gedreht.
+ */
+public class TCHanging extends Block {
 
-    public static final PropertyDirection FACING = PropertyDirection.create("facing");
+    public static final net.minecraft.world.level.block.state.properties.EnumProperty<net.minecraft.core.Direction> FACING = BlockStateProperties.FACING;
 
-    public TCHanging(final BlockCreateInfo blockinfo) {
-        super(blockinfo);
-        setCreativeTab(TCTabs.SPECIAL);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.UP));
+    private final VoxelShape upShape;
+    private final VoxelShape downShape;
+    private final VoxelShape northShape;
+    private final VoxelShape eastShape;
+    private final VoxelShape southShape;
+    private final VoxelShape westShape;
+
+    public TCHanging(final BlockCreateInfo blockInfo) {
+        super(blockInfo.toNonSolidProperties());
+        final int[] b = TCCube.boxArr(blockInfo.box);
+        // Default-Orientierung ist UP (Block haengt von der Decke). Die anderen
+        // Orientierungen werden ueber Y- bzw. X-Rotationen abgeleitet.
+        this.upShape = Block.box(b[0], b[1], b[2], b[3], b[4], b[5]);
+        this.downShape = Block.box(b[0], 16 - b[4], b[2], b[3], 16 - b[1], b[5]);
+        this.northShape = Block.box(b[0], b[2], 16 - b[4], b[3], b[5], 16 - b[1]);
+        this.southShape = Block.box(b[0], b[2], b[1], b[3], b[5], b[4]);
+        this.eastShape = Block.box(b[1], b[2], b[0], b[4], b[5], b[3]);
+        this.westShape = Block.box(16 - b[4], b[2], b[0], 16 - b[1], b[5], b[3]);
+
+        this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.UP));
     }
 
     @Override
-    public IBlockState getStateForPlacement(final World worldIn, final BlockPos pos,
-            final EnumFacing facing, final float hitX, final float hitY, final float hitZ,
-            final int meta, final EntityLivingBase placer, final EnumHand hand) {
-        return this.getDefaultState().withProperty(FACING, facing);
-    }
-
-    @Override
-    public IBlockState getStateFromMeta(final int meta) {
-        IBlockState iblockstate = this.getDefaultState();
-
-        switch (meta) {
-            case 1:
-                iblockstate = iblockstate.withProperty(FACING, EnumFacing.EAST);
-                break;
-            case 2:
-                iblockstate = iblockstate.withProperty(FACING, EnumFacing.WEST);
-                break;
-            case 3:
-                iblockstate = iblockstate.withProperty(FACING, EnumFacing.SOUTH);
-                break;
-            case 4:
-                iblockstate = iblockstate.withProperty(FACING, EnumFacing.NORTH);
-                break;
-            case 5:
-                iblockstate = iblockstate.withProperty(FACING, EnumFacing.DOWN);
-                break;
-            case 6:
-            default:
-                iblockstate = iblockstate.withProperty(FACING, EnumFacing.UP);
-        }
-        return iblockstate;
-    }
-
-    @Override
-    public int getMetaFromState(final IBlockState state) {
-        int i = 0;
-
+    public VoxelShape getShape(final BlockState state, final BlockGetter world, final BlockPos pos,
+            final CollisionContext context) {
         switch (state.getValue(FACING)) {
-            case EAST:
-                i = i | 1;
-                break;
-            case WEST:
-                i = i | 2;
-                break;
-            case SOUTH:
-                i = i | 3;
-                break;
-            case NORTH:
-                i = i | 4;
-                break;
             case DOWN:
-                i = i | 5;
-                break;
+                return downShape;
+            case NORTH:
+                return northShape;
+            case SOUTH:
+                return southShape;
+            case EAST:
+                return eastShape;
+            case WEST:
+                return westShape;
             case UP:
             default:
-                i = i | 6;
+                return upShape;
         }
-        return i;
     }
 
     @Override
-    public IBlockState withRotation(final IBlockState state, final Rotation rot) {
-        return state.withProperty(FACING, rot.rotate(state.getValue(FACING)));
+    @Nullable
+    public BlockState getStateForPlacement(final BlockPlaceContext context) {
+        return this.defaultBlockState().setValue(FACING, context.getClickedFace());
     }
 
     @Override
-    public IBlockState withMirror(final IBlockState state, final Mirror mirrorIn) {
-        return state.withRotation(mirrorIn.toRotation(state.getValue(FACING)));
+    public BlockState rotate(final BlockState state, final Rotation rot) {
+        return state.setValue(FACING, rot.rotate(state.getValue(FACING)));
     }
 
     @Override
-    protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, new IProperty[] {
-                FACING
-        });
+    public BlockState mirror(final BlockState state, final Mirror mirror) {
+        return state.rotate(mirror.getRotation(state.getValue(FACING)));
+    }
+
+    @Override
+    protected void createBlockStateDefinition(final StateDefinition.Builder<Block, BlockState> builder) {
+        builder.add(FACING);
     }
 }
