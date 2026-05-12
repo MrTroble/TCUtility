@@ -1,0 +1,15 @@
+{
+    "_comment": "1.19.3+ schraenkt den vanilla blocks-Atlas auf die Verzeichnisse 'block/' und 'item/' ein. Der TCUtility-Mod nutzt durchgaengig die 1.12er Plural-Pfade ('blocks/' / 'items/'), daher haengen wir die hier explizit als zusaetzliche Quellen ein. Forge/MC mergen Atlas-Definitionen ueber alle Resource-Packs hinweg, wir ergaenzen also nur die fehlenden Sources, ohne Vanilla zu ueberschreiben.",
+    "sources": [
+        {
+            "type": "directory",
+            "source": "blocks",
+            "prefix": "blocks/"
+        },
+        {
+            "type": "directory",
+            "source": "items",
+            "prefix": "items/"
+        }
+    ]
+}

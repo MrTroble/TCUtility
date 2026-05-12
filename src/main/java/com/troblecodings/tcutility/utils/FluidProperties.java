@@ -2,8 +2,9 @@ package com.troblecodings.tcutility.utils;
 
 import java.util.HashMap;
 
-import net.minecraft.init.MobEffects;
-import net.minecraft.potion.Potion;
+import net.minecraft.core.Holder;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffects;
 
 public class FluidProperties {
 
@@ -17,16 +18,18 @@ public class FluidProperties {
     private int effectDuration = 1;
     private int effectAmplifier = 1;
 
-    private static final HashMap<String, Potion> POTION_TABLE = translateTablePotion();
+    private static final HashMap<String, Holder<MobEffect>> EFFECT_TABLE = translateTableEffect();
 
     public FluidCreateInfo getFluidInfo() {
-        final Potion effectPotion = POTION_TABLE.get(effect.toLowerCase());
+        final Holder<MobEffect> effectInstance = EFFECT_TABLE.get(effect.toLowerCase());
         return new FluidCreateInfo(luminosity, density, temperature, viscosity, flowLength,
-                canCreateSource, effectPotion, effectDuration, effectAmplifier);
+                canCreateSource, effectInstance, effectDuration, effectAmplifier);
     }
 
-    private static HashMap<String, Potion> translateTablePotion() {
-        final HashMap<String, Potion> translateTable = new HashMap<>();
+    private static HashMap<String, Holder<MobEffect>> translateTableEffect() {
+        // 1.21: MobEffects-Konstanten sind {@link Holder}<MobEffect>-Wrapper; JSON-facing keys
+        // behalten ihre 1.12-Namen, damit Content-Packs unveraendert weiterfunktionieren.
+        final HashMap<String, Holder<MobEffect>> translateTable = new HashMap<>();
         translateTable.put("", null);
         translateTable.put("absorption", MobEffects.ABSORPTION);
         translateTable.put("blindness", MobEffects.BLINDNESS);
