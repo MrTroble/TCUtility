@@ -1,121 +1,86 @@
 package com.troblecodings.tcutility.blocks;
 
+import javax.annotation.Nullable;
+
 import com.troblecodings.tcutility.utils.BlockCreateInfo;
 
-import net.minecraft.block.properties.IProperty;
-import net.minecraft.block.properties.PropertyEnum;
-import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.Rotation;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.core.Direction;
+import net.minecraft.world.level.block.Mirror;
+import net.minecraft.world.level.block.Rotation;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraft.world.level.BlockGetter;
 
-public class TCCubeRotationAll extends TCCube {
+public class TCCubeRotationAll extends Block {
 
-    public static final PropertyEnum<EnumFacing.Axis> AXIS =
-            PropertyEnum.<EnumFacing.Axis>create("axis", EnumFacing.Axis.class);
+    public static final EnumProperty<Direction.Axis> AXIS = BlockStateProperties.AXIS;
+
+    private final VoxelShape yShape;
+    private final VoxelShape xShape;
+    private final VoxelShape zShape;
 
     public TCCubeRotationAll(final BlockCreateInfo blockInfo) {
-        super(blockInfo);
+        super(blockInfo.toNonSolidProperties());
+        final int[] b = TCCube.boxArr(blockInfo.box);
+        // Y-Achse ist Default; X / Z sind Drehungen um die jeweilige Achse:
+        //   X-Achse: y/z werden getauscht und gespiegelt
+        //   Z-Achse: x/y werden getauscht und gespiegelt
+        this.yShape = Block.box(b[0], b[1], b[2], b[3], b[4], b[5]);
+        this.xShape = Block.box(b[0], b[2], 16 - b[4], b[3], b[5], 16 - b[1]);
+        this.zShape = Block.box(b[1], 16 - b[3], b[2], b[4], 16 - b[0], b[5]);
+
+        this.registerDefaultState(this.stateDefinition.any().setValue(AXIS, Direction.Axis.Y));
     }
 
     @Override
-    public boolean rotateBlock(final World world, final BlockPos pos, final EnumFacing axis) {
-        IBlockState state = world.getBlockState(pos);
-        for (final IProperty<?> prop : state.getProperties().keySet()) {
-            if (prop.equals(AXIS)) {
-                world.setBlockState(pos, state.cycleProperty(prop));
-                return true;
-            }
+    public VoxelShape getShape(final BlockState state, final BlockGetter world, final BlockPos pos,
+            final CollisionContext context) {
+        switch (state.getValue(AXIS)) {
+            case X:
+                return xShape;
+            case Z:
+                return zShape;
+            case Y:
+            default:
+                return yShape;
         }
-        return false;
     }
 
-    @SuppressWarnings("deprecation")
     @Override
-    public AxisAlignedBB getBoundingBox(final IBlockState finalstate, final IBlockAccess source,
-            final BlockPos pos) {
-        final IBlockState state = this.getActualState(finalstate, source, pos);
-        final EnumFacing.Axis axis = state.getValue(AXIS);
-        AxisAlignedBB bb = FULL_BLOCK_AABB;
-        if (axis.equals(EnumFacing.Axis.X)) {
-            bb = new AxisAlignedBB(getIndexBox(2) * 0.0625, getIndexBox(1) * 0.0625,
-                    getIndexBox(0) * 0.0625, getIndexBox(5) * 0.0625, getIndexBox(4) * 0.0625,
-                    getIndexBox(3) * 0.0625);
-        } else if (axis.equals(EnumFacing.Axis.Z)) {
-            bb = new AxisAlignedBB(getIndexBox(0) * 0.0625, getIndexBox(1) * 0.0625,
-                    getIndexBox(2) * 0.0625, getIndexBox(3) * 0.0625, getIndexBox(4) * 0.0625,
-                    getIndexBox(5) * 0.0625);
-        } else if (axis.equals(EnumFacing.Axis.Y)) {
-            bb = new AxisAlignedBB(getIndexBox(1) * 0.0625, getIndexBox(0) * 0.0625,
-                    getIndexBox(2) * 0.0625, getIndexBox(4) * 0.0625, getIndexBox(3) * 0.0625,
-                    getIndexBox(5) * 0.0625);
+    @Nullable
+    public BlockState getStateForPlacement(final BlockPlaceContext context) {
+        return this.defaultBlockState().setValue(AXIS, context.getClickedFace().getAxis());
+    }
+
+    @Override
+    public BlockState rotate(final BlockState state, final Rotation rot) {
+        if (state.getValue(AXIS) == Direction.Axis.Y) {
+            return state;
         }
-        return bb;
-    }
-
-    @Override
-    public IBlockState withRotation(final IBlockState state, final Rotation rot) {
         switch (rot) {
-            case CLOCKWISE_90:
             case COUNTERCLOCKWISE_90:
-                switch (state.getValue(AXIS)) {
-                    case X:
-                        return state.withProperty(AXIS, EnumFacing.Axis.Z);
-                    case Z:
-                        return state.withProperty(AXIS, EnumFacing.Axis.X);
-                    default:
-                        return state;
-                }
+            case CLOCKWISE_90:
+                return state.setValue(AXIS,
+                        state.getValue(AXIS) == Direction.Axis.X ? Direction.Axis.Z : Direction.Axis.X);
             default:
                 return state;
         }
     }
 
     @Override
-    public IBlockState getStateFromMeta(final int meta) {
-        EnumFacing.Axis facingAxis = EnumFacing.Axis.Y;
-        int i = meta & 12;
-
-        if (i == 4) {
-            facingAxis = EnumFacing.Axis.X;
-        } else if (i == 8) {
-            facingAxis = EnumFacing.Axis.Z;
-        }
-        return this.getDefaultState().withProperty(AXIS, facingAxis);
+    public BlockState mirror(final BlockState state, final Mirror mirror) {
+        return state;
     }
 
     @Override
-    public int getMetaFromState(final IBlockState state) {
-        int i = 0;
-        EnumFacing.Axis facingAxis = state.getValue(AXIS);
-
-        if (facingAxis.equals(EnumFacing.Axis.X)) {
-            i |= 4;
-        } else if (facingAxis.equals(EnumFacing.Axis.Z)) {
-            i |= 8;
-        }
-        return i;
+    protected void createBlockStateDefinition(final StateDefinition.Builder<Block, BlockState> builder) {
+        builder.add(AXIS);
     }
-
-    @Override
-    protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, new IProperty[] {
-                AXIS
-        });
-    }
-
-    @Override
-    public IBlockState getStateForPlacement(final World world, final BlockPos pos,
-            final EnumFacing facing, final float hitX, final float hitY, final float hitZ,
-            final int meta, final EntityLivingBase placer, final EnumHand hand) {
-        return super.getStateForPlacement(world, pos, facing, hitX, hitY, hitZ, meta, placer, hand)
-                .withProperty(AXIS, facing.getAxis());
-    }
-
 }
