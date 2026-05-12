@@ -1,110 +1,149 @@
 package com.troblecodings.tcutility.items;
 
 import com.troblecodings.tcutility.blocks.TCBigDoor;
-import com.troblecodings.tcutility.blocks.TCBigDoor.EnumDoorThird;
-import com.troblecodings.tcutility.init.TCTabs;
+import com.troblecodings.tcutility.blocks.TCBigDoor.BigDoorThird;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockDoor.EnumHingePosition;
-import net.minecraft.block.SoundType;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.level.block.state.properties.DoorHingeSide;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.core.Direction;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.level.Level;
 
+/**
+ * Setzt beim Klicken den dreistoeckigen Cluster eines {@link TCBigDoor}.
+ * 1:1-Port der Vanilla-1.12-Door-Placement-Heuristik (Block neben Tuer +
+ * normalcube-Counts links/rechts), damit Doppel-Tueren wieder als
+ * Doppel-Tuer einrasten und nicht ineinander rendern.
+ */
 public class TCBigDoorItem extends Item {
 
-    private final Block block;
+    private final TCBigDoor door;
 
-    public TCBigDoorItem(final Block block) {
-        this.block = block;
-        setCreativeTab(TCTabs.DOORS);
-        ((TCBigDoor) block).setItem(this);
+    public TCBigDoorItem(final Block block, final net.minecraft.resources.ResourceKey<Item> itemKey) {
+        // 1.21.2+: Item.Properties#setId muss vor dem Item-Ctor laufen.
+        super(new Item.Properties().setId(itemKey));
+        this.door = (TCBigDoor) block;
+        this.door.setItem(this);
     }
 
     public Block getBlock() {
-        return block;
+        return door;
     }
 
     @Override
-    public EnumActionResult onItemUse(final EntityPlayer player, final World worldIn, BlockPos pos,
-            final EnumHand hand, final EnumFacing facing, final float hitX, final float hitY,
-            final float hitZ) {
-        if (!facing.equals(EnumFacing.UP))
-            return EnumActionResult.FAIL;
-        else {
-            final IBlockState iblockstate = worldIn.getBlockState(pos);
-            final Block block = iblockstate.getBlock();
-
-            if (!block.isReplaceable(worldIn, pos)) {
-                pos = pos.offset(facing);
-            }
-
-            final ItemStack itemstack = player.getHeldItem(hand);
-
-            if (player.canPlayerEdit(pos, facing, itemstack)
-                    && this.block.canPlaceBlockAt(worldIn, pos)) {
-                final EnumFacing enumfacing = EnumFacing.fromAngle(player.rotationYaw);
-                final int i = enumfacing.getFrontOffsetX();
-                final int j = enumfacing.getFrontOffsetZ();
-                final boolean flag = i < 0 && hitZ < 0.5F || i > 0 && hitZ > 0.5F
-                        || j < 0 && hitX > 0.5F || j > 0 && hitX < 0.5F;
-                placeDoor(worldIn, pos, enumfacing, this.block, flag);
-                final SoundType soundtype = worldIn.getBlockState(pos).getBlock()
-                        .getSoundType(worldIn.getBlockState(pos), worldIn, pos, player);
-                worldIn.playSound(player, pos, soundtype.getPlaceSound(), SoundCategory.BLOCKS,
-                        (soundtype.getVolume() + 1.0F) / 2.0F, soundtype.getPitch() * 0.8F);
-                itemstack.shrink(1);
-                return EnumActionResult.SUCCESS;
-            } else
-                return EnumActionResult.FAIL;
+    public InteractionResult useOn(final UseOnContext ctx) {
+        if (ctx.getClickedFace() != Direction.UP) {
+            return InteractionResult.FAIL;
         }
+        final Level world = ctx.getLevel();
+        final Player player = ctx.getPlayer();
+        if (player == null) {
+            return InteractionResult.FAIL;
+        }
+        final ItemStack stack = player.getItemInHand(ctx.getHand());
+
+        // Wenn der angeklickte Block ersetzbar ist (Gras/Schnee), wird er
+        // selbst zur LOWER-Position; sonst LOWER = clicked + face. Vanilla-
+        // Verhalten aus 1.12.
+        BlockPos pos = ctx.getClickedPos();
+        final BlockState clicked = world.getBlockState(pos);
+        if (!clicked.canBeReplaced()) {
+            pos = pos.relative(ctx.getClickedFace());
+        }
+        final BlockPos middle = pos.above();
+        final BlockPos upper = pos.above(2);
+
+        if (!world.getBlockState(pos).canBeReplaced()
+                || !world.getBlockState(middle).canBeReplaced()
+                || !world.getBlockState(upper).canBeReplaced()) {
+            return InteractionResult.FAIL;
+        }
+        // Solider Untergrund noetig.
+        if (!world.getBlockState(pos.below()).isSolid()) {
+            return InteractionResult.FAIL;
+        }
+        if (!player.mayUseItemAt(pos, ctx.getClickedFace(), stack)) {
+            return InteractionResult.FAIL;
+        }
+
+        final Direction facing = player.getDirection();
+        final Vec3 hit = ctx.getClickLocation();
+        final double hitX = hit.x - ctx.getClickedPos().getX();
+        final double hitZ = hit.z - ctx.getClickedPos().getZ();
+
+        // Initiale isRightHinge-Vermutung aus relativer Klick-Position --
+        // 1:1 wie in der Vanilla-1.12-Door-Logik.
+        final int xOff = facing.getStepX();
+        final int zOff = facing.getStepZ();
+        final boolean initialRightHinge = (xOff < 0 && hitZ < 0.5D)
+                || (xOff > 0 && hitZ > 0.5D)
+                || (zOff < 0 && hitX > 0.5D)
+                || (zOff > 0 && hitX < 0.5D);
+
+        placeDoor(world, pos, facing, door, initialRightHinge);
+
+        final BlockState placedLower = world.getBlockState(pos);
+        final SoundType soundtype = placedLower.getBlock().getSoundType(placedLower, world, pos,
+                player);
+        world.playSound(player, pos, soundtype.getPlaceSound(), SoundSource.BLOCKS,
+                (soundtype.getVolume() + 1.0F) / 2.0F, soundtype.getPitch() * 0.8F);
+
+        if (!player.getAbilities().instabuild) {
+            stack.shrink(1);
+        }
+        return InteractionResult.SUCCESS;
     }
 
-    public static void placeDoor(final World worldIn, final BlockPos pos, final EnumFacing facing,
-            final Block door, boolean isRightHinge) {
-        final BlockPos blockpos = pos.offset(facing.rotateY());
-        final BlockPos blockpos1 = pos.offset(facing.rotateYCCW());
-        final int i = (worldIn.getBlockState(blockpos).isNormalCube() ? 1 : 0)
-                + (worldIn.getBlockState(blockpos.up()).isNormalCube() ? 1 : 0);
-        final int j = (worldIn.getBlockState(blockpos1).isNormalCube() ? 1 : 0)
-                + (worldIn.getBlockState(blockpos1.up()).isNormalCube() ? 1 : 0);
-        final boolean flag = worldIn.getBlockState(blockpos).getBlock() == door
-                || worldIn.getBlockState(blockpos.up()).getBlock() == door;
-        final boolean flag1 = worldIn.getBlockState(blockpos1).getBlock() == door
-                || worldIn.getBlockState(blockpos1.up()).getBlock() == door;
+    /**
+     * Port der Vanilla-1.12-{@code BlockDoor.placeDoor}-Hinge-Heuristik,
+     * mit der Original-Door-Klasse als Vergleichsblock (statt
+     * {@code instanceof TCBigDoor}, sonst stoeren sich benachbarte
+     * Door-Varianten gegenseitig).
+     */
+    private static void placeDoor(final Level world, final BlockPos pos, final Direction facing,
+            final TCBigDoor door, boolean isRightHinge) {
+        final BlockPos right = pos.relative(facing.getClockWise());
+        final BlockPos left = pos.relative(facing.getCounterClockWise());
+        final int rightCubes = (world.getBlockState(right).isRedstoneConductor(world, right) ? 1 : 0)
+                + (world.getBlockState(right.above()).isRedstoneConductor(world, right.above()) ? 1 : 0);
+        final int leftCubes = (world.getBlockState(left).isRedstoneConductor(world, left) ? 1 : 0)
+                + (world.getBlockState(left.above()).isRedstoneConductor(world, left.above()) ? 1 : 0);
+        final boolean rightIsDoor = world.getBlockState(right).getBlock() == door
+                || world.getBlockState(right.above()).getBlock() == door;
+        final boolean leftIsDoor = world.getBlockState(left).getBlock() == door
+                || world.getBlockState(left.above()).getBlock() == door;
 
-        if ((!flag1 || flag) && i <= j) {
-            if (flag && !flag1 || i < j) {
+        if ((!leftIsDoor || rightIsDoor) && rightCubes <= leftCubes) {
+            if ((rightIsDoor && !leftIsDoor) || rightCubes < leftCubes) {
                 isRightHinge = false;
             }
         } else {
             isRightHinge = true;
         }
 
-        final BlockPos blockpos3 = pos.up();
-        final BlockPos blockpos4 = pos.up(2);
-        final boolean flag3 = worldIn.isBlockPowered(pos) || worldIn.isBlockPowered(blockpos3);
-        final IBlockState iblockstate =
-                door.getDefaultState().withProperty(TCBigDoor.FACING, facing)
-                        .withProperty(TCBigDoor.HINGE,
-                                isRightHinge ? EnumHingePosition.RIGHT : EnumHingePosition.LEFT)
-                        .withProperty(TCBigDoor.POWERED, Boolean.valueOf(flag3))
-                        .withProperty(TCBigDoor.OPEN, Boolean.valueOf(flag3));
-        worldIn.setBlockState(pos, iblockstate.withProperty(TCBigDoor.THIRD, EnumDoorThird.LOWER),
-                2);
-        worldIn.setBlockState(blockpos3,
-                iblockstate.withProperty(TCBigDoor.THIRD, EnumDoorThird.MIDDLE), 2);
-        worldIn.setBlockState(blockpos4,
-                iblockstate.withProperty(TCBigDoor.THIRD, EnumDoorThird.UPPER), 2);
-        worldIn.notifyNeighborsOfStateChange(pos, door, false);
-        worldIn.notifyNeighborsOfStateChange(blockpos3, door, false);
-        worldIn.notifyNeighborsOfStateChange(blockpos4, door, false);
+        final BlockPos middle = pos.above();
+        final BlockPos upper = pos.above(2);
+        final boolean powered = world.hasNeighborSignal(pos) || world.hasNeighborSignal(middle);
+        final BlockState base = door.defaultBlockState()
+                .setValue(TCBigDoor.FACING, facing)
+                .setValue(TCBigDoor.HINGE,
+                        isRightHinge ? DoorHingeSide.RIGHT : DoorHingeSide.LEFT)
+                .setValue(TCBigDoor.POWERED, Boolean.valueOf(powered))
+                .setValue(TCBigDoor.OPEN, Boolean.valueOf(powered));
+        world.setBlock(pos, base.setValue(TCBigDoor.THIRD, BigDoorThird.LOWER), 2);
+        world.setBlock(middle, base.setValue(TCBigDoor.THIRD, BigDoorThird.MIDDLE), 2);
+        world.setBlock(upper, base.setValue(TCBigDoor.THIRD, BigDoorThird.UPPER), 2);
+        world.updateNeighborsAt(pos, door);
+        world.updateNeighborsAt(middle, door);
+        world.updateNeighborsAt(upper, door);
     }
 }

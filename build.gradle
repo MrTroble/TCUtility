@@ -1,102 +1,95 @@
-buildscript {
-    repositories {
-        maven { url = 'https://maven.minecraftforge.net/' }
-		maven {
-      		url = "https://plugins.gradle.org/m2/"
-    	}
-        jcenter()
-        mavenCentral()
-    }
-    dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:5.1+'
-        classpath "gradle.plugin.com.matthewprenger:CurseGradle:1.4.0"
-    }
+plugins {
+    id 'java-library'
+    id 'eclipse'
+    id 'maven-publish'
+    id 'net.neoforged.gradle.userdev' version '7.0.171'
 }
 
-apply plugin: 'net.minecraftforge.gradle'
-apply plugin: 'eclipse'
-apply plugin: 'maven-publish'
-
-apply plugin: "com.matthewprenger.cursegradle"
-
-sourceSets{
+sourceSets {
     main {
         java {
             srcDirs("contentPackLib/src")
         }
+        // NeoForge-Dev-Mode: ohne diese Zeile schreibt Gradle
+        // META-INF/neoforge.mods.toml in build/resources/main, waehrend die
+        // .class-Files in build/classes/java/main liegen. NeoForge/FML sieht
+        // dann beide Pfade als getrennte "Mod Files", findet in resources/main
+        // keine @Mod-Klasse und crasht beim Client-Start. Wir kippen die
+        // Resources direkt in den Classes-Output.
+        output.resourcesDir = java.classesDirectory
     }
 }
 
 def ver = System.getenv("APPVEYOR_BUILD_VERSION")
-if(ver == null)
-	ver = 'dev'
-
-def key = System.getenv("CURSETOKEN")
-if(key == null)
-	key = 'dev'
-curseforge {
-  apiKey = key
-  project {
-    id = '821776'
-    changelog = file('changelog.md')
-    releaseType = 'release'
-    changelogType = 'markdown'
-  }
-}
+if (ver == null)
+    ver = '0.0.0-dev'
 
 version = ver
 group = 'com.troblecodings'
-archivesBaseName = 'TCUtility-1.12.2'
+archivesBaseName = 'TCUtility-1.21.4'
 
-sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
+// 1.20.5+ erfordert JDK 21
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 
-minecraft {
-    mappings channel: 'snapshot', version: '20171003-1.12'
-    runs {
-        client {
-            workingDirectory project.file('run')
-            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
-            property 'forge.logging.console.level', 'debug'
-        }
+repositories {
+    maven { url = 'https://maven.neoforged.net/releases' }
+    mavenCentral()
+}
 
-        server {
-            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
-            property 'forge.logging.console.level', 'debug'
-        }
+dependencies {
+    implementation 'net.neoforged:neoforge:21.4.157'
+}
+
+runs {
+    configureEach {
+        // Mod-Identification fuer alle Runs
+        modSource project.sourceSets.main
+        systemProperty 'forge.logging.markers', 'REGISTRIES'
+        systemProperty 'forge.logging.console.level', 'debug'
     }
-}
 
-dependencies {   
-    minecraft 'net.minecraftforge:forge:1.12.2-14.23.5.2860'
-    testImplementation("org.junit.jupiter:junit-jupiter:5.9.2")
-}
+    client {
+        workingDirectory project.file('run')
+    }
 
-test {
-    useJUnitPlatform {
-    	includeEngines("junit-jupiter")
+    server {
+        workingDirectory project.file('run')
     }
 }
 
 processResources {
-	inputs.property "version", project.version
-	
-	filesMatching("mcmod.info") {
-		expand "version": project.version, "mcversion": "1.12.2"
-	}
+    inputs.property "version", project.version
+
+    filesMatching("META-INF/neoforge.mods.toml") {
+        expand "version": project.version
+    }
+
+    // Asset-Format-Migration. Pipeline kombiniert alle Versions-Spruenge
+    // bis 1.20: 1.12->1.14, 1.14->1.16, 1.16->1.19, 1.19->1.20.
+    doLast {
+        def pipeline = new com.troblecodings.build.AssetMigrationPipeline()
+        pipeline.addAll(com.troblecodings.build.AssetMigrations.mc1_12_to_mc1_14())
+        pipeline.addAll(com.troblecodings.build.AssetMigrations.mc1_14_to_mc1_16())
+        pipeline.addAll(com.troblecodings.build.AssetMigrations.mc1_16_to_mc1_19())
+        pipeline.addAll(com.troblecodings.build.AssetMigrations.mc1_19_to_mc1_20())
+        pipeline.addAll(com.troblecodings.build.AssetMigrations.mc1_20_to_mc1_21_neoforge())
+        pipeline.addAll(com.troblecodings.build.AssetMigrations.mc1_21_1_to_mc1_21_4_neoforge())
+        pipeline.run(destinationDir)
+        pipeline.report.each { logger.info(it) }
+        logger.lifecycle("[asset-migrate] applied ${pipeline.report.size()} resource transforms")
+    }
 }
 
 jar {
     manifest {
         attributes([
-            "Specification-Title": "TCUtility",
-            "Specification-Vendor": "Troblecodings",
-            "Specification-Version": ver,
-            "Implementation-Title": project.name,
-            "Implementation-Version": ver,
-            "Implementation-Vendor" :"Troblecodings",
+            "Specification-Title"     : "TCUtility",
+            "Specification-Vendor"    : "Troblecodings",
+            "Specification-Version"   : ver,
+            "Implementation-Title"    : project.name,
+            "Implementation-Version"  : ver,
+            "Implementation-Vendor"   : "Troblecodings",
             "Implementation-Timestamp": new Date().format("dd-MM-yyyy'T'HH:mm:ssZ")
         ])
     }
 }
-
-jar.finalizedBy('reobfJar')

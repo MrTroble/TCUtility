@@ -1,103 +1,70 @@
 package com.troblecodings.tcutility;
 
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.file.FileSystem;
-import java.nio.file.FileSystems;
 import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Collections;
 import java.util.Optional;
 
+import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.troblecodings.contentpacklib.ContentPackHandler;
 import com.troblecodings.tcutility.init.TCBlocks;
-import com.troblecodings.tcutility.proxy.CommonProxy;
+import com.troblecodings.tcutility.init.TCFluidsInit;
+import com.troblecodings.tcutility.init.TCItems;
+import com.troblecodings.tcutility.init.TCTabs;
 
-import net.minecraftforge.fluids.FluidRegistry;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.Mod.EventHandler;
-import net.minecraftforge.fml.common.Mod.Instance;
-import net.minecraftforge.fml.common.SidedProxy;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.ModContainer;
+import net.neoforged.fml.ModList;
+import net.neoforged.fml.common.Mod;
 
-@Mod(modid = TCUtilityMain.MODID, acceptedMinecraftVersions = "[1.12.2]", modLanguage = "java")
-
+@Mod(TCUtilityMain.MODID)
 public class TCUtilityMain {
 
-    @Instance
-    private static TCUtilityMain instance;
     public static final String MODID = "tcutility";
-
-    static {
-        FluidRegistry.enableUniversalBucket();
-    }
-
-    public TCUtilityMain() {
-        instance = this;
-        fileHandler = new ContentPackHandler(MODID, "assets/" + MODID, LOG,
-                name -> getRessourceLocation(name).get().toAbsolutePath());
-    }
-
-    public static TCUtilityMain getInstance() {
-        return instance;
-    }
-
-    @SidedProxy(serverSide = "com.troblecodings.tcutility.proxy.CommonProxy",
-            clientSide = "com.troblecodings.tcutility.proxy.ClientProxy")
-    public static CommonProxy PROXY;
-    public static Logger LOG;
+    public static final Logger LOG = LogManager.getLogger();
     public static ContentPackHandler fileHandler;
 
-    @EventHandler
-    public void preinit(final FMLPreInitializationEvent event) {
-        LOG = event.getModLog();
-        PROXY.preinit(event);
+    public TCUtilityMain(final IEventBus modBus, final ModContainer container) {
+        fileHandler = new ContentPackHandler(MODID, "assets/" + MODID, LOG,
+                name -> getRessourceLocation(name).orElse(null), modBus);
+
+        // Block-/Item-/Fluid-Konstruktion ist seit 1.19 strikt an die jeweiligen
+        // RegisterEvents gebunden (frozen registries) -- hier nur die JSON-Parse-Phase,
+        // die echten Instanzen entstehen in den Subscribern.
+        TCFluidsInit.initJsonFiles();
+        TCItems.init();
+        TCBlocks.init();
+        TCBlocks.initJsonFiles();
+        TCItems.initJsonFiles();
+
+        // NeoForge 1.21: der Mod-Bus wird im @Mod-Konstruktor injiziert; manuelle
+        // Subscriber-Registrierung weiter wie zuvor.
+        TCTabs.REGISTRY.register(modBus);
+        modBus.register(TCBlocks.class);
+        modBus.register(TCItems.class);
+        modBus.register(TCFluidsInit.class);
     }
 
-    @EventHandler
-    public void init(final FMLInitializationEvent event) {
-        PROXY.init(event);
-    }
-
-    @EventHandler
-    public void postinit(final FMLPostInitializationEvent event) {
-        PROXY.postinit(event);
-    }
-
-    private static FileSystem fileSystemCache = null;
-
+    /**
+     * 1.19+ verwendet einen Modul-Classloader, der Mod-Resources unter dem
+     * {@code union:}-URL-Schema rausgibt; {@code Class.getResource} + {@code Paths.get(URI)}
+     * schlaegt damit fehl. Wir holen die Pfade direkt aus dem ModFile, das fuer alle Schema-
+     * Varianten einen NIO-Path liefert.
+     */
     private static Optional<Path> getRessourceLocation(final String location) {
-        String filelocation = location;
-        final URL url = TCBlocks.class.getResource("/assets/" + MODID);
         try {
-            if (url != null) {
-                final URI uri = url.toURI();
-                if ("file".equals(uri.getScheme())) {
-                    if (!location.startsWith("/")) {
-                        filelocation = "/" + filelocation;
-                    }
-                    final URL resource = TCBlocks.class.getResource(filelocation);
-                    if (resource == null)
-                        return Optional.empty();
-                    return Optional.of(Paths.get(resource.toURI()));
-                } else {
-                    if (!"jar".equals(uri.getScheme()))
-                        return Optional.empty();
-                    if (fileSystemCache == null) {
-                        fileSystemCache = FileSystems.newFileSystem(uri, Collections.emptyMap());
-                    }
-                    return Optional.of(fileSystemCache.getPath(filelocation));
-                }
+            final var modFileInfo = ModList.get().getModFileById(MODID);
+            if (modFileInfo == null) {
+                return Optional.empty();
             }
-        } catch (final IOException | URISyntaxException e) {
-            e.printStackTrace();
+            final Path resolved = modFileInfo.getFile().findResource(location);
+            if (resolved == null) {
+                return Optional.empty();
+            }
+            return Optional.of(resolved);
+        } catch (final Exception e) {
+            LOG.error("[TCUtility] Failed to resolve mod resource '{}'", location, e);
+            return Optional.empty();
         }
-        return Optional.empty();
     }
 }
