@@ -1,113 +1,106 @@
 package com.troblecodings.tcutility.blocks;
 
-import com.troblecodings.tcutility.init.TCTabs;
+import javax.annotation.Nullable;
+
 import com.troblecodings.tcutility.utils.BlockCreateInfo;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.properties.PropertyBool;
-import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumFacing.Axis;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.core.Direction;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.ScheduledTickAccess;
 
-public class TCWindow extends TCCube {
+/**
+ * Pane-artiges Fenster mit zusaetzlicher vertikaler Verbindung. Zustaende
+ * spiegeln das 1.12.2-Original 1:1:
+ *
+ * <ul>
+ *   <li>{@code x} (boolean) -- Pane-Achse: true = X-axis (Pane verlaeuft
+ *       entlang X), false = Z-axis</li>
+ *   <li>{@code up} / {@code down} -- vertikale Verbindung an einen
+ *       TCWindow-Nachbarn (oben/unten)</li>
+ *   <li>{@code left} / {@code right} -- Verbindung entlang der Pane-Achse;
+ *       fuer X-Pane sind das West/East-Nachbarn, fuer Z-Pane North/South</li>
+ * </ul>
+ *
+ * Die Verbindungslogik checkt nur, ob der Nachbar selbst ein TCWindow ist,
+ * unabhaengig von dessen Achse -- analog zur 1.12.2-{@code attachesToBlock}.
+ */
+public class TCWindow extends Block {
 
-    public static final PropertyBool UP = PropertyBool.create("up");
-    public static final PropertyBool DOWN = PropertyBool.create("down");
-    public static final PropertyBool FACING = PropertyBool.create("x");
-    public static final PropertyBool LEFT = PropertyBool.create("left");
-    public static final PropertyBool RIGHT = PropertyBool.create("right");
+    public static final BooleanProperty UP = BooleanProperty.create("up");
+    public static final BooleanProperty DOWN = BooleanProperty.create("down");
+    public static final BooleanProperty LEFT = BooleanProperty.create("left");
+    public static final BooleanProperty RIGHT = BooleanProperty.create("right");
+    /** {@code x}: true = pane verlaeuft entlang X-Axis, false = Z-Axis. */
+    public static final BooleanProperty AXIS_X = BooleanProperty.create("x");
 
-    protected static final AxisAlignedBB AABB_X =
-            new AxisAlignedBB(0.0D, 0.0D, 0.4375D, 1.0D, 1.0D, 0.5625D);
-    protected static final AxisAlignedBB AABB_Z =
-            new AxisAlignedBB(0.4375D, 0.0D, 0.0D, 0.5625D, 1.0D, 1.0D);
+    private static final VoxelShape SHAPE_X = Block.box(0, 0, 7, 16, 16, 9);
+    private static final VoxelShape SHAPE_Z = Block.box(7, 0, 0, 9, 16, 16);
 
     public TCWindow(final BlockCreateInfo blockInfo) {
-        super(blockInfo);
-        setCreativeTab(TCTabs.SPECIAL);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(UP, false)
-                .withProperty(DOWN, false).withProperty(FACING, false).withProperty(LEFT, false)
-                .withProperty(RIGHT, false));
+        super(blockInfo.toNonSolidProperties());
+        this.registerDefaultState(this.stateDefinition.any()
+                .setValue(UP, Boolean.FALSE)
+                .setValue(DOWN, Boolean.FALSE)
+                .setValue(LEFT, Boolean.FALSE)
+                .setValue(RIGHT, Boolean.FALSE)
+                .setValue(AXIS_X, Boolean.FALSE));
     }
 
     @Override
-    public AxisAlignedBB getBoundingBox(final IBlockState finalstate, final IBlockAccess source,
+    public VoxelShape getShape(final BlockState state, final BlockGetter world,
+            final BlockPos pos, final CollisionContext context) {
+        return state.getValue(AXIS_X) ? SHAPE_X : SHAPE_Z;
+    }
+
+    @Override
+    @Nullable
+    public BlockState getStateForPlacement(final BlockPlaceContext context) {
+        // Spieler schaut entlang Z -> Pane steht senkrecht dazu auf X-Achse.
+        final Direction facing = context.getHorizontalDirection();
+        final boolean axisX = facing.getAxis() == Direction.Axis.Z;
+        return computeConnections(defaultBlockState().setValue(AXIS_X, axisX),
+                context.getLevel(), context.getClickedPos());
+    }
+
+    @Override
+    protected BlockState updateShape(final BlockState state, final LevelReader world,
+            final ScheduledTickAccess scheduledTickAccess, final BlockPos currentPos,
+            final Direction facing, final BlockPos facingPos, final BlockState facingState,
+            final RandomSource random) {
+        // 1.21.4: updateShape-Signatur erweitert um LevelReader/ScheduledTickAccess/RandomSource;
+        // Reihenfolge der vorhandenen Args ist auch leicht permutiert (currentPos vor facing).
+        return computeConnections(state, world, currentPos);
+    }
+
+    private BlockState computeConnections(final BlockState state, final BlockGetter world,
             final BlockPos pos) {
-        final IBlockState state = this.getActualState(finalstate, source, pos);
-        return state.getValue(FACING) ? AABB_X : AABB_Z;
+        final boolean axisX = state.getValue(AXIS_X);
+        final Direction left = axisX ? Direction.WEST : Direction.NORTH;
+        final Direction right = axisX ? Direction.EAST : Direction.SOUTH;
+        return state
+                .setValue(UP, attaches(world.getBlockState(pos.above())))
+                .setValue(DOWN, attaches(world.getBlockState(pos.below())))
+                .setValue(LEFT, attaches(world.getBlockState(pos.relative(left))))
+                .setValue(RIGHT, attaches(world.getBlockState(pos.relative(right))));
+    }
+
+    private static boolean attaches(final BlockState neighbor) {
+        return neighbor.getBlock() instanceof TCWindow;
     }
 
     @Override
-    public boolean isOpaqueCube(final IBlockState state) {
-        return false;
+    protected void createBlockStateDefinition(final StateDefinition.Builder<Block, BlockState> builder) {
+        builder.add(UP, DOWN, LEFT, RIGHT, AXIS_X);
     }
-
-    @Override
-    public boolean isFullCube(final IBlockState state) {
-        return false;
-    }
-
-    @Override
-    protected boolean canSilkHarvest() {
-        return true;
-    }
-
-    @Override
-    public IBlockState getActualState(final IBlockState finalstate, final IBlockAccess worldIn,
-            final BlockPos pos) {
-        IBlockState state = finalstate;
-        state = state.withProperty(UP, this.attachesToBlock(worldIn, pos.up()));
-        state = state.withProperty(DOWN, this.attachesToBlock(worldIn, pos.down()));
-        if (state.getValue(FACING)) {
-            state = state.withProperty(LEFT, this.attachesToBlock(worldIn, pos.west()));
-            state = state.withProperty(RIGHT, this.attachesToBlock(worldIn, pos.east()));
-        } else {
-            state = state.withProperty(LEFT, this.attachesToBlock(worldIn, pos.north()));
-            state = state.withProperty(RIGHT, this.attachesToBlock(worldIn, pos.south()));
-        }
-        return state;
-    }
-
-    @Override
-    public IBlockState getStateForPlacement(final World world, final BlockPos pos,
-            final EnumFacing facing, final float hitX, final float hitY, final float hitZ,
-            final int meta, final EntityLivingBase placer, final EnumHand hand) {
-        final Axis facingAxis = placer.getHorizontalFacing().getAxis();
-        return facingAxis.equals(EnumFacing.Axis.X)
-                ? this.getDefaultState().withProperty(FACING, false)
-                : this.getDefaultState().withProperty(FACING, true);
-    }
-
-    @Override
-    public IBlockState getStateFromMeta(final int meta) {
-        return meta == 1 ? this.getDefaultState().withProperty(FACING, true)
-                : this.getDefaultState().withProperty(FACING, false);
-    }
-
-    @Override
-    public int getMetaFromState(final IBlockState state) {
-        int i = 0;
-        if (state.getValue(FACING).booleanValue()) {
-            i = 1;
-        }
-        return i;
-    }
-
-    @Override
-    protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, UP, DOWN, FACING, LEFT, RIGHT);
-    }
-
-    private boolean attachesToBlock(final IBlockAccess world, final BlockPos pos) {
-        final Block block = world.getBlockState(pos).getBlock();
-        return block instanceof TCWindow;
-    }
-
 }

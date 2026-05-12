@@ -1,255 +1,222 @@
 package com.troblecodings.tcutility.blocks;
 
-import com.troblecodings.tcutility.init.TCTabs;
+import javax.annotation.Nullable;
+
 import com.troblecodings.tcutility.utils.BlockCreateInfo;
+import com.troblecodings.tcutility.utils.MaterialKind;
+import com.troblecodings.tcutility.utils.MaterialKindRegistry;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.IProperty;
-import net.minecraft.block.properties.PropertyBool;
-import net.minecraft.block.properties.PropertyDirection;
-import net.minecraft.block.state.BlockFaceShape;
-import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.BlockRenderLayer;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.Rotation;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.core.Direction;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.level.block.Mirror;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.level.block.Rotation;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.core.registries.BuiltInRegistries;
 
-public class TCGarageDoor extends TCCube {
+/**
+ * Rolltor-Header. Wenn man den Block aktiviert, rollt das Tor unter ihm
+ * auf oder zu: bei OPEN werden alle TCGarageGates darunter (bis 10 Bloecke)
+ * zu Luft, bei CLOSED werden sie aus dem zugehoerigen Gate-Block-Type
+ * wiederhergestellt. Plus: hat der Header einen Nachbar-Header in der
+ * gleichen Achse (FACING-orthogonal), wird der State auch dort
+ * propagiert -- so funktionieren breitere Tore mit mehreren Saeulen.
+ *
+ * Der zugehoerige Gate-Block wird ueber Registry-Naming aufgeloest:
+ * {@code <namespace>:<basename>_gate}, identisch zur 1.12.2-Logik.
+ */
+public class TCGarageDoor extends Block {
 
-    public static final PropertyDirection FACING =
-            PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
-    public static final PropertyBool OPEN = PropertyBool.create("open");
+    public static final net.minecraft.world.level.block.state.properties.EnumProperty<net.minecraft.core.Direction> FACING = BlockStateProperties.HORIZONTAL_FACING;
+    public static final BooleanProperty OPEN = BlockStateProperties.OPEN;
+
+    private static final int MAX_REACH = 10;
 
     public TCGarageDoor(final BlockCreateInfo blockInfo) {
-        super(blockInfo);
-        this.setCreativeTab(TCTabs.DOORS);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH)
-                .withProperty(OPEN, Boolean.valueOf(true)));
+        super(blockInfo.toNonSolidProperties());
+        this.registerDefaultState(this.stateDefinition.any()
+                .setValue(FACING, Direction.NORTH).setValue(OPEN, Boolean.TRUE));
     }
 
     @Override
-    public AxisAlignedBB getBoundingBox(final IBlockState state, final IBlockAccess source,
-            final BlockPos pos) {
-        return FULL_BLOCK_AABB;
+    @Nullable
+    public BlockState getStateForPlacement(final BlockPlaceContext context) {
+        return this.defaultBlockState().setValue(FACING,
+                context.getHorizontalDirection().getOpposite());
     }
 
     @Override
-    public boolean isOpaqueCube(final IBlockState state) {
-        return false;
+    protected InteractionResult useWithoutItem(final BlockState state,
+            final net.minecraft.world.level.Level world, final BlockPos pos, final Player player,
+            final BlockHitResult hit) {
+        if (MaterialKindRegistry.get(state.getBlock()) == MaterialKind.METAL) {
+            return InteractionResult.PASS;
+        }
+        toggleAt(world, pos, state);
+        return InteractionResult.SUCCESS;
     }
 
     @Override
-    public boolean isFullCube(final IBlockState state) {
-        return false;
+    protected void neighborChanged(final BlockState state, final net.minecraft.world.level.Level world,
+            final BlockPos pos, final Block fromBlock,
+            final net.minecraft.world.level.redstone.Orientation orientation,
+            final boolean isMoving) {
+        if (world.isClientSide()) {
+            return;
+        }
+        final boolean powered = world.hasNeighborSignal(pos);
+        if (powered != state.getValue(OPEN)) {
+            // Redstone: powered -> open. Closed initial state handled separately.
+            final BlockState newState = state.setValue(OPEN, powered);
+            world.setBlock(pos, newState, 2);
+            applyRoll(world, pos, newState);
+            propagateAlongAxis(world, pos, newState);
+            world.levelEvent(null, soundFor(state, powered), pos, 0);
+        }
     }
 
-    public int getCloseSound() {
-        return this.blockMaterial.equals(Material.IRON) ? 1011 : 1012;
+    @Override
+    public BlockState playerWillDestroy(final net.minecraft.world.level.Level world, final BlockPos pos,
+            final BlockState state, final Player player) {
+        // Beim Brechen des Headers: alle daran haengenden Gates entfernen
+        // (sonst bleibt ein freischwebendes Tor zurueck).
+        clearGatesBelow(world, pos);
+        return super.playerWillDestroy(world, pos, state, player);
     }
 
-    public int getOpenSound() {
-        return this.blockMaterial.equals(Material.IRON) ? 1005 : 1006;
+    /**
+     * Toggle des Headers an {@code pos}: flippt OPEN, rollt die zugehoerigen
+     * Gates entsprechend, propagiert den State zu Nachbar-Headern. Public,
+     * damit auch ein {@link TCGarageGate}-Klick (von unten) das ganze Tor
+     * ausloesen kann -- so wie es das 1.12.2-Original macht.
+     */
+    public void toggleAt(final net.minecraft.world.level.Level world, final BlockPos pos,
+            final BlockState state) {
+        final BlockState toggled = state.cycle(OPEN);
+        world.setBlock(pos, toggled, 10);
+        applyRoll(world, pos, toggled);
+        propagateAlongAxis(world, pos, toggled);
+        world.levelEvent(null, soundFor(state, toggled.getValue(OPEN)), pos, 0);
     }
 
-    public void changeState(final World worldIn, final BlockPos pos, final IBlockState state) {
-        if (state.getValue(OPEN).booleanValue()) {
-            for (int i = 1; i < 10; i++) {
-                final BlockPos posDown = pos.down(i);
-                final IBlockState blockState = worldIn.getBlockState(posDown);
-
-                if (!isGateBlock(blockState)) {
+    /**
+     * Setzt den State des angegebenen Headers + rollt seine Gates auf bzw.
+     * zu. Wird auch fuer Nachbar-Header verwendet.
+     */
+    private void applyRoll(final net.minecraft.world.level.Level world, final BlockPos pos,
+            final BlockState state) {
+        if (state.getValue(OPEN)) {
+            // Rolltor faehrt hoch -> Gates entfernen
+            for (int i = 1; i < MAX_REACH; i++) {
+                final BlockPos below = pos.below(i);
+                if (!(world.getBlockState(below).getBlock() instanceof TCGarageGate)) {
                     break;
                 }
-                worldIn.setBlockToAir(posDown);
+                world.setBlock(below, Blocks.AIR.defaultBlockState(), 11);
             }
         } else {
-            for (int i = 1; i < 10; i++) {
-                final BlockPos posDown = pos.down(i);
-                final IBlockState blockState = worldIn.getBlockState(posDown);
-
-                if (!isAir(blockState, worldIn, posDown)) {
+            // Rolltor faehrt runter -> Gates platzieren bis ein non-air block
+            // den Weg blockiert
+            final Block gate = resolveGateBlock();
+            if (gate == null) {
+                return;
+            }
+            for (int i = 1; i < MAX_REACH; i++) {
+                final BlockPos below = pos.below(i);
+                final BlockState belowState = world.getBlockState(below);
+                if (!belowState.isAir()) {
                     break;
                 }
-
-                worldIn.setBlockState(posDown,
-                        Block.getBlockFromName(this.getRegistryName().toString() + "_gate")
-                                .getDefaultState().withProperty(FACING, state.getValue(FACING)));
+                world.setBlock(below, gate.defaultBlockState()
+                        .setValue(TCCubeRotation.FACING, state.getValue(FACING)), 11);
             }
         }
     }
 
-    public void changeNeighbor(final World worldIn, final BlockPos pos, final IBlockState state) {
-        final EnumFacing facing = state.getValue(FACING);
-        if (facing.equals(EnumFacing.NORTH) || facing.equals(EnumFacing.SOUTH)) {
-            for (int i = 1; i < 10; i++) {
-                final BlockPos posEast = pos.east(i);
-                IBlockState stateEast = worldIn.getBlockState(posEast);
-
-                if (stateEast.getBlock() instanceof TCGarageDoor) {
-                    stateEast = stateEast.cycleProperty(OPEN);
-                    changeState(worldIn, posEast, stateEast);
-                    worldIn.setBlockState(posEast, stateEast, 10);
-                } else {
+    /**
+     * Synchronisiert den OPEN-State mit gleichgerichteten Nachbar-Headern
+     * links und rechts, damit ein breites Garagentor als ein Stueck wirkt.
+     * Achse fuer "links/rechts" haengt von {@code FACING} ab.
+     */
+    private void propagateAlongAxis(final net.minecraft.world.level.Level world, final BlockPos pos,
+            final BlockState state) {
+        final Direction facing = state.getValue(FACING);
+        final Direction[] sides;
+        if (facing.getAxis() == Direction.Axis.Z) {
+            sides = new Direction[] { Direction.EAST, Direction.WEST };
+        } else {
+            sides = new Direction[] { Direction.NORTH, Direction.SOUTH };
+        }
+        for (final Direction d : sides) {
+            for (int i = 1; i < MAX_REACH; i++) {
+                final BlockPos p = pos.relative(d, i);
+                final BlockState s = world.getBlockState(p);
+                if (!(s.getBlock() instanceof TCGarageDoor)) {
                     break;
                 }
-            }
-            for (int i = 1; i < 10; i++) {
-                final BlockPos posWest = pos.west(i);
-                IBlockState stateWest = worldIn.getBlockState(posWest);
-
-                if (stateWest.getBlock() instanceof TCGarageDoor) {
-                    stateWest = stateWest.cycleProperty(OPEN);
-                    changeState(worldIn, posWest, stateWest);
-                    worldIn.setBlockState(posWest, stateWest, 10);
-                } else {
-                    break;
+                if (s.getValue(OPEN) == state.getValue(OPEN)) {
+                    break; // schon synchron
                 }
-            }
-        } else if (facing.equals(EnumFacing.WEST) || facing.equals(EnumFacing.EAST)) {
-            for (int i = 1; i < 10; i++) {
-                final BlockPos posNorth = pos.north(i);
-                IBlockState stateNorth = worldIn.getBlockState(posNorth);
-
-                if (stateNorth.getBlock() instanceof TCGarageDoor) {
-                    stateNorth = stateNorth.cycleProperty(OPEN);
-                    changeState(worldIn, posNorth, stateNorth);
-                    worldIn.setBlockState(posNorth, stateNorth, 10);
-                } else {
-                    break;
-                }
-            }
-            for (int i = 1; i < 10; i++) {
-                final BlockPos posSouth = pos.south(i);
-                IBlockState stateSouth = worldIn.getBlockState(posSouth);
-
-                if (stateSouth.getBlock() instanceof TCGarageDoor) {
-                    stateSouth = stateSouth.cycleProperty(OPEN);
-                    changeState(worldIn, posSouth, stateSouth);
-                    worldIn.setBlockState(posSouth, stateSouth, 10);
-                } else {
-                    break;
-                }
+                final BlockState updated = s.setValue(OPEN, state.getValue(OPEN));
+                world.setBlock(p, updated, 10);
+                applyRoll(world, p, updated);
             }
         }
     }
 
-    private boolean isGateBlock(final IBlockState blockState) {
-        return blockState.getBlock() instanceof TCGarageGate;
-    }
-
-    @Override
-    public boolean onBlockActivated(final World worldIn, final BlockPos pos,
-            final IBlockState state, final EntityPlayer playerIn, final EnumHand hand,
-            final EnumFacing facing, final float hitX, final float hitY, final float hitZ) {
-        if (this.blockMaterial.equals(Material.IRON))
-            return false;
-        final BlockPos blockPos = pos;
-        IBlockState iBlockState = state;
-        if (iBlockState.getBlock() instanceof TCGarageDoor) {
-            iBlockState = iBlockState.cycleProperty(OPEN);
-            changeState(worldIn, blockPos, iBlockState);
-            changeNeighbor(worldIn, pos, iBlockState);
-        }
-
-        worldIn.setBlockState(blockPos, iBlockState, 10);
-        worldIn.markBlockRangeForRenderUpdate(pos, pos);
-        worldIn.playEvent(playerIn, iBlockState.getValue(OPEN).booleanValue() ? this.getOpenSound()
-                : this.getCloseSound(), pos, 0);
-        return true;
-    }
-
-    @Override
-    public void neighborChanged(final IBlockState state, final World worldIn, final BlockPos pos,
-            final Block blockIn, final BlockPos fromPos) {
-        if (worldIn.isRemote)
-            return;
-        boolean flag = worldIn.isBlockPowered(pos);
-
-        if (flag || blockIn.getDefaultState().canProvidePower()) {
-            boolean flag1 = state.getValue(OPEN).booleanValue();
-
-            if (flag1 != flag) {
-                IBlockState blockState = state.withProperty(OPEN, Boolean.valueOf(flag));
-                worldIn.setBlockState(pos, blockState, 2);
-                changeState(worldIn, pos, blockState);
-                changeNeighbor(worldIn, pos, blockState);
-                worldIn.markBlockRangeForRenderUpdate(pos, pos);
-                worldIn.playEvent((EntityPlayer) null,
-                        state.getValue(OPEN).booleanValue() ? this.getOpenSound()
-                                : this.getCloseSound(),
-                        pos, 0);
-            }
-        }
-    }
-
-    @Override
-    public void onBlockHarvested(final World worldIn, final BlockPos pos, final IBlockState state,
-            final EntityPlayer player) {
-        for (int i = 1; i < 10; i++) {
-            final BlockPos posDown = pos.down(i);
-            final IBlockState blockState = worldIn.getBlockState(posDown);
-
-            if (!isGateBlock(blockState)) {
+    private void clearGatesBelow(final net.minecraft.world.level.Level world, final BlockPos pos) {
+        for (int i = 1; i < MAX_REACH; i++) {
+            final BlockPos below = pos.below(i);
+            if (!(world.getBlockState(below).getBlock() instanceof TCGarageGate)) {
                 break;
             }
-            worldIn.setBlockToAir(posDown);
+            world.setBlock(below, Blocks.AIR.defaultBlockState(), 35);
         }
     }
 
-    @Override
-    public BlockRenderLayer getBlockLayer() {
-        return BlockRenderLayer.CUTOUT;
-    }
-
-    @Override
-    public BlockFaceShape getBlockFaceShape(final IBlockAccess worldIn, final IBlockState state,
-            final BlockPos pos, final EnumFacing face) {
-        return BlockFaceShape.UNDEFINED;
-    }
-
-    @Override
-    public IBlockState withRotation(final IBlockState state, final Rotation rot) {
-        return state.withProperty(FACING, rot.rotate(state.getValue(FACING)));
-    }
-
-    @Override
-    public IBlockState getStateForPlacement(final World world, final BlockPos pos,
-            final EnumFacing facing, final float hitX, final float hitY, final float hitZ,
-            final int meta, final EntityLivingBase placer, final EnumHand hand) {
-        return this.getDefaultState().withProperty(FACING, placer.getHorizontalFacing())
-                .withProperty(OPEN, Boolean.valueOf(true));
-    }
-
-    @Override
-    public IBlockState getStateFromMeta(final int meta) {
-        return this.getDefaultState()
-                .withProperty(FACING, EnumFacing.getHorizontal(meta & 3).rotateYCCW())
-                .withProperty(OPEN, Boolean.valueOf((meta & 4) > 0));
-    }
-
-    @Override
-    public int getMetaFromState(final IBlockState state) {
-        int i = 0;
-        i = i | state.getValue(FACING).rotateY().getHorizontalIndex();
-        if (state.getValue(OPEN).booleanValue()) {
-            i |= 4;
+    @Nullable
+    private Block resolveGateBlock() {
+        final Identifier rl = this.builtInRegistryHolder().key().identifier();
+        if (rl == null) {
+            return null;
         }
-        return i;
+        // 1.21.4: Registry.get(rl) liefert jetzt Optional<Holder.Reference>; getValue(rl)
+        // ist die Direkt-Lookup-Variante (vorher .get) -- liefert Block bzw. null.
+        return BuiltInRegistries.BLOCK
+                .getValue(Identifier.fromNamespaceAndPath(rl.getNamespace(), rl.getPath() + "_gate"));
+    }
+
+    private static int soundFor(final BlockState state, final boolean opening) {
+        // 1005/1006 = open wood/iron, 1011/1012 = close wood/iron in 1.14.4
+        if (MaterialKindRegistry.get(state.getBlock()) == MaterialKind.METAL) {
+            return opening ? 1005 : 1011;
+        }
+        return opening ? 1006 : 1012;
     }
 
     @Override
-    protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, new IProperty[] {
-                FACING, OPEN
-        });
+    public BlockState rotate(final BlockState state, final Rotation rot) {
+        return state.setValue(FACING, rot.rotate(state.getValue(FACING)));
     }
 
+    @Override
+    public BlockState mirror(final BlockState state, final Mirror mirror) {
+        return state.rotate(mirror.getRotation(state.getValue(FACING)));
+    }
+
+    @Override
+    protected void createBlockStateDefinition(final StateDefinition.Builder<Block, BlockState> builder) {
+        builder.add(FACING, OPEN);
+    }
 }
