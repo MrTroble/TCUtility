@@ -1,4 +1,4 @@
 [submodule "contentPackLib"]
 	path = contentPackLib
 	url = https://github.com/MrTroble/contentPackLib
-	branch = 1.12.2
+	branch = 1.19.4

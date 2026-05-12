@@ -4,8 +4,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-import net.minecraft.block.SoundType;
-import net.minecraft.block.material.Material;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.material.Material;
 
 public class BlockProperties {
 
@@ -22,36 +22,38 @@ public class BlockProperties {
     private static final HashMap<String, SoundType> SOUND_TABLE = translateTableSoundType();
 
     public static HashMap<String, Material> translateTableMaterial() {
+        // JSON-facing keys keep their 1.12.2 names so existing content packs
+        // continue to work; values point at the renamed 1.14.4 constants.
         final HashMap<String, Material> translateTable = new HashMap<>();
         translateTable.put("grass", Material.GRASS);
-        translateTable.put("ground", Material.GROUND);
+        translateTable.put("ground", Material.DIRT);
         translateTable.put("wood", Material.WOOD);
-        translateTable.put("rock", Material.ROCK);
-        translateTable.put("iron", Material.IRON);
-        translateTable.put("cloth", Material.CLOTH);
+        translateTable.put("rock", Material.STONE);
+        translateTable.put("iron", Material.METAL);
+        translateTable.put("cloth", Material.WOOL);
         translateTable.put("sand", Material.SAND);
         translateTable.put("glass", Material.GLASS);
         translateTable.put("ice", Material.ICE);
-        translateTable.put("packed_ice", Material.PACKED_ICE);
+        translateTable.put("packed_ice", Material.ICE_SOLID);
         translateTable.put("snow", Material.SNOW);
         translateTable.put("clay", Material.CLAY);
-        translateTable.put("anvil", Material.ANVIL);
+        translateTable.put("anvil", Material.HEAVY_METAL);
         return translateTable;
     }
 
     public static HashMap<String, SoundType> translateTableSoundType() {
         final HashMap<String, SoundType> translateTable = new HashMap<>();
         translateTable.put("wood", SoundType.WOOD);
-        translateTable.put("ground", SoundType.GROUND);
+        translateTable.put("ground", SoundType.GRAVEL);
         translateTable.put("stone", SoundType.STONE);
         translateTable.put("metal", SoundType.METAL);
         translateTable.put("glass", SoundType.GLASS);
-        translateTable.put("cloth", SoundType.CLOTH);
+        translateTable.put("cloth", SoundType.WOOL);
         translateTable.put("sand", SoundType.SAND);
         translateTable.put("snow", SoundType.SNOW);
         translateTable.put("ladder", SoundType.LADDER);
-        translateTable.put("slime", SoundType.SLIME);
-        translateTable.put("plant", SoundType.PLANT);
+        translateTable.put("slime", SoundType.SLIME_BLOCK);
+        translateTable.put("plant", SoundType.GRASS);
         return translateTable;
     }
 

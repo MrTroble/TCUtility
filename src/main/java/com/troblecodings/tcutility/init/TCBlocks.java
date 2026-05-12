@@ -1,7 +1,5 @@
 package com.troblecodings.tcutility.init;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,217 +33,158 @@ import com.troblecodings.tcutility.items.TCSlabItem;
 import com.troblecodings.tcutility.utils.BlockCreateInfo;
 import com.troblecodings.tcutility.utils.BlockProperties;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.ITileEntityProvider;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.registries.IForgeRegistry;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegisterEvent;
 
+/**
+ * Sammelt im Mod-Konstruktor nur Block-Spezifikationen (Name+Typ+Properties)
+ * aus den blockdefinitions-JSONs; in 1.19+ darf {@code new Block(...)} erst
+ * waehrend des BLOCKS-{@link RegisterEvent} aufgerufen werden -- vorher ruft
+ * der Block-Konstruktor {@code createIntrusiveHolder} auf eine bereits
+ * gefrorene Registry. Die eigentliche Block- und Item-Konstruktion und
+ * -Registrierung passiert daher in den passenden Event-Handlern.
+ */
 public final class TCBlocks {
 
     private TCBlocks() {
     }
 
-    public static ArrayList<Block> blocksToRegister = new ArrayList<>();
+    private static final class BlockSpec {
+        final String objectName;
+        final ResourceLocation rl;
+        final BlockTypes type;
+        final BlockCreateInfo info;
+        Block constructedBlock;
+        Block gateBlock;
+
+        BlockSpec(final String objectName, final ResourceLocation rl, final BlockTypes type,
+                final BlockCreateInfo info) {
+            this.objectName = objectName;
+            this.rl = rl;
+            this.type = type;
+            this.info = info;
+        }
+    }
+
+    private static final List<BlockSpec> blockSpecs = new ArrayList<>();
+
+    /** Reine Liste registrierter Bloecke fuer das client-seitige Render-Layer-Setup. */
+    public static final List<Block> blocksToRegister = new ArrayList<>();
+
+    /**
+     * Legacy-Kompatibilitaet -- TCRenderTypes pruefte bisher ueber blockEntries.
+     * Wird waehrend des BLOCKS-RegisterEvent gefuellt.
+     */
+    public static final List<Entry<ResourceLocation, Block>> blockEntries = new ArrayList<>();
 
     public static void init() {
-        final Field[] fields = TCBlocks.class.getFields();
-        for (final Field field : fields) {
-            final int modifiers = field.getModifiers();
-            if (Modifier.isStatic(modifiers) && Modifier.isFinal(modifiers)
-                    && Modifier.isPublic(modifiers)) {
-                final String name = field.getName().toLowerCase();
-                try {
-                    final Block block = (Block) field.get(null);
-                    block.setRegistryName(new ResourceLocation(TCUtilityMain.MODID, name));
-                    block.setUnlocalizedName(name);
-                    blocksToRegister.add(block);
-                    if (block instanceof ITileEntityProvider) {
-                        final ITileEntityProvider provider = (ITileEntityProvider) block;
-                        try {
-                            final Class<? extends TileEntity> tileclass =
-                                    provider.createNewTileEntity(null, 0).getClass();
-                            TileEntity.register(tileclass.getSimpleName().toLowerCase(), tileclass);
-                        } catch (final NullPointerException ex) {
-                            TCUtilityMain.LOG.trace(
-                                    "All tileentity provide need to call back a default entity if the world is null!",
-                                    ex);
-                        }
-                    }
-                } catch (IllegalArgumentException | IllegalAccessException e) {
-                    e.printStackTrace();
-                }
+        // Reflection-Pfad fuer manuelle public-static-final-Felder ist mit
+        // dem Defer-Modell nicht vereinbar (Block kann nicht im Mod-Ctor
+        // konstruiert werden). Aktuell wird er ohnehin nicht genutzt --
+        // bleibt als no-op fuer kuenftige Erweiterungen.
+    }
+
+    public static void initJsonFiles() {
+        final Map<String, BlockProperties> blocks = getFromJson("blockdefinitions");
+        for (final Entry<String, BlockProperties> blocksEntry : blocks.entrySet()) {
+            final String objectname = blocksEntry.getKey();
+            final BlockProperties property = blocksEntry.getValue();
+            final BlockCreateInfo blockInfo = property.getBlockInfo();
+            final List<String> states = property.getStates();
+            for (final String state : states) {
+                final BlockTypes type = Enum.valueOf(BlockTypes.class, state.toUpperCase());
+                final String registryName = type.getRegistryName(objectname);
+                final ResourceLocation rl = new ResourceLocation(TCUtilityMain.MODID, registryName);
+                blockSpecs.add(new BlockSpec(objectname, rl, type, blockInfo));
             }
         }
     }
 
     @SubscribeEvent
-    public static void registerBlock(final RegistryEvent.Register<Block> event) {
-        final IForgeRegistry<Block> registry = event.getRegistry();
-        blocksToRegister.forEach(registry::register);
-    }
-
-    @SubscribeEvent
-    public static void registerItem(final RegistryEvent.Register<Item> event) {
-        final IForgeRegistry<Item> registry = event.getRegistry();
-        blocksToRegister.forEach(block -> {
-            if (block instanceof TCDoor || block instanceof TCBigDoor || block instanceof TCSlab)
-                return;
-            registry.register(new ItemBlock(block).setRegistryName(block.getRegistryName()));
-        });
-    }
-
-    public static void initJsonFiles() {
-        final Map<String, BlockProperties> blocks = getFromJson("blockdefinitions");
-
-        for (final Entry<String, BlockProperties> blocksEntry : blocks.entrySet()) {
-            final String objectname = blocksEntry.getKey();
-
-            final BlockProperties property = blocksEntry.getValue();
-
-            final BlockCreateInfo blockInfo = property.getBlockInfo();
-
-            final List<String> states = property.getStates();
-
-            for (final String state : states) {
-                final BlockTypes type = Enum.valueOf(BlockTypes.class, state.toUpperCase());
-                final String registryName = type.getRegistryName(objectname);
-                switch (type) {
-                    case CUBE:
-                        final TCCube cube = new TCCube(blockInfo);
-                        cube.setRegistryName(
-                                new ResourceLocation(TCUtilityMain.MODID, registryName));
-                        cube.setUnlocalizedName(registryName);
-                        blocksToRegister.add(cube);
-                        break;
-                    case CUBE_ROT:
-                        final TCCubeRotation cuberot = new TCCubeRotation(blockInfo);
-                        cuberot.setRegistryName(
-                                new ResourceLocation(TCUtilityMain.MODID, registryName));
-                        cuberot.setUnlocalizedName(registryName);
-                        blocksToRegister.add(cuberot);
-                        break;
-                    case STAIR:
-                        final TCStairs stair = new TCStairs(blockInfo);
-                        stair.setRegistryName(
-                                new ResourceLocation(TCUtilityMain.MODID, registryName));
-                        stair.setUnlocalizedName(registryName);
-                        blocksToRegister.add(stair);
-                        break;
-                    case SLAB:
-                        final TCSlab slab = new TCSlab(blockInfo);
-                        slab.setRegistryName(
-                                new ResourceLocation(TCUtilityMain.MODID, registryName));
-                        slab.setUnlocalizedName(registryName);
-                        blocksToRegister.add(slab);
-                        TCSlabItem slabitem = new TCSlabItem(slab);
-                        slabitem.setRegistryName(
-                                new ResourceLocation(TCUtilityMain.MODID, "slab_" + objectname));
-                        slabitem.setUnlocalizedName("slab_" + objectname);
-                        TCItems.itemsToRegister.add(slabitem);
-                        break;
-                    case FENCE:
-                        final TCFence fence = new TCFence(blockInfo);
-                        fence.setRegistryName(
-                                new ResourceLocation(TCUtilityMain.MODID, registryName));
-                        fence.setUnlocalizedName("fence_" + objectname);
-                        blocksToRegister.add(fence);
-                        break;
-                    case FENCE_GATE:
-                        final TCFenceGate fencegate = new TCFenceGate(blockInfo);
-                        fencegate.setRegistryName(
-                                new ResourceLocation(TCUtilityMain.MODID, registryName));
-                        fencegate.setUnlocalizedName(registryName);
-                        blocksToRegister.add(fencegate);
-                        break;
-                    case WALL:
-                        final TCWall wall = new TCWall(blockInfo);
-                        wall.setRegistryName(
-                                new ResourceLocation(TCUtilityMain.MODID, registryName));
-                        wall.setUnlocalizedName(registryName);
-                        blocksToRegister.add(wall);
-                        break;
-                    case TRAPDOOR:
-                        final TCTrapDoor trapdoor = new TCTrapDoor(blockInfo);
-                        trapdoor.setRegistryName(
-                                new ResourceLocation(TCUtilityMain.MODID, registryName));
-                        trapdoor.setUnlocalizedName("latch_" + objectname);
-                        blocksToRegister.add(trapdoor);
-                        break;
-                    case WINDOW:
-                        final TCWindow window = new TCWindow(blockInfo);
-                        window.setRegistryName(
-                                new ResourceLocation(TCUtilityMain.MODID, registryName));
-                        window.setUnlocalizedName(registryName);
-                        blocksToRegister.add(window);
-                        break;
-                    case LADDER:
-                        final TCLadder ladder = new TCLadder(blockInfo);
-                        ladder.setRegistryName(
-                                new ResourceLocation(TCUtilityMain.MODID, registryName));
-                        ladder.setUnlocalizedName(registryName);
-                        blocksToRegister.add(ladder);
-                        break;
-                    case DOOR:
-                        final TCDoor door = new TCDoor(blockInfo);
-                        door.setRegistryName(
-                                new ResourceLocation(TCUtilityMain.MODID, registryName));
-                        door.setUnlocalizedName(registryName);
-                        blocksToRegister.add(door);
-                        final TCDoorItem dooritem = new TCDoorItem(door);
-                        dooritem.setRegistryName(
-                                new ResourceLocation(TCUtilityMain.MODID, "door_" + objectname));
-                        dooritem.setUnlocalizedName("door_" + objectname);
-                        TCItems.itemsToRegister.add(dooritem);
-                        break;
-                    case BIGDOOR:
-                        final TCBigDoor bigdoor = new TCBigDoor(blockInfo);
-                        bigdoor.setRegistryName(
-                                new ResourceLocation(TCUtilityMain.MODID, registryName));
-                        bigdoor.setUnlocalizedName(registryName);
-                        blocksToRegister.add(bigdoor);
-                        final TCBigDoorItem bigdooritem = new TCBigDoorItem(bigdoor);
-                        bigdooritem.setRegistryName(
-                                new ResourceLocation(TCUtilityMain.MODID, "bigdoor_" + objectname));
-                        bigdooritem.setUnlocalizedName("bigdoor_" + objectname);
-                        TCItems.itemsToRegister.add(bigdooritem);
-                        break;
-                    case HANGING:
-                        final TCHanging hanging = new TCHanging(blockInfo);
-                        hanging.setRegistryName(
-                                new ResourceLocation(TCUtilityMain.MODID, registryName));
-                        hanging.setUnlocalizedName(registryName);
-                        blocksToRegister.add(hanging);
-                        break;
-                    case CUBE_ROT_ALL:
-                        final TCCubeRotationAll rotationAll = new TCCubeRotationAll(blockInfo);
-                        rotationAll.setRegistryName(
-                                new ResourceLocation(TCUtilityMain.MODID, registryName));
-                        rotationAll.setUnlocalizedName(registryName);
-                        blocksToRegister.add(rotationAll);
-                        break;
-                    case GARAGE:
-                        final TCGarageDoor garageDoor = new TCGarageDoor(blockInfo);
-                        garageDoor.setRegistryName(
-                                new ResourceLocation(TCUtilityMain.MODID, registryName));
-                        garageDoor.setUnlocalizedName(registryName);
-                        System.out.println(registryName);
-                        blocksToRegister.add(garageDoor);
-                        final TCGarageGate garageGate = new TCGarageGate(blockInfo);
-                        garageGate.setRegistryName(
-                                new ResourceLocation(TCUtilityMain.MODID, registryName + "_gate"));
-                        garageGate.setUnlocalizedName(registryName + "_gate");
-                        blocksToRegister.add(garageGate);
-                        break;
-                    default:
-                        throw new IllegalStateException(
-                                "The given state " + state + " is not valid.");
+    public static void onRegister(final RegisterEvent event) {
+        if (event.getRegistryKey().equals(ForgeRegistries.Keys.BLOCKS)) {
+            event.register(ForgeRegistries.Keys.BLOCKS, helper -> {
+                for (final BlockSpec spec : blockSpecs) {
+                    final Block block = constructBlock(spec.type, spec.info);
+                    spec.constructedBlock = block;
+                    blocksToRegister.add(block);
+                    blockEntries.add(Map.entry(spec.rl, block));
+                    helper.register(spec.rl, block);
+                    if (spec.type == BlockTypes.GARAGE) {
+                        final Block gate = new TCGarageGate(spec.info);
+                        spec.gateBlock = gate;
+                        blocksToRegister.add(gate);
+                        final ResourceLocation gateRl = new ResourceLocation(
+                                TCUtilityMain.MODID, spec.rl.getPath() + "_gate");
+                        blockEntries.add(Map.entry(gateRl, gate));
+                        helper.register(gateRl, gate);
+                    }
                 }
-            }
+            });
+        } else if (event.getRegistryKey().equals(ForgeRegistries.Keys.ITEMS)) {
+            event.register(ForgeRegistries.Keys.ITEMS, helper -> {
+                for (final BlockSpec spec : blockSpecs) {
+                    final Block block = spec.constructedBlock;
+                    if (block == null) {
+                        continue;
+                    }
+                    if (block instanceof TCDoor) {
+                        helper.register(new ResourceLocation(TCUtilityMain.MODID,
+                                "door_" + spec.objectName), new TCDoorItem(block));
+                        continue;
+                    }
+                    if (block instanceof TCBigDoor) {
+                        helper.register(new ResourceLocation(TCUtilityMain.MODID,
+                                "bigdoor_" + spec.objectName), new TCBigDoorItem(block));
+                        continue;
+                    }
+                    final BlockItem blockItem = (block instanceof TCSlab) ? new TCSlabItem(block)
+                            : new BlockItem(block, new Item.Properties());
+                    helper.register(spec.rl, blockItem);
+                }
+            });
+        }
+    }
+
+    private static Block constructBlock(final BlockTypes type, final BlockCreateInfo info) {
+        switch (type) {
+            case CUBE:
+                return new TCCube(info);
+            case CUBE_ROT:
+                return new TCCubeRotation(info);
+            case STAIR:
+                return new TCStairs(info);
+            case SLAB:
+                return new TCSlab(info);
+            case FENCE:
+                return new TCFence(info);
+            case FENCE_GATE:
+                return new TCFenceGate(info);
+            case WALL:
+                return new TCWall(info);
+            case TRAPDOOR:
+                return new TCTrapDoor(info);
+            case WINDOW:
+                return new TCWindow(info);
+            case LADDER:
+                return new TCLadder(info);
+            case DOOR:
+                return new TCDoor(info);
+            case BIGDOOR:
+                return new TCBigDoor(info);
+            case HANGING:
+                return new TCHanging(info);
+            case CUBE_ROT_ALL:
+                return new TCCubeRotationAll(info);
+            case GARAGE:
+                return new TCGarageDoor(info);
+            default:
+                throw new IllegalStateException("The given state " + type + " is not valid.");
         }
     }
 
@@ -259,7 +198,9 @@ public final class TCBlocks {
             entrySet.forEach(entry -> {
                 final Map<String, BlockProperties> json =
                         gson.fromJson(entry.getValue(), typeOfHashMap);
-                properties.putAll(json);
+                if (json != null) {
+                    properties.putAll(json);
+                }
             });
         }
         return properties;

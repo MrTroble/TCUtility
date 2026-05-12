@@ -1,14 +1,11 @@
 buildscript {
     repositories {
-        maven { url = 'https://maven.minecraftforge.net/' }
-		maven {
-      		url = "https://plugins.gradle.org/m2/"
-    	}
-        jcenter()
+        maven { url = 'https://maven.minecraftforge.net' }
+        maven { url "https://plugins.gradle.org/m2/" }
         mavenCentral()
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:5.1+'
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
         classpath "gradle.plugin.com.matthewprenger:CurseGradle:1.4.0"
     }
 }
@@ -29,7 +26,10 @@ sourceSets{
 
 def ver = System.getenv("APPVEYOR_BUILD_VERSION")
 if(ver == null)
-	ver = 'dev'
+	// 1.19.2-FML besteht auf gueltigem Semver in mods.toml; "dev" wird mit
+	// "Illegal version number" abgewiesen. Wir setzen daher einen
+	// expliziten 0.0.0-Dev-Build-Tag fuer lokale Entwicklungslaeufe.
+	ver = '0.0.0-dev'
 
 def key = System.getenv("CURSETOKEN")
 if(key == null)
@@ -41,48 +41,73 @@ curseforge {
     changelog = file('changelog.md')
     releaseType = 'release'
     changelogType = 'markdown'
+    addGameVersion '1.19.4'
   }
 }
 
 version = ver
 group = 'com.troblecodings'
-archivesBaseName = 'TCUtility-1.12.2'
+archivesBaseName = 'TCUtility-1.19.4'
 
-sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
+// 1.18+ erfordert JDK 17 zur Laufzeit; ForgeGradle benoetigt es auch
+// fuer den Decompile/Reobf-Pfad. Wir lassen Gradle das passende JDK
+// via Toolchain holen.
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
 minecraft {
-    mappings channel: 'snapshot', version: '20171003-1.12'
+    // Mojang's Official-Mappings sind seit 1.18 der Standardpfad;
+    // MCP-Snapshots stoppten bei 1.16.5. Quellcode verwendet daher die
+    // Mojang-Namen (Level statt World, Player statt PlayerEntity, etc.).
+    mappings channel: 'official', version: '1.19.4'
     runs {
         client {
             workingDirectory project.file('run')
             property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
             property 'forge.logging.console.level', 'debug'
+            mods {
+                tcutility {
+                    source sourceSets.main
+                }
+            }
         }
 
         server {
+            workingDirectory project.file('run')
             property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
             property 'forge.logging.console.level', 'debug'
+            mods {
+                tcutility {
+                    source sourceSets.main
+                }
+            }
         }
     }
 }
 
-dependencies {   
-    minecraft 'net.minecraftforge:forge:1.12.2-14.23.5.2860'
-    testImplementation("org.junit.jupiter:junit-jupiter:5.9.2")
-}
-
-test {
-    useJUnitPlatform {
-    	includeEngines("junit-jupiter")
-    }
+dependencies {
+    minecraft 'net.minecraftforge:forge:1.19.4-45.4.0'
 }
 
 processResources {
-	inputs.property "version", project.version
-	
-	filesMatching("mcmod.info") {
-		expand "version": project.version, "mcversion": "1.12.2"
-	}
+    inputs.property "version", project.version
+
+    filesMatching("META-INF/mods.toml") {
+        expand "version": project.version
+    }
+
+    // Asset-Format-Migration. Die Pipeline verkettet alle Versions-Spruenge
+    // bis zum Zielformat -- 1.12->1.14, dann 1.14->1.16, dann 1.16->1.19
+    // (Platzhalter, falls spaeter Texture-/Blockstate-Renames noetig
+    // werden). Original-JSONs unter src/main/resources bleiben unangetastet.
+    doLast {
+        def pipeline = new com.troblecodings.build.AssetMigrationPipeline()
+        pipeline.addAll(com.troblecodings.build.AssetMigrations.mc1_12_to_mc1_14())
+        pipeline.addAll(com.troblecodings.build.AssetMigrations.mc1_14_to_mc1_16())
+        pipeline.addAll(com.troblecodings.build.AssetMigrations.mc1_16_to_mc1_19())
+        pipeline.run(destinationDir)
+        pipeline.report.each { logger.info(it) }
+        logger.lifecycle("[asset-migrate] applied ${pipeline.report.size()} resource transforms")
+    }
 }
 
 jar {
