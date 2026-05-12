@@ -1,6 +1,7 @@
 package com.troblecodings.tcutility.utils;
 
-import net.minecraft.potion.Potion;
+import net.minecraft.core.Holder;
+import net.minecraft.world.effect.MobEffect;
 
 public class FluidCreateInfo {
 
@@ -10,22 +11,23 @@ public class FluidCreateInfo {
     public final int viscosity;
     public final int flowLength;
     public final boolean canCreateSource;
-    public final Potion effectPotion;
+    /** 1.21: MobEffect-Konstanten liefern {@link Holder}-Wrapper; MobEffectInstance-Ctor
+     *  nimmt diesen Holder direkt entgegen. */
+    public final Holder<MobEffect> effect;
     public final int effectDuration;
     public final int effectAmplifier;
 
     public FluidCreateInfo(final int luminosity, final int density, final int temperature,
             final int viscosity, final int flowLength, final boolean canCreateSource,
-            final Potion effePotion, final int effectDuration, final int effectAmplifier) {
+            final Holder<MobEffect> effect, final int effectDuration, final int effectAmplifier) {
         this.luminosity = luminosity;
         this.density = density;
         this.temperature = temperature;
         this.viscosity = viscosity;
         this.flowLength = flowLength;
         this.canCreateSource = canCreateSource;
-        this.effectPotion = effePotion;
+        this.effect = effect;
         this.effectDuration = effectDuration;
         this.effectAmplifier = effectAmplifier;
     }
-
 }

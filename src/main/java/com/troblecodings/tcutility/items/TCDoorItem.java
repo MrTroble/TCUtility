@@ -1,17 +1,17 @@
 package com.troblecodings.tcutility.items;
 
 import com.troblecodings.tcutility.blocks.TCDoor;
-import com.troblecodings.tcutility.init.TCTabs;
 
-import net.minecraft.block.Block;
-import net.minecraft.item.ItemDoor;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.DoubleHighBlockItem;
 
-public class TCDoorItem extends ItemDoor {
+public class TCDoorItem extends DoubleHighBlockItem {
 
     public TCDoorItem(final Block block) {
-        super(block);
-        setCreativeTab(TCTabs.DOORS);
-        ((TCDoor) block).setItem(this);
+        super(block, new Item.Properties());
+        if (block instanceof TCDoor) {
+            ((TCDoor) block).setItem(this);
+        }
     }
-
 }

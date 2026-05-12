@@ -1,477 +1,370 @@
 package com.troblecodings.tcutility.blocks;
 
-import java.util.Random;
+import javax.annotation.Nullable;
 
 import com.troblecodings.tcutility.utils.BlockCreateInfo;
+import com.troblecodings.tcutility.utils.MaterialKind;
+import com.troblecodings.tcutility.utils.MaterialKindRegistry;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockDoor.EnumHingePosition;
-import net.minecraft.block.BlockHorizontal;
-import net.minecraft.block.material.EnumPushReaction;
-import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.IProperty;
-import net.minecraft.block.properties.PropertyBool;
-import net.minecraft.block.properties.PropertyDirection;
-import net.minecraft.block.properties.PropertyEnum;
-import net.minecraft.block.state.BlockFaceShape;
-import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockRenderLayer;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.IStringSerializable;
-import net.minecraft.util.Mirror;
-import net.minecraft.util.Rotation;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.DoorHingeSide;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.core.Direction;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.util.StringRepresentable;
+import net.minecraft.world.level.block.Mirror;
+import net.minecraft.world.level.block.Rotation;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
 
-public class TCBigDoor extends TCCube {
+/**
+ * Drei-Block-tall Door-Variante. Im Gegensatz zum 1.14-Vanilla-DoorBlock
+ * (zwei Blocks: LOWER/UPPER) trackt {@link #THIRD} drei Stockwerke
+ * (LOWER/MIDDLE/UPPER); Open- und Power-State liegen am untersten Block,
+ * die anderen zwei spiegeln den State.
+ */
+public class TCBigDoor extends Block {
 
-    protected Item item;
+    public enum BigDoorThird implements StringRepresentable {
+        LOWER("lower"), MIDDLE("middle"), UPPER("upper");
 
-    public static final PropertyDirection FACING = BlockHorizontal.FACING;
-    public static final PropertyBool OPEN = PropertyBool.create("open");
-    public static final PropertyEnum<EnumHingePosition> HINGE =
-            PropertyEnum.<EnumHingePosition>create("hinge", EnumHingePosition.class);
-    public static final PropertyBool POWERED = PropertyBool.create("powered");
-    public static final PropertyEnum<EnumDoorThird> THIRD =
-            PropertyEnum.<EnumDoorThird>create("third", EnumDoorThird.class);
+        private final String name;
 
-    protected static final AxisAlignedBB SOUTH_L_AABB =
-            new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.5D, 1.0D, 0.1875D);
-    protected static final AxisAlignedBB NORTH_L_AABB =
-            new AxisAlignedBB(0.0D, 0.0D, 0.8125D, 1.5D, 1.0D, 1.0D);
-    protected static final AxisAlignedBB WEST_L_AABB =
-            new AxisAlignedBB(0.8125D, 0.0D, 0.0D, 1.0D, 1.0D, 1.5D);
-    protected static final AxisAlignedBB EAST_L_AABB =
-            new AxisAlignedBB(0.0D, 0.0D, 0.0D, 0.1875D, 1.0D, 1.5D);
-    protected static final AxisAlignedBB SOUTH_R_AABB =
-            new AxisAlignedBB(-0.5D, 0.0D, 0.0D, 1.0D, 1.0D, 0.1875D);
-    protected static final AxisAlignedBB NORTH_R_AABB =
-            new AxisAlignedBB(-0.5D, 0.0D, 0.8125D, 1.0D, 1.0D, 1.0D);
-    protected static final AxisAlignedBB WEST_R_AABB =
-            new AxisAlignedBB(0.8125D, 0.0D, -0.5D, 1.0D, 1.0D, 1.0D);
-    protected static final AxisAlignedBB EAST_R_AABB =
-            new AxisAlignedBB(0.0D, 0.0D, -0.5D, 0.1875D, 1.0D, 1.0D);
+        BigDoorThird(final String name) {
+            this.name = name;
+        }
+
+        @Override
+        public String getSerializedName() {
+            return name;
+        }
+    }
+
+    public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
+    public static final BooleanProperty OPEN = BlockStateProperties.OPEN;
+    public static final EnumProperty<DoorHingeSide> HINGE = BlockStateProperties.DOOR_HINGE;
+    public static final BooleanProperty POWERED = BlockStateProperties.POWERED;
+    public static final EnumProperty<BigDoorThird> THIRD = EnumProperty.create("third",
+            BigDoorThird.class);
+
+    // 1.12-AABB-Tabelle 1:1 portiert: Tuer ist 1,5 Bloecke breit, ragt also
+    // um 0,5 Bloecke in den Nachbarblock. Das ist absichtlich -- die alte
+    // Hitbox blockt damit Right-Click-Placement im "Schwung-Block" der Tuer,
+    // sodass zwei Doppeltueren nicht beide LEFT-hinged ins gleiche Volumen
+    // gesetzt werden koennen. Werte in 0..16-Skala.
+    private static final VoxelShape SOUTH_L_AABB = Block.box(0, 0, 0, 24, 16, 3);
+    private static final VoxelShape NORTH_L_AABB = Block.box(0, 0, 13, 24, 16, 16);
+    private static final VoxelShape WEST_L_AABB = Block.box(13, 0, 0, 16, 16, 24);
+    private static final VoxelShape EAST_L_AABB = Block.box(0, 0, 0, 3, 16, 24);
+    private static final VoxelShape SOUTH_R_AABB = Block.box(-8, 0, 0, 16, 16, 3);
+    private static final VoxelShape NORTH_R_AABB = Block.box(-8, 0, 13, 16, 16, 16);
+    private static final VoxelShape WEST_R_AABB = Block.box(13, 0, -8, 16, 16, 16);
+    private static final VoxelShape EAST_R_AABB = Block.box(0, 0, -8, 3, 16, 16);
+
+    private Item item;
 
     public TCBigDoor(final BlockCreateInfo blockInfo) {
-        super(blockInfo);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH)
-                .withProperty(OPEN, Boolean.valueOf(false))
-                .withProperty(HINGE, EnumHingePosition.LEFT)
-                .withProperty(POWERED, Boolean.valueOf(false))
-                .withProperty(THIRD, EnumDoorThird.LOWER));
-        setCreativeTab(null);
+        super(blockInfo.toNonSolidProperties());
+        this.registerDefaultState(this.stateDefinition.any()
+                .setValue(FACING, Direction.NORTH)
+                .setValue(OPEN, Boolean.FALSE)
+                .setValue(HINGE, DoorHingeSide.LEFT)
+                .setValue(POWERED, Boolean.FALSE)
+                .setValue(THIRD, BigDoorThird.LOWER));
     }
 
     public void setItem(final Item item) {
         this.item = item;
     }
 
-    @Override
-    public AxisAlignedBB getBoundingBox(IBlockState state, final IBlockAccess source,
-            final BlockPos pos) {
-        state = state.getActualState(source, pos);
-        final EnumFacing enumfacing = state.getValue(FACING);
-        final boolean flag = !state.getValue(OPEN).booleanValue();
-        final boolean flag1 = state.getValue(HINGE).equals(EnumHingePosition.RIGHT);
-
-        switch (enumfacing) {
-            case EAST:
-            default:
-                if (flag == false && flag1 == false)
-                    return SOUTH_L_AABB; // east, left, open
-                else if (flag == false && flag1 == true)
-                    return NORTH_L_AABB; // east, right, open
-                else if (flag == true && flag1 == false)
-                    return EAST_L_AABB; // east, left, close
-                else
-                    return EAST_R_AABB; // east, right, close
-            case SOUTH:
-                if (flag == false && flag1 == false)
-                    return WEST_L_AABB; // south, left, open
-                else if (flag == false && flag1 == true)
-                    return EAST_L_AABB; // south, right, open
-                else if (flag == true && flag1 == false)
-                    return SOUTH_R_AABB; // south, left, close
-                else
-                    return SOUTH_L_AABB; // south, right, close
-            case WEST:
-                if (flag == false && flag1 == false)
-                    return NORTH_R_AABB; // west, left, open
-                else if (flag == false && flag1 == true)
-                    return SOUTH_R_AABB; // west, right, open
-                else if (flag == true && flag1 == false)
-                    return WEST_R_AABB; // west, left, close
-                else
-                    return WEST_L_AABB; // west, right, close
-            case NORTH:
-                if (flag == false && flag1 == false)
-                    return EAST_R_AABB; // north, left, open
-                else if (flag == false && flag1 == true)
-                    return WEST_R_AABB; // north, right, open
-                else if (flag == true && flag1 == false)
-                    return NORTH_L_AABB; // north, left, close
-                else
-                    return NORTH_R_AABB; // north, right, close
-        }
-    }
-
-    @Override
-    public boolean isOpaqueCube(final IBlockState state) {
-        return false;
-    }
-
-    @Override
-    public boolean isFullCube(final IBlockState state) {
-        return false;
-    }
-
-    private int getCloseSound() {
-        return this.blockMaterial.equals(Material.IRON) ? 1011 : 1012;
-    }
-
-    private int getOpenSound() {
-        return this.blockMaterial.equals(Material.IRON) ? 1005 : 1006;
-    }
-
-    @Override
-    public boolean onBlockActivated(final World worldIn, final BlockPos pos, IBlockState state,
-            final EntityPlayer playerIn, final EnumHand hand, final EnumFacing facing,
-            final float hitX, final float hitY, final float hitZ) {
-        if (this.blockMaterial.equals(Material.IRON))
-            return false;
-        else {
-            if (state.getValue(THIRD).equals(EnumDoorThird.LOWER)) {
-                if (state.getBlock() instanceof TCBigDoor) {
-                    state = state.cycleProperty(OPEN);
-                }
-                worldIn.setBlockState(pos, state, 10);
-                worldIn.markBlockRangeForRenderUpdate(pos, pos);
-                worldIn.playEvent(playerIn,
-                        state.getValue(OPEN).booleanValue() ? getOpenSound() : getCloseSound(), pos,
-                        0);
-                return true;
-            } else if (state.getValue(THIRD).equals(EnumDoorThird.MIDDLE)) {
-                final BlockPos blockpos = pos.down();
-                final IBlockState iblockstate = worldIn.getBlockState(blockpos);
-                if (iblockstate.getBlock() instanceof TCBigDoor) {
-                    state = iblockstate.cycleProperty(OPEN);
-                }
-                worldIn.setBlockState(blockpos, state, 10);
-                worldIn.markBlockRangeForRenderUpdate(blockpos, pos);
-                worldIn.playEvent(playerIn,
-                        state.getValue(OPEN).booleanValue() ? this.getOpenSound()
-                                : this.getCloseSound(),
-                        pos, 0);
-                return true;
-            } else {
-                final BlockPos blockpos = pos.down(2);
-                final IBlockState iblockstate = worldIn.getBlockState(blockpos);
-                if (iblockstate.getBlock() instanceof TCBigDoor) {
-                    state = iblockstate.cycleProperty(OPEN);
-                }
-                worldIn.setBlockState(blockpos, state, 10);
-                worldIn.markBlockRangeForRenderUpdate(blockpos, pos);
-                worldIn.markBlockRangeForRenderUpdate(blockpos, pos);
-                worldIn.playEvent(playerIn,
-                        state.getValue(OPEN).booleanValue() ? this.getOpenSound()
-                                : this.getCloseSound(),
-                        pos, 0);
-                return true;
-            }
-        }
-    }
-
-    @Override
-    public void neighborChanged(final IBlockState state, final World worldIn, final BlockPos pos,
-            final Block blockIn, final BlockPos fromPos) {
-        switch (state.getValue(THIRD)) {
-            case UPPER:
-                final BlockPos blockposUp = pos.down();
-                final BlockPos blockposUp1 = pos.down(2);
-                final IBlockState iblockstateUp = worldIn.getBlockState(blockposUp);
-                final IBlockState iblockstateUp1 = worldIn.getBlockState(blockposUp1);
-
-                if (!(iblockstateUp.getBlock() instanceof TCBigDoor
-                        && iblockstateUp1.getBlock() instanceof TCBigDoor)) {
-                    worldIn.setBlockToAir(pos);
-                } else if (!(blockIn instanceof TCBigDoor)) {
-                    iblockstateUp.neighborChanged(worldIn, blockposUp, blockIn, fromPos);
-                }
-                break;
-            case MIDDLE:
-                final BlockPos blockposMiddle = pos.down();
-                final BlockPos blockposMiddle1 = pos.up();
-                final IBlockState iblockstateMiddle = worldIn.getBlockState(blockposMiddle);
-                final IBlockState iblockstateMiddle1 = worldIn.getBlockState(blockposMiddle1);
-
-                if (!(iblockstateMiddle.getBlock() instanceof TCBigDoor
-                        && iblockstateMiddle1.getBlock() instanceof TCBigDoor)) {
-                    worldIn.setBlockToAir(pos);
-                } else if (!(blockIn instanceof TCBigDoor)) {
-                    iblockstateMiddle.neighborChanged(worldIn, blockposMiddle, blockIn, fromPos);
-                }
-                break;
-            case LOWER:
-            default:
-                boolean flag1 = false;
-                final BlockPos blockposDown = pos.up();
-                final BlockPos blockposDown1 = pos.up(2);
-                final IBlockState iblockstateDown = worldIn.getBlockState(blockposDown);
-                final IBlockState iblockstateDown1 = worldIn.getBlockState(blockposDown1);
-
-                if (!(iblockstateDown.getBlock() instanceof TCBigDoor)) {
-                    worldIn.setBlockToAir(pos);
-                    flag1 = true;
-                }
-
-                if (!(iblockstateDown1.getBlock() instanceof TCBigDoor)) {
-                    worldIn.setBlockToAir(pos);
-                    flag1 = true;
-                }
-
-                if (!worldIn.getBlockState(pos.down()).isSideSolid(worldIn, pos.down(),
-                        EnumFacing.UP)) {
-                    worldIn.setBlockToAir(pos);
-                    flag1 = true;
-
-                    if (iblockstateDown.getBlock() instanceof TCBigDoor) {
-                        worldIn.setBlockToAir(blockposDown);
-                        worldIn.setBlockToAir(blockposDown1);
-                    }
-                }
-
-                if (flag1) {
-                    if (!worldIn.isRemote) {
-                        this.dropBlockAsItem(worldIn, pos, state, 0);
-                    }
-                } else {
-                    final boolean flag =
-                            worldIn.isBlockPowered(pos) || worldIn.isBlockPowered(blockposDown)
-                                    || worldIn.isBlockPowered(blockposDown1);
-                    final boolean powerd = iblockstateDown.getValue(POWERED);
-
-                    if (!(blockIn instanceof TCBigDoor)
-                            && (flag || blockIn.getDefaultState().canProvidePower())
-                            && flag != powerd) {
-                        worldIn.setBlockState(blockposDown,
-                                iblockstateDown.withProperty(POWERED, Boolean.valueOf(flag)), 2);
-                        worldIn.setBlockState(blockposDown1,
-                                iblockstateDown1.withProperty(POWERED, Boolean.valueOf(flag)), 2);
-
-                        if (flag != state.getValue(OPEN).booleanValue()) {
-                            worldIn.setBlockState(pos,
-                                    state.withProperty(OPEN, Boolean.valueOf(flag)), 2);
-                            worldIn.markBlockRangeForRenderUpdate(pos, pos);
-                            worldIn.playEvent((EntityPlayer) null,
-                                    flag ? this.getOpenSound() : this.getCloseSound(), pos, 0);
-                        }
-                    }
-                }
-                break;
-        }
-    }
-
-    @Override
-    public ItemStack getItem(final World worldIn, final BlockPos pos, final IBlockState state) {
-        return new ItemStack(item);
-    }
-
-    @Override
-    public Item getItemDropped(final IBlockState state, final Random rand, final int fortune) {
+    public Item getItem() {
         return item;
     }
 
     @Override
-    public ItemStack getPickBlock(final IBlockState state, final RayTraceResult target,
-            final World world, final BlockPos pos, final EntityPlayer player) {
-        return getItem(world, pos, state);
-    }
-
-    @Override
-    public EnumPushReaction getMobilityFlag(final IBlockState state) {
-        return EnumPushReaction.DESTROY;
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public BlockRenderLayer getBlockLayer() {
-        return BlockRenderLayer.CUTOUT;
-    }
-
-    @Override
-    public BlockFaceShape getBlockFaceShape(final IBlockAccess worldIn, final IBlockState state,
-            final BlockPos pos, final EnumFacing face) {
-        return BlockFaceShape.UNDEFINED;
-    }
-
-    @Override
-    public void onBlockHarvested(final World worldIn, final BlockPos pos, final IBlockState state,
-            final EntityPlayer player) {
-        final EnumDoorThird part = state.getValue(THIRD);
-        BlockPos blockPos1 = pos;
-        BlockPos blockPos2 = pos;
-        switch (part) {
-            case LOWER:
-                blockPos1 = pos.up();
-                blockPos2 = pos.up(2);
-                if (player.capabilities.isCreativeMode
-                        && worldIn.getBlockState(blockPos1).getBlock() instanceof TCBigDoor
-                        && worldIn.getBlockState(blockPos2).getBlock() instanceof TCBigDoor) {
-                    worldIn.setBlockToAir(blockPos1);
-                    worldIn.setBlockToAir(blockPos2);
-                }
-                break;
-            case MIDDLE:
-                blockPos1 = pos.down();
-                blockPos2 = pos.up();
-                if (player.capabilities.isCreativeMode
-                        && worldIn.getBlockState(blockPos1).getBlock() instanceof TCBigDoor
-                        && worldIn.getBlockState(blockPos2).getBlock() instanceof TCBigDoor) {
-                    worldIn.setBlockToAir(blockPos1);
-                    worldIn.setBlockToAir(blockPos2);
-                }
-                break;
-            case UPPER:
-                blockPos1 = pos.down(2);
-                blockPos2 = pos.down();
-                if (player.capabilities.isCreativeMode
-                        && worldIn.getBlockState(blockPos1).getBlock() instanceof TCBigDoor
-                        && worldIn.getBlockState(blockPos2).getBlock() instanceof TCBigDoor) {
-                    worldIn.setBlockToAir(blockPos1);
-                    worldIn.setBlockToAir(blockPos2);
-                }
-                break;
+    public VoxelShape getShape(final BlockState state, final BlockGetter world,
+            final BlockPos pos, final CollisionContext context) {
+        // 1:1-Port aus 1.12 BlockBigDoor.getBoundingBox: 4 Facings * 2 Hinges
+        // * 2 Open-States = 16 Kombinationen, alle auf 8 unterschiedliche
+        // 1,5-Block-AABBs gemappt. closed=!OPEN, rightHinge=HINGE==RIGHT.
+        final boolean closed = !state.getValue(OPEN);
+        final boolean rightHinge = state.getValue(HINGE) == DoorHingeSide.RIGHT;
+        switch (state.getValue(FACING)) {
+            case EAST:
+            default:
+                if (!closed && !rightHinge) return SOUTH_L_AABB;
+                else if (!closed && rightHinge) return NORTH_L_AABB;
+                else if (closed && !rightHinge) return EAST_L_AABB;
+                else return EAST_R_AABB;
+            case SOUTH:
+                if (!closed && !rightHinge) return WEST_L_AABB;
+                else if (!closed && rightHinge) return EAST_L_AABB;
+                else if (closed && !rightHinge) return SOUTH_R_AABB;
+                else return SOUTH_L_AABB;
+            case WEST:
+                if (!closed && !rightHinge) return NORTH_R_AABB;
+                else if (!closed && rightHinge) return SOUTH_R_AABB;
+                else if (closed && !rightHinge) return WEST_R_AABB;
+                else return WEST_L_AABB;
+            case NORTH:
+                if (!closed && !rightHinge) return EAST_R_AABB;
+                else if (!closed && rightHinge) return WEST_R_AABB;
+                else if (closed && !rightHinge) return NORTH_L_AABB;
+                else return NORTH_R_AABB;
         }
     }
 
     @Override
-    public IBlockState getActualState(final IBlockState stateIn, final IBlockAccess worldIn,
-            final BlockPos pos) {
-        IBlockState state = stateIn;
+    protected InteractionResult useWithoutItem(final BlockState state, final Level world,
+            final BlockPos pos, final Player player, final BlockHitResult hit) {
+        if (MaterialKindRegistry.get(state.getBlock()) == MaterialKind.METAL) {
+            return InteractionResult.PASS;
+        }
+        final BlockPos lowerPos = lowerPosOf(state, pos);
+        final BlockState lowerState = world.getBlockState(lowerPos);
+        if (!(lowerState.getBlock() instanceof TCBigDoor)) {
+            return InteractionResult.PASS;
+        }
+        final boolean newOpen = !lowerState.getValue(OPEN);
+        propagateState(world, lowerPos, lowerState, OPEN, newOpen);
+        world.levelEvent(player, newOpen ? openSoundEvent(state) : closeSoundEvent(state),
+                pos, 0);
+        return InteractionResult.sidedSuccess(world.isClientSide);
+    }
+
+    @Override
+    public void neighborChanged(final BlockState state, final Level world, final BlockPos pos,
+            final Block fromBlock, final BlockPos fromPos, final boolean isMoving) {
+        // 1:1-Port aus 1.12 BlockDoor.neighborChanged: UPPER und MIDDLE
+        // pruefen Struktur-Integritaet und delegieren Redstone an LOWER;
+        // LOWER pruefst Untergrund + alle drei Glieder, dropped beim
+        // Wegbrechen, und schaltet Powered/Open synchron auf Redstone.
         switch (state.getValue(THIRD)) {
-            case UPPER:
-                final IBlockState iblockstateUp = worldIn.getBlockState(pos.down(2));
-                if (iblockstateUp.getBlock() instanceof TCBigDoor) {
-                    state = state.withProperty(FACING, iblockstateUp.getValue(FACING))
-                            .withProperty(OPEN, iblockstateUp.getValue(OPEN));
+            case UPPER: {
+                final BlockPos middle = pos.below();
+                final BlockPos lower = pos.below(2);
+                final BlockState middleState = world.getBlockState(middle);
+                final BlockState lowerState = world.getBlockState(lower);
+                if (!(middleState.getBlock() instanceof TCBigDoor)
+                        || !(lowerState.getBlock() instanceof TCBigDoor)) {
+                    world.setBlock(pos, Blocks.AIR.defaultBlockState(), 35);
+                } else if (!(fromBlock instanceof TCBigDoor)) {
+                    middleState.handleNeighborChanged(world, middle, fromBlock, fromPos, isMoving);
                 }
-                break;
-            case MIDDLE:
-                final IBlockState iblockstateMiddle = worldIn.getBlockState(pos.down());
-                final IBlockState iblockstateMiddle1 = worldIn.getBlockState(pos.up());
-                if (iblockstateMiddle1.getBlock() instanceof TCBigDoor) {
-                    state = state.withProperty(HINGE, iblockstateMiddle1.getValue(HINGE))
-                            .withProperty(POWERED, iblockstateMiddle1.getValue(POWERED));
+                return;
+            }
+            case MIDDLE: {
+                final BlockPos lower = pos.below();
+                final BlockPos upper = pos.above();
+                final BlockState lowerState = world.getBlockState(lower);
+                final BlockState upperState = world.getBlockState(upper);
+                if (!(lowerState.getBlock() instanceof TCBigDoor)
+                        || !(upperState.getBlock() instanceof TCBigDoor)) {
+                    world.setBlock(pos, Blocks.AIR.defaultBlockState(), 35);
+                } else if (!(fromBlock instanceof TCBigDoor)) {
+                    lowerState.handleNeighborChanged(world, lower, fromBlock, fromPos, isMoving);
                 }
-                if (iblockstateMiddle.getBlock() instanceof TCBigDoor) {
-                    state = state.withProperty(FACING, iblockstateMiddle.getValue(FACING))
-                            .withProperty(OPEN, iblockstateMiddle.getValue(OPEN));
-                }
-                break;
+                return;
+            }
             case LOWER:
             default:
-                final IBlockState iblockstateDown = worldIn.getBlockState(pos.up(2));
-                if (iblockstateDown.getBlock() instanceof TCBigDoor) {
-                    state = state.withProperty(HINGE, iblockstateDown.getValue(HINGE))
-                            .withProperty(POWERED, iblockstateDown.getValue(POWERED));
-                }
                 break;
         }
-        return state;
+        // LOWER-Pfad: Struktur und Redstone.
+        final BlockPos middle = pos.above();
+        final BlockPos upper = pos.above(2);
+        final BlockState middleState = world.getBlockState(middle);
+        final BlockState upperState = world.getBlockState(upper);
+        boolean broken = false;
+        if (!(middleState.getBlock() instanceof TCBigDoor)) {
+            world.setBlock(pos, Blocks.AIR.defaultBlockState(), 35);
+            broken = true;
+        }
+        if (!(upperState.getBlock() instanceof TCBigDoor)) {
+            world.setBlock(pos, Blocks.AIR.defaultBlockState(), 35);
+            broken = true;
+        }
+        if (!world.getBlockState(pos.below()).isSolid()) {
+            world.setBlock(pos, Blocks.AIR.defaultBlockState(), 35);
+            broken = true;
+            if (middleState.getBlock() instanceof TCBigDoor) {
+                world.setBlock(middle, Blocks.AIR.defaultBlockState(), 35);
+            }
+            if (upperState.getBlock() instanceof TCBigDoor) {
+                world.setBlock(upper, Blocks.AIR.defaultBlockState(), 35);
+            }
+        }
+        if (broken) {
+            if (!world.isClientSide && this.item != null) {
+                Block.popResource(world, pos, new ItemStack(this.item));
+            }
+            return;
+        }
+        final boolean powered = world.hasNeighborSignal(pos) || world.hasNeighborSignal(middle)
+                || world.hasNeighborSignal(upper);
+        if (!(fromBlock instanceof TCBigDoor)
+                && (powered || fromBlock.defaultBlockState().isSignalSource())
+                && powered != state.getValue(POWERED)) {
+            BlockState s = state.setValue(POWERED, powered);
+            if (powered != state.getValue(OPEN)) {
+                s = s.setValue(OPEN, powered);
+                world.levelEvent(null, powered ? openSoundEvent(s) : closeSoundEvent(s), pos, 0);
+            }
+            propagateState(world, pos, s, POWERED, powered);
+            propagateState(world, pos, s, OPEN, s.getValue(OPEN));
+        }
     }
 
     @Override
-    public IBlockState withRotation(final IBlockState state, final Rotation rot) {
-        return !state.getValue(THIRD).equals(EnumDoorThird.LOWER) ? state
-                : state.withProperty(FACING, rot.rotate(state.getValue(FACING)));
+    public BlockState playerWillDestroy(final Level world, final BlockPos pos, final BlockState state,
+            final Player player) {
+        if (player.getAbilities().instabuild) {
+            removeAllParts(world, pos, state);
+        }
+        return super.playerWillDestroy(world, pos, state, player);
     }
 
     @Override
-    public IBlockState withMirror(final IBlockState state, final Mirror mirrorIn) {
-        return mirrorIn.equals(Mirror.NONE) ? state
-                : state.withRotation(mirrorIn.toRotation(state.getValue(FACING)))
-                        .cycleProperty(HINGE);
+    public void onRemove(final BlockState state, final Level world, final BlockPos pos,
+            final BlockState newState, final boolean isMoving) {
+        if (state.getBlock() != newState.getBlock()) {
+            // Wenn der Block via Explosion / setBlockState aus der Welt
+            // verschwindet (nicht via playerWillDestroy), trotzdem die
+            // anderen zwei Glieder nachreissen.
+            removeAllParts(world, pos, state);
+        }
+        super.onRemove(state, world, pos, newState, isMoving);
     }
 
-    @Override
-    public IBlockState getStateFromMeta(final int meta) {
-        if (((meta & 8) > 0) && ((meta & 12) < 12))
-            return this.getDefaultState().withProperty(THIRD, EnumDoorThird.UPPER)
-                    .withProperty(HINGE,
-                            (meta & 1) > 0 ? EnumHingePosition.RIGHT : EnumHingePosition.LEFT)
-                    .withProperty(POWERED, Boolean.valueOf((meta & 2) > 0));
-        else if ((meta & 0) >= 0 && ((meta & 12) < 12))
-            return this.getDefaultState().withProperty(THIRD, EnumDoorThird.LOWER)
-                    .withProperty(FACING, EnumFacing.getHorizontal(meta & 3).rotateYCCW())
-                    .withProperty(OPEN, Boolean.valueOf((meta & 4) > 0));
-        else
-            return this.getDefaultState().withProperty(THIRD, EnumDoorThird.MIDDLE);
-    }
-
-    @Override
-    public int getMetaFromState(final IBlockState state) {
-        int i = 0;
+    /**
+     * Position des LOWER-Blocks unseres 3er-Clusters relativ zu {@code pos}.
+     */
+    public static BlockPos lowerPosOf(final BlockState state, final BlockPos pos) {
         switch (state.getValue(THIRD)) {
             case UPPER:
-                i = i | 8;
-                if (state.getValue(HINGE).equals(EnumHingePosition.RIGHT)) {
-                    i |= 1;
-                }
-                if (state.getValue(POWERED).booleanValue()) {
-                    i |= 2;
-                }
-                break;
+                return pos.below(2);
             case MIDDLE:
-                i = i | 12;
-                break;
+                return pos.below();
             case LOWER:
             default:
-                i = i | state.getValue(FACING).rotateY().getHorizontalIndex();
-
-                if (state.getValue(OPEN).booleanValue()) {
-                    i |= 4;
-                }
-                break;
+                return pos;
         }
-        return i;
     }
 
-    @Override
-    protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, new IProperty[] {
-                THIRD, FACING, OPEN, HINGE, POWERED
-        });
+    private void propagateState(final Level world, final BlockPos lowerPos,
+            final BlockState lowerState,
+            final net.minecraft.world.level.block.state.properties.Property<?> prop,
+            final Object value) {
+        // Defensiv: nur auf TCBigDoor-Bloecke setzen. Falls Middle/Upper aus
+        // einem Strukturbruch heraus fehlen oder schon Air sind, wuerde
+        // setValue auf einer Air-State NPE/IllegalArgument werfen.
+        applyTo(world, lowerPos, lowerState, prop, value);
+        applyTo(world, lowerPos.above(), world.getBlockState(lowerPos.above()), prop, value);
+        applyTo(world, lowerPos.above(2), world.getBlockState(lowerPos.above(2)), prop, value);
     }
 
-    public static enum EnumDoorThird implements IStringSerializable {
-        UPPER, MIDDLE, LOWER;
-
-        @Override
-        public String toString() {
-            return this.getName();
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    private static void applyTo(final Level world, final BlockPos pos, final BlockState state,
+            final net.minecraft.world.level.block.state.properties.Property<?> prop,
+            final Object value) {
+        if (!(state.getBlock() instanceof TCBigDoor)) {
+            return;
         }
+        if (!state.hasProperty((net.minecraft.world.level.block.state.properties.Property) prop)) {
+            return;
+        }
+        final BlockState updated = state.setValue(
+                (net.minecraft.world.level.block.state.properties.Property) prop,
+                (Comparable) value);
+        world.setBlock(pos, updated, 10);
+    }
 
-        @Override
-        public String getName() {
-            switch (this) {
-                case UPPER:
-                    return "upper";
-                case MIDDLE:
-                    return "middle";
-                case LOWER:
-                default:
-                    return "lower";
+    private void removeAllParts(final Level world, final BlockPos pos, final BlockState state) {
+        final BlockPos lower = lowerPosOf(state, pos);
+        for (int dy = 0; dy < 3; dy++) {
+            final BlockPos p = lower.above(dy);
+            if (p.equals(pos)) {
+                continue; // wird vom regulaeren Break-Pfad selbst entfernt
+            }
+            if (world.getBlockState(p).getBlock() instanceof TCBigDoor) {
+                world.setBlock(p, net.minecraft.world.level.block.Blocks.AIR.defaultBlockState(), 35);
             }
         }
     }
+
+    private static int openSoundEvent(final BlockState state) {
+        return MaterialKindRegistry.get(state.getBlock()) == MaterialKind.METAL ? 1005 : 1006;
+    }
+
+    private static int closeSoundEvent(final BlockState state) {
+        return MaterialKindRegistry.get(state.getBlock()) == MaterialKind.METAL ? 1011 : 1012;
+    }
+
+    @Nullable
+    public SoundEvent getOpenSound() {
+        return SoundEvents.WOODEN_DOOR_OPEN;
+    }
+
+    @Nullable
+    public SoundEvent getCloseSound() {
+        return SoundEvents.WOODEN_DOOR_CLOSE;
+    }
+
+    @Override
+    @Nullable
+    public BlockState getStateForPlacement(final BlockPlaceContext context) {
+        // Das LOWER-Block-Placement uebernimmt der TCBigDoorItem; hier
+        // returnen wir den default mit FACING in Blickrichtung des Setzers
+        // (1.12-Original macht's genauso, kein .getOpposite()).
+        return this.defaultBlockState().setValue(FACING,
+                context.getHorizontalDirection());
+    }
+
+    @Override
+    public BlockState rotate(final BlockState state, final Rotation rot) {
+        return state.setValue(FACING, rot.rotate(state.getValue(FACING)));
+    }
+
+    @Override
+    public BlockState mirror(final BlockState state, final Mirror mirror) {
+        return mirror == Mirror.NONE
+                ? state
+                : state.rotate(mirror.getRotation(state.getValue(FACING)))
+                        .setValue(HINGE,
+                                state.getValue(HINGE) == DoorHingeSide.LEFT ? DoorHingeSide.RIGHT
+                                        : DoorHingeSide.LEFT);
+    }
+
+    @Override
+    public boolean isPossibleToRespawnInThis(final BlockState state) {
+        return false;
+    }
+
+    @Override
+    protected void createBlockStateDefinition(final StateDefinition.Builder<Block, BlockState> builder) {
+        builder.add(FACING, OPEN, HINGE, POWERED, THIRD);
+    }
+
+    /** Erlaubt Mobs/Iron-Golems das Tor nicht zu durchbrechen, wenn closed. */
+    public boolean isOpen(final BlockState state) {
+        return state.getValue(OPEN);
+    }
+
 }

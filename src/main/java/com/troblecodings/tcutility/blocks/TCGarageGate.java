@@ -2,151 +2,85 @@ package com.troblecodings.tcutility.blocks;
 
 import com.troblecodings.tcutility.utils.BlockCreateInfo;
 
-import net.minecraft.block.properties.PropertyDirection;
-import net.minecraft.block.state.BlockFaceShape;
-import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.BlockRenderLayer;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.Rotation;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.level.Level;
 
-public class TCGarageGate extends TCCube {
+/**
+ * Garage-Gate: einzelnes Segment in der Rolltor-Saeule eines
+ * {@link TCGarageDoor}. Vom rotierten Cube her vom {@link TCCubeRotation}
+ * abgeleitet (FACING-State + direction-spezifische Hitbox); zusaetzlich
+ * (wie im 1.12.2-Original):
+ *
+ * <ul>
+ *   <li>Klickt der Spieler auf ein Segment, sucht der Block bis zu 10
+ *       Bloecke nach oben den passenden {@link TCGarageDoor}-Header und
+ *       triggert dort das Auf-/Zumachen -- Folge: man kann das Tor an
+ *       jedem Punkt der Saeule oeffnen, nicht nur am Header.</li>
+ *   <li>Wird ein Segment zerstoert, raeumt der Block die uebrigen Gate-
+ *       Segmente in der gleichen Saeule (oben + unten bis 10) sowie den
+ *       Header darueber mit auf. So bleibt nie ein "halbes" Rolltor
+ *       freischwebend uebrig.</li>
+ * </ul>
+ */
+public class TCGarageGate extends TCCubeRotation {
 
-    public static final PropertyDirection FACING =
-            PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
-
-    private final AxisAlignedBB northBB = new AxisAlignedBB(getIndexBox(0) * 0.0625,
-            getIndexBox(1) * 0.0625, getIndexBox(2) * 0.0625, getIndexBox(3) * 0.0625,
-            getIndexBox(4) * 0.0625, getIndexBox(5) * 0.0625);
-    private final AxisAlignedBB eastBB = new AxisAlignedBB(1 - getIndexBox(2) * 0.0625,
-            getIndexBox(1) * 0.0625, getIndexBox(0) * 0.0625, 1 - getIndexBox(5) * 0.0625,
-            getIndexBox(4) * 0.0625, getIndexBox(3) * 0.0625);
-    private final AxisAlignedBB southBB = new AxisAlignedBB(getIndexBox(0) * 0.0625,
-            getIndexBox(1) * 0.0625, 1 - getIndexBox(2) * 0.0625, getIndexBox(3) * 0.0625,
-            getIndexBox(4) * 0.0625, 1 - getIndexBox(5) * 0.0625);
-    private final AxisAlignedBB westBB = new AxisAlignedBB(getIndexBox(2) * 0.0625,
-            getIndexBox(1) * 0.0625, getIndexBox(0) * 0.0625, getIndexBox(5) * 0.0625,
-            getIndexBox(4) * 0.0625, getIndexBox(3) * 0.0625);
+    private static final int MAX_REACH = 10;
 
     public TCGarageGate(final BlockCreateInfo blockInfo) {
         super(blockInfo);
-        this.setCreativeTab(null);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
-    }
-
-    @SuppressWarnings("deprecation")
-    @Override
-    public AxisAlignedBB getBoundingBox(final IBlockState finalstate, final IBlockAccess source,
-            final BlockPos pos) {
-        final IBlockState state = this.getActualState(finalstate, source, pos);
-        final EnumFacing enumFacing = state.getValue(FACING);
-        switch (enumFacing) {
-            case EAST:
-            default:
-                return eastBB;
-            case SOUTH:
-                return southBB;
-            case WEST:
-                return westBB;
-            case NORTH:
-                return northBB;
-        }
     }
 
     @Override
-    public boolean isOpaqueCube(final IBlockState state) {
-        return false;
-    }
-
-    @Override
-    public boolean isFullCube(final IBlockState state) {
-        return false;
-    }
-
-    @Override
-    public BlockRenderLayer getBlockLayer() {
-        return BlockRenderLayer.CUTOUT;
-    }
-
-    private boolean isGarageBlock(final IBlockState blockState) {
-        return blockState.getBlock() instanceof TCGarageDoor;
-    }
-
-    @Override
-    public boolean onBlockActivated(final World worldIn, final BlockPos pos,
-            final IBlockState state, final EntityPlayer playerIn, final EnumHand hand,
-            final EnumFacing facing, final float hitX, final float hitY, final float hitZ) {
-        for (int i = 1; i < 10; i++) {
-            final BlockPos posUp = pos.up(i);
-            IBlockState stateUp = worldIn.getBlockState(posUp);
-
-            if (isGarageBlock(stateUp) && stateUp.getProperties().containsKey(TCGarageDoor.OPEN)) {
-                stateUp = stateUp.cycleProperty(TCGarageDoor.OPEN);
-                TCGarageDoor tcGarageDoor = (TCGarageDoor) stateUp.getBlock();
-                tcGarageDoor.changeState(worldIn, posUp, stateUp);
-                tcGarageDoor.changeNeighbor(worldIn, posUp, stateUp);
-
-                worldIn.setBlockState(posUp, stateUp, 10);
-                worldIn.markBlockRangeForRenderUpdate(pos, posUp);
-                worldIn.playEvent(playerIn,
-                        stateUp.getValue(TCGarageDoor.OPEN).booleanValue()
-                                ? tcGarageDoor.getOpenSound()
-                                : tcGarageDoor.getCloseSound(),
-                        posUp, 0);
+    protected InteractionResult useWithoutItem(final BlockState state, final Level world,
+            final BlockPos pos, final Player player, final BlockHitResult hit) {
+        for (int i = 1; i < MAX_REACH; i++) {
+            final BlockPos above = pos.above(i);
+            final BlockState aboveState = world.getBlockState(above);
+            if (aboveState.getBlock() instanceof TCGarageDoor) {
+                ((TCGarageDoor) aboveState.getBlock()).toggleAt(world, above, aboveState);
+                return InteractionResult.sidedSuccess(world.isClientSide);
+            }
+            if (!(aboveState.getBlock() instanceof TCGarageGate)) {
+                // Block dazwischen, der weder Gate noch Header ist -- abbrechen.
+                break;
             }
         }
-        return true;
+        // Hier folgt das 1.12.2-Verhalten: ein Klick auf ein Gate wird auch
+        // dann als verarbeitet gemeldet, wenn kein Header gefunden wurde --
+        // verhindert, dass man "durch" das Gate ungewollt einen Block setzt.
+        return InteractionResult.sidedSuccess(world.isClientSide);
     }
 
     @Override
-    public void onBlockHarvested(final World worldIn, final BlockPos pos, final IBlockState state,
-            final EntityPlayer player) {
-        for (int i = 1; i < 10; i++) {
-            final BlockPos posDown = pos.down(i);
-            final BlockPos posUp = pos.up(i);
-            final IBlockState stateDown = worldIn.getBlockState(posDown);
-            final IBlockState stateUp = worldIn.getBlockState(posUp);
-
-            if (stateUp.getBlock() instanceof TCGarageGate || isGarageBlock(stateUp)) {
-                worldIn.setBlockToAir(posUp);
+    public BlockState playerWillDestroy(final Level world, final BlockPos pos,
+            final BlockState state, final Player player) {
+        // Saeule nach unten: weitere Gate-Segmente entfernen.
+        for (int i = 1; i < MAX_REACH; i++) {
+            final BlockPos below = pos.below(i);
+            if (!(world.getBlockState(below).getBlock() instanceof TCGarageGate)) {
+                break;
             }
-
-            if (stateDown.getBlock() instanceof TCGarageGate) {
-                worldIn.setBlockToAir(posDown);
-            }
+            world.setBlock(below, Blocks.AIR.defaultBlockState(), 35);
         }
+        // Saeule nach oben: weitere Gate-Segmente plus den Header daruber.
+        for (int i = 1; i < MAX_REACH; i++) {
+            final BlockPos above = pos.above(i);
+            final BlockState aboveState = world.getBlockState(above);
+            if (aboveState.getBlock() instanceof TCGarageGate) {
+                world.setBlock(above, Blocks.AIR.defaultBlockState(), 35);
+                continue;
+            }
+            if (aboveState.getBlock() instanceof TCGarageDoor) {
+                world.setBlock(above, Blocks.AIR.defaultBlockState(), 35);
+            }
+            break;
+        }
+        return super.playerWillDestroy(world, pos, state, player);
     }
-
-    @Override
-    public IBlockState withRotation(final IBlockState state, final Rotation rot) {
-        return state.withProperty(FACING, rot.rotate(state.getValue(FACING)));
-    }
-
-    @Override
-    public int getMetaFromState(final IBlockState state) {
-        return state.getValue(FACING).getIndex();
-    }
-
-    @Override
-    public IBlockState getStateFromMeta(final int meta) {
-        return getDefaultState().withProperty(FACING, EnumFacing.getFront(meta));
-    }
-
-    @Override
-    public BlockFaceShape getBlockFaceShape(final IBlockAccess worldIn, final IBlockState state,
-            final BlockPos pos, final EnumFacing face) {
-        return BlockFaceShape.UNDEFINED;
-    }
-
-    @Override
-    protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, FACING);
-    }
-
 }
