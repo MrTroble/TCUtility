@@ -5,6 +5,7 @@
 [![Versions](https://badges.moddingx.org/curseforge/versions/821776) ![Downloads](https://badges.moddingx.org/curseforge/downloads/821776)](https://www.curseforge.com/minecraft/mc-mods/tcutility)
 
 [![Discord](https://img.shields.io/discord/166953995951276032?logo=discord&style=for-the-badge)](https://discord.gg/E7qhYeR)
+
 ## Description
 
 TC Utility is a Minecraft mod that adds over 450 building and decorating blocks to your game. Currently, everything can only be used in creative mode. The mod was originally developed for a server project to add various building blocks like slabs, stairs and doors. As well as replace blocks with tileentity with normal blocks.
