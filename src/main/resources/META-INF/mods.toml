@@ -1,27 +1,27 @@
 modLoader="javafml"
-loaderVersion="["${forgeversion}",)"
+loaderVersion="[14,)"
 issueTrackerURL="https://github.com/MrTroble/TCUtility/issues"
 license="Apache License Version 2.0"
 
 [[mods]]
-modId="${modid}"
-version="${version}"
-displayName="${modname}"
+modId="tcutility"
+version="${file.jarVersion}"
+displayName="TCUtility"
 displayURL="https://troblecodings.com/"
-authors="${author}"
+authors="Jeronimo"
 credits="German Immersive Railroading Community"
 description="This mod adds a lot of new building and decorative blocks. You can easily add more due to Json-based blockregistration with contentpacks."
 
-[[dependencies.${modid}]]
+[[dependencies.tcutility]]
     modId="forge" 
     mandatory=true 
-    versionRange="[${forgeversion},)" 
+    versionRange="[14,)" 
     ordering="NONE"
     side="BOTH"
 
-[[dependencies.${modid}]]
+[[dependencies.tcutility]]
     modId="minecraft"
     mandatory=true
-    versionRange="[${mcversion}]"
+    versionRange="[1.12.2]"
     ordering="NONE"
     side="BOTH"
