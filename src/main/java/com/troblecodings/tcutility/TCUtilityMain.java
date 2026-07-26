@@ -11,66 +11,47 @@ import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.Optional;
 
+import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.troblecodings.contentpacklib.ContentPackHandler;
 import com.troblecodings.tcutility.init.TCBlocks;
-import com.troblecodings.tcutility.proxy.CommonProxy;
+import com.troblecodings.tcutility.init.TCFluidsInit;
+import com.troblecodings.tcutility.init.TCItems;
 
-import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.Mod.EventHandler;
-import net.minecraftforge.fml.common.Mod.Instance;
-import net.minecraftforge.fml.common.SidedProxy;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
-@Mod(modid = TCUtilityMain.MODID, acceptedMinecraftVersions = "[1.12.2]", modLanguage = "java")
-
+@Mod(TCUtilityMain.MODID)
 public class TCUtilityMain {
 
-    @Instance
-    private static TCUtilityMain instance;
     public static final String MODID = "tcutility";
-
-    static {
-        FluidRegistry.enableUniversalBucket();
-    }
-
-    public TCUtilityMain() {
-        instance = this;
-        fileHandler = new ContentPackHandler(MODID, "assets/" + MODID, LOG,
-                name -> getRessourceLocation(name).get().toAbsolutePath());
-    }
-
-    public static TCUtilityMain getInstance() {
-        return instance;
-    }
-
-    @SidedProxy(serverSide = "com.troblecodings.tcutility.proxy.CommonProxy",
-            clientSide = "com.troblecodings.tcutility.proxy.ClientProxy")
-    public static CommonProxy PROXY;
-    public static Logger LOG;
+    public static final Logger LOG = LogManager.getLogger();
     public static ContentPackHandler fileHandler;
 
-    @EventHandler
-    public void preinit(final FMLPreInitializationEvent event) {
-        LOG = event.getModLog();
-        PROXY.preinit(event);
-    }
-
-    @EventHandler
-    public void init(final FMLInitializationEvent event) {
-        PROXY.init(event);
-    }
-
-    @EventHandler
-    public void postinit(final FMLPostInitializationEvent event) {
-        PROXY.postinit(event);
-    }
-
     private static FileSystem fileSystemCache = null;
+
+    public TCUtilityMain() {
+        fileHandler = new ContentPackHandler(MODID, "assets/" + MODID, LOG,
+                name -> getRessourceLocation(name).map(Path::toAbsolutePath).orElse(null));
+
+        // Content-Pack-Hash-Sync zwischen Client und Server (registriert
+        // sich selbst auf dem Forge-Event-Bus).
+        // new NetworkContentPackHandler(MODID, fileHandler);
+
+        // Mod-Bus-Registration der Registry-Subscriber. Die @Mod.EventBusSubscriber
+        // Annotationen koennten das auch tun, aber explizite Registrierung passt
+        // besser zur JSON-getriebenen Pipeline und macht die Reihenfolge sichtbar.
+        TCFluidsInit.initJsonFiles();
+        TCItems.init();
+        TCBlocks.init();
+        TCBlocks.initJsonFiles();
+        TCItems.initJsonFiles();
+
+        FMLJavaModLoadingContext.get().getModEventBus().register(TCBlocks.class);
+        FMLJavaModLoadingContext.get().getModEventBus().register(TCItems.class);
+        FMLJavaModLoadingContext.get().getModEventBus().register(TCFluidsInit.class);
+    }
 
     private static Optional<Path> getRessourceLocation(final String location) {
         String filelocation = location;
@@ -86,14 +67,13 @@ public class TCUtilityMain {
                     if (resource == null)
                         return Optional.empty();
                     return Optional.of(Paths.get(resource.toURI()));
-                } else {
-                    if (!"jar".equals(uri.getScheme()))
-                        return Optional.empty();
-                    if (fileSystemCache == null) {
-                        fileSystemCache = FileSystems.newFileSystem(uri, Collections.emptyMap());
-                    }
-                    return Optional.of(fileSystemCache.getPath(filelocation));
                 }
+                if (!"jar".equals(uri.getScheme()))
+                    return Optional.empty();
+                if (fileSystemCache == null) {
+                    fileSystemCache = FileSystems.newFileSystem(uri, Collections.emptyMap());
+                }
+                return Optional.of(fileSystemCache.getPath(filelocation));
             }
         } catch (final IOException | URISyntaxException e) {
             e.printStackTrace();

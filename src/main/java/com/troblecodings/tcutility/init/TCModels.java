@@ -1,81 +1,50 @@
 package com.troblecodings.tcutility.init;
 
-import com.troblecodings.tcutility.fluids.FluidStateMapper;
+import com.troblecodings.tcutility.TCUtilityMain;
 
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.block.model.ModelBakery;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
-import net.minecraft.client.renderer.color.BlockColors;
-import net.minecraft.client.renderer.color.ItemColors;
-import net.minecraft.item.Item;
-import net.minecraft.world.biome.BiomeColorHelper;
+import net.minecraft.world.biome.BiomeColors;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ColorHandlerEvent;
-import net.minecraftforge.client.event.ModelRegistryEvent;
-import net.minecraftforge.client.model.ModelLoader;
-import net.minecraftforge.fluids.BlockFluidBase;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 
+/**
+ * 1.14.4-Port: ModelLoader.setCustomModelResourceLocation und State-Mapper-API
+ * gibt es nicht mehr; Item-/Blockstate-Models werden automatisch ueber die
+ * blockstate-/item-model-Jsons aufgeloest. Diese Klasse haelt nur noch die
+ * Color-Handler fuer Bloecke mit Material.ORGANIC (entspricht dem alten
+ * Material.GRASS aus 1.12.2).
+ */
+@Mod.EventBusSubscriber(modid = TCUtilityMain.MODID,
+        bus = Mod.EventBusSubscriber.Bus.MOD,
+        value = Dist.CLIENT)
 public final class TCModels {
 
     private TCModels() {
     }
 
     @SubscribeEvent
-    public static void register(final ModelRegistryEvent event) {
-        for (int i = 0; i < TCBlocks.blocksToRegister.size(); i++) {
-            if (!TCBlocks.blocksToRegister.get(i).toString().contains("door")) {
-                registerModel(Item.getItemFromBlock(TCBlocks.blocksToRegister.get(i)));
-            }
-        }
-
-        for (int k = 0; k < TCItems.itemsToRegister.size(); k++) {
-            registerModel(TCItems.itemsToRegister.get(k));
-        }
-    }
-
-    @SubscribeEvent
-    @SuppressWarnings("deprecation")
     public static void registerBlockColor(final ColorHandlerEvent.Block event) {
-        final BlockColors colors = event.getBlockColors();
         TCBlocks.blocksToRegister.forEach(block -> {
-
-            if (block.getMaterial(block.getDefaultState()).equals(Material.GRASS)) {
-                colors.registerBlockColorHandler((state, worldIn, pos, tintIndex) -> {
-                    if (worldIn == null || pos == null)
+            if (block.getDefaultState().getMaterial() == Material.ORGANIC) {
+                event.getBlockColors().register((state, worldIn, pos, tintIndex) -> {
+                    if (worldIn == null || pos == null) {
                         return 0xFF00FF00;
-                    return BiomeColorHelper.getGrassColorAtPos(worldIn, pos);
+                    }
+                    return BiomeColors.getGrassColor(worldIn, pos);
                 }, block);
             }
         });
     }
 
-    @SuppressWarnings("deprecation")
     @SubscribeEvent
     public static void registerItemColor(final ColorHandlerEvent.Item event) {
-        final ItemColors colors = event.getItemColors();
         TCBlocks.blocksToRegister.forEach(block -> {
-
-            if (block.getMaterial(block.getDefaultState()).equals(Material.GRASS)) {
-                colors.registerItemColorHandler((stack, tintIndex) -> 0xFF5E7A39, block);
+            if (block.getDefaultState().getMaterial() == Material.ORGANIC) {
+                event.getItemColors().register((stack, tintIndex) -> 0xFF5E7A39,
+                        block.asItem());
             }
-        });
-    }
-
-    private static void registerModel(final Item item) {
-        ModelLoader.setCustomModelResourceLocation(item, 0,
-                new ModelResourceLocation(item.getRegistryName(), "inventory"));
-    }
-
-    @SubscribeEvent
-    public static void registerFluidModel(final ModelRegistryEvent event) {
-        TCFluidsInit.blocksToRegister.forEach(block -> {
-            String name = ((BlockFluidBase) block).getFluid().getName();
-            FluidStateMapper mapper = new FluidStateMapper(name);
-
-            Item item = Item.getItemFromBlock(block);
-            ModelBakery.registerItemVariants(item);
-            ModelLoader.setCustomMeshDefinition(item, mapper);
-            ModelLoader.setCustomStateMapper(block, mapper);
         });
     }
 }

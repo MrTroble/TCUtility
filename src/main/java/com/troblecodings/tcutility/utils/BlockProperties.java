@@ -22,13 +22,15 @@ public class BlockProperties {
     private static final HashMap<String, SoundType> SOUND_TABLE = translateTableSoundType();
 
     public static HashMap<String, Material> translateTableMaterial() {
+        // JSON-facing keys keep their 1.12.2 names so existing content packs
+        // continue to work; values point at the renamed 1.14.4 constants.
         final HashMap<String, Material> translateTable = new HashMap<>();
-        translateTable.put("grass", Material.GRASS);
-        translateTable.put("ground", Material.GROUND);
+        translateTable.put("grass", Material.ORGANIC);
+        translateTable.put("ground", Material.EARTH);
         translateTable.put("wood", Material.WOOD);
         translateTable.put("rock", Material.ROCK);
         translateTable.put("iron", Material.IRON);
-        translateTable.put("cloth", Material.CLOTH);
+        translateTable.put("cloth", Material.WOOL);
         translateTable.put("sand", Material.SAND);
         translateTable.put("glass", Material.GLASS);
         translateTable.put("ice", Material.ICE);
