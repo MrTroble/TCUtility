@@ -1,17 +1,16 @@
 modLoader="javafml"
 loaderVersion="[28,)"
-license="All rights reserved"
-issueTrackerURL="https://github.com/vanlueckn/TCUtility/issues"
+issueTrackerURL="https://github.com/MrTroble/TCUtility/issues"
+license="Apache License Version 2.0"
 
 [[mods]]
 modId="tcutility"
-version="${version}"
+version="${file.jarVersion}"
 displayName="TC Utility"
-displayURL="https://discord.gg/Um97SHnrYp"
-authors="Jeronimo"
-description='''
-TC Utility provides JSON-driven block, item, fluid and armor registration.
-'''
+displayURL="https://troblecodings.com/"
+authors="Jeronimo, Luex"
+credits="German Immersive Railroading Community"
+description="This mod adds a lot of new building and decorative blocks. You can easily add more due to Json-based blockregistration with contentpacks."
 
 [[dependencies.tcutility]]
     modId="forge"
@@ -23,6 +22,6 @@ TC Utility provides JSON-driven block, item, fluid and armor registration.
 [[dependencies.tcutility]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.14.4,1.15)"
+    versionRange="[1.14.4]"
     ordering="NONE"
     side="BOTH"
