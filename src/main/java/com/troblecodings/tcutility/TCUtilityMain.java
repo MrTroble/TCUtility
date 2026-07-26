@@ -14,8 +14,7 @@ import java.util.Optional;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.troblecodings.contentpacklib.FileReader;
-import com.troblecodings.contentpacklib.NetworkContentPackHandler;
+import com.troblecodings.contentpacklib.ContentPackHandler;
 import com.troblecodings.tcutility.init.TCBlocks;
 import com.troblecodings.tcutility.init.TCFluidsInit;
 import com.troblecodings.tcutility.init.TCItems;
@@ -28,17 +27,17 @@ public class TCUtilityMain {
 
     public static final String MODID = "tcutility";
     public static final Logger LOG = LogManager.getLogger();
-    public static FileReader fileHandler;
+    public static ContentPackHandler fileHandler;
 
     private static FileSystem fileSystemCache = null;
 
     public TCUtilityMain() {
-        fileHandler = new FileReader(MODID, "assets/" + MODID, LOG,
+        fileHandler = new ContentPackHandler(MODID, "assets/" + MODID, LOG,
                 name -> getRessourceLocation(name).map(Path::toAbsolutePath).orElse(null));
 
         // Content-Pack-Hash-Sync zwischen Client und Server (registriert
         // sich selbst auf dem Forge-Event-Bus).
-        new NetworkContentPackHandler(MODID, fileHandler);
+        // new NetworkContentPackHandler(MODID, fileHandler);
 
         // Mod-Bus-Registration der Registry-Subscriber. Die @Mod.EventBusSubscriber
         // Annotationen koennten das auch tun, aber explizite Registrierung passt
@@ -65,19 +64,16 @@ public class TCUtilityMain {
                         filelocation = "/" + filelocation;
                     }
                     final URL resource = TCBlocks.class.getResource(filelocation);
-                    if (resource == null) {
+                    if (resource == null)
                         return Optional.empty();
-                    }
                     return Optional.of(Paths.get(resource.toURI()));
-                } else {
-                    if (!"jar".equals(uri.getScheme())) {
-                        return Optional.empty();
-                    }
-                    if (fileSystemCache == null) {
-                        fileSystemCache = FileSystems.newFileSystem(uri, Collections.emptyMap());
-                    }
-                    return Optional.of(fileSystemCache.getPath(filelocation));
                 }
+                if (!"jar".equals(uri.getScheme()))
+                    return Optional.empty();
+                if (fileSystemCache == null) {
+                    fileSystemCache = FileSystems.newFileSystem(uri, Collections.emptyMap());
+                }
+                return Optional.of(fileSystemCache.getPath(filelocation));
             }
         } catch (final IOException | URISyntaxException e) {
             e.printStackTrace();
